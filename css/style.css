@@ -79,10 +79,10 @@ body {
 .mz { position: relative; max-width: 100%; margin: 0 auto; }
 .mz svg.lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
 .rows { display: flex; flex-direction: column; gap: clamp(4px, .8vmin, 14px); position: relative; z-index: 1; }
-.row { display: flex; align-items: stretch; gap: clamp(20px, 12vw, 300px); }
+.row { display: flex; align-items: stretch; justify-content: center; gap: clamp(20px, 12vw, 300px); }
 
 .card {
-  flex: 1; height: clamp(70px, 11vmin, 180px);
+  flex: 1; height: clamp(80px, 12vmin, 200px); max-width: clamp(120px, 28vw, 420px);
   border: clamp(3px, .5vmin, 7px) solid transparent; border-radius: clamp(12px, 2vmin, 24px);
   cursor: pointer; transition: transform .15s;
   user-select: none; -webkit-user-select: none;
