@@ -100,6 +100,58 @@ const CATEGORIES = [
       { id: 'CLR_BROWN', name: 'BROWN', icon: '\u{1F7E4}', fact: 'Brown is the color of chocolate and trees!', q: 'Trees have brown trunks — hug a tree!', chain: 'You make brown by mixing all colors together!' },
       { id: 'CLR_WHITE', name: 'WHITE', icon: '⚪', fact: 'White is the color of snow and clouds!', q: 'Are the clouds white and fluffy today?', chain: 'White light has all rainbow colors hiding inside!' }
     ]
+  },
+  {
+    id: 'bodyparts', name: 'Body Parts', emoji: '\u{1F9D2}',
+    items: [
+      { id: 'EYES', name: 'EYES', icon: '\u{1F440}', fact: 'Your eyes blink about 15 times every minute!', q: 'How many times can you blink in 10 seconds?', chain: 'Your eyes can see over 10 million different colors!' },
+      { id: 'NOSE', name: 'NOSE', icon: '\u{1F443}', fact: 'Your nose can smell over 1 trillion smells!', q: 'Sniff something! What do you smell?', chain: 'Your nose and ears never stop growing your whole life!' },
+      { id: 'HAND', name: 'HAND', icon: '\u{270B}', fact: 'You have 5 fingers on each hand!', q: 'Count your fingers! How many total?', chain: 'Your fingerprints are unique — nobody else has the same ones!' },
+      { id: 'EAR', name: 'EAR', icon: '\u{1F442}', fact: 'Your ears help you hear sounds all around!', q: 'Cup your ears — can you hear better?', chain: 'Your ears also help you balance so you do not fall!' },
+      { id: 'TEETH', name: 'TEETH', icon: '\u{1F9B7}', fact: 'Kids have 20 baby teeth that fall out!', q: 'How many teeth do you have right now?', chain: 'Sharks grow new teeth their whole life — thousands of them!' },
+      { id: 'HAIR', name: 'HAIR', icon: '\u{1F9D1}', fact: 'You have about 100,000 hairs on your head!', q: 'Touch your hair! Is it straight or curly?', chain: 'Your hair grows about as fast as grass!' },
+      { id: 'FOOT', name: 'FOOT', icon: '\u{1F9B6}', fact: 'Your feet have 26 bones in each one!', q: 'Stomp your feet on the ground! Stomp stomp!', chain: 'By the time you grow up, your feet will walk around the Earth 4 times!' },
+      { id: 'TONGUE', name: 'TONGUE', icon: '\u{1F445}', fact: 'Your tongue helps you taste sweet, sour, and salty!', q: 'Stick out your tongue! Can you touch your nose?', chain: 'Your tongue is the strongest muscle in your body!' }
+    ]
+  },
+  {
+    id: 'clothes', name: 'Clothes', emoji: '\u{1F455}',
+    items: [
+      { id: 'SHIRT', name: 'SHIRT', icon: '\u{1F455}', fact: 'Shirts cover your body and keep you warm!', q: 'What color is your shirt today?', chain: 'The first shirts were made from animal skins!' },
+      { id: 'PANTS', name: 'PANTS', icon: '\u{1F456}', fact: 'Pants have two legs — one for each of yours!', q: 'Are you wearing pants or shorts today?', chain: 'Jeans were invented for gold miners to wear!' },
+      { id: 'SHOES', name: 'SHOES', icon: '\u{1F45F}', fact: 'Shoes protect your feet when you walk!', q: 'Can you tie your shoes by yourself?', chain: 'The oldest shoes ever found are 5,500 years old!' },
+      { id: 'HAT', name: 'HAT', icon: '\u{1F9E2}', fact: 'Hats keep the sun off your head!', q: 'Put something on your head like a hat!', chain: 'Chefs wear tall white hats called toques!' },
+      { id: 'SOCKS', name: 'SOCKS', icon: '\u{1F9E6}', fact: 'Socks keep your feet warm and cozy!', q: 'What color are your socks today?', chain: 'The first socks were made from animal hair!' },
+      { id: 'DRESS', name: 'DRESS', icon: '\u{1F457}', fact: 'Dresses are pretty and come in many colors!', q: 'Spin around like wearing a flowing dress!', chain: 'The longest dress ever had a tail 8 kilometers long!' },
+      { id: 'JACKET', name: 'JACKET', icon: '\u{1F9E5}', fact: 'Jackets keep you warm when it is cold outside!', q: 'Pretend to zip up a jacket! Zzzzzip!', chain: 'Astronaut space suits are the most special jackets ever!' },
+      { id: 'SCARF', name: 'SCARF', icon: '\u{1F9E3}', fact: 'Scarves wrap around your neck to stay warm!', q: 'Wrap something around your neck like a scarf!', chain: 'The longest scarf ever made was longer than 50 school buses!' }
+    ]
+  },
+  {
+    id: 'numbers', name: 'Numbers', emoji: '\u{1F522}',
+    items: [
+      { id: 'NUM_1', name: 'ONE', icon: '1\u{FE0F}\u{20E3}', fact: 'One is the very first number!', q: 'Hold up one finger!', chain: 'You have one nose, one mouth, and one belly button!' },
+      { id: 'NUM_2', name: 'TWO', icon: '2\u{FE0F}\u{20E3}', fact: 'Two means a pair — like your two eyes!', q: 'Find two things that match!', chain: 'A bicycle has two wheels — bi means two!' },
+      { id: 'NUM_3', name: 'THREE', icon: '3\u{FE0F}\u{20E3}', fact: 'A triangle has three sides and three corners!', q: 'Can you draw a triangle in the air?', chain: 'A traffic light has three colors: red, yellow, green!' },
+      { id: 'NUM_4', name: 'FOUR', icon: '4\u{FE0F}\u{20E3}', fact: 'Dogs and cats walk on four legs!', q: 'Walk on all fours like an animal!', chain: 'A square has four equal sides!' },
+      { id: 'NUM_5', name: 'FIVE', icon: '5\u{FE0F}\u{20E3}', fact: 'You have five fingers on each hand!', q: 'Give a high five! Slap!', chain: 'A starfish has five arms!' },
+      { id: 'NUM_6', name: 'SIX', icon: '6\u{FE0F}\u{20E3}', fact: 'Insects have six legs — count them!', q: 'Can you count to six really fast?', chain: 'A dice has six sides with dots!' },
+      { id: 'NUM_7', name: 'SEVEN', icon: '7\u{FE0F}\u{20E3}', fact: 'A rainbow has seven beautiful colors!', q: 'Name the colors of the rainbow!', chain: 'There are seven days in a week!' },
+      { id: 'NUM_8', name: 'EIGHT', icon: '8\u{FE0F}\u{20E3}', fact: 'An octopus has eight long arms!', q: 'Wiggle eight fingers like an octopus!', chain: 'Spiders also have eight legs!' }
+    ]
+  },
+  {
+    id: 'shapes', name: 'Shapes', emoji: '\u{1F536}',
+    items: [
+      { id: 'CIRCLE', name: 'CIRCLE', icon: '\u{2B55}', fact: 'A circle is perfectly round with no corners!', q: 'Draw a circle in the air with your finger!', chain: 'Wheels, coins, and the sun are all circles!' },
+      { id: 'SQUARE', name: 'SQUARE', icon: '\u{1F7E7}', fact: 'A square has four equal sides and four corners!', q: 'Find something square in the room!', chain: 'A chessboard is made of 64 tiny squares!' },
+      { id: 'TRIANGLE', name: 'TRIANGLE', icon: '\u{1F53A}', fact: 'A triangle has three sides and three corners!', q: 'Make a triangle with your fingers!', chain: 'The pyramids in Egypt are giant triangles!' },
+      { id: 'STAR', name: 'STAR', icon: '\u{2B50}', fact: 'Stars have pointy tips that shine bright!', q: 'Can you draw a star in the air?', chain: 'There are more stars in the sky than grains of sand on Earth!' },
+      { id: 'HEART', name: 'HEART', icon: '\u{2764}\u{FE0F}', fact: 'A heart shape means love and caring!', q: 'Make a heart shape with your hands!', chain: 'Your real heart beats 100,000 times every day!' },
+      { id: 'DIAMOND', name: 'DIAMOND', icon: '\u{1F537}', fact: 'A diamond is a square turned on its side!', q: 'Tilt your head — does a square become a diamond?', chain: 'Real diamonds are the hardest thing on Earth!' },
+      { id: 'RECTANGLE', name: 'RECTANGLE', icon: '\u{1F7E9}', fact: 'A rectangle has two long sides and two short sides!', q: 'Find something shaped like a rectangle!', chain: 'Your door, your book, and your phone are all rectangles!' },
+      { id: 'OVAL', name: 'OVAL', icon: '\u{1F95A}', fact: 'An oval is like a stretched circle — like an egg!', q: 'Draw an oval in the air!', chain: 'A rugby ball and a mirror can be oval shaped!' }
+    ]
   }
 ];
 
