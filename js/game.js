@@ -148,9 +148,13 @@ function renderRound() {
     ac.style.background = bg;
     ac.style.borderColor = pc;
     const cv = document.createElement('canvas');
-    cv.width = 120; cv.height = 110;
-    cv.style.width = '100%';
-    cv.style.maxWidth = '110px';
+    const scale = window.innerWidth > 1000 ? 2 : 1;
+    cv.width = 120 * scale; cv.height = 110 * scale;
+    const ctx = cv.getContext('2d');
+    ctx.scale(scale, scale);
+    cv.style.height = '85%';
+    cv.style.width = 'auto';
+    cv.style.maxWidth = '95%';
     cv.style.height = 'auto';
     drawItem(cv, a.id);
     ac.appendChild(cv);

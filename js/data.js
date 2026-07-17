@@ -1,6 +1,6 @@
 const PAIR_COLORS = ['#E85D75', '#F5A623', '#4DADEA', '#7EC850'];
-const BG_LIGHT = ['#FFF0F2', '#FFF7EA', '#EBF5FF', '#F0FAE8'];
-const BG_DARK = ['#3A1F28', '#3A2E1A', '#1A2A3A', '#1E3218'];
+const BG_LIGHT = ['#FCCDD5', '#FDE4B0', '#B8DDFB', '#C8EDB3'];
+const BG_DARK = ['#5A2030', '#5A4018', '#1A3A5A', '#1E4A20'];
 
 const CATEGORIES = [
   {
