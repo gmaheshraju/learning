@@ -79,10 +79,10 @@ body {
 .mz { position: relative; max-width: 100%; margin: 0 auto; }
 .mz svg.lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
 .rows { display: flex; flex-direction: column; gap: clamp(4px, .8vmin, 14px); position: relative; z-index: 1; }
-.row { display: flex; align-items: stretch; gap: clamp(4px, .8vmin, 14px); }
+.row { display: flex; align-items: stretch; gap: clamp(30px, 8vmin, 140px); }
 
 .card {
-  flex: 1; height: clamp(100px, 17vmin, 320px);
+  flex: 1; height: clamp(70px, 11vmin, 180px);
   border: clamp(3px, .5vmin, 7px) solid transparent; border-radius: clamp(12px, 2vmin, 24px);
   cursor: pointer; transition: transform .15s;
   user-select: none; -webkit-user-select: none;
@@ -98,13 +98,13 @@ body {
 .card.done::after { content: '\2713'; position: absolute; top: clamp(3px, .6vmin, 10px); right: clamp(6px, 1vmin, 14px); font-size: clamp(12px, 2.5vmin, 30px); font-weight: 900; }
 
 .card canvas { border-radius: clamp(6px, 1vmin, 14px); }
-.card-emoji { font-size: clamp(40px, 10vmin, 140px); line-height: 1; }
+.card-emoji { font-size: clamp(30px, 7vmin, 90px); line-height: 1; }
 .card .big-letter {
-  font-size: clamp(26px, 5.5vmin, 80px); font-weight: 900; letter-spacing: clamp(2px, .5vmin, 8px); line-height: 1;
+  font-size: clamp(18px, 4vmin, 50px); font-weight: 900; letter-spacing: clamp(1px, .3vmin, 6px); line-height: 1;
   max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   padding: 0 clamp(4px, .8vmin, 12px);
 }
-.card .big-letter.long { font-size: clamp(16px, 3.5vmin, 52px); letter-spacing: clamp(1px, .3vmin, 5px); }
+.card .big-letter.long { font-size: clamp(12px, 2.5vmin, 34px); letter-spacing: clamp(1px, .2vmin, 4px); }
 .card .spell {
   font-size: clamp(8px, 1.5vmin, 20px); font-weight: 700; letter-spacing: clamp(1px, .3vmin, 4px); margin-top: clamp(2px, .5vmin, 8px); opacity: .7;
   max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
@@ -173,9 +173,10 @@ body {
 .cat-tag:hover { opacity: .7; }
 
 @media (max-width: 440px) {
-  .card { height: 110px; }
-  .card .big-letter { font-size: 26px; letter-spacing: 2px; }
-  .card .big-letter.long { font-size: 18px; letter-spacing: 1px; }
+  .card { height: 80px; }
+  .card .big-letter { font-size: 16px; letter-spacing: 1px; }
+  .card .big-letter.long { font-size: 12px; letter-spacing: 1px; }
+  .card-emoji { font-size: 28px; }
   .hdr h1 { font-size: 22px; }
   .cat-emoji { font-size: 30px; }
   .cat-name { font-size: 13px; }
