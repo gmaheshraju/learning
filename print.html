@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Print Cards — Heshvitha's Learning World</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .print-wrap {
+      max-width: 700px; margin: 0 auto; padding: 20px 12px;
+    }
+    .print-intro {
+      text-align: center; margin-bottom: 20px;
+      animation: slideUp .5s ease-out;
+    }
+    .print-intro p { font-size: 13px; color: var(--textL); margin-top: 4px; line-height: 1.5; }
+
+    .print-btn {
+      display: inline-block; background: #4DADEA; color: #fff;
+      border: none; border-radius: 50px; padding: 10px 28px;
+      font-size: 15px; font-weight: 800; cursor: pointer;
+      margin: 12px auto; transition: transform .15s;
+      box-shadow: 0 3px 12px rgba(77,173,234,.3);
+    }
+    .print-btn:hover { transform: scale(1.06); }
+    .print-btn:active { transform: scale(.95); }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .pcard {
+      background: var(--card);
+      border: 3px solid;
+      border-radius: 14px;
+      aspect-ratio: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 8px;
+      box-shadow: 0 2px 8px var(--sh);
+    }
+    .pcard canvas { max-width: 90%; max-height: 70%; }
+    .pcard .pname {
+      font-size: 14px; font-weight: 900;
+      letter-spacing: 2px; margin-top: 4px;
+    }
+    .pcard-word {
+      font-size: 22px; font-weight: 900;
+      letter-spacing: 3px;
+    }
+    .pcard-word .pspell {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 1.5px; margin-top: 4px; opacity: .6;
+    }
+
+    .section-label {
+      font-size: 14px; font-weight: 700; color: var(--textL);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      margin-bottom: 10px; margin-top: 8px; text-align: center;
+    }
+
+    .cut-line {
+      border: none; border-top: 2px dashed var(--textL);
+      margin: 20px 0; opacity: .3;
+    }
+
+    @media print {
+      body { background: #fff !important; padding: 0; }
+      .nav-links, .print-btn, .print-intro p, .hdr .sub { display: none !important; }
+      .gw { padding: 8px; }
+      .hdr { margin-bottom: 8px; }
+      .card-grid { gap: 6px; }
+      .pcard { box-shadow: none; border-width: 2px; page-break-inside: avoid; }
+      .cut-line { opacity: .5; }
+      .section-label { margin-top: 4px; }
+    }
+
+    @media (max-width: 440px) {
+      .card-grid { grid-template-columns: repeat(3, 1fr); }
+      .pcard-word { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <div class="hdr">
+      <h1>
+        <em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Cards
+      </h1>
+      <div class="sub">Print, cut, and play!</div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Match</a>
+      <a href="print.html" class="active">Print Cards</a>
+    </nav>
+
+    <div class="print-wrap">
+      <div class="print-intro">
+        <p>Print this page on your color printer. Cut the cards along the borders.<br>
+        Use the animal cards and word cards to play matching on the table!</p>
+        <button class="print-btn" onclick="window.print()">🖨️ Print This Page</button>
+      </div>
+
+      <div class="section-label">✂️ Animal Cards — Cut These Out</div>
+      <div class="card-grid" id="animal-cards"></div>
+
+      <hr class="cut-line">
+
+      <div class="section-label">✂️ Word Cards — Cut These Out</div>
+      <div class="card-grid" id="word-cards"></div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/animals.js"></script>
+  <script>
+    const PRINT_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850','#B07CD8','#FF8A65',
+                           '#26A69A','#AB47BC','#EF5350','#42A5F5','#66BB6A','#FFA726',
+                           '#7E57C2','#EC407A','#29B6F6'];
+    const PRINT_BGS = ['#FFF0F2','#FFF7EA','#EBF5FF','#F0FAE8','#F3E5F5','#FFF3E0',
+                        '#E0F2F1','#F3E5F5','#FFEBEE','#E3F2FD','#E8F5E9','#FFF8E1',
+                        '#EDE7F6','#FCE4EC','#E1F5FE'];
+
+    const animalGrid = document.getElementById('animal-cards');
+    const wordGrid = document.getElementById('word-cards');
+
+    ANIMALS.forEach((a, i) => {
+      const pc = PRINT_COLORS[i];
+      const bg = PRINT_BGS[i];
+
+      // Animal card
+      const ac = document.createElement('div');
+      ac.className = 'pcard';
+      ac.style.borderColor = pc;
+      ac.style.background = bg;
+      const cv = document.createElement('canvas');
+      cv.width = 120; cv.height = 110;
+      cv.style.width = '100%'; cv.style.height = 'auto';
+      drawAnimal(cv, a.id);
+      ac.appendChild(cv);
+      const name = document.createElement('div');
+      name.className = 'pname';
+      name.textContent = a.name;
+      name.style.color = pc;
+      ac.appendChild(name);
+      animalGrid.appendChild(ac);
+
+      // Word card
+      const wc = document.createElement('div');
+      wc.className = 'pcard';
+      wc.style.borderColor = pc;
+      wc.style.background = bg;
+      const wl = document.createElement('div');
+      wl.className = 'pcard-word';
+      wl.textContent = a.name;
+      wl.style.color = pc;
+      const sp = document.createElement('div');
+      sp.className = 'pspell';
+      sp.textContent = a.name.split('').join(' · ');
+      sp.style.color = pc;
+      wc.appendChild(wl);
+      wc.appendChild(sp);
+      wordGrid.appendChild(wc);
+    });
+  </script>
+</body>
+</html>
