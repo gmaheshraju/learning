@@ -45,7 +45,7 @@ body {
 
 .gw {
   width: 100%;
-  max-width: min(96vw, 1400px);
+  max-width: 96vw;
   padding: clamp(8px, 1.2vmin, 28px) clamp(6px, 1vmin, 24px);
   border-radius: clamp(12px, 2vmin, 28px);
   position: relative;
@@ -79,7 +79,7 @@ body {
 .mz { position: relative; max-width: 100%; margin: 0 auto; }
 .mz svg.lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
 .rows { display: flex; flex-direction: column; gap: clamp(4px, .8vmin, 14px); position: relative; z-index: 1; }
-.row { display: flex; align-items: stretch; gap: clamp(30px, 8vmin, 140px); }
+.row { display: flex; align-items: stretch; gap: clamp(20px, 12vw, 300px); }
 
 .card {
   flex: 1; height: clamp(70px, 11vmin, 180px);
