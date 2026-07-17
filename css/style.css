@@ -173,9 +173,11 @@ body {
 .cat-tag:hover { opacity: .7; }
 
 @media (max-width: 440px) {
-  .card { height: 80px; }
+  .row { gap: 16px; }
+  .card { height: 80px; max-width: none; }
   .card .big-letter { font-size: 16px; letter-spacing: 1px; }
   .card .big-letter.long { font-size: 12px; letter-spacing: 1px; }
+  .card .spell { display: none; }
   .card-emoji { font-size: 28px; }
   .hdr h1 { font-size: 22px; }
   .cat-emoji { font-size: 30px; }
