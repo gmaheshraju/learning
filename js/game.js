@@ -9,6 +9,7 @@ let locked = false;
 let colorMap = {};
 let currentCategory = null;
 let currentItems = [];
+let gameMode = 'easy';
 
 function isDark() {
   const dt = document.documentElement.getAttribute('data-theme');
@@ -81,11 +82,37 @@ function showCategoryPicker() {
     btn.className = 'cat-btn';
     btn.style.animationDelay = (i * 0.06) + 's';
     btn.innerHTML = `<span class="cat-emoji">${cat.emoji}</span><span class="cat-name">${cat.name}</span>`;
-    btn.addEventListener('click', () => startCategory(cat));
+    btn.addEventListener('click', () => showDifficultyPicker(cat));
     grid.appendChild(btn);
   });
 
   area.appendChild(grid);
+}
+
+function showDifficultyPicker(cat) {
+  const area = document.getElementById('play');
+  document.getElementById('bar').style.display = 'none';
+  area.innerHTML = '';
+
+  const wrap = document.createElement('div');
+  wrap.className = 'modal';
+  wrap.innerHTML = `
+    <span class="big">${cat.emoji}</span>
+    <h2>${cat.name}</h2>
+    <p>Pick a difficulty</p>
+    <button class="btn diff-btn" id="btn-easy" style="background:#7EC850">🖼️ Easy — Match Pictures</button>
+    <button class="btn diff-btn" id="btn-hard" style="background:#E85D75;margin-top:10px">🔤 Hard — Match Words</button>
+  `;
+  area.appendChild(wrap);
+
+  document.getElementById('btn-easy').addEventListener('click', () => {
+    gameMode = 'easy';
+    startCategory(cat);
+  });
+  document.getElementById('btn-hard').addEventListener('click', () => {
+    gameMode = 'hard';
+    startCategory(cat);
+  });
 }
 
 function startCategory(cat) {
@@ -160,16 +187,24 @@ function renderRound() {
     wcd.dataset.type = 'w';
     wcd.style.background = wbg;
     wcd.style.borderColor = wpc;
-    const wl = document.createElement('div');
-    wl.className = 'big-letter' + (w.name.length > 5 ? ' long' : '');
-    wl.textContent = w.name;
-    wl.style.color = wpc;
-    const sp = document.createElement('div');
-    sp.className = 'spell';
-    sp.textContent = w.name.split('').join(' · ');
-    sp.style.color = wpc;
-    wcd.appendChild(wl);
-    wcd.appendChild(sp);
+
+    if (gameMode === 'easy') {
+      const wEmoji = document.createElement('div');
+      wEmoji.className = 'card-emoji';
+      wEmoji.textContent = w.icon;
+      wcd.appendChild(wEmoji);
+    } else {
+      const wl = document.createElement('div');
+      wl.className = 'big-letter' + (w.name.length > 5 ? ' long' : '');
+      wl.textContent = w.name;
+      wl.style.color = wpc;
+      const sp = document.createElement('div');
+      sp.className = 'spell';
+      sp.textContent = w.name.split('').join(' · ');
+      sp.style.color = wpc;
+      wcd.appendChild(wl);
+      wcd.appendChild(sp);
+    }
     wcd.style.animation = `bounceIn .4s ease-out ${(i + ROUND_SIZE) * .08}s both`;
     wcd.addEventListener('click', () => handleTap('w', w.id, wcd));
 
