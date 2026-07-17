@@ -26,6 +26,18 @@
     .print-btn:hover { transform: scale(1.06); }
     .print-btn:active { transform: scale(.95); }
 
+    .cat-pills {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;
+      margin-bottom: 16px; animation: slideUp .5s .04s both;
+    }
+    .cat-pill {
+      padding: 6px 14px; border-radius: 20px; border: 2px solid var(--sh);
+      background: var(--card); font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all .2s; color: var(--text);
+    }
+    .cat-pill:hover, .cat-pill.active { border-color: #F5A623; background: #FFF7EA; }
+    .cat-pill.active { font-weight: 900; }
+
     .card-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -52,6 +64,7 @@
       font-size: 22px; font-weight: 900;
       letter-spacing: 3px;
     }
+    .pcard-word.pword-long { font-size: 15px; letter-spacing: 1px; }
     .pcard-word .pspell {
       font-size: 10px; font-weight: 700;
       letter-spacing: 1.5px; margin-top: 4px; opacity: .6;
@@ -70,7 +83,7 @@
 
     @media print {
       body { background: #fff !important; padding: 0; }
-      .nav-links, .print-btn, .print-intro p, .hdr .sub { display: none !important; }
+      .nav-links, .print-btn, .print-intro p, .hdr .sub, .cat-pills { display: none !important; }
       .gw { padding: 8px; }
       .hdr { margin-bottom: 8px; }
       .card-grid { gap: 6px; }
@@ -82,6 +95,7 @@
     @media (max-width: 440px) {
       .card-grid { grid-template-columns: repeat(3, 1fr); }
       .pcard-word { font-size: 18px; }
+      .pcard-word.pword-long { font-size: 13px; }
     }
   </style>
 </head>
@@ -100,23 +114,28 @@
 
     <div class="print-wrap">
       <div class="print-intro">
-        <p>Print this page on your color printer. Cut the cards along the borders.<br>
-        Use the animal cards and word cards to play matching on the table!</p>
+        <p>Pick a category, print on your color printer, and cut the cards!<br>
+        Match animal cards to word cards on the table.</p>
         <button class="print-btn" onclick="window.print()">🖨️ Print This Page</button>
       </div>
 
-      <div class="section-label">✂️ Animal Cards — Cut These Out</div>
-      <div class="card-grid" id="animal-cards"></div>
+      <div class="cat-pills" id="cat-pills"></div>
+
+      <div class="section-label" id="pic-label">✂️ Picture Cards — Cut These Out</div>
+      <div class="card-grid" id="pic-cards"></div>
 
       <hr class="cut-line">
 
-      <div class="section-label">✂️ Word Cards — Cut These Out</div>
+      <div class="section-label" id="word-label">✂️ Word Cards — Cut These Out</div>
       <div class="card-grid" id="word-cards"></div>
     </div>
   </div>
 
   <script src="js/data.js"></script>
   <script src="js/animals.js"></script>
+  <script src="js/fruits_vegs.js"></script>
+  <script src="js/kitchen_house.js"></script>
+  <script src="js/vehicles_colors.js"></script>
   <script>
     const PRINT_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850','#B07CD8','#FF8A65',
                            '#26A69A','#AB47BC','#EF5350','#42A5F5','#66BB6A','#FFA726',
@@ -125,46 +144,65 @@
                         '#E0F2F1','#F3E5F5','#FFEBEE','#E3F2FD','#E8F5E9','#FFF8E1',
                         '#EDE7F6','#FCE4EC','#E1F5FE'];
 
-    const animalGrid = document.getElementById('animal-cards');
+    const pillsContainer = document.getElementById('cat-pills');
+    const picGrid = document.getElementById('pic-cards');
     const wordGrid = document.getElementById('word-cards');
+    let activePill = null;
 
-    ANIMALS.forEach((a, i) => {
-      const pc = PRINT_COLORS[i];
-      const bg = PRINT_BGS[i];
+    function renderCategory(cat) {
+      picGrid.innerHTML = '';
+      wordGrid.innerHTML = '';
 
-      // Animal card
-      const ac = document.createElement('div');
-      ac.className = 'pcard';
-      ac.style.borderColor = pc;
-      ac.style.background = bg;
-      const cv = document.createElement('canvas');
-      cv.width = 120; cv.height = 110;
-      cv.style.width = '100%'; cv.style.height = 'auto';
-      drawAnimal(cv, a.id);
-      ac.appendChild(cv);
-      const name = document.createElement('div');
-      name.className = 'pname';
-      name.textContent = a.name;
-      name.style.color = pc;
-      ac.appendChild(name);
-      animalGrid.appendChild(ac);
+      cat.items.forEach((a, i) => {
+        const pc = PRINT_COLORS[i % PRINT_COLORS.length];
+        const bg = PRINT_BGS[i % PRINT_BGS.length];
 
-      // Word card
-      const wc = document.createElement('div');
-      wc.className = 'pcard';
-      wc.style.borderColor = pc;
-      wc.style.background = bg;
-      const wl = document.createElement('div');
-      wl.className = 'pcard-word';
-      wl.textContent = a.name;
-      wl.style.color = pc;
-      const sp = document.createElement('div');
-      sp.className = 'pspell';
-      sp.textContent = a.name.split('').join(' · ');
-      sp.style.color = pc;
-      wc.appendChild(wl);
-      wc.appendChild(sp);
-      wordGrid.appendChild(wc);
+        const ac = document.createElement('div');
+        ac.className = 'pcard';
+        ac.style.borderColor = pc;
+        ac.style.background = bg;
+        const cv = document.createElement('canvas');
+        cv.width = 120; cv.height = 110;
+        cv.style.width = '100%'; cv.style.height = 'auto';
+        drawItem(cv, a.id);
+        ac.appendChild(cv);
+        const name = document.createElement('div');
+        name.className = 'pname';
+        name.textContent = a.name;
+        name.style.color = pc;
+        ac.appendChild(name);
+        picGrid.appendChild(ac);
+
+        const wc = document.createElement('div');
+        wc.className = 'pcard';
+        wc.style.borderColor = pc;
+        wc.style.background = bg;
+        const wl = document.createElement('div');
+        wl.className = 'pcard-word' + (a.name.length > 6 ? ' pword-long' : '');
+        wl.textContent = a.name;
+        wl.style.color = pc;
+        const sp = document.createElement('div');
+        sp.className = 'pspell';
+        sp.textContent = a.name.split('').join(' · ');
+        sp.style.color = pc;
+        wc.appendChild(wl);
+        wc.appendChild(sp);
+        wordGrid.appendChild(wc);
+      });
+    }
+
+    CATEGORIES.forEach((cat, i) => {
+      const pill = document.createElement('button');
+      pill.className = 'cat-pill' + (i === 0 ? ' active' : '');
+      pill.textContent = cat.emoji + ' ' + cat.name;
+      pill.addEventListener('click', () => {
+        if (activePill) activePill.classList.remove('active');
+        pill.classList.add('active');
+        activePill = pill;
+        renderCategory(cat);
+      });
+      pillsContainer.appendChild(pill);
+      if (i === 0) { activePill = pill; renderCategory(cat); }
     });
   </script>
 </body>

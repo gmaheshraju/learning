@@ -4,9 +4,11 @@ let currentRound = 1;
 let score = 0;
 let selected = null;
 let matched = new Set();
-let roundAnimals = [];
+let roundItems = [];
 let locked = false;
 let colorMap = {};
+let currentCategory = null;
+let currentItems = [];
 
 function isDark() {
   const dt = document.documentElement.getAttribute('data-theme');
@@ -66,22 +68,55 @@ function drawMatchLine(el1, el2, color) {
   });
 }
 
+function showCategoryPicker() {
+  const area = document.getElementById('play');
+  document.getElementById('bar').style.display = 'none';
+  area.innerHTML = '';
+
+  const grid = document.createElement('div');
+  grid.className = 'cat-grid';
+
+  CATEGORIES.forEach((cat, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn';
+    btn.style.animationDelay = (i * 0.06) + 's';
+    btn.innerHTML = `<span class="cat-emoji">${cat.emoji}</span><span class="cat-name">${cat.name}</span>`;
+    btn.addEventListener('click', () => startCategory(cat));
+    grid.appendChild(btn);
+  });
+
+  area.appendChild(grid);
+}
+
+function startCategory(cat) {
+  currentCategory = cat;
+  currentItems = cat.items;
+  currentRound = 1;
+  score = 0;
+  document.getElementById('sc').textContent = 0;
+  document.getElementById('rn').textContent = 1;
+  document.getElementById('bar').style.display = '';
+  document.getElementById('cat-label').textContent = cat.emoji + ' ' + cat.name;
+  document.getElementById('cat-label').style.display = '';
+  renderRound();
+}
+
 function renderRound() {
   const area = document.getElementById('play');
   const used = new Set();
-  roundAnimals = [];
+  roundItems = [];
 
-  while (roundAnimals.length < ROUND_SIZE) {
-    const i = Math.floor(Math.random() * ANIMALS.length);
-    if (!used.has(i)) { used.add(i); roundAnimals.push(ANIMALS[i]); }
+  while (roundItems.length < ROUND_SIZE) {
+    const i = Math.floor(Math.random() * currentItems.length);
+    if (!used.has(i)) { used.add(i); roundItems.push(currentItems[i]); }
   }
 
-  const shuffledWords = shuffle([...roundAnimals]);
+  const shuffledWords = shuffle([...roundItems]);
   matched.clear();
   selected = null;
   locked = false;
   colorMap = {};
-  roundAnimals.forEach((a, i) => { colorMap[a.id] = i; });
+  roundItems.forEach((a, i) => { colorMap[a.id] = i; });
 
   area.innerHTML = '';
   const mz = document.createElement('div');
@@ -94,7 +129,7 @@ function renderRound() {
   rows.className = 'rows';
   const dark = isDark();
 
-  roundAnimals.forEach((a, i) => {
+  roundItems.forEach((a, i) => {
     const ci = colorMap[a.id];
     const pc = PAIR_COLORS[ci];
     const bg = dark ? BG_DARK[ci] : BG_LIGHT[ci];
@@ -106,7 +141,6 @@ function renderRound() {
     const row = document.createElement('div');
     row.className = 'row';
 
-    // Animal card
     const ac = document.createElement('div');
     ac.className = 'card';
     ac.dataset.name = a.id;
@@ -118,12 +152,11 @@ function renderRound() {
     cv.style.width = '100%';
     cv.style.maxWidth = '110px';
     cv.style.height = 'auto';
-    drawAnimal(cv, a.id);
+    drawItem(cv, a.id);
     ac.appendChild(cv);
     ac.style.animation = `bounceIn .4s ease-out ${i * .08}s both`;
     ac.addEventListener('click', () => handleTap('a', a.id, ac));
 
-    // Word card
     const wcd = document.createElement('div');
     wcd.className = 'card';
     wcd.dataset.name = w.id;
@@ -188,8 +221,8 @@ function handleTap(type, name, el) {
     score++;
     document.getElementById('sc').textContent = score;
 
-    const animal = roundAnimals.find(a => a.id === name);
-    showCuriosity(animal, pc);
+    const item = roundItems.find(a => a.id === name);
+    showCuriosity(item, pc);
     selected = null;
     locked = false;
 
@@ -213,12 +246,12 @@ function handleTap(type, name, el) {
   }
 }
 
-function showCuriosity(animal, pc) {
+function showCuriosity(item, pc) {
   const existing = document.querySelector('.cur');
   if (existing) existing.remove();
 
   const dark = isDark();
-  const bg = dark ? BG_DARK[colorMap[animal.id]] : BG_LIGHT[colorMap[animal.id]];
+  const bg = dark ? BG_DARK[colorMap[item.id]] : BG_LIGHT[colorMap[item.id]];
   const area = document.getElementById('play');
   const d = document.createElement('div');
   d.className = 'cur';
@@ -226,10 +259,10 @@ function showCuriosity(animal, pc) {
   d.style.borderTop = `3px solid ${pc}`;
   d.innerHTML = `
     <div class="cur-row">
-      <div class="cur-emo">🤔</div>
+      <div class="cur-emo">\u{1F914}</div>
       <div class="cur-body">
-        <div class="cur-fact"><strong style="color:${pc}">${animal.name}:</strong> ${animal.fact}</div>
-        <div class="cur-q" style="border-left-color:${pc};color:${pc}">${animal.q}</div>
+        <div class="cur-fact"><strong style="color:${pc}">${item.name}:</strong> ${item.fact}</div>
+        <div class="cur-q" style="border-left-color:${pc};color:${pc}">${item.q}</div>
         <div class="cur-more" style="color:${pc}" id="cmore">Tell me more! ▸</div>
       </div>
     </div>`;
@@ -240,19 +273,20 @@ function showCuriosity(animal, pc) {
     const ch = document.createElement('div');
     ch.className = 'cur-chain';
     ch.style.borderLeftColor = pc;
-    ch.innerHTML = `<strong style="color:${pc}">Wow!</strong> ${animal.chain}`;
+    ch.innerHTML = `<strong style="color:${pc}">Wow!</strong> ${item.chain}`;
     d.querySelector('.cur-body').appendChild(ch);
   });
 }
 
 function showRoundComplete() {
   const area = document.getElementById('play');
+  const catName = currentCategory ? currentCategory.name.toLowerCase() : 'items';
   area.innerHTML = `
     <div class="modal">
-      <span class="big">🎉</span>
+      <span class="big">\u{1F389}</span>
       <h2>Brilliant!</h2>
-      <p>You matched all ${ROUND_SIZE} animals!</p>
-      <button class="btn" style="background:#7EC850" id="nb">More Animals →</button>
+      <p>You matched all ${ROUND_SIZE} ${catName}!</p>
+      <button class="btn" style="background:#7EC850" id="nb">More ${currentCategory ? currentCategory.name : 'Items'} →</button>
     </div>`;
   document.getElementById('nb').addEventListener('click', () => {
     currentRound++;
@@ -265,11 +299,15 @@ function showGameComplete() {
   const area = document.getElementById('play');
   area.innerHTML = `
     <div class="modal">
-      <span class="big">🏆</span>
+      <span class="big">\u{1F3C6}</span>
       <h2>Superstar!</h2>
-      <p>You matched ${score} animals in ${TOTAL_ROUNDS} rounds!</p>
-      <button class="btn" style="background:#F5A623" id="rb">Play Again 🔄</button>
+      <p>You matched ${score} in ${TOTAL_ROUNDS} rounds!</p>
+      <button class="btn" style="background:#7EC850" id="nb">Pick New Topic \u{1F3AF}</button>
+      <button class="btn" style="background:#F5A623;margin-top:8px" id="rb">Play Again \u{1F504}</button>
     </div>`;
+  document.getElementById('nb').addEventListener('click', () => {
+    showCategoryPicker();
+  });
   document.getElementById('rb').addEventListener('click', () => {
     currentRound = 1;
     score = 0;
@@ -279,4 +317,5 @@ function showGameComplete() {
   });
 }
 
-renderRound();
+document.getElementById('cat-label').addEventListener('click', showCategoryPicker);
+showCategoryPicker();

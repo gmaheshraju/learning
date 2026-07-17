@@ -274,3 +274,14 @@ function drawAnimal(cv, type) {
 
   if (D[type]) try { D[type]() } catch (e) { }
 }
+
+const ANIMAL_IDS = ['DOG','CAT','ELEPHANT','LION','RABBIT','FISH','BIRD','MONKEY','FROG','BUTTERFLY','TURTLE','PARROT','PENGUIN','GIRAFFE','OWL'];
+const FRUIT_VEG_IDS = ['APPLE','BANANA','ORANGE_FRUIT','GRAPES','WATERMELON','STRAWBERRY','MANGO','CHERRY','CARROT','TOMATO','BROCCOLI','CORN','POTATO','ONION','PUMPKIN','CUCUMBER'];
+const KITCHEN_HOUSE_IDS = ['CUP','PLATE','SPOON','FORK','BOWL','POT','PAN','GLASS','CHAIR','TABLE','BED','DOOR','WINDOW','LAMP','CLOCK','FAN'];
+
+function drawItem(canvas, type) {
+  if (ANIMAL_IDS.includes(type)) return drawAnimal(canvas, type);
+  if (FRUIT_VEG_IDS.includes(type)) return drawFruitsVegs(canvas, type);
+  if (KITCHEN_HOUSE_IDS.includes(type)) return drawKitchenHouse(canvas, type);
+  return drawVehiclesColors(canvas, type);
+}
