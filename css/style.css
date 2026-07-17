@@ -98,6 +98,7 @@ body {
 .card.done::after { content: '\2713'; position: absolute; top: clamp(3px, .6vmin, 10px); right: clamp(6px, 1vmin, 14px); font-size: clamp(12px, 2.5vmin, 30px); font-weight: 900; }
 
 .card canvas { border-radius: clamp(6px, 1vmin, 14px); }
+.card-emoji { font-size: clamp(40px, 10vmin, 140px); line-height: 1; }
 .card .big-letter {
   font-size: clamp(26px, 5.5vmin, 80px); font-weight: 900; letter-spacing: clamp(2px, .5vmin, 8px); line-height: 1;
   max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;

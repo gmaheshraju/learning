@@ -147,17 +147,10 @@ function renderRound() {
     ac.dataset.type = 'a';
     ac.style.background = bg;
     ac.style.borderColor = pc;
-    const cv = document.createElement('canvas');
-    const scale = window.innerWidth > 1000 ? 2 : 1;
-    cv.width = 120 * scale; cv.height = 110 * scale;
-    const ctx = cv.getContext('2d');
-    ctx.scale(scale, scale);
-    cv.style.height = '85%';
-    cv.style.width = 'auto';
-    cv.style.maxWidth = '95%';
-    cv.style.height = 'auto';
-    drawItem(cv, a.id);
-    ac.appendChild(cv);
+    const emojiDiv = document.createElement('div');
+    emojiDiv.className = 'card-emoji';
+    emojiDiv.textContent = a.icon;
+    ac.appendChild(emojiDiv);
     ac.style.animation = `bounceIn .4s ease-out ${i * .08}s both`;
     ac.addEventListener('click', () => handleTap('a', a.id, ac));
 

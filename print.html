@@ -161,11 +161,11 @@
         ac.className = 'pcard';
         ac.style.borderColor = pc;
         ac.style.background = bg;
-        const cv = document.createElement('canvas');
-        cv.width = 120; cv.height = 110;
-        cv.style.width = '100%'; cv.style.height = 'auto';
-        drawItem(cv, a.id);
-        ac.appendChild(cv);
+        const emojiDiv = document.createElement('div');
+        emojiDiv.style.fontSize = '48px';
+        emojiDiv.style.lineHeight = '1';
+        emojiDiv.textContent = a.icon;
+        ac.appendChild(emojiDiv);
         const name = document.createElement('div');
         name.className = 'pname';
         name.textContent = a.name;
