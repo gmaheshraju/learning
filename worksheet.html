@@ -99,23 +99,37 @@
     }
 
     @media print {
-      body { background: #fff !important; padding: 0; margin: 0; }
+      html, body { height: 100%; background: #fff !important; padding: 0; margin: 0; }
       .nav-links, .ws-btn, .ws-intro, .cat-pills, .hdr { display: none !important; }
-      .gw { padding: 0; max-width: 100%; }
+      .gw { padding: 0; max-width: 100%; display: block; min-height: auto; }
       .ws-wrap { padding: 0; max-width: 100%; }
       .ws-page {
-        border: none; border-radius: 0; padding: 6px 12px;
+        border: none; border-radius: 0;
+        padding: 16px 24px 12px;
         box-shadow: none; max-width: 100%;
         page-break-inside: avoid;
         page-break-after: always;
-        height: 96vh;
+        margin: 0;
       }
       .ws-page:last-child { page-break-after: auto; }
-      .ws-grid { height: calc(100% - 40px); }
-      .ws-quad { box-shadow: none; }
-      .ws-emoji { font-size: 22px; }
-      .ws-cell { min-height: 30px; padding: 2px; }
-      .ws-row { margin-bottom: 2px; }
+      .ws-page-title { font-size: 16px; margin-bottom: 2px; }
+      .ws-page-mode { margin-bottom: 6px; }
+      .ws-grid {
+        gap: 40px 30px;
+      }
+      .ws-quad {
+        box-shadow: none;
+        padding: 8px 10px;
+      }
+      .ws-quad-title { font-size: 11px; margin-bottom: 5px; }
+      .ws-row { margin-bottom: 5px; }
+      .ws-emoji { font-size: 28px; }
+      .ws-cell { min-height: 38px; padding: 4px; border-radius: 8px; }
+      .ws-dots { margin: 0 4px; }
+      .ws-footer { margin-top: 6px; font-size: 8px; }
+      .ws-word { font-size: 13px; }
+      .ws-word.ws-long { font-size: 10px; }
+      .ws-spell { font-size: 6px; }
     }
 
     @media (max-width: 500px) {
@@ -203,10 +217,11 @@
         dots.className = 'ws-dots';
 
         const rightItem = shuffled[i];
+        const rightOrigIdx = items.indexOf(rightItem);
         const rightCell = document.createElement('div');
         rightCell.className = 'ws-cell';
-        rightCell.style.borderColor = WS_COLORS[i];
-        rightCell.style.background = WS_BGS[i];
+        rightCell.style.borderColor = WS_COLORS[rightOrigIdx];
+        rightCell.style.background = WS_BGS[rightOrigIdx];
 
         if (mode === 'easy') {
           const rightEmoji = document.createElement('div');
