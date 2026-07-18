@@ -34,66 +34,67 @@
     .cat-pill.active { font-weight: 900; }
 
     .ws-page {
-      width: 100%; margin: 0 auto 30px;
+      width: 100%; margin: 0 auto 20px;
       border: 2px dashed var(--sh); border-radius: 16px;
-      padding: 12px; background: var(--card);
+      padding: 8px 10px; background: var(--card);
     }
     .ws-page-title {
-      text-align: center; font-size: 18px; font-weight: 900;
-      margin-bottom: 2px; color: var(--text);
+      text-align: center; font-size: 15px; font-weight: 900;
+      margin-bottom: 1px; color: var(--text);
     }
     .ws-page-mode {
-      text-align: center; margin-bottom: 8px;
+      text-align: center; margin-bottom: 4px;
     }
     .ws-page-mode span {
-      font-size: 10px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 2px; padding: 3px 12px; border-radius: 20px;
+      font-size: 9px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 2px; padding: 2px 10px; border-radius: 20px;
     }
 
     .ws-grid {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      grid-template-rows: 1fr 1fr;
+      gap: 6px;
     }
 
     .ws-quad {
-      border: 2px solid var(--sh); border-radius: 12px;
-      padding: 10px 8px; background: #fff;
+      border: 2px solid var(--sh); border-radius: 10px;
+      padding: 6px 6px; background: #fff;
     }
     .ws-quad-title {
-      text-align: center; font-size: 11px; font-weight: 800;
+      text-align: center; font-size: 10px; font-weight: 800;
       color: var(--textL); text-transform: uppercase; letter-spacing: 1px;
-      margin-bottom: 6px;
+      margin-bottom: 3px;
     }
 
     .ws-row {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 6px;
+      margin-bottom: 3px;
     }
     .ws-row:last-child { margin-bottom: 0; }
 
     .ws-cell {
       width: 42%; display: flex; align-items: center; justify-content: center;
-      border: 2px solid; border-radius: 10px;
-      padding: 6px 4px; min-height: 48px;
+      border: 2px solid; border-radius: 8px;
+      padding: 3px 3px; min-height: 36px;
     }
     .ws-dots {
-      flex: 1; border-bottom: 2px dotted #ccc; margin: 0 4px;
-      align-self: center; min-width: 16px;
+      flex: 1; border-bottom: 2px dotted #ccc; margin: 0 3px;
+      align-self: center; min-width: 12px;
     }
 
-    .ws-emoji { font-size: 32px; line-height: 1; }
+    .ws-emoji { font-size: 24px; line-height: 1; }
     .ws-word {
-      font-size: 16px; font-weight: 900; letter-spacing: 1px;
-      text-align: center; line-height: 1.2;
+      font-size: 13px; font-weight: 900; letter-spacing: 1px;
+      text-align: center; line-height: 1.1;
     }
-    .ws-word.ws-long { font-size: 12px; letter-spacing: 0.5px; }
+    .ws-word.ws-long { font-size: 10px; letter-spacing: 0.5px; }
     .ws-spell {
-      font-size: 7px; font-weight: 700; letter-spacing: 1px;
+      font-size: 6px; font-weight: 700; letter-spacing: 1px;
       opacity: .6; margin-top: 1px; text-align: center;
     }
 
     .ws-footer {
-      text-align: center; margin-top: 6px; font-size: 9px;
+      text-align: center; margin-top: 4px; font-size: 8px;
       color: var(--textL); font-weight: 600;
     }
 
@@ -103,13 +104,18 @@
       .gw { padding: 0; max-width: 100%; }
       .ws-wrap { padding: 0; max-width: 100%; }
       .ws-page {
-        border: none; border-radius: 0; padding: 10px 16px;
+        border: none; border-radius: 0; padding: 6px 12px;
         box-shadow: none; max-width: 100%;
         page-break-inside: avoid;
         page-break-after: always;
+        height: 96vh;
       }
       .ws-page:last-child { page-break-after: auto; }
+      .ws-grid { height: calc(100% - 40px); }
       .ws-quad { box-shadow: none; }
+      .ws-emoji { font-size: 22px; }
+      .ws-cell { min-height: 30px; padding: 2px; }
+      .ws-row { margin-bottom: 2px; }
     }
 
     @media (max-width: 500px) {
