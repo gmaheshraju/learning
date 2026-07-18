@@ -10,6 +10,24 @@ let colorMap = {};
 let currentCategory = null;
 let currentItems = [];
 let gameMode = 'easy';
+let soundOn = true;
+
+const CHEERS = ['Awesome!', 'Great job!', 'Well done!', 'You got it!', 'Brilliant!', 'Super!', 'Wow!', 'Amazing!'];
+
+function speak(text, rate) {
+  if (!soundOn || !window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = rate || 0.85;
+  u.pitch = 1.1;
+  u.lang = 'en-US';
+  speechSynthesis.speak(u);
+}
+
+function speakCheer(itemName) {
+  const cheer = CHEERS[Math.floor(Math.random() * CHEERS.length)];
+  speak(itemName + '! ' + cheer, 0.9);
+}
 
 function isDark() {
   const dt = document.documentElement.getAttribute('data-theme');
@@ -221,6 +239,9 @@ function renderRound() {
 function handleTap(type, name, el) {
   if (locked || matched.has(name) || el.classList.contains('done')) return;
 
+  const item = roundItems.find(a => a.id === name);
+  if (item) speak(item.name);
+
   if (!selected) {
     selected = { type, name, el };
     el.classList.add('sel');
@@ -254,6 +275,7 @@ function handleTap(type, name, el) {
     document.getElementById('sc').textContent = score;
 
     const item = roundItems.find(a => a.id === name);
+    speakCheer(item.name);
     showCuriosity(item, pc);
     selected = null;
     locked = false;
@@ -350,4 +372,10 @@ function showGameComplete() {
 }
 
 document.getElementById('cat-label').addEventListener('click', showCategoryPicker);
+
+document.getElementById('sound-btn').addEventListener('click', function () {
+  soundOn = !soundOn;
+  this.textContent = soundOn ? '🔊' : '🔇';
+});
+
 showCategoryPicker();
