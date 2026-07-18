@@ -7,7 +7,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
   <link rel="stylesheet" href="css/style.css?v=4">
   <style>
-    .ws-wrap { max-width: 800px; margin: 0 auto; padding: 20px 12px; }
+    .ws-wrap { max-width: 900px; margin: 0 auto; padding: 20px 12px; }
     .ws-intro { text-align: center; margin-bottom: 16px; animation: slideUp .5s ease-out; }
     .ws-intro p { font-size: 13px; color: var(--textL); margin-top: 4px; line-height: 1.5; }
 
@@ -34,55 +34,66 @@
     .cat-pill.active { font-weight: 900; }
 
     .ws-page {
-      width: 100%; max-width: 750px; margin: 0 auto 30px;
+      width: 100%; margin: 0 auto 30px;
       border: 2px dashed var(--sh); border-radius: 16px;
-      padding: 24px 20px; background: var(--card);
+      padding: 12px; background: var(--card);
+    }
+    .ws-page-title {
+      text-align: center; font-size: 18px; font-weight: 900;
+      margin-bottom: 2px; color: var(--text);
+    }
+    .ws-page-mode {
+      text-align: center; margin-bottom: 8px;
+    }
+    .ws-page-mode span {
+      font-size: 10px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 2px; padding: 3px 12px; border-radius: 20px;
     }
 
-    .ws-title {
-      text-align: center; font-size: 22px; font-weight: 900;
-      margin-bottom: 4px; color: var(--text);
+    .ws-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
-    .ws-subtitle {
-      text-align: center; font-size: 13px; color: var(--textL);
-      font-weight: 600; margin-bottom: 18px;
+
+    .ws-quad {
+      border: 2px solid var(--sh); border-radius: 12px;
+      padding: 10px 8px; background: #fff;
     }
-    .ws-mode-label {
+    .ws-quad-title {
       text-align: center; font-size: 11px; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 2px;
-      margin-bottom: 14px; padding: 4px 14px; border-radius: 20px;
-      display: inline-block;
+      color: var(--textL); text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 6px;
     }
-    .ws-mode-wrap { text-align: center; margin-bottom: 14px; }
 
     .ws-row {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 12px; position: relative;
+      margin-bottom: 6px;
     }
+    .ws-row:last-child { margin-bottom: 0; }
+
     .ws-cell {
-      width: 44%; display: flex; align-items: center; justify-content: center;
-      border: 3px solid; border-radius: 14px;
-      padding: 12px 8px; min-height: 70px;
-      background: #fff;
+      width: 42%; display: flex; align-items: center; justify-content: center;
+      border: 2px solid; border-radius: 10px;
+      padding: 6px 4px; min-height: 48px;
     }
     .ws-dots {
-      flex: 1; border-bottom: 2px dotted #ccc; margin: 0 8px;
-      align-self: center; min-width: 30px;
+      flex: 1; border-bottom: 2px dotted #ccc; margin: 0 4px;
+      align-self: center; min-width: 16px;
     }
 
-    .ws-emoji { font-size: 48px; line-height: 1; }
+    .ws-emoji { font-size: 32px; line-height: 1; }
     .ws-word {
-      font-size: 26px; font-weight: 900; letter-spacing: 2px;
-      text-align: center;
+      font-size: 16px; font-weight: 900; letter-spacing: 1px;
+      text-align: center; line-height: 1.2;
     }
-    .ws-word.ws-long { font-size: 18px; letter-spacing: 1px; }
+    .ws-word.ws-long { font-size: 12px; letter-spacing: 0.5px; }
     .ws-spell {
-      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-      opacity: .6; margin-top: 2px; text-align: center;
+      font-size: 7px; font-weight: 700; letter-spacing: 1px;
+      opacity: .6; margin-top: 1px; text-align: center;
     }
 
     .ws-footer {
-      text-align: center; margin-top: 12px; font-size: 10px;
+      text-align: center; margin-top: 6px; font-size: 9px;
       color: var(--textL); font-weight: 600;
     }
 
@@ -92,15 +103,19 @@
       .gw { padding: 0; max-width: 100%; }
       .ws-wrap { padding: 0; max-width: 100%; }
       .ws-page {
-        border: none; border-radius: 0; padding: 20px 30px;
+        border: none; border-radius: 0; padding: 10px 16px;
         box-shadow: none; max-width: 100%;
         page-break-inside: avoid;
         page-break-after: always;
       }
       .ws-page:last-child { page-break-after: auto; }
-      .ws-cell { box-shadow: none; }
-      .ws-emoji { font-size: 44px; }
-      .ws-word { font-size: 24px; }
+      .ws-quad { box-shadow: none; }
+    }
+
+    @media (max-width: 500px) {
+      .ws-grid { grid-template-columns: 1fr; }
+      .ws-emoji { font-size: 28px; }
+      .ws-word { font-size: 14px; }
     }
   </style>
 </head>
@@ -120,8 +135,8 @@
 
     <div class="ws-wrap">
       <div class="ws-intro">
-        <p>Pick a category. Each page has 6 items — draw lines to match!<br>
-        Easy = picture to picture, Hard = picture to word.</p>
+        <p>4 mini worksheets per page — print front (Easy) and back (Hard)!<br>
+        Each box has 4 items to match by drawing lines.</p>
         <button class="ws-btn" style="background:#4DADEA" onclick="window.print()">🖨️ Print Worksheets</button>
       </div>
 
@@ -136,9 +151,10 @@
   <script src="js/kitchen_house.js"></script>
   <script src="js/vehicles_colors.js"></script>
   <script>
-    const WS_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850','#B07CD8','#FF8A65'];
-    const WS_BGS = ['#FFF0F2','#FFF7EA','#EBF5FF','#F0FAE8','#F3E5F5','#FFF3E0'];
-    const PAGE_SIZE = 6;
+    const WS_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850'];
+    const WS_BGS = ['#FFF0F2','#FFF7EA','#EBF5FF','#F0FAE8'];
+    const QUAD_SIZE = 4;
+    const QUADS_PER_PAGE = 4;
 
     const pillsContainer = document.getElementById('cat-pills');
     const pagesContainer = document.getElementById('ws-pages');
@@ -153,24 +169,80 @@
       return a;
     }
 
-    function buildPage(items, mode, catName, pageNum, totalPages) {
+    function buildQuad(items, mode, quadNum) {
+      const quad = document.createElement('div');
+      quad.className = 'ws-quad';
+
+      const title = document.createElement('div');
+      title.className = 'ws-quad-title';
+      title.textContent = 'Set ' + quadNum;
+      quad.appendChild(title);
+
+      const shuffled = shuffle([...items]);
+
+      items.forEach((item, i) => {
+        const row = document.createElement('div');
+        row.className = 'ws-row';
+
+        const leftCell = document.createElement('div');
+        leftCell.className = 'ws-cell';
+        leftCell.style.borderColor = WS_COLORS[i];
+        leftCell.style.background = WS_BGS[i];
+        const leftEmoji = document.createElement('div');
+        leftEmoji.className = 'ws-emoji';
+        leftEmoji.textContent = item.icon;
+        leftCell.appendChild(leftEmoji);
+
+        const dots = document.createElement('div');
+        dots.className = 'ws-dots';
+
+        const rightItem = shuffled[i];
+        const rightCell = document.createElement('div');
+        rightCell.className = 'ws-cell';
+        rightCell.style.borderColor = WS_COLORS[i];
+        rightCell.style.background = WS_BGS[i];
+
+        if (mode === 'easy') {
+          const rightEmoji = document.createElement('div');
+          rightEmoji.className = 'ws-emoji';
+          rightEmoji.textContent = rightItem.icon;
+          rightCell.appendChild(rightEmoji);
+        } else {
+          const wordWrap = document.createElement('div');
+          const wl = document.createElement('div');
+          wl.className = 'ws-word' + (rightItem.name.length > 6 ? ' ws-long' : '');
+          wl.textContent = rightItem.name;
+          wl.style.color = WS_COLORS[i];
+          const sp = document.createElement('div');
+          sp.className = 'ws-spell';
+          sp.textContent = rightItem.name.split('').join(' · ');
+          sp.style.color = WS_COLORS[i];
+          wordWrap.appendChild(wl);
+          wordWrap.appendChild(sp);
+          rightCell.appendChild(wordWrap);
+        }
+
+        row.appendChild(leftCell);
+        row.appendChild(dots);
+        row.appendChild(rightCell);
+        quad.appendChild(row);
+      });
+
+      return quad;
+    }
+
+    function buildPage(quads, mode, catName, pageNum, totalPages) {
       const page = document.createElement('div');
       page.className = 'ws-page';
 
       const title = document.createElement('div');
-      title.className = 'ws-title';
+      title.className = 'ws-page-title';
       title.textContent = catName + ' — Match Worksheet';
       page.appendChild(title);
 
-      const sub = document.createElement('div');
-      sub.className = 'ws-subtitle';
-      sub.textContent = 'Draw a line from left to right to match!';
-      page.appendChild(sub);
-
       const modeWrap = document.createElement('div');
-      modeWrap.className = 'ws-mode-wrap';
+      modeWrap.className = 'ws-page-mode';
       const modeLabel = document.createElement('span');
-      modeLabel.className = 'ws-mode-label';
       if (mode === 'easy') {
         modeLabel.textContent = '🖼️ Easy — Match Pictures';
         modeLabel.style.background = '#E8F5E9';
@@ -183,59 +255,18 @@
       modeWrap.appendChild(modeLabel);
       page.appendChild(modeWrap);
 
-      const shuffled = shuffle([...items]);
+      const grid = document.createElement('div');
+      grid.className = 'ws-grid';
 
-      items.forEach((item, i) => {
-        const row = document.createElement('div');
-        row.className = 'ws-row';
-
-        const leftCell = document.createElement('div');
-        leftCell.className = 'ws-cell';
-        leftCell.style.borderColor = WS_COLORS[i % WS_COLORS.length];
-        leftCell.style.background = WS_BGS[i % WS_BGS.length];
-        const leftEmoji = document.createElement('div');
-        leftEmoji.className = 'ws-emoji';
-        leftEmoji.textContent = item.icon;
-        leftCell.appendChild(leftEmoji);
-
-        const dots = document.createElement('div');
-        dots.className = 'ws-dots';
-
-        const rightItem = shuffled[i];
-        const rightCell = document.createElement('div');
-        rightCell.className = 'ws-cell';
-        rightCell.style.borderColor = WS_COLORS[i % WS_COLORS.length];
-        rightCell.style.background = WS_BGS[i % WS_BGS.length];
-
-        if (mode === 'easy') {
-          const rightEmoji = document.createElement('div');
-          rightEmoji.className = 'ws-emoji';
-          rightEmoji.textContent = rightItem.icon;
-          rightCell.appendChild(rightEmoji);
-        } else {
-          const wordWrap = document.createElement('div');
-          const wl = document.createElement('div');
-          wl.className = 'ws-word' + (rightItem.name.length > 6 ? ' ws-long' : '');
-          wl.textContent = rightItem.name;
-          wl.style.color = WS_COLORS[i % WS_COLORS.length];
-          const sp = document.createElement('div');
-          sp.className = 'ws-spell';
-          sp.textContent = rightItem.name.split('').join(' · ');
-          sp.style.color = WS_COLORS[i % WS_COLORS.length];
-          wordWrap.appendChild(wl);
-          wordWrap.appendChild(sp);
-          rightCell.appendChild(wordWrap);
-        }
-
-        row.appendChild(leftCell);
-        row.appendChild(dots);
-        row.appendChild(rightCell);
-        page.appendChild(row);
+      quads.forEach((chunk, i) => {
+        grid.appendChild(buildQuad(chunk, mode, i + 1));
       });
+
+      page.appendChild(grid);
 
       const footer = document.createElement('div');
       footer.className = 'ws-footer';
-      footer.textContent = 'heshvi.curiousengineers.in · Page ' + pageNum + ' of ' + totalPages;
+      footer.textContent = 'heshvi.curiousengineers.in · ' + catName + ' · Page ' + pageNum + '/' + totalPages;
       page.appendChild(footer);
 
       return page;
@@ -244,18 +275,25 @@
     function renderWorksheets(cat) {
       pagesContainer.innerHTML = '';
       const items = cat.items;
+
       const chunks = [];
-      for (let i = 0; i < items.length; i += PAGE_SIZE) {
-        chunks.push(items.slice(i, i + PAGE_SIZE));
+      for (let i = 0; i < items.length; i += QUAD_SIZE) {
+        chunks.push(items.slice(i, i + QUAD_SIZE));
       }
-      const totalPages = chunks.length * 2;
+
+      const pageGroups = [];
+      for (let i = 0; i < chunks.length; i += QUADS_PER_PAGE) {
+        pageGroups.push(chunks.slice(i, i + QUADS_PER_PAGE));
+      }
+
+      const totalPages = pageGroups.length * 2;
       let pageNum = 0;
 
-      chunks.forEach(chunk => {
+      pageGroups.forEach(group => {
         pageNum++;
-        pagesContainer.appendChild(buildPage(chunk, 'easy', cat.emoji + ' ' + cat.name, pageNum, totalPages));
+        pagesContainer.appendChild(buildPage(group, 'easy', cat.emoji + ' ' + cat.name, pageNum, totalPages));
         pageNum++;
-        pagesContainer.appendChild(buildPage(chunk, 'hard', cat.emoji + ' ' + cat.name, pageNum, totalPages));
+        pagesContainer.appendChild(buildPage(group, 'hard', cat.emoji + ' ' + cat.name, pageNum, totalPages));
       });
     }
 
