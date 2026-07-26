@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn — Heshvitha's Learning World</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <style>
+    body { display: block; align-items: unset; justify-content: unset; }
+    .learn-wrap { max-width: 700px; margin: 0 auto; padding: 10px 12px; }
+
+    .cat-pills {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;
+      margin-bottom: 12px; animation: slideUp .5s .04s both;
+    }
+    .cat-pill {
+      padding: 6px 14px; border-radius: 20px; border: 2px solid var(--sh);
+      background: var(--card); font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all .2s; color: var(--text);
+    }
+    .cat-pill:hover, .cat-pill.active { border-color: #F5A623; background: #FFF7EA; }
+    .cat-pill.active { font-weight: 900; }
+
+    .learn-card {
+      background: var(--card); border-radius: 24px;
+      padding: 20px; text-align: center;
+      box-shadow: 0 4px 20px var(--sh);
+      animation: bounceIn .5s ease-out;
+      position: relative; overflow: hidden;
+      min-height: 420px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+
+    .lc-emoji {
+      font-size: clamp(80px, 20vmin, 140px); line-height: 1;
+      animation: float 2.5s ease-in-out infinite;
+      margin-bottom: 8px;
+    }
+
+    .lc-word {
+      font-size: clamp(32px, 7vmin, 56px); font-weight: 900;
+      letter-spacing: 4px; margin-bottom: 4px;
+      transition: color .3s;
+    }
+
+    .lc-phonics {
+      font-size: clamp(14px, 3vmin, 22px); font-weight: 700;
+      letter-spacing: 6px; opacity: .5; margin-bottom: 12px;
+    }
+
+    .lc-telugu {
+      font-size: clamp(18px, 4vmin, 28px); font-weight: 700;
+      opacity: .7; margin-bottom: 14px;
+      padding: 4px 16px; border-radius: 20px;
+      background: rgba(245,166,35,.1); color: #F5A623;
+    }
+
+    .lc-sentence {
+      font-size: clamp(16px, 3vmin, 24px); font-weight: 600;
+      line-height: 1.6; color: var(--textM);
+      min-height: 60px; text-align: center; padding: 0 10px;
+    }
+    .lc-sentence .highlight {
+      color: var(--text); font-weight: 800;
+      text-decoration: underline; text-decoration-color: #F5A623;
+      text-underline-offset: 4px;
+    }
+
+    .lc-progress {
+      display: flex; gap: 4px; justify-content: center;
+      margin: 12px 0 6px;
+    }
+    .lc-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--sh); transition: all .3s;
+    }
+    .lc-dot.active { background: #F5A623; transform: scale(1.3); }
+    .lc-dot.done { background: #7EC850; }
+
+    .lc-controls {
+      display: flex; gap: 10px; justify-content: center;
+      margin-top: 14px; flex-wrap: wrap;
+    }
+
+    .lc-btn {
+      border: none; border-radius: 50px; padding: 10px 24px;
+      font-size: 14px; font-weight: 800; cursor: pointer;
+      transition: transform .15s; color: #fff;
+      box-shadow: 0 3px 12px rgba(0,0,0,.12);
+    }
+    .lc-btn:hover { transform: scale(1.06); }
+    .lc-btn:active { transform: scale(.94); }
+
+    .lc-btn-prev { background: var(--textL); }
+    .lc-btn-play { background: #7EC850; }
+    .lc-btn-play.paused { background: #F5A623; }
+    .lc-btn-next { background: #4DADEA; }
+    .lc-btn-repeat { background: #B07CD8; }
+
+    .lc-step {
+      font-size: 11px; font-weight: 700; color: var(--textL);
+      text-transform: uppercase; letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .lc-counter {
+      font-size: 12px; color: var(--textL); font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .lc-action {
+      font-size: clamp(14px, 2.5vmin, 20px); font-weight: 700;
+      color: #E85D75; margin-top: 6px;
+      padding: 6px 14px; border-radius: 12px;
+      background: rgba(232,93,117,.08);
+      animation: float 2s ease-in-out infinite;
+    }
+
+    @keyframes typeIn {
+      from { width: 0; } to { width: 100%; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); }
+    }
+
+    @media (max-width: 440px) {
+      .learn-card { padding: 14px 10px; min-height: 360px; border-radius: 18px; }
+      .lc-controls { gap: 6px; }
+      .lc-btn { padding: 8px 18px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <div class="hdr">
+      <h1>
+        <em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Learn
+      </h1>
+      <div class="sub">Watch, listen, and learn English!</div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Match</a>
+      <a href="learn.html" class="active">Learn</a>
+      <a href="print.html">Print Cards</a>
+      <a href="worksheet.html">Worksheets</a>
+    </nav>
+
+    <div class="learn-wrap">
+      <div class="cat-pills" id="cat-pills"></div>
+      <div id="learn-area"></div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/animals.js"></script>
+  <script src="js/fruits_vegs.js"></script>
+  <script src="js/kitchen_house.js"></script>
+  <script src="js/vehicles_colors.js"></script>
+  <script src="js/telugu.js"></script>
+  <script>
+    const ACCENT_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850','#B07CD8','#FF8A65','#26A69A','#AB47BC'];
+
+    let currentCat = null;
+    let currentIdx = 0;
+    let autoPlay = false;
+    let autoTimer = null;
+    let sentenceStep = 0;
+    let activePill = null;
+
+    let preferredVoice = null;
+    function loadVoice() {
+      const voices = speechSynthesis.getVoices();
+      const prefer = ['Samantha', 'Karen', 'Moira', 'Fiona', 'Victoria', 'Zira'];
+      for (const name of prefer) {
+        const v = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
+        if (v) { preferredVoice = v; return; }
+      }
+      const female = voices.find(v => v.lang.startsWith('en') && /female/i.test(v.name));
+      if (female) preferredVoice = female;
+    }
+    speechSynthesis.onvoiceschanged = loadVoice;
+    loadVoice();
+
+    function speak(text, rate, onEnd) {
+      if (!window.speechSynthesis) { if (onEnd) onEnd(); return; }
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = rate || 0.75;
+      u.pitch = 1.15;
+      u.lang = 'en-US';
+      if (preferredVoice) u.voice = preferredVoice;
+      if (onEnd) u.onend = onEnd;
+      speechSynthesis.speak(u);
+    }
+
+    function speakPhonics(word, cb) {
+      const letters = word.replace(/[^A-Za-z]/g, '').split('');
+      let i = 0;
+      function next() {
+        if (i >= letters.length) {
+          setTimeout(() => speak(word, 0.7, cb), 400);
+          return;
+        }
+        speak(letters[i], 0.6, () => { i++; setTimeout(next, 250); });
+      }
+      next();
+    }
+
+    function highlightWord(sentence, word) {
+      const name = word.replace(/[^A-Za-z ]/g, '');
+      const regex = new RegExp('\\b(' + name + ')\\b', 'gi');
+      return sentence.replace(regex, '<span class="highlight">$1</span>');
+    }
+
+    function renderLearn(cat) {
+      currentCat = cat;
+      currentIdx = 0;
+      sentenceStep = 0;
+      stopAutoPlay();
+      showCard();
+    }
+
+    function showCard() {
+      const area = document.getElementById('learn-area');
+      const items = currentCat.items;
+      const item = items[currentIdx];
+      const color = ACCENT_COLORS[currentIdx % ACCENT_COLORS.length];
+      const telugu = TELUGU[item.id] || '';
+      const sentences = SENTENCES[item.id] || ['This is ' + item.name];
+
+      area.innerHTML = '';
+
+      const card = document.createElement('div');
+      card.className = 'learn-card';
+      card.style.borderTop = '4px solid ' + color;
+
+      const step = document.createElement('div');
+      step.className = 'lc-step';
+      step.textContent = currentCat.emoji + ' ' + currentCat.name;
+      card.appendChild(step);
+
+      const emoji = document.createElement('div');
+      emoji.className = 'lc-emoji';
+      emoji.textContent = item.icon;
+      card.appendChild(emoji);
+
+      const word = document.createElement('div');
+      word.className = 'lc-word';
+      word.style.color = color;
+      word.textContent = item.name;
+      card.appendChild(word);
+
+      const phonics = document.createElement('div');
+      phonics.className = 'lc-phonics';
+      phonics.style.color = color;
+      phonics.textContent = item.name.split('').join(' · ');
+      card.appendChild(phonics);
+
+      if (telugu) {
+        const te = document.createElement('div');
+        te.className = 'lc-telugu';
+        te.textContent = telugu;
+        card.appendChild(te);
+      }
+
+      const sentenceDiv = document.createElement('div');
+      sentenceDiv.className = 'lc-sentence';
+      sentenceDiv.id = 'lc-sentence';
+      sentenceDiv.innerHTML = highlightWord(sentences[sentenceStep] || sentences[0], item.name);
+      card.appendChild(sentenceDiv);
+
+      if (item.q) {
+        const action = document.createElement('div');
+        action.className = 'lc-action';
+        action.id = 'lc-action';
+        action.textContent = item.q;
+        action.style.display = 'none';
+        card.appendChild(action);
+      }
+
+      const dots = document.createElement('div');
+      dots.className = 'lc-progress';
+      items.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'lc-dot' + (i === currentIdx ? ' active' : '') + (i < currentIdx ? ' done' : '');
+        dots.appendChild(d);
+      });
+      card.appendChild(dots);
+
+      const counter = document.createElement('div');
+      counter.className = 'lc-counter';
+      counter.textContent = (currentIdx + 1) + ' / ' + items.length;
+      card.appendChild(counter);
+
+      area.appendChild(card);
+
+      const controls = document.createElement('div');
+      controls.className = 'lc-controls';
+
+      if (currentIdx > 0) {
+        const prev = document.createElement('button');
+        prev.className = 'lc-btn lc-btn-prev';
+        prev.textContent = '← Back';
+        prev.addEventListener('click', () => { stopAutoPlay(); currentIdx--; sentenceStep = 0; showCard(); });
+        controls.appendChild(prev);
+      }
+
+      const repeat = document.createElement('button');
+      repeat.className = 'lc-btn lc-btn-repeat';
+      repeat.textContent = '🔊 Say Again';
+      repeat.addEventListener('click', () => { playSequence(); });
+      controls.appendChild(repeat);
+
+      const playBtn = document.createElement('button');
+      playBtn.className = 'lc-btn lc-btn-play' + (autoPlay ? ' paused' : '');
+      playBtn.textContent = autoPlay ? '⏸ Pause' : '▶ Auto Play';
+      playBtn.addEventListener('click', () => {
+        if (autoPlay) { stopAutoPlay(); playBtn.textContent = '▶ Auto Play'; playBtn.classList.remove('paused'); }
+        else { startAutoPlay(); playBtn.textContent = '⏸ Pause'; playBtn.classList.add('paused'); }
+      });
+      controls.appendChild(playBtn);
+
+      if (currentIdx < items.length - 1) {
+        const next = document.createElement('button');
+        next.className = 'lc-btn lc-btn-next';
+        next.textContent = 'Next →';
+        next.addEventListener('click', () => { stopAutoPlay(); currentIdx++; sentenceStep = 0; showCard(); });
+        controls.appendChild(next);
+      }
+
+      area.appendChild(controls);
+
+      playSequence();
+    }
+
+    function playSequence() {
+      const item = currentCat.items[currentIdx];
+      const sentences = SENTENCES[item.id] || ['This is ' + item.name];
+      sentenceStep = 0;
+
+      speak(item.name, 0.65, () => {
+        setTimeout(() => {
+          speakPhonics(item.name, () => {
+            setTimeout(() => playSentences(item, sentences, 0), 500);
+          });
+        }, 400);
+      });
+    }
+
+    function playSentences(item, sentences, idx) {
+      if (idx >= sentences.length) {
+        if (item.q) {
+          const actionEl = document.getElementById('lc-action');
+          if (actionEl) actionEl.style.display = '';
+          setTimeout(() => {
+            speak(item.q, 0.8, () => {
+              if (autoPlay) autoTimer = setTimeout(goNext, 2000);
+            });
+          }, 300);
+        } else {
+          if (autoPlay) autoTimer = setTimeout(goNext, 2000);
+        }
+        return;
+      }
+
+      sentenceStep = idx;
+      const el = document.getElementById('lc-sentence');
+      if (el) el.innerHTML = highlightWord(sentences[idx], item.name);
+
+      speak(sentences[idx], 0.8, () => {
+        setTimeout(() => playSentences(item, sentences, idx + 1), 600);
+      });
+    }
+
+    function goNext() {
+      if (currentIdx < currentCat.items.length - 1) {
+        currentIdx++;
+        sentenceStep = 0;
+        showCard();
+      } else {
+        stopAutoPlay();
+        showComplete();
+      }
+    }
+
+    function startAutoPlay() {
+      autoPlay = true;
+      playSequence();
+    }
+
+    function stopAutoPlay() {
+      autoPlay = false;
+      if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+      speechSynthesis.cancel();
+    }
+
+    function showComplete() {
+      const area = document.getElementById('learn-area');
+      area.innerHTML = `
+        <div class="learn-card" style="border-top: 4px solid #7EC850">
+          <div class="lc-emoji" style="font-size: 80px">🎉</div>
+          <div class="lc-word" style="color: #7EC850; font-size: 28px; letter-spacing: 2px">Well Done!</div>
+          <div class="lc-sentence">You learned all the ${currentCat.name}!</div>
+          <div class="lc-telugu">బాగా చేశావ్!</div>
+          <div class="lc-controls" style="margin-top: 16px">
+            <button class="lc-btn lc-btn-repeat" onclick="currentIdx=0;sentenceStep=0;showCard()">🔄 Learn Again</button>
+            <button class="lc-btn lc-btn-next" onclick="showCatPicker()">📚 New Topic</button>
+          </div>
+        </div>`;
+      speak('Well done! You learned all the ' + currentCat.name + '!', 0.85);
+    }
+
+    function showCatPicker() {
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      activePill = null;
+      document.getElementById('learn-area').innerHTML = `
+        <div class="learn-card" style="border-top: 4px solid #F5A623">
+          <div class="lc-emoji" style="font-size: 70px">📚</div>
+          <div class="lc-word" style="color: #F5A623; font-size: 24px; letter-spacing: 2px">Pick a Topic!</div>
+          <div class="lc-sentence">Choose a category above to start learning</div>
+        </div>`;
+    }
+
+    const pillsContainer = document.getElementById('cat-pills');
+    CATEGORIES.forEach((cat, i) => {
+      const pill = document.createElement('button');
+      pill.className = 'cat-pill';
+      pill.textContent = cat.emoji + ' ' + cat.name;
+      pill.addEventListener('click', () => {
+        stopAutoPlay();
+        if (activePill) activePill.classList.remove('active');
+        pill.classList.add('active');
+        activePill = pill;
+        renderLearn(cat);
+      });
+      pillsContainer.appendChild(pill);
+    });
+
+    showCatPicker();
+  </script>
+</body>
+</html>
