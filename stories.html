@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Stories — Heshvitha's Learning World</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <style>
+    body { display: block; align-items: unset; justify-content: unset; }
+
+    .st-wrap { max-width: 520px; margin: 0 auto; padding: 0 8px 20px; }
+
+    .st-picker {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(8px, 2vmin, 14px);
+      padding: 6px 0;
+    }
+    .st-pick-card {
+      background: var(--card); border: 3px solid var(--sh);
+      border-radius: clamp(14px, 3vmin, 22px);
+      padding: clamp(12px, 3vmin, 22px) 8px;
+      text-align: center; cursor: pointer;
+      transition: transform .15s, border-color .2s;
+      animation: bounceIn .4s ease-out both;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .st-pick-card:hover { transform: scale(1.04); border-color: #F5A623; }
+    .st-pick-card:active { transform: scale(.94); }
+    .st-pick-emoji { font-size: clamp(36px, 10vmin, 60px); line-height: 1.2; }
+    .st-pick-title {
+      font-size: clamp(11px, 2.2vmin, 17px); font-weight: 800;
+      color: var(--text); margin-top: 4px; line-height: 1.3;
+    }
+    .st-pick-telugu {
+      font-size: clamp(10px, 1.8vmin, 14px); font-weight: 600;
+      color: var(--textL); margin-top: 2px;
+    }
+
+    .st-book {
+      background: var(--card);
+      border-radius: clamp(18px, 4vmin, 30px);
+      border: 3px solid var(--sh);
+      box-shadow: 0 4px 24px rgba(0,0,0,.08);
+      overflow: hidden; position: relative;
+    }
+
+    .st-page {
+      padding: clamp(16px, 4vmin, 30px) clamp(14px, 3vmin, 24px);
+      text-align: center;
+      animation: fadeIn .4s ease-out;
+      min-height: clamp(320px, 60vmin, 480px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+
+    .st-scene {
+      font-size: clamp(56px, 17vw, 96px);
+      line-height: 1.3; margin-bottom: 14px;
+      letter-spacing: 2px;
+      animation: bounceIn .5s ease-out;
+    }
+
+    .st-text {
+      font-size: clamp(18px, 4vmin, 30px);
+      font-weight: 700; color: var(--text);
+      line-height: 1.6; max-width: 400px;
+      margin: 0 auto;
+    }
+    .st-text .st-word {
+      display: inline; transition: color .2s, background .2s;
+      border-radius: 4px; padding: 0 2px;
+    }
+    .st-text .st-word.st-active {
+      color: #E85D75;
+      background: #FFF0F2;
+    }
+
+    .st-page-num {
+      font-size: clamp(10px, 1.8vmin, 14px);
+      color: var(--textL); font-weight: 700;
+      margin-top: 12px;
+    }
+
+    .st-controls {
+      display: flex; justify-content: center; align-items: center;
+      gap: clamp(8px, 2vmin, 16px);
+      padding: 12px 0;
+    }
+    .st-btn {
+      border: none; border-radius: 50px;
+      padding: clamp(10px, 2vmin, 16px) clamp(20px, 4vmin, 36px);
+      font-size: clamp(13px, 2.5vmin, 20px); font-weight: 800;
+      cursor: pointer; color: #fff;
+      box-shadow: 0 3px 12px rgba(0,0,0,.1);
+      transition: transform .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .st-btn:hover { transform: scale(1.06); }
+    .st-btn:active { transform: scale(.94); }
+    .st-btn:disabled { opacity: .4; transform: none; cursor: default; }
+
+    .st-dots {
+      display: flex; justify-content: center; gap: 6px;
+      padding: 6px 0;
+    }
+    .st-dot {
+      width: clamp(8px, 2vmin, 12px); height: clamp(8px, 2vmin, 12px);
+      border-radius: 50%; background: var(--sh);
+      transition: background .3s, transform .3s;
+      cursor: pointer;
+    }
+    .st-dot.done { background: #7EC850; }
+    .st-dot.current { background: #F5A623; transform: scale(1.3); }
+
+    .st-title-bar {
+      text-align: center; padding: 10px 10px 0;
+    }
+    .st-title-text {
+      font-size: clamp(16px, 3.5vmin, 26px);
+      font-weight: 900; color: var(--text);
+    }
+    .st-title-telugu {
+      font-size: clamp(12px, 2.5vmin, 18px);
+      font-weight: 600; color: var(--textL);
+      margin-top: 2px;
+    }
+
+    .st-end {
+      text-align: center; padding: 30px 16px;
+      animation: bounceIn .5s ease-out;
+    }
+    .st-end .st-big { font-size: clamp(50px, 14vmin, 90px); display: block; animation: float 2s ease-in-out infinite; }
+    .st-end h2 {
+      font-size: clamp(20px, 5vmin, 36px); font-weight: 900;
+      animation: rainbow 2.5s linear infinite; margin: 8px 0;
+    }
+    .st-end p {
+      font-size: clamp(13px, 2.8vmin, 20px); color: var(--textL);
+      margin-bottom: 14px;
+    }
+
+    .st-stars-c {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 100; overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <div class="hdr">
+      <h1>
+        <em style="color:#E85D75">S</em><em style="color:#F5A623">t</em><em style="color:#7EC850">o</em><em style="color:#4DADEA">r</em><em style="color:#B07CD8">i</em><em style="color:#E85D75">e</em><em style="color:#F5A623">s</em>
+      </h1>
+      <div class="sub">One-minute stories with pictures!</div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Match</a>
+      <a href="learn.html">Learn</a>
+      <a href="find.html">Find It!</a>
+      <a href="discover.html">Discover</a>
+      <a href="trace.html">Trace</a>
+      <a href="stories.html" class="active">Stories</a>
+      <a href="print.html">Print</a>
+      <a href="worksheet.html">Worksheets</a>
+    </nav>
+
+    <div class="st-wrap" id="st-area"></div>
+    <div class="st-stars-c" id="st-stars"></div>
+  </div>
+
+  <script>
+    var STORIES = [
+      {
+        title: 'The Hungry Caterpillar',
+        emoji: '🐛🦋',
+        telugu: 'ఆకలి గొంగళి పురుగు',
+        color: '#7EC850',
+        pages: [
+          { scene: '🌿🐛🍃', text: 'A tiny caterpillar was very hungry.' },
+          { scene: '🐛🍎', text: 'He ate a big red apple. Yum yum!' },
+          { scene: '🐛🍌🍊', text: 'Then he ate a banana and an orange.' },
+          { scene: '🐛😴🌙', text: 'His tummy was so full! He went to sleep.' },
+          { scene: '☀️🦋🌸', text: 'He woke up as a beautiful butterfly!' }
+        ]
+      },
+      {
+        title: 'The Lost Baby Duck',
+        emoji: '🐥🦆',
+        telugu: 'తప్పిపోయిన బాతు పిల్ల',
+        color: '#F5A623',
+        pages: [
+          { scene: '🦆🐥🐥🐥', text: 'Mama Duck had three baby ducks.' },
+          { scene: '🐥❓🌳', text: 'One baby duck got lost in the park!' },
+          { scene: '🐥🐸', text: 'He asked the frog. "Have you seen my mama?"' },
+          { scene: '🐥🐰', text: 'He asked the rabbit. "Have you seen my mama?"' },
+          { scene: '🐥🦆💕', text: '"Mama!" The baby duck found his mama! Quack quack!' }
+        ]
+      },
+      {
+        title: 'The Little Star',
+        emoji: '⭐🌙',
+        telugu: 'చిన్న నక్షత్రం',
+        color: '#B07CD8',
+        pages: [
+          { scene: '🌙⭐✨', text: 'A little star lived high up in the sky.' },
+          { scene: '⭐😢🌑', text: 'One night, the star felt sad and dim.' },
+          { scene: '⭐🎵🌙', text: 'The moon sang a song. "Twinkle twinkle little star!"' },
+          { scene: '⭐😊✨', text: 'The star felt happy and started to glow!' },
+          { scene: '🌙⭐🌟💫', text: 'Now the little star shines the brightest of all!' }
+        ]
+      },
+      {
+        title: 'The Sharing Bunny',
+        emoji: '🐰🥕',
+        telugu: 'పంచుకునే కుందేలు',
+        color: '#E85D75',
+        pages: [
+          { scene: '🐰🥕🥕🥕', text: 'Bunny found three yummy carrots!' },
+          { scene: '🐰🥕➡️🐿️', text: 'He gave one carrot to the squirrel.' },
+          { scene: '🐰🥕➡️🐢', text: 'He gave one carrot to the turtle.' },
+          { scene: '🐰🥕😊', text: 'Bunny had one carrot left for himself.' },
+          { scene: '🐿️🐢🐰💕', text: 'Sharing made everyone happy! What a kind bunny!' }
+        ]
+      },
+      {
+        title: 'The Rainy Day',
+        emoji: '🌧️☂️',
+        telugu: 'వర్షం రోజు',
+        color: '#4DADEA',
+        pages: [
+          { scene: '☀️🏠👧', text: 'Anu wanted to go outside and play.' },
+          { scene: '🌧️😟👧', text: 'Oh no! It started raining!' },
+          { scene: '👧☂️🌧️', text: 'She took her umbrella and went splash splash!' },
+          { scene: '👧💧🐸', text: 'She saw a happy frog jumping in puddles!' },
+          { scene: '🌈😊👧', text: 'The rain stopped and a rainbow appeared! What a fun day!' }
+        ]
+      },
+      {
+        title: 'The Sleepy Bear',
+        emoji: '🐻😴',
+        telugu: 'నిద్రపోతున్న ఎలుగుబంటి',
+        color: '#F5A623',
+        pages: [
+          { scene: '🐻🍂🌲', text: 'Bear was very sleepy. Winter was coming!' },
+          { scene: '🐻🛏️', text: 'He made a cozy bed with soft leaves.' },
+          { scene: '🐻😴💤', text: 'Bear closed his eyes. "Good night!" Zzz!' },
+          { scene: '❄️⛄🌨️', text: 'Snow fell all around while Bear was sleeping.' },
+          { scene: '🐻🌸🌷☀️', text: 'Bear woke up in spring! "Good morning, world!"' }
+        ]
+      },
+      {
+        title: 'Baby Elephant Bath',
+        emoji: '🐘🚿',
+        telugu: 'ఏనుగు పిల్ల స్నానం',
+        color: '#4DADEA',
+        pages: [
+          { scene: '🐘👶🌞', text: 'Baby Elephant played in the mud all day!' },
+          { scene: '🐘🤎💦', text: 'He was so dirty! Brown mud everywhere!' },
+          { scene: '🐘💦🚿', text: 'Mama sprayed water with her trunk. Splash!' },
+          { scene: '🐘🧼✨', text: 'Scrub scrub! Baby Elephant was getting clean!' },
+          { scene: '🐘😊💙', text: 'Now Baby Elephant is shiny and clean! Time for dinner!' }
+        ]
+      },
+      {
+        title: 'The Magic Seed',
+        emoji: '🌱🌻',
+        telugu: 'మాయా విత్తనం',
+        color: '#7EC850',
+        pages: [
+          { scene: '👧🌰', text: 'Anu planted a tiny seed in the ground.' },
+          { scene: '🌰💧☀️', text: 'She gave it water and sunshine every day.' },
+          { scene: '🌱😊', text: 'Look! A little green plant is growing!' },
+          { scene: '🌿🌼', text: 'It grew bigger and bigger with pretty leaves!' },
+          { scene: '🌻🦋👧😊', text: 'It became a big sunflower! Even butterflies came to visit!' }
+        ]
+      }
+    ];
+
+    var voice = null;
+    var currentStory = null;
+    var currentPage = 0;
+    var speaking = false;
+
+    function loadVoice() {
+      var voices = speechSynthesis.getVoices();
+      var prefer = ['Google US English','Google UK English Female','Microsoft Zira','Samantha','Karen','Moira'];
+      for (var i = 0; i < prefer.length; i++) {
+        var v = voices.find(function(v) { return v.name.includes(prefer[i]); });
+        if (v) { voice = v; return; }
+      }
+      var en = voices.find(function(v) { return v.lang.startsWith('en-US'); });
+      if (en) voice = en;
+    }
+    speechSynthesis.onvoiceschanged = loadVoice;
+    loadVoice();
+
+    function speak(text, rate, onEnd) {
+      speechSynthesis.cancel();
+      speaking = true;
+      var u = new SpeechSynthesisUtterance(text);
+      u.rate = rate || 0.7;
+      u.pitch = 1.15;
+      u.lang = 'en-US';
+      if (voice) u.voice = voice;
+      var called = false;
+      function done() {
+        if (called) return;
+        called = true;
+        speaking = false;
+        if (onEnd) onEnd();
+      }
+      u.onend = done;
+      u.onerror = done;
+      speechSynthesis.speak(u);
+      if (onEnd) setTimeout(done, Math.max(4000, text.length * 130));
+    }
+
+    function spawnStars(x, y) {
+      var ct = document.getElementById('st-stars');
+      var emojis = ['⭐','✨','🌟','💫','🎉','💖'];
+      for (var i = 0; i < 8; i++) {
+        var s = document.createElement('div');
+        s.className = 'star';
+        s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        s.style.left = (x + (Math.random() - .5) * 200) + 'px';
+        s.style.top = (y + (Math.random() - .5) * 200) + 'px';
+        ct.appendChild(s);
+        setTimeout((function(el) { return function() { el.remove(); }; })(s), 900);
+      }
+    }
+
+    function showPicker() {
+      var area = document.getElementById('st-area');
+      area.innerHTML = '';
+      currentStory = null;
+      speechSynthesis.cancel();
+      if (highlightTimer) { clearInterval(highlightTimer); highlightTimer = null; }
+
+      var grid = document.createElement('div');
+      grid.className = 'st-picker';
+
+      STORIES.forEach(function(story, i) {
+        var card = document.createElement('div');
+        card.className = 'st-pick-card';
+        card.style.animationDelay = (i * 0.06) + 's';
+        card.style.borderColor = story.color;
+        card.innerHTML =
+          '<div class="st-pick-emoji">' + story.emoji + '</div>' +
+          '<div class="st-pick-title">' + story.title + '</div>' +
+          '<div class="st-pick-telugu">' + story.telugu + '</div>';
+        card.addEventListener('click', function() {
+          currentStory = story;
+          currentPage = 0;
+          showPage();
+        });
+        grid.appendChild(card);
+      });
+
+      area.appendChild(grid);
+    }
+
+    function showPage() {
+      var area = document.getElementById('st-area');
+      area.innerHTML = '';
+      var story = currentStory;
+      var page = story.pages[currentPage];
+
+      var titleBar = document.createElement('div');
+      titleBar.className = 'st-title-bar';
+      titleBar.innerHTML =
+        '<div class="st-title-text" style="color:' + story.color + '">' + story.title + '</div>' +
+        '<div class="st-title-telugu">' + story.telugu + '</div>';
+      area.appendChild(titleBar);
+
+      var dots = document.createElement('div');
+      dots.className = 'st-dots';
+      for (var d = 0; d < story.pages.length; d++) {
+        var dot = document.createElement('div');
+        dot.className = 'st-dot';
+        if (d < currentPage) dot.classList.add('done');
+        if (d === currentPage) dot.classList.add('current');
+        dot.addEventListener('click', (function(idx) {
+          return function() {
+            currentPage = idx;
+            showPage();
+          };
+        })(d));
+        dots.appendChild(dot);
+      }
+      area.appendChild(dots);
+
+      var book = document.createElement('div');
+      book.className = 'st-book';
+
+      var pageDiv = document.createElement('div');
+      pageDiv.className = 'st-page';
+
+      var scene = document.createElement('div');
+      scene.className = 'st-scene';
+      scene.textContent = page.scene;
+      pageDiv.appendChild(scene);
+
+      var textDiv = document.createElement('div');
+      textDiv.className = 'st-text';
+      textDiv.id = 'st-text';
+      var words = page.text.split(' ');
+      words.forEach(function(w, i) {
+        var span = document.createElement('span');
+        span.className = 'st-word';
+        span.dataset.idx = i;
+        span.textContent = w + ' ';
+        textDiv.appendChild(span);
+      });
+      pageDiv.appendChild(textDiv);
+
+      var pageNum = document.createElement('div');
+      pageNum.className = 'st-page-num';
+      pageNum.textContent = (currentPage + 1) + ' / ' + story.pages.length;
+      pageDiv.appendChild(pageNum);
+
+      book.appendChild(pageDiv);
+      area.appendChild(book);
+
+      var controls = document.createElement('div');
+      controls.className = 'st-controls';
+
+      var backBtn = document.createElement('button');
+      backBtn.className = 'st-btn';
+      backBtn.style.background = '#9A8587';
+      backBtn.textContent = '⬅️ Back';
+      backBtn.disabled = currentPage === 0;
+      backBtn.addEventListener('click', function() {
+        if (currentPage > 0) { currentPage--; showPage(); }
+      });
+
+      var readBtn = document.createElement('button');
+      readBtn.className = 'st-btn';
+      readBtn.style.background = story.color;
+      readBtn.textContent = '🔊 Read';
+      readBtn.addEventListener('click', function() {
+        readPage(page);
+      });
+
+      var nextBtn = document.createElement('button');
+      nextBtn.className = 'st-btn';
+      nextBtn.style.background = '#7EC850';
+      nextBtn.textContent = 'Next ➡️';
+      nextBtn.addEventListener('click', function() {
+        goNext();
+      });
+
+      controls.appendChild(backBtn);
+      controls.appendChild(readBtn);
+      controls.appendChild(nextBtn);
+      area.appendChild(controls);
+
+      readPage(page);
+    }
+
+    var highlightTimer = null;
+
+    function readPage(page) {
+      if (highlightTimer) clearInterval(highlightTimer);
+      var wordEls = document.querySelectorAll('#st-text .st-word');
+      wordEls.forEach(function(el) { el.classList.remove('st-active'); });
+
+      var idx = 0;
+      highlightTimer = setInterval(function() {
+        if (idx > 0 && wordEls[idx - 1]) wordEls[idx - 1].classList.remove('st-active');
+        if (idx < wordEls.length) {
+          wordEls[idx].classList.add('st-active');
+          idx++;
+        } else {
+          clearInterval(highlightTimer);
+          highlightTimer = null;
+        }
+      }, 420);
+
+      speak(page.text, 0.65);
+    }
+
+    function goNext() {
+      speechSynthesis.cancel();
+      if (highlightTimer) { clearInterval(highlightTimer); highlightTimer = null; }
+      currentPage++;
+      if (currentPage < currentStory.pages.length) {
+        showPage();
+      } else {
+        showEnd();
+      }
+    }
+
+    function showEnd() {
+      var area = document.getElementById('st-area');
+      area.innerHTML = '';
+
+      var div = document.createElement('div');
+      div.className = 'st-end';
+      div.innerHTML =
+        '<span class="st-big">📖</span>' +
+        '<h2>The End!</h2>' +
+        '<p>What a wonderful story!</p>' +
+        '<button class="st-btn" style="background:' + currentStory.color + '" id="st-again">Read Again 🔄</button>' +
+        '<br><br>' +
+        '<button class="st-btn" style="background:#4DADEA" id="st-new">More Stories 📚</button>';
+      area.appendChild(div);
+
+      for (var i = 0; i < 3; i++) {
+        spawnStars(Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.5);
+      }
+
+      speak('The End! What a wonderful story!', 0.8);
+
+      document.getElementById('st-again').addEventListener('click', function() {
+        currentPage = 0;
+        showPage();
+      });
+      document.getElementById('st-new').addEventListener('click', showPicker);
+    }
+
+    showPicker();
+  </script>
+</body>
+</html>
