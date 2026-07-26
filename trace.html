@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Trace Letters — Heshvitha's Learning World</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <style>
+    body { display: block; align-items: unset; justify-content: unset; }
+
+    .tr-wrap { max-width: 500px; margin: 0 auto; padding: 0 8px 20px; }
+
+    .tr-top {
+      text-align: center; padding: 6px 0;
+      animation: slideUp .4s ease-out;
+    }
+    .tr-letter-label {
+      font-size: clamp(16px, 3.5vmin, 26px);
+      font-weight: 800; color: var(--textM);
+    }
+    .tr-letter-label span { color: #E85D75; }
+
+    .tr-canvas-wrap {
+      position: relative;
+      width: clamp(260px, 70vmin, 380px);
+      height: clamp(260px, 70vmin, 380px);
+      margin: 8px auto;
+      background: var(--card);
+      border: clamp(3px, .6vmin, 6px) solid var(--sh);
+      border-radius: clamp(20px, 4vmin, 32px);
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .tr-canvas-wrap canvas {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    .tr-progress-bar {
+      width: clamp(200px, 50vmin, 320px);
+      height: 12px; margin: 10px auto;
+      background: var(--sh); border-radius: 8px;
+      overflow: hidden;
+    }
+    .tr-progress-fill {
+      height: 100%; background: #7EC850;
+      border-radius: 8px; transition: width .3s;
+      width: 0%;
+    }
+
+    .tr-controls {
+      display: flex; justify-content: center; gap: 10px;
+      margin: 8px 0;
+    }
+    .tr-btn {
+      border: none; border-radius: 50px;
+      padding: clamp(8px, 1.5vmin, 14px) clamp(16px, 3vmin, 32px);
+      font-size: clamp(12px, 2.2vmin, 18px); font-weight: 800;
+      cursor: pointer; color: #fff;
+      box-shadow: 0 3px 10px rgba(0,0,0,.1);
+      transition: transform .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tr-btn:hover { transform: scale(1.06); }
+    .tr-btn:active { transform: scale(.94); }
+
+    .tr-letter-nav {
+      display: flex; justify-content: center; gap: 6px;
+      flex-wrap: wrap; margin: 8px 0;
+    }
+    .tr-letter-btn {
+      width: clamp(32px, 7vmin, 44px); height: clamp(32px, 7vmin, 44px);
+      border: 2px solid var(--sh); border-radius: 10px;
+      background: var(--card); font-size: clamp(14px, 3vmin, 22px);
+      font-weight: 900; cursor: pointer; color: var(--text);
+      transition: all .2s; display: flex; align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tr-letter-btn:hover { border-color: #F5A623; }
+    .tr-letter-btn.active { border-color: #E85D75; background: #FFF0F2; color: #E85D75; }
+    .tr-letter-btn.done { border-color: #7EC850; background: #F0FAE8; color: #7EC850; }
+
+    .tr-stars-c {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 100; overflow: hidden;
+    }
+
+    .tr-mode-toggle {
+      display: flex; justify-content: center; gap: 6px; margin: 6px 0;
+    }
+    .tr-mode-btn {
+      padding: 4px 14px; border-radius: 20px;
+      border: 2px solid var(--sh); background: var(--card);
+      font-size: clamp(11px, 2vmin, 16px); font-weight: 700;
+      cursor: pointer; color: var(--textL); transition: all .2s;
+    }
+    .tr-mode-btn.active { border-color: #E85D75; color: #E85D75; background: #FFF0F2; }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <div class="hdr">
+      <h1>
+        <em style="color:#E85D75">T</em><em style="color:#F5A623">r</em><em style="color:#7EC850">a</em><em style="color:#4DADEA">c</em><em style="color:#B07CD8">e</em>
+      </h1>
+      <div class="sub">Trace letters with your finger!</div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Match</a>
+      <a href="learn.html">Learn</a>
+      <a href="find.html">Find It!</a>
+      <a href="discover.html">Discover</a>
+      <a href="trace.html" class="active">Trace</a>
+      <a href="print.html">Print</a>
+      <a href="worksheet.html">Worksheets</a>
+    </nav>
+
+    <div class="tr-wrap" id="tr-area">
+      <div class="tr-top">
+        <div class="tr-letter-label" id="tr-label">Trace the letter <span id="tr-current">A</span></div>
+      </div>
+
+      <div class="tr-mode-toggle">
+        <button class="tr-mode-btn active" id="mode-upper">ABC</button>
+        <button class="tr-mode-btn" id="mode-lower">abc</button>
+        <button class="tr-mode-btn" id="mode-num">123</button>
+      </div>
+
+      <div class="tr-canvas-wrap" id="tr-canvas-wrap">
+        <canvas id="tr-guide"></canvas>
+        <canvas id="tr-draw"></canvas>
+      </div>
+
+      <div class="tr-progress-bar">
+        <div class="tr-progress-fill" id="tr-fill"></div>
+      </div>
+
+      <div class="tr-controls">
+        <button class="tr-btn" style="background:#F5A623" id="tr-clear">Undo 🔄</button>
+        <button class="tr-btn" style="background:#7EC850" id="tr-next">Next ➡️</button>
+      </div>
+
+      <div class="tr-letter-nav" id="tr-nav"></div>
+    </div>
+    <div class="tr-stars-c" id="tr-stars"></div>
+  </div>
+
+  <script>
+    var UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    var LOWER = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    var NUMS = '0123456789'.split('');
+    var COLORS = ['#E85D75','#F5A623','#7EC850','#4DADEA','#B07CD8'];
+
+    var mode = 'upper';
+    var letters = UPPER;
+    var currentIdx = 0;
+    var drawing = false;
+    var pixelsFilled = 0;
+    var totalPixels = 0;
+    var completed = new Set();
+    var lastX = 0, lastY = 0;
+
+    var guideCanvas, drawCanvas, guideCtx, drawCtx;
+    var canvasSize = 0;
+
+    var voice = null;
+    function loadVoice() {
+      var voices = speechSynthesis.getVoices();
+      var prefer = ['Google US English','Google UK English Female','Microsoft Zira','Samantha','Karen','Moira'];
+      for (var i = 0; i < prefer.length; i++) {
+        var v = voices.find(function(v) { return v.name.includes(prefer[i]); });
+        if (v) { voice = v; return; }
+      }
+      var en = voices.find(function(v) { return v.lang.startsWith('en-US'); });
+      if (en) voice = en;
+    }
+    speechSynthesis.onvoiceschanged = loadVoice;
+    loadVoice();
+
+    function speak(text, rate) {
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.rate = rate || 0.8;
+      u.pitch = 1.15;
+      u.lang = 'en-US';
+      if (voice) u.voice = voice;
+      speechSynthesis.speak(u);
+    }
+
+    function spawnStars(x, y) {
+      var ct = document.getElementById('tr-stars');
+      var emojis = ['\u{2B50}','\u{2728}','\u{1F31F}','\u{1F4AB}','\u{1F389}','\u{1F496}'];
+      for (var i = 0; i < 10; i++) {
+        var s = document.createElement('div');
+        s.className = 'star';
+        s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        s.style.left = (x + (Math.random() - .5) * 200) + 'px';
+        s.style.top = (y + (Math.random() - .5) * 200) + 'px';
+        ct.appendChild(s);
+        setTimeout((function(el) { return function() { el.remove(); }; })(s), 900);
+      }
+    }
+
+    function initCanvas() {
+      guideCanvas = document.getElementById('tr-guide');
+      drawCanvas = document.getElementById('tr-draw');
+      var wrap = document.getElementById('tr-canvas-wrap');
+
+      canvasSize = wrap.clientWidth;
+      var dpr = window.devicePixelRatio || 1;
+      guideCanvas.width = drawCanvas.width = canvasSize * dpr;
+      guideCanvas.height = drawCanvas.height = canvasSize * dpr;
+
+      guideCtx = guideCanvas.getContext('2d');
+      drawCtx = drawCanvas.getContext('2d');
+      guideCtx.scale(dpr, dpr);
+      drawCtx.scale(dpr, dpr);
+    }
+
+    function drawGuide(letter) {
+      guideCtx.clearRect(0, 0, canvasSize, canvasSize);
+
+      guideCtx.strokeStyle = '#e0e0e0';
+      guideCtx.lineWidth = 1;
+      guideCtx.setLineDash([8, 8]);
+      guideCtx.beginPath();
+      guideCtx.moveTo(0, canvasSize / 2);
+      guideCtx.lineTo(canvasSize, canvasSize / 2);
+      guideCtx.stroke();
+      guideCtx.beginPath();
+      guideCtx.moveTo(canvasSize / 2, 0);
+      guideCtx.lineTo(canvasSize / 2, canvasSize);
+      guideCtx.stroke();
+      guideCtx.setLineDash([]);
+
+      var fontSize = canvasSize * 0.65;
+      guideCtx.font = '900 ' + fontSize + 'px "Trebuchet MS", system-ui, sans-serif';
+      guideCtx.textAlign = 'center';
+      guideCtx.textBaseline = 'middle';
+
+      guideCtx.strokeStyle = '#ddd';
+      guideCtx.lineWidth = 3;
+      guideCtx.setLineDash([10, 6]);
+      guideCtx.strokeText(letter, canvasSize / 2, canvasSize / 2);
+      guideCtx.setLineDash([]);
+
+      guideCtx.fillStyle = 'rgba(200, 200, 200, 0.15)';
+      guideCtx.fillText(letter, canvasSize / 2, canvasSize / 2);
+
+      countGuidePixels();
+    }
+
+    function countGuidePixels() {
+      var dpr = window.devicePixelRatio || 1;
+      var data = guideCtx.getImageData(0, 0, canvasSize * dpr, canvasSize * dpr).data;
+      totalPixels = 0;
+      for (var i = 3; i < data.length; i += 4) {
+        if (data[i] > 30) totalPixels++;
+      }
+    }
+
+    function clearDraw() {
+      drawCtx.clearRect(0, 0, canvasSize, canvasSize);
+      pixelsFilled = 0;
+      document.getElementById('tr-fill').style.width = '0%';
+    }
+
+    function getPos(e) {
+      var rect = drawCanvas.getBoundingClientRect();
+      var touch = e.touches ? e.touches[0] : e;
+      return {
+        x: (touch.clientX - rect.left) * (canvasSize / rect.width),
+        y: (touch.clientY - rect.top) * (canvasSize / rect.height)
+      };
+    }
+
+    function startDraw(e) {
+      e.preventDefault();
+      drawing = true;
+      var p = getPos(e);
+      lastX = p.x;
+      lastY = p.y;
+    }
+
+    function moveDraw(e) {
+      e.preventDefault();
+      if (!drawing) return;
+      var p = getPos(e);
+      var color = COLORS[currentIdx % COLORS.length];
+
+      drawCtx.strokeStyle = color;
+      drawCtx.lineWidth = canvasSize * 0.08;
+      drawCtx.lineCap = 'round';
+      drawCtx.lineJoin = 'round';
+      drawCtx.globalAlpha = 0.6;
+
+      drawCtx.beginPath();
+      drawCtx.moveTo(lastX, lastY);
+      drawCtx.lineTo(p.x, p.y);
+      drawCtx.stroke();
+
+      lastX = p.x;
+      lastY = p.y;
+
+      checkProgress();
+    }
+
+    function endDraw(e) {
+      e.preventDefault();
+      drawing = false;
+    }
+
+    function checkProgress() {
+      var dpr = window.devicePixelRatio || 1;
+      var guideData = guideCtx.getImageData(0, 0, canvasSize * dpr, canvasSize * dpr).data;
+      var drawData = drawCtx.getImageData(0, 0, canvasSize * dpr, canvasSize * dpr).data;
+
+      var overlap = 0;
+      for (var i = 3; i < guideData.length; i += 16) {
+        if (guideData[i] > 30 && drawData[i] > 30) overlap++;
+      }
+
+      var totalSampled = 0;
+      for (var i = 3; i < guideData.length; i += 16) {
+        if (guideData[i] > 30) totalSampled++;
+      }
+
+      var pct = totalSampled > 0 ? Math.min(100, (overlap / totalSampled) * 100) : 0;
+      document.getElementById('tr-fill').style.width = pct + '%';
+
+      if (pct > 60 && !completed.has(currentIdx)) {
+        completed.add(currentIdx);
+        var rect = document.getElementById('tr-canvas-wrap').getBoundingClientRect();
+        spawnStars(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+        var letter = letters[currentIdx];
+        speak('Great job! ' + letter + '!', 0.85);
+
+        updateNav();
+      }
+    }
+
+    function setLetter(idx) {
+      currentIdx = idx;
+      var letter = letters[currentIdx];
+      document.getElementById('tr-current').textContent = letter;
+      clearDraw();
+      drawGuide(letter);
+      updateNav();
+
+      var name = letter;
+      if (mode === 'num') {
+        var numNames = ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine'];
+        name = numNames[parseInt(letter)] || letter;
+      }
+      speak('Trace the letter ' + name, 0.8);
+    }
+
+    function updateNav() {
+      var nav = document.getElementById('tr-nav');
+      nav.innerHTML = '';
+      for (var i = 0; i < letters.length; i++) {
+        var btn = document.createElement('button');
+        btn.className = 'tr-letter-btn';
+        if (i === currentIdx) btn.classList.add('active');
+        if (completed.has(i)) btn.classList.add('done');
+        btn.textContent = letters[i];
+        btn.addEventListener('click', (function(idx) {
+          return function() { setLetter(idx); };
+        })(i));
+        nav.appendChild(btn);
+      }
+    }
+
+    function setMode(m) {
+      mode = m;
+      completed.clear();
+      if (m === 'upper') letters = UPPER;
+      else if (m === 'lower') letters = LOWER;
+      else letters = NUMS;
+
+      document.getElementById('mode-upper').classList.toggle('active', m === 'upper');
+      document.getElementById('mode-lower').classList.toggle('active', m === 'lower');
+      document.getElementById('mode-num').classList.toggle('active', m === 'num');
+
+      var label = mode === 'num' ? 'number' : 'letter';
+      document.getElementById('tr-label').innerHTML = 'Trace the ' + label + ' <span id="tr-current">' + letters[0] + '</span>';
+
+      setLetter(0);
+    }
+
+    initCanvas();
+
+    drawCanvas.addEventListener('mousedown', startDraw);
+    drawCanvas.addEventListener('mousemove', moveDraw);
+    drawCanvas.addEventListener('mouseup', endDraw);
+    drawCanvas.addEventListener('mouseleave', endDraw);
+    drawCanvas.addEventListener('touchstart', startDraw, { passive: false });
+    drawCanvas.addEventListener('touchmove', moveDraw, { passive: false });
+    drawCanvas.addEventListener('touchend', endDraw, { passive: false });
+
+    document.getElementById('tr-clear').addEventListener('click', function() {
+      completed.delete(currentIdx);
+      clearDraw();
+      updateNav();
+    });
+
+    document.getElementById('tr-next').addEventListener('click', function() {
+      var next = (currentIdx + 1) % letters.length;
+      setLetter(next);
+    });
+
+    document.getElementById('mode-upper').addEventListener('click', function() { setMode('upper'); });
+    document.getElementById('mode-lower').addEventListener('click', function() { setMode('lower'); });
+    document.getElementById('mode-num').addEventListener('click', function() { setMode('num'); });
+
+    setLetter(0);
+  </script>
+</body>
+</html>
