@@ -172,13 +172,23 @@
     let preferredVoice = null;
     function loadVoice() {
       const voices = speechSynthesis.getVoices();
-      const prefer = ['Samantha', 'Karen', 'Moira', 'Fiona', 'Victoria', 'Zira'];
+      const prefer = [
+        'Google US English',
+        'Google UK English Female',
+        'Microsoft Zira',
+        'Samantha',
+        'Karen',
+        'Moira',
+        'Victoria'
+      ];
       for (const name of prefer) {
-        const v = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
+        const v = voices.find(v => v.name.includes(name));
         if (v) { preferredVoice = v; return; }
       }
-      const female = voices.find(v => v.lang.startsWith('en') && /female/i.test(v.name));
-      if (female) preferredVoice = female;
+      const enFemale = voices.find(v => v.lang.startsWith('en') && /female/i.test(v.name));
+      if (enFemale) { preferredVoice = enFemale; return; }
+      const enVoice = voices.find(v => v.lang.startsWith('en-US'));
+      if (enVoice) preferredVoice = enVoice;
     }
     speechSynthesis.onvoiceschanged = loadVoice;
     loadVoice();

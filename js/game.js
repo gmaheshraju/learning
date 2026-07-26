@@ -14,13 +14,28 @@ let soundOn = true;
 
 const CHEERS = ['Awesome!', 'Great job!', 'Well done!', 'You got it!', 'Brilliant!', 'Super!', 'Wow!', 'Amazing!'];
 
+let gameVoice = null;
+function loadGameVoice() {
+  const voices = speechSynthesis.getVoices();
+  const prefer = ['Google US English', 'Google UK English Female', 'Microsoft Zira', 'Samantha', 'Karen', 'Moira'];
+  for (const name of prefer) {
+    const v = voices.find(v => v.name.includes(name));
+    if (v) { gameVoice = v; return; }
+  }
+  const en = voices.find(v => v.lang.startsWith('en-US'));
+  if (en) gameVoice = en;
+}
+speechSynthesis.onvoiceschanged = loadGameVoice;
+loadGameVoice();
+
 function speak(text, rate) {
   if (!soundOn || !window.speechSynthesis) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.rate = rate || 0.85;
-  u.pitch = 1.1;
+  u.pitch = 1.15;
   u.lang = 'en-US';
+  if (gameVoice) u.voice = gameVoice;
   speechSynthesis.speak(u);
 }
 
