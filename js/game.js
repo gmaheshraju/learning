@@ -74,16 +74,25 @@ function spawnStars(x, y) {
   }
 }
 
-function getCenter(el) {
-  const r = el.getBoundingClientRect();
-  const p = document.getElementById('game').getBoundingClientRect();
-  return { x: r.left - p.left + r.width / 2, y: r.top - p.top + r.height / 2 };
+// Uses offsetLeft/offsetTop rather than getBoundingClientRect so the numbers are
+// unaffected by the scale transforms running on the cards while they animate.
+function getBox(el, container) {
+  let x = 0, y = 0, n = el;
+  while (n && n !== container) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+  const w = el.offsetWidth, h = el.offsetHeight;
+  return { left: x, right: x + w, cx: x + w / 2, cy: y + h / 2 };
 }
 
 function drawMatchLine(el1, el2, color) {
   const svg = document.querySelector('.lines');
   if (!svg) return;
-  const p1 = getCenter(el1), p2 = getCenter(el2);
+  // svg is absolutely positioned at 0,0 of .mz, so .mz-relative coords are svg user space
+  const box = svg.parentNode;
+  let b1 = getBox(el1, box), b2 = getBox(el2, box);
+  // anchor on the facing edges so the line points at each card, not across it
+  if (b1.cx > b2.cx) { const t = b1; b1 = b2; b2 = t; }
+  const p1 = { x: b1.right, y: b1.cy };
+  const p2 = { x: b2.left, y: b2.cy };
 
   const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
   line.setAttribute('x1', p1.x); line.setAttribute('y1', p1.y);
@@ -101,6 +110,25 @@ function drawMatchLine(el1, el2, color) {
     svg.appendChild(d);
   });
 }
+
+// Lines are positioned in pixels, so they go stale when the layout reflows.
+function redrawMatchLines() {
+  const svg = document.querySelector('.lines');
+  if (!svg) return;
+  svg.innerHTML = '';
+  matched.forEach(name => {
+    const a = document.querySelector('.card[data-type="a"][data-name="' + name + '"]');
+    const w = document.querySelector('.card[data-type="w"][data-name="' + name + '"]');
+    if (a && w) drawMatchLine(a, w, PAIR_COLORS[colorMap[name]]);
+  });
+}
+
+let redrawTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(redrawTimer);
+  redrawTimer = setTimeout(redrawMatchLines, 120);
+});
+window.addEventListener('orientationchange', () => setTimeout(redrawMatchLines, 250));
 
 function showCategoryPicker() {
   const area = document.getElementById('play');
