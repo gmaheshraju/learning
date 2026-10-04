@@ -2,174 +2,141 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Stories — Heshvitha's Learning World</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=14">
   <style>
-    body { display: block; align-items: unset; justify-content: unset; }
-
-    .st-wrap { max-width: 520px; margin: 0 auto; padding: 0 8px 20px; }
+    .st-wrap { max-width: 760px; margin: 0 auto; }
+    .st-heading { text-align: center; font-size: clamp(18px, 2.6vmin, 30px); font-weight: 900; margin: 4px 0 12px; color: var(--textM); }
 
     .st-picker {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: clamp(8px, 2vmin, 14px);
-      padding: 6px 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(170px, 42vw), 1fr));
+      gap: clamp(10px, 1.8vmin, 18px); padding: 4px 0;
     }
     .st-pick-card {
-      background: var(--card); border: 3px solid var(--sh);
-      border-radius: clamp(14px, 3vmin, 22px);
-      padding: clamp(12px, 3vmin, 22px) 8px;
+      -webkit-appearance: none; appearance: none;
+      background: var(--card); border: 3px solid var(--line);
+      border-radius: clamp(16px, 2.6vmin, 26px);
+      padding: clamp(14px, 2.6vmin, 26px) 10px;
       text-align: center; cursor: pointer;
       transition: transform .15s, border-color .2s;
       animation: bounceIn .4s ease-out both;
       box-shadow: 0 2px 10px rgba(0,0,0,.06);
-      -webkit-tap-highlight-color: transparent;
     }
-    .st-pick-card:hover { transform: scale(1.04); border-color: #F5A623; }
-    .st-pick-card:active { transform: scale(.94); }
-    .st-pick-emoji { font-size: clamp(36px, 10vmin, 60px); line-height: 1.2; }
-    .st-pick-title {
-      font-size: clamp(11px, 2.2vmin, 17px); font-weight: 800;
-      color: var(--text); margin-top: 4px; line-height: 1.3;
+    .st-pick-card:active { transform: scale(.95); }
+    .st-pick-emoji { font-family: var(--emoji); font-size: clamp(40px, 8vmin, 72px); line-height: 1.2; }
+    .st-pick-title { font-size: clamp(15px, 2.1vmin, 21px); font-weight: 900; color: var(--text); margin-top: 6px; line-height: 1.3; }
+    .st-pick-telugu { font-size: clamp(13px, 1.8vmin, 17px); font-weight: 600; color: var(--textL); margin-top: 3px; }
+
+    .st-title-bar { text-align: center; padding: 2px 10px 0; }
+    .st-title-text { font-size: clamp(19px, 3.2vmin, 32px); font-weight: 900; }
+    .st-title-telugu { font-size: clamp(14px, 2.2vmin, 20px); font-weight: 600; color: var(--textL); margin-top: 2px; }
+
+    .st-dots { display: flex; justify-content: center; gap: 2px; padding: 4px 0; }
+    .st-dot {
+      width: 32px; height: 32px; border: none; background: none; padding: 0; cursor: pointer;
+      display: grid; place-items: center;
     }
-    .st-pick-telugu {
-      font-size: clamp(10px, 1.8vmin, 14px); font-weight: 600;
-      color: var(--textL); margin-top: 2px;
+    .st-dot::before {
+      content: ''; width: clamp(10px, 1.8vmin, 14px); height: clamp(10px, 1.8vmin, 14px);
+      border-radius: 50%; background: var(--line); transition: background .3s, transform .3s;
     }
+    .st-dot.done::before { background: #7EC850; }
+    .st-dot.current::before { background: #F5A623; transform: scale(1.35); }
 
     .st-book {
       background: var(--card);
-      border-radius: clamp(18px, 4vmin, 30px);
-      border: 3px solid var(--sh);
+      border-radius: clamp(20px, 3.6vmin, 34px);
+      border: 3px solid var(--line);
       box-shadow: 0 4px 24px rgba(0,0,0,.08);
       overflow: hidden; position: relative;
+      touch-action: pan-y pinch-zoom;
     }
-
     .st-page {
-      padding: clamp(16px, 4vmin, 30px) clamp(14px, 3vmin, 24px);
-      text-align: center;
-      animation: fadeIn .4s ease-out;
-      min-height: clamp(320px, 60vmin, 480px);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+      padding: clamp(18px, 4vmin, 40px) clamp(14px, 3vmin, 32px);
+      text-align: center; animation: fadeIn .4s ease-out;
+      min-height: min(clamp(320px, 56vmin, 520px), 62dvh);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
-
     .st-scene {
-      font-size: clamp(56px, 17vw, 96px);
-      line-height: 1.3; margin-bottom: 14px;
-      letter-spacing: 2px;
+      font-family: var(--emoji); font-size: clamp(54px, min(15vw, 13vmin), 120px);
+      line-height: 1.25; margin-bottom: 16px; letter-spacing: 4px;
       animation: bounceIn .5s ease-out;
     }
-
     .st-text {
-      font-size: clamp(18px, 4vmin, 30px);
-      font-weight: 700; color: var(--text);
-      line-height: 1.6; max-width: 400px;
-      margin: 0 auto;
+      font-size: clamp(20px, 3.6vmin, 36px); font-weight: 800; color: var(--text);
+      line-height: 1.6; max-width: 26ch; margin: 0 auto;
     }
-    .st-text .st-word {
-      display: inline; transition: color .2s, background .2s;
-      border-radius: 4px; padding: 0 2px;
-    }
-    .st-text .st-word.st-active {
-      color: #E85D75;
-      background: #FFF0F2;
-    }
+    .st-word { border-radius: 6px; padding: 0 2px; transition: color .15s, background-color .15s; }
+    .st-word.st-active { color: var(--p0ink); background: rgba(232,93,117,.14); }
+    .st-page-num { font-size: clamp(12px, 1.8vmin, 15px); color: var(--textL); font-weight: 800; margin-top: 14px; }
 
-    .st-page-num {
-      font-size: clamp(10px, 1.8vmin, 14px);
-      color: var(--textL); font-weight: 700;
-      margin-top: 12px;
-    }
+    .st-controls { display: flex; justify-content: center; align-items: center; gap: clamp(8px, 2vmin, 16px); padding: 14px 0 4px; }
+    .st-controls .btn { font-size: clamp(15px, 2vmin, 21px); padding: 10px clamp(16px, 3vmin, 32px); }
 
-    .st-controls {
-      display: flex; justify-content: center; align-items: center;
-      gap: clamp(8px, 2vmin, 16px);
-      padding: 12px 0;
-    }
-    .st-btn {
-      border: none; border-radius: 50px;
-      padding: clamp(10px, 2vmin, 16px) clamp(20px, 4vmin, 36px);
-      font-size: clamp(13px, 2.5vmin, 20px); font-weight: 800;
-      cursor: pointer; color: #fff;
-      box-shadow: 0 3px 12px rgba(0,0,0,.1);
-      transition: transform .15s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .st-btn:hover { transform: scale(1.06); }
-    .st-btn:active { transform: scale(.94); }
-    .st-btn:disabled { opacity: .4; transform: none; cursor: default; }
+    .st-end { text-align: center; padding: 24px 16px; animation: bounceIn .5s ease-out; }
+    .st-end .st-big { font-family: var(--emoji); font-size: clamp(60px, 14vmin, 120px); display: block; animation: float 2s ease-in-out infinite; }
+    .st-end h2 { font-size: clamp(26px, 5vmin, 48px); font-weight: 900; animation: rainbow 2.5s linear infinite; margin: 8px 0; }
+    .st-end p { font-size: clamp(15px, 2.6vmin, 24px); color: var(--textL); font-weight: 700; margin-bottom: 18px; }
 
-    .st-dots {
-      display: flex; justify-content: center; gap: 6px;
-      padding: 6px 0;
-    }
-    .st-dot {
-      width: clamp(8px, 2vmin, 12px); height: clamp(8px, 2vmin, 12px);
-      border-radius: 50%; background: var(--sh);
-      transition: background .3s, transform .3s;
-      cursor: pointer;
-    }
-    .st-dot.done { background: #7EC850; }
-    .st-dot.current { background: #F5A623; transform: scale(1.3); }
+    .st-stars-c { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
 
-    .st-title-bar {
-      text-align: center; padding: 10px 10px 0;
+    @media (hover: hover) and (pointer: fine) {
+      .st-pick-card:hover { transform: scale(1.04); border-color: #F5A623; }
     }
-    .st-title-text {
-      font-size: clamp(16px, 3.5vmin, 26px);
-      font-weight: 900; color: var(--text);
+    @media (max-width: 400px) {
+      .st-controls .btn { padding: 10px 14px; }
     }
-    .st-title-telugu {
-      font-size: clamp(12px, 2.5vmin, 18px);
-      font-weight: 600; color: var(--textL);
-      margin-top: 2px;
-    }
-
-    .st-end {
-      text-align: center; padding: 30px 16px;
-      animation: bounceIn .5s ease-out;
-    }
-    .st-end .st-big { font-size: clamp(50px, 14vmin, 90px); display: block; animation: float 2s ease-in-out infinite; }
-    .st-end h2 {
-      font-size: clamp(20px, 5vmin, 36px); font-weight: 900;
-      animation: rainbow 2.5s linear infinite; margin: 8px 0;
-    }
-    .st-end p {
-      font-size: clamp(13px, 2.8vmin, 20px); color: var(--textL);
-      margin-bottom: 14px;
-    }
-
-    .st-stars-c {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none; z-index: 100; overflow: hidden;
+    /* Phones held sideways: pictures beside the words */
+    @media (orientation: landscape) and (max-height: 520px) {
+      .st-wrap { max-width: 900px; }
+      .st-title-telugu { display: none; }
+      .st-page { flex-direction: row; gap: 24px; min-height: 0; padding: 14px 24px; }
+      .st-scene { margin: 0; font-size: clamp(48px, 15vh, 80px); max-width: 45%; }
+      .st-text { text-align: left; }
+      .st-page-num { display: none; }
+      .st-controls { padding-top: 8px; }
     }
   </style>
 </head>
 <body>
   <div class="gw">
-    <div class="hdr">
-      <h1>
-        <em style="color:#E85D75">S</em><em style="color:#F5A623">t</em><em style="color:#7EC850">o</em><em style="color:#4DADEA">r</em><em style="color:#B07CD8">i</em><em style="color:#E85D75">e</em><em style="color:#F5A623">s</em>
-      </h1>
-      <div class="sub">One-minute stories with pictures!</div>
-    </div>
-    <nav class="nav-links">
-      <a href="index.html">Match</a>
-      <a href="learn.html">Learn</a>
-      <a href="find.html">Find It!</a>
-      <a href="discover.html">Discover</a>
-      <a href="trace.html">Trace</a>
-      <a href="stories.html" class="active">Stories</a>
-      <a href="print.html">Print</a>
-      <a href="worksheet.html">Worksheets</a>
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">S</em><em style="color:#F5A623">t</em><em style="color:#7EC850">o</em><em style="color:#4DADEA">r</em><em style="color:#B07CD8">i</em><em style="color:#E85D75">e</em><em style="color:#F5A623">s</em></h1>
+      <p class="sub">One-minute stories with pictures!</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities">
+      <a href="index.html" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
+      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
+      <a href="find.html" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
+      <a href="discover.html" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
+      <a href="trace.html" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
+      <a href="stories.html" class="active" aria-current="page" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
+      <a href="print.html" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
+      <a href="worksheet.html" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
     </nav>
 
-    <div class="st-wrap" id="st-area"></div>
-    <div class="st-stars-c" id="st-stars"></div>
+    <main class="st-wrap" id="st-area"></main>
+    <div class="st-stars-c" id="st-stars" aria-hidden="true"></div>
   </div>
 
+  <script src="js/common.js?v=14"></script>
   <script>
     var STORIES = [
       {
@@ -227,7 +194,7 @@
       {
         title: 'The Rainy Day',
         emoji: '🌧️☂️',
-        telugu: 'వర్షం రోజు',
+        telugu: 'వర్షపు రోజు',
         color: '#4DADEA',
         pages: [
           { scene: '☀️🏠👧', text: 'Anu wanted to go outside and play.' },
@@ -278,247 +245,235 @@
       }
     ];
 
-    var voice = null;
+    var RATE = 0.65;
+    var area = document.getElementById('st-area');
+    var stars = document.getElementById('st-stars');
     var currentStory = null;
     var currentPage = 0;
-    var speaking = false;
+    var reading = false;
+    var lastTurn = 0;
+    var hl = { timers: [], boundary: false };
 
-    function loadVoice() {
-      var voices = speechSynthesis.getVoices();
-      var prefer = ['Google US English','Google UK English Female','Microsoft Zira','Samantha','Karen','Moira'];
-      for (var i = 0; i < prefer.length; i++) {
-        var v = voices.find(function(v) { return v.name.includes(prefer[i]); });
-        if (v) { voice = v; return; }
-      }
-      var en = voices.find(function(v) { return v.lang.startsWith('en-US'); });
-      if (en) voice = en;
-    }
-    speechSynthesis.onvoiceschanged = loadVoice;
-    loadVoice();
+    function speak(text, rate, onEnd, opts) { Speech.speak(text, rate || 0.8, onEnd, opts); }
 
-    function speak(text, rate, onEnd) {
-      speechSynthesis.cancel();
-      speaking = true;
-      var u = new SpeechSynthesisUtterance(text);
-      u.rate = rate || 0.7;
-      u.pitch = 1.15;
-      u.lang = 'en-US';
-      if (voice) u.voice = voice;
-      var called = false;
-      function done() {
-        if (called) return;
-        called = true;
-        speaking = false;
-        if (onEnd) onEnd();
-      }
-      u.onend = done;
-      u.onerror = done;
-      speechSynthesis.speak(u);
-      if (onEnd) setTimeout(done, Math.max(4000, text.length * 130));
+    /* ---------- read-along highlighting ----------
+       Follows the voice's word boundaries where the engine reports them;
+       otherwise steps through the words at an estimated reading pace. */
+    function wordEls() { return area.querySelectorAll('.st-word'); }
+
+    function highlight(i) {
+      var els = wordEls();
+      for (var k = 0; k < els.length; k++) els[k].classList.toggle('st-active', k === i);
     }
 
-    function spawnStars(x, y) {
-      var ct = document.getElementById('st-stars');
-      var emojis = ['⭐','✨','🌟','💫','🎉','💖'];
-      for (var i = 0; i < 8; i++) {
-        var s = document.createElement('div');
-        s.className = 'star';
-        s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        s.style.left = (x + (Math.random() - .5) * 200) + 'px';
-        s.style.top = (y + (Math.random() - .5) * 200) + 'px';
-        ct.appendChild(s);
-        setTimeout((function(el) { return function() { el.remove(); }; })(s), 900);
-      }
+    function stopHighlight() {
+      hl.timers.forEach(clearTimeout);
+      hl.timers = [];
+      highlight(-1);
     }
 
+    function pacedHighlight(text) {
+      hl.timers.forEach(clearTimeout);
+      hl.timers = [];
+      var words = text.split(' ');
+      var total = Math.max(800, Speech.estimateMs(text, RATE) - 400);
+      var weights = words.map(function (w) { return w.length + 2; });
+      var sum = weights.reduce(function (a, b) { return a + b; }, 0);
+      var t = 0;
+      words.forEach(function (w, i) {
+        hl.timers.push(setTimeout(function () { if (!hl.boundary) highlight(i); }, t));
+        t += total * weights[i] / sum;
+      });
+    }
+
+    function readPage() {
+      var page = currentStory.pages[currentPage];
+      var text = page.text;
+      var starts = [];
+      var pos = 0;
+      text.split(' ').forEach(function (w) { starts.push(pos); pos += w.length + 1; });
+
+      stopHighlight();
+      hl.boundary = false;
+      setReading(true);
+      // if the voice never starts (muted, blocked), still read along with the eyes
+      hl.timers.push(setTimeout(function () { pacedHighlight(text); }, 900));
+
+      speak(text, RATE, function () {
+        stopHighlight();
+        setReading(false);
+      }, {
+        onStart: function () {
+          hl.timers.forEach(clearTimeout);
+          hl.timers = [setTimeout(function () { if (!hl.boundary) pacedHighlight(text); }, 600)];
+          highlight(0);
+        },
+        onBoundary: function (e) {
+          if (e.name && e.name !== 'word') return;
+          if (!hl.boundary) { hl.boundary = true; hl.timers.forEach(clearTimeout); hl.timers = []; }
+          var i = 0;
+          while (i + 1 < starts.length && starts[i + 1] <= e.charIndex) i++;
+          highlight(i);
+        }
+      });
+    }
+
+    function stopReading() {
+      Speech.stop();
+      stopHighlight();
+      setReading(false);
+    }
+
+    function setReading(on) {
+      reading = on;
+      var btn = document.getElementById('st-read');
+      if (!btn) return;
+      btn.innerHTML = on ? '<span class="emoji">⏹</span> Stop' : '<span class="emoji">🔊</span> Read';
+      btn.setAttribute('aria-pressed', String(on));
+    }
+
+    /* ---------- screens ---------- */
     function showPicker() {
-      var area = document.getElementById('st-area');
-      area.innerHTML = '';
+      stopReading();
       currentStory = null;
-      speechSynthesis.cancel();
-      if (highlightTimer) { clearInterval(highlightTimer); highlightTimer = null; }
-
+      area.innerHTML = '<h2 class="st-heading">Pick a story!</h2>';
       var grid = document.createElement('div');
       grid.className = 'st-picker';
-
-      STORIES.forEach(function(story, i) {
-        var card = document.createElement('div');
+      STORIES.forEach(function (story, i) {
+        var card = document.createElement('button');
+        card.type = 'button';
         card.className = 'st-pick-card';
-        card.style.animationDelay = (i * 0.06) + 's';
+        card.style.animationDelay = (i * 0.05) + 's';
         card.style.borderColor = story.color;
         card.innerHTML =
-          '<div class="st-pick-emoji">' + story.emoji + '</div>' +
+          '<div class="st-pick-emoji" aria-hidden="true">' + story.emoji + '</div>' +
           '<div class="st-pick-title">' + story.title + '</div>' +
-          '<div class="st-pick-telugu">' + story.telugu + '</div>';
-        card.addEventListener('click', function() {
+          '<div class="st-pick-telugu" lang="te">' + story.telugu + '</div>';
+        card.addEventListener('click', function () {
           currentStory = story;
           currentPage = 0;
-          showPage();
+          showPage(true);
         });
         grid.appendChild(card);
       });
-
       area.appendChild(grid);
     }
 
-    function showPage() {
-      var area = document.getElementById('st-area');
-      area.innerHTML = '';
+    // autoRead: narrate when moving forward; Back and the page dots stay quiet.
+    function showPage(autoRead) {
+      stopReading();
       var story = currentStory;
       var page = story.pages[currentPage];
+      area.innerHTML = '';
 
       var titleBar = document.createElement('div');
       titleBar.className = 'st-title-bar';
       titleBar.innerHTML =
         '<div class="st-title-text" style="color:' + story.color + '">' + story.title + '</div>' +
-        '<div class="st-title-telugu">' + story.telugu + '</div>';
+        '<div class="st-title-telugu" lang="te">' + story.telugu + '</div>';
       area.appendChild(titleBar);
 
       var dots = document.createElement('div');
       dots.className = 'st-dots';
-      for (var d = 0; d < story.pages.length; d++) {
-        var dot = document.createElement('div');
-        dot.className = 'st-dot';
-        if (d < currentPage) dot.classList.add('done');
-        if (d === currentPage) dot.classList.add('current');
-        dot.addEventListener('click', (function(idx) {
-          return function() {
-            currentPage = idx;
-            showPage();
-          };
-        })(d));
+      story.pages.forEach(function (_, d) {
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'st-dot' + (d < currentPage ? ' done' : '') + (d === currentPage ? ' current' : '');
+        dot.setAttribute('aria-label', 'Page ' + (d + 1));
+        if (d === currentPage) dot.setAttribute('aria-current', 'page');
+        dot.addEventListener('click', function () { currentPage = d; showPage(false); });
         dots.appendChild(dot);
-      }
+      });
       area.appendChild(dots);
 
       var book = document.createElement('div');
       book.className = 'st-book';
-
-      var pageDiv = document.createElement('div');
-      pageDiv.className = 'st-page';
-
-      var scene = document.createElement('div');
-      scene.className = 'st-scene';
-      scene.textContent = page.scene;
-      pageDiv.appendChild(scene);
-
-      var textDiv = document.createElement('div');
-      textDiv.className = 'st-text';
-      textDiv.id = 'st-text';
-      var words = page.text.split(' ');
-      words.forEach(function(w, i) {
+      book.innerHTML =
+        '<div class="st-page"><div class="st-scene" aria-hidden="true"></div>' +
+        '<p class="st-text"></p><div class="st-page-num"></div></div>';
+      book.querySelector('.st-scene').textContent = page.scene;
+      var textEl = book.querySelector('.st-text');
+      page.text.split(' ').forEach(function (w, i, all) {
         var span = document.createElement('span');
         span.className = 'st-word';
-        span.dataset.idx = i;
-        span.textContent = w + ' ';
-        textDiv.appendChild(span);
+        span.textContent = w;
+        textEl.appendChild(span);
+        if (i < all.length - 1) textEl.appendChild(document.createTextNode(' '));
       });
-      pageDiv.appendChild(textDiv);
-
-      var pageNum = document.createElement('div');
-      pageNum.className = 'st-page-num';
-      pageNum.textContent = (currentPage + 1) + ' / ' + story.pages.length;
-      pageDiv.appendChild(pageNum);
-
-      book.appendChild(pageDiv);
+      book.querySelector('.st-page-num').textContent = (currentPage + 1) + ' / ' + story.pages.length;
       area.appendChild(book);
+      App.onSwipe(book, { left: goNext, right: goBack });
 
       var controls = document.createElement('div');
       controls.className = 'st-controls';
-
-      var backBtn = document.createElement('button');
-      backBtn.className = 'st-btn';
-      backBtn.style.background = '#9A8587';
-      backBtn.textContent = '⬅️ Back';
-      backBtn.disabled = currentPage === 0;
-      backBtn.addEventListener('click', function() {
-        if (currentPage > 0) { currentPage--; showPage(); }
-      });
-
-      var readBtn = document.createElement('button');
-      readBtn.className = 'st-btn';
-      readBtn.style.background = story.color;
-      readBtn.textContent = '🔊 Read';
-      readBtn.addEventListener('click', function() {
-        readPage(page);
-      });
-
-      var nextBtn = document.createElement('button');
-      nextBtn.className = 'st-btn';
-      nextBtn.style.background = '#7EC850';
-      nextBtn.textContent = 'Next ➡️';
-      nextBtn.addEventListener('click', function() {
-        goNext();
-      });
-
-      controls.appendChild(backBtn);
-      controls.appendChild(readBtn);
-      controls.appendChild(nextBtn);
+      controls.innerHTML =
+        '<button type="button" class="btn" id="st-back" style="background:#9A8587">⬅ Back</button>' +
+        '<button type="button" class="btn" id="st-read" aria-pressed="false" style="background:' + story.color + '"></button>' +
+        '<button type="button" class="btn" id="st-next" style="background:#5DB534">Next ➡</button>';
       area.appendChild(controls);
+      document.getElementById('st-back').disabled = currentPage === 0;
+      document.getElementById('st-back').addEventListener('click', goBack);
+      document.getElementById('st-next').addEventListener('click', goNext);
+      document.getElementById('st-read').addEventListener('click', function () {
+        if (reading) stopReading(); else readPage();
+      });
+      setReading(false);
 
-      readPage(page);
+      if (autoRead) readPage();
     }
 
-    var highlightTimer = null;
+    // A toddler hammering the big button shouldn't skip pages.
+    function turnAllowed() {
+      var now = Date.now();
+      if (now - lastTurn < 450) return false;
+      lastTurn = now;
+      return true;
+    }
 
-    function readPage(page) {
-      if (highlightTimer) clearInterval(highlightTimer);
-      var wordEls = document.querySelectorAll('#st-text .st-word');
-      wordEls.forEach(function(el) { el.classList.remove('st-active'); });
-
-      var idx = 0;
-      highlightTimer = setInterval(function() {
-        if (idx > 0 && wordEls[idx - 1]) wordEls[idx - 1].classList.remove('st-active');
-        if (idx < wordEls.length) {
-          wordEls[idx].classList.add('st-active');
-          idx++;
-        } else {
-          clearInterval(highlightTimer);
-          highlightTimer = null;
-        }
-      }, 420);
-
-      speak(page.text, 0.65);
+    function goBack() {
+      if (!currentStory || currentPage === 0 || !turnAllowed()) return;
+      currentPage--;
+      showPage(false);
     }
 
     function goNext() {
-      speechSynthesis.cancel();
-      if (highlightTimer) { clearInterval(highlightTimer); highlightTimer = null; }
-      currentPage++;
-      if (currentPage < currentStory.pages.length) {
-        showPage();
+      if (!currentStory || !turnAllowed()) return;
+      if (currentPage < currentStory.pages.length - 1) {
+        currentPage++;
+        showPage(true);
       } else {
         showEnd();
       }
     }
 
     function showEnd() {
-      var area = document.getElementById('st-area');
-      area.innerHTML = '';
-
-      var div = document.createElement('div');
-      div.className = 'st-end';
-      div.innerHTML =
-        '<span class="st-big">📖</span>' +
-        '<h2>The End!</h2>' +
-        '<p>What a wonderful story!</p>' +
-        '<button class="st-btn" style="background:' + currentStory.color + '" id="st-again">Read Again 🔄</button>' +
-        '<br><br>' +
-        '<button class="st-btn" style="background:#4DADEA" id="st-new">More Stories 📚</button>';
-      area.appendChild(div);
-
+      stopReading();
+      area.innerHTML =
+        '<div class="st-end">' +
+          '<span class="st-big" aria-hidden="true">📖</span>' +
+          '<h2>The End!</h2>' +
+          '<p>What a wonderful story!</p>' +
+          '<div class="btn-stack">' +
+            '<button type="button" class="btn" style="background:' + currentStory.color + '" id="st-again">Read Again <span class="emoji">🔄</span></button>' +
+            '<button type="button" class="btn" style="background:#2F9BE0" id="st-new">More Stories <span class="emoji">📚</span></button>' +
+          '</div>' +
+        '</div>';
       for (var i = 0; i < 3; i++) {
-        spawnStars(Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.5);
+        App.burst(stars, Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.5, 8);
       }
-
       speak('The End! What a wonderful story!', 0.8);
-
-      document.getElementById('st-again').addEventListener('click', function() {
+      document.getElementById('st-again').addEventListener('click', function () {
         currentPage = 0;
-        showPage();
+        showPage(true);
       });
       document.getElementById('st-new').addEventListener('click', showPicker);
     }
+
+    document.addEventListener('keydown', function (e) {
+      if (!currentStory || !document.getElementById('st-next') || e.altKey || e.ctrlKey || e.metaKey) return;
+      if (e.key === 'ArrowRight') goNext();
+      else if (e.key === 'ArrowLeft') goBack();
+    });
 
     showPicker();
   </script>

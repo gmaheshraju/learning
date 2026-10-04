@@ -10,54 +10,21 @@ let colorMap = {};
 let currentCategory = null;
 let currentItems = [];
 let gameMode = 'easy';
-let soundOn = true;
+let roundTimer = null;
+let wrongTimer = null;
 
 const CHEERS = ['Awesome!', 'Great job!', 'Well done!', 'You got it!', 'Brilliant!', 'Super!', 'Wow!', 'Amazing!'];
 
-let gameVoice = null;
-function loadGameVoice() {
-  const voices = speechSynthesis.getVoices();
-  const prefer = ['Google US English', 'Google UK English Female', 'Microsoft Zira', 'Samantha', 'Karen', 'Moira'];
-  for (const name of prefer) {
-    const v = voices.find(v => v.name.includes(name));
-    if (v) { gameVoice = v; return; }
-  }
-  const en = voices.find(v => v.lang.startsWith('en-US'));
-  if (en) gameVoice = en;
-}
-speechSynthesis.onvoiceschanged = loadGameVoice;
-loadGameVoice();
+const play = document.getElementById('play');
+const bar = document.getElementById('bar');
 
 function speak(text, rate) {
-  if (!soundOn || !window.speechSynthesis) return;
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.rate = rate || 0.85;
-  u.pitch = 1.15;
-  u.lang = 'en-US';
-  if (gameVoice) u.voice = gameVoice;
-  speechSynthesis.speak(u);
+  Speech.speak(text, rate || 0.85);
 }
 
 function speakCheer(itemName) {
   const cheer = CHEERS[Math.floor(Math.random() * CHEERS.length)];
   speak(itemName + '! ' + cheer, 0.9);
-}
-
-function isDark() {
-  const dt = document.documentElement.getAttribute('data-theme');
-  if (dt === 'dark') return true;
-  if (dt === 'light') return false;
-  return window.matchMedia('(prefers-color-scheme:dark)').matches;
-}
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
 }
 
 function spawnStars(x, y) {
@@ -83,7 +50,7 @@ function getBox(el, container) {
   return { left: x, right: x + w, cx: x + w / 2, cy: y + h / 2 };
 }
 
-function drawMatchLine(el1, el2, color) {
+function drawMatchLine(el1, el2, color, animate) {
   const svg = document.querySelector('.lines');
   if (!svg) return;
   // svg is absolutely positioned at 0,0 of .mz, so .mz-relative coords are svg user space
@@ -98,20 +65,23 @@ function drawMatchLine(el1, el2, color) {
   line.setAttribute('x1', p1.x); line.setAttribute('y1', p1.y);
   line.setAttribute('x2', p2.x); line.setAttribute('y2', p2.y);
   line.setAttribute('stroke', color); line.setAttribute('stroke-width', '3.5');
-  line.setAttribute('stroke-linecap', 'round'); line.setAttribute('opacity', '0.55');
-  line.setAttribute('stroke-dasharray', '800'); line.setAttribute('stroke-dashoffset', '800');
-  line.style.animation = 'drawLine 0.4s ease-out forwards';
+  line.setAttribute('stroke-linecap', 'round'); line.setAttribute('opacity', '0.6');
+  if (animate) {
+    line.setAttribute('stroke-dasharray', '800'); line.setAttribute('stroke-dashoffset', '800');
+    line.style.animation = 'drawLine 0.4s ease-out forwards';
+  }
   svg.appendChild(line);
 
   [p1, p2].forEach(p => {
     const d = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     d.setAttribute('cx', p.x); d.setAttribute('cy', p.y);
-    d.setAttribute('r', '5'); d.setAttribute('fill', color); d.setAttribute('opacity', '0.6');
+    d.setAttribute('r', '5'); d.setAttribute('fill', color); d.setAttribute('opacity', '0.65');
     svg.appendChild(d);
   });
 }
 
-// Lines are positioned in pixels, so they go stale when the layout reflows.
+// Lines are positioned in pixels, so they go stale when the board changes size
+// (rotation, split screen on a tablet, window resize, web font arriving).
 function redrawMatchLines() {
   const svg = document.querySelector('.lines');
   if (!svg) return;
@@ -119,61 +89,65 @@ function redrawMatchLines() {
   matched.forEach(name => {
     const a = document.querySelector('.card[data-type="a"][data-name="' + name + '"]');
     const w = document.querySelector('.card[data-type="w"][data-name="' + name + '"]');
-    if (a && w) drawMatchLine(a, w, PAIR_COLORS[colorMap[name]]);
+    if (a && w) drawMatchLine(a, w, PAIR_COLORS[colorMap[name]], false);
   });
 }
 
 let redrawTimer = null;
-window.addEventListener('resize', () => {
+function scheduleRedraw() {
   clearTimeout(redrawTimer);
-  redrawTimer = setTimeout(redrawMatchLines, 120);
-});
+  redrawTimer = setTimeout(redrawMatchLines, 80);
+}
+const boardObserver = window.ResizeObserver ? new ResizeObserver(scheduleRedraw) : null;
+window.addEventListener('resize', scheduleRedraw);
 window.addEventListener('orientationchange', () => setTimeout(redrawMatchLines, 250));
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleRedraw);
+
+function clearTimers() {
+  clearTimeout(roundTimer); roundTimer = null;
+  clearTimeout(wrongTimer); wrongTimer = null;
+}
 
 function showCategoryPicker() {
-  const area = document.getElementById('play');
-  document.getElementById('bar').style.display = 'none';
-  area.innerHTML = '';
+  clearTimers();
+  Speech.stop();
+  bar.hidden = true;
+  play.innerHTML = '';
 
   const grid = document.createElement('div');
   grid.className = 'cat-grid';
 
   CATEGORIES.forEach((cat, i) => {
     const btn = document.createElement('button');
+    btn.type = 'button';
     btn.className = 'cat-btn';
-    btn.style.animationDelay = (i * 0.06) + 's';
-    btn.innerHTML = `<span class="cat-emoji">${cat.emoji}</span><span class="cat-name">${cat.name}</span>`;
+    btn.style.animationDelay = (i * 0.05) + 's';
+    btn.innerHTML = `<span class="cat-emoji" aria-hidden="true">${cat.emoji}</span><span class="cat-name">${cat.name}</span>`;
     btn.addEventListener('click', () => showDifficultyPicker(cat));
     grid.appendChild(btn);
   });
 
-  area.appendChild(grid);
+  play.appendChild(grid);
 }
 
 function showDifficultyPicker(cat) {
-  const area = document.getElementById('play');
-  document.getElementById('bar').style.display = 'none';
-  area.innerHTML = '';
+  bar.hidden = true;
+  play.innerHTML = `
+    <div class="modal">
+      <span class="big" aria-hidden="true">${cat.emoji}</span>
+      <h2>${cat.name}</h2>
+      <p>Pick a difficulty</p>
+      <div class="btn-stack">
+        <button type="button" class="btn diff-btn" id="btn-easy" style="background:#5DB534"><span class="emoji">🖼️</span> Easy — Match Pictures</button>
+        <button type="button" class="btn diff-btn" id="btn-hard" style="background:#E0506A"><span class="emoji">🔤</span> Hard — Match Words</button>
+      </div>
+      <button type="button" class="back-link" id="btn-back">← All topics</button>
+    </div>`;
+  speak(cat.name, 0.85);
 
-  const wrap = document.createElement('div');
-  wrap.className = 'modal';
-  wrap.innerHTML = `
-    <span class="big">${cat.emoji}</span>
-    <h2>${cat.name}</h2>
-    <p>Pick a difficulty</p>
-    <button class="btn diff-btn" id="btn-easy" style="background:#7EC850">🖼️ Easy — Match Pictures</button>
-    <button class="btn diff-btn" id="btn-hard" style="background:#E85D75;margin-top:10px">🔤 Hard — Match Words</button>
-  `;
-  area.appendChild(wrap);
-
-  document.getElementById('btn-easy').addEventListener('click', () => {
-    gameMode = 'easy';
-    startCategory(cat);
-  });
-  document.getElementById('btn-hard').addEventListener('click', () => {
-    gameMode = 'hard';
-    startCategory(cat);
-  });
+  document.getElementById('btn-easy').addEventListener('click', () => { gameMode = 'easy'; startCategory(cat); });
+  document.getElementById('btn-hard').addEventListener('click', () => { gameMode = 'hard'; startCategory(cat); });
+  document.getElementById('btn-back').addEventListener('click', showCategoryPicker);
 }
 
 function startCategory(cat) {
@@ -183,109 +157,89 @@ function startCategory(cat) {
   score = 0;
   document.getElementById('sc').textContent = 0;
   document.getElementById('rn').textContent = 1;
-  document.getElementById('bar').style.display = '';
   document.getElementById('cat-label').textContent = cat.emoji + ' ' + cat.name;
-  document.getElementById('cat-label').style.display = '';
+  bar.hidden = false;
   renderRound();
 }
 
 function renderRound() {
-  const area = document.getElementById('play');
-  const used = new Set();
-  roundItems = [];
-
-  while (roundItems.length < ROUND_SIZE) {
-    const i = Math.floor(Math.random() * currentItems.length);
-    if (!used.has(i)) { used.add(i); roundItems.push(currentItems[i]); }
-  }
-
-  const shuffledWords = shuffle([...roundItems]);
+  clearTimers();
+  roundItems = App.shuffle(currentItems).slice(0, ROUND_SIZE);
+  // never line the two columns up in the same order — that would give the game away
+  let shuffledWords;
+  do { shuffledWords = App.shuffle(roundItems); }
+  while (shuffledWords.every((w, i) => w === roundItems[i]));
   matched.clear();
   selected = null;
   locked = false;
   colorMap = {};
   roundItems.forEach((a, i) => { colorMap[a.id] = i; });
 
-  area.innerHTML = '';
+  play.innerHTML = '';
   const mz = document.createElement('div');
   mz.className = 'mz';
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.classList.add('lines');
-  svg.setAttribute('width', '100%');
-  svg.setAttribute('height', '100%');
+  svg.setAttribute('aria-hidden', 'true');
   const rows = document.createElement('div');
   rows.className = 'rows';
-  const dark = isDark();
 
   roundItems.forEach((a, i) => {
-    const ci = colorMap[a.id];
-    const pc = PAIR_COLORS[ci];
-    const bg = dark ? BG_DARK[ci] : BG_LIGHT[ci];
-    const w = shuffledWords[i];
-    const wci = colorMap[w.id];
-    const wpc = PAIR_COLORS[wci];
-    const wbg = dark ? BG_DARK[wci] : BG_LIGHT[wci];
-
     const row = document.createElement('div');
     row.className = 'row';
-
-    const ac = document.createElement('div');
-    ac.className = 'card';
-    ac.dataset.name = a.id;
-    ac.dataset.type = 'a';
-    ac.style.background = bg;
-    ac.style.borderColor = pc;
-    const emojiDiv = document.createElement('div');
-    emojiDiv.className = 'card-emoji';
-    emojiDiv.textContent = a.icon;
-    ac.appendChild(emojiDiv);
-    ac.style.animation = `bounceIn .4s ease-out ${i * .08}s both`;
-    ac.addEventListener('click', () => handleTap('a', a.id, ac));
-
-    const wcd = document.createElement('div');
-    wcd.className = 'card';
-    wcd.dataset.name = w.id;
-    wcd.dataset.type = 'w';
-    wcd.style.background = wbg;
-    wcd.style.borderColor = wpc;
-
-    if (gameMode === 'easy') {
-      const wEmoji = document.createElement('div');
-      wEmoji.className = 'card-emoji';
-      wEmoji.textContent = w.icon;
-      wcd.appendChild(wEmoji);
-    } else {
-      const wl = document.createElement('div');
-      wl.className = 'big-letter' + (w.name.length > 5 ? ' long' : '');
-      wl.textContent = w.name;
-      wl.style.color = wpc;
-      const sp = document.createElement('div');
-      sp.className = 'spell';
-      sp.textContent = w.name.split('').join(' · ');
-      sp.style.color = wpc;
-      wcd.appendChild(wl);
-      wcd.appendChild(sp);
-    }
-    wcd.style.animation = `bounceIn .4s ease-out ${(i + ROUND_SIZE) * .08}s both`;
-    wcd.addEventListener('click', () => handleTap('w', w.id, wcd));
-
-    row.appendChild(ac);
-    row.appendChild(wcd);
+    row.appendChild(makeCard('a', a, i));
+    row.appendChild(makeCard('w', shuffledWords[i], i + ROUND_SIZE));
     rows.appendChild(row);
   });
 
   mz.appendChild(svg);
   mz.appendChild(rows);
-  area.appendChild(mz);
+  play.appendChild(mz);
+  if (boardObserver) { boardObserver.disconnect(); boardObserver.observe(mz); }
+}
+
+function makeCard(type, item, order) {
+  const card = document.createElement('button');
+  card.type = 'button';
+  card.className = 'card enter pair-' + colorMap[item.id];
+  card.dataset.name = item.id;
+  card.dataset.type = type;
+  card.style.setProperty('--delay', (order * 0.07) + 's');
+  card.setAttribute('aria-label', item.name);
+
+  if (type === 'a' || gameMode === 'easy') {
+    const emoji = document.createElement('span');
+    emoji.className = 'card-emoji';
+    renderIcon(emoji, item);
+    card.appendChild(emoji);
+  } else {
+    const wl = document.createElement('span');
+    wl.className = 'big-letter' + (item.name.length > 5 ? ' long' : '');
+    wl.textContent = item.name;
+    const sp = document.createElement('span');
+    sp.className = 'spell';
+    sp.textContent = item.name.split('').join(' · ');
+    card.appendChild(wl);
+    card.appendChild(sp);
+  }
+
+  // The entrance animation is a class so it can be removed once it has played;
+  // otherwise the wiggle (wrong) and glow (selected) animations could never run.
+  card.addEventListener('animationend', e => {
+    if (e.animationName === 'bounceIn') card.classList.remove('enter');
+  });
+  card.addEventListener('click', () => handleTap(type, item.id, card));
+  return card;
 }
 
 function handleTap(type, name, el) {
   if (locked || matched.has(name) || el.classList.contains('done')) return;
+  el.classList.remove('enter');
 
   const item = roundItems.find(a => a.id === name);
   if (item) speak(item.name);
 
-  if (!selected) {
+  if (!selected || selected.el === el) {
     selected = { type, name, el };
     el.classList.add('sel');
     return;
@@ -297,95 +251,85 @@ function handleTap(type, name, el) {
     return;
   }
 
-  locked = true;
-  el.classList.add('sel');
+  const first = selected.el;
+  selected = null;
+  first.classList.remove('sel');
 
-  if (selected.name === name) {
+  if (first.dataset.name === name) {
     const pc = PAIR_COLORS[colorMap[name]];
     const r = el.getBoundingClientRect();
     const g = document.getElementById('game').getBoundingClientRect();
     spawnStars(r.left - g.left + r.width / 2, r.top - g.top);
-    drawMatchLine(selected.el, el, pc);
+    drawMatchLine(first, el, pc, true);
 
-    selected.el.classList.remove('sel');
-    el.classList.remove('sel');
-    selected.el.style.animation = 'celebrate .5s ease';
-    el.style.animation = 'celebrate .5s ease';
-    selected.el.classList.add('done');
-    el.classList.add('done');
+    [first, el].forEach(c => { c.classList.add('done'); c.disabled = true; });
     matched.add(name);
     score++;
     document.getElementById('sc').textContent = score;
 
-    const item = roundItems.find(a => a.id === name);
     speakCheer(item.name);
-    showCuriosity(item, pc);
-    selected = null;
-    locked = false;
+    showCuriosity(item);
 
     if (matched.size === ROUND_SIZE) {
-      setTimeout(() => {
+      locked = true;
+      roundTimer = setTimeout(() => {
+        roundTimer = null;
         if (currentRound < TOTAL_ROUNDS) showRoundComplete();
         else showGameComplete();
       }, 2200);
     }
   } else {
-    selected.el.classList.remove('sel');
-    selected.el.classList.add('wrong');
-    el.classList.remove('sel');
-    el.classList.add('wrong');
-    setTimeout(() => {
-      selected.el.classList.remove('wrong');
+    locked = true;
+    [first, el].forEach(c => { c.classList.remove('wrong'); void c.offsetWidth; c.classList.add('wrong'); });
+    wrongTimer = setTimeout(() => {
+      wrongTimer = null;
+      first.classList.remove('wrong');
       el.classList.remove('wrong');
-      selected = null;
       locked = false;
-    }, 500);
+    }, 450);
   }
 }
 
-function showCuriosity(item, pc) {
-  const existing = document.querySelector('.cur');
+function showCuriosity(item) {
+  const existing = play.querySelector('.cur');
   if (existing) existing.remove();
 
-  const dark = isDark();
-  const bg = dark ? BG_DARK[colorMap[item.id]] : BG_LIGHT[colorMap[item.id]];
-  const area = document.getElementById('play');
   const d = document.createElement('div');
-  d.className = 'cur';
-  d.style.background = bg;
-  d.style.borderTop = `3px solid ${pc}`;
+  d.className = 'cur pair-' + colorMap[item.id];
+  d.setAttribute('aria-live', 'polite');
   d.innerHTML = `
     <div class="cur-row">
-      <div class="cur-emo">\u{1F914}</div>
+      <div class="cur-emo" aria-hidden="true">\u{1F914}</div>
       <div class="cur-body">
-        <div class="cur-fact"><strong style="color:${pc}">${item.name}:</strong> ${item.fact}</div>
-        <div class="cur-q" style="border-left-color:${pc};color:${pc}">${item.q}</div>
-        <div class="cur-more" style="color:${pc}" id="cmore">Tell me more! ▸</div>
+        <div class="cur-fact"><strong>${item.name}:</strong> ${item.fact}</div>
+        <div class="cur-q">${item.q}</div>
+        <button type="button" class="cur-more">Tell me more! ▸</button>
       </div>
     </div>`;
-  area.appendChild(d);
+  play.appendChild(d);
 
-  document.getElementById('cmore').addEventListener('click', function () {
-    this.style.display = 'none';
+  d.querySelector('.cur-more').addEventListener('click', function () {
+    this.remove();
     const ch = document.createElement('div');
     ch.className = 'cur-chain';
-    ch.style.borderLeftColor = pc;
-    ch.innerHTML = `<strong style="color:${pc}">Wow!</strong> ${item.chain}`;
+    ch.innerHTML = `<strong>Wow!</strong> ${item.chain}`;
     d.querySelector('.cur-body').appendChild(ch);
   });
 }
 
 function showRoundComplete() {
-  const area = document.getElementById('play');
-  const catName = currentCategory ? currentCategory.name.toLowerCase() : 'items';
-  area.innerHTML = `
+  const catName = currentCategory.name;
+  play.innerHTML = `
     <div class="modal">
-      <span class="big">\u{1F389}</span>
+      <span class="big" aria-hidden="true">\u{1F389}</span>
       <h2>Brilliant!</h2>
-      <p>You matched all ${ROUND_SIZE} ${catName}!</p>
-      <button class="btn" style="background:#7EC850" id="nb">More ${currentCategory ? currentCategory.name : 'Items'} →</button>
+      <p>You matched all ${ROUND_SIZE} ${catName.toLowerCase()}!</p>
+      <button type="button" class="btn" style="background:#5DB534" id="nb">More ${catName} →</button>
     </div>`;
-  document.getElementById('nb').addEventListener('click', () => {
+  speak('Brilliant! You matched them all!', 0.9);
+  const nb = document.getElementById('nb');
+  nb.focus({ preventScroll: true });
+  nb.addEventListener('click', () => {
     currentRound++;
     document.getElementById('rn').textContent = currentRound;
     renderRound();
@@ -393,18 +337,18 @@ function showRoundComplete() {
 }
 
 function showGameComplete() {
-  const area = document.getElementById('play');
-  area.innerHTML = `
+  play.innerHTML = `
     <div class="modal">
-      <span class="big">\u{1F3C6}</span>
+      <span class="big" aria-hidden="true">\u{1F3C6}</span>
       <h2>Superstar!</h2>
       <p>You matched ${score} in ${TOTAL_ROUNDS} rounds!</p>
-      <button class="btn" style="background:#7EC850" id="nb">Pick New Topic \u{1F3AF}</button>
-      <button class="btn" style="background:#F5A623;margin-top:8px" id="rb">Play Again \u{1F504}</button>
+      <div class="btn-stack">
+        <button type="button" class="btn" style="background:#5DB534" id="rb">Play Again <span class="emoji">\u{1F504}</span></button>
+        <button type="button" class="btn" style="background:#E8961A" id="nb">Pick New Topic <span class="emoji">\u{1F3AF}</span></button>
+      </div>
     </div>`;
-  document.getElementById('nb').addEventListener('click', () => {
-    showCategoryPicker();
-  });
+  speak('Superstar! You did it!', 0.9);
+  document.getElementById('nb').addEventListener('click', showCategoryPicker);
   document.getElementById('rb').addEventListener('click', () => {
     currentRound = 1;
     score = 0;
@@ -415,10 +359,5 @@ function showGameComplete() {
 }
 
 document.getElementById('cat-label').addEventListener('click', showCategoryPicker);
-
-document.getElementById('sound-btn').addEventListener('click', function () {
-  soundOn = !soundOn;
-  this.textContent = soundOn ? '🔊' : '🔇';
-});
 
 showCategoryPicker();

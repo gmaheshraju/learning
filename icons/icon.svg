@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF8EC"/><stop offset="1" stop-color="#FFE2C6"/></linearGradient>
+  <linearGradient id="up" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF7E97"/><stop offset="1" stop-color="#B07CD8"/></linearGradient>
+  <linearGradient id="lo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB23E"/><stop offset="1" stop-color="#FFD86E"/></linearGradient>
+</defs><rect width="512" height="512" rx="116" fill="url(#bg)"/><g><circle cx="78" cy="430" r="11" fill="#4DADEA"/><circle cx="440" cy="420" r="9" fill="#7EC850"/><circle cx="446" cy="66" r="9" fill="#F5A623"/><circle cx="64" cy="74" r="7" fill="#7EC850"/></g><g transform="translate(256 256) scale(1.0) translate(-256 -246)"><g>
+  <path d="M244 226C214 140 120 70 82 120C48 166 92 248 244 262Z" fill="url(#up)"/>
+  <path d="M268 226C298 140 392 70 430 120C464 166 420 248 268 262Z" fill="url(#up)"/>
+  <path d="M244 270C170 268 112 306 124 360C136 412 206 414 246 312Z" fill="url(#lo)"/>
+  <path d="M268 270C342 268 400 306 388 360C376 412 306 414 266 312Z" fill="url(#lo)"/>
+  <g fill="#fff" opacity=".55"><circle cx="146" cy="160" r="26"/><circle cx="366" cy="160" r="26"/><circle cx="188" cy="208" r="12"/><circle cx="324" cy="208" r="12"/><circle cx="176" cy="352" r="16"/><circle cx="336" cy="352" r="16"/></g>
+  <g fill="none" stroke="#5A3E4E" stroke-width="9" stroke-linecap="round"><path d="M248 148C238 114 220 96 196 88"/><path d="M264 148C274 114 292 96 316 88"/></g>
+  <circle cx="196" cy="88" r="12" fill="#E85D75"/><circle cx="316" cy="88" r="12" fill="#4DADEA"/>
+  <rect x="242" y="178" width="28" height="200" rx="14" fill="#5A3E4E"/>
+  <circle cx="256" cy="168" r="26" fill="#5A3E4E"/>
+  <circle cx="247" cy="164" r="5" fill="#fff"/><circle cx="265" cy="164" r="5" fill="#fff"/>
+  <path d="M248 178Q256 185 264 178" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+</g></g></svg>

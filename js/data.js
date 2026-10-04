@@ -1,10 +1,41 @@
 const PAIR_COLORS = ['#E85D75', '#F5A623', '#4DADEA', '#7EC850'];
-const BG_LIGHT = ['#FCCDD5', '#FDE4B0', '#B8DDFB', '#C8EDB3'];
-const BG_DARK = ['#5A2030', '#5A4018', '#1A3A5A', '#1E4A20'];
+
+// Pictures with no correct emoji (or none that older Windows/Android can show)
+// are drawn here instead. renderIcon() puts either kind into an element.
+const ICON_SVG = {
+  TABLE: '<svg class="icon-svg" viewBox="4 5 56 56" aria-hidden="true">' +
+    '<rect x="16" y="26" width="4" height="22" rx="2" fill="#8B5A2B"/><rect x="44" y="26" width="4" height="22" rx="2" fill="#8B5A2B"/>' +
+    '<path d="M10 21 16 13H48l6 8Z" fill="#E3AD72"/><path d="M19 16H45" stroke="#F3CB98" stroke-width="2" stroke-linecap="round"/>' +
+    '<rect x="7" y="20" width="50" height="7" rx="2.5" fill="#B9773C"/>' +
+    '<rect x="10" y="26" width="6" height="29" rx="2.5" fill="#A0622E"/><rect x="48" y="26" width="6" height="29" rx="2.5" fill="#A0622E"/></svg>',
+  FAN: '<svg class="icon-svg" viewBox="0 0 64 64" aria-hidden="true">' +
+    '<ellipse cx="32" cy="58" rx="14" ry="3.5" fill="#4F86B8"/><rect x="29.5" y="42" width="5" height="16" rx="2" fill="#7FA9CF"/>' +
+    '<circle cx="32" cy="26" r="20" fill="#EAF5FF" stroke="#4D8FCB" stroke-width="2.5"/>' +
+    '<circle cx="32" cy="26" r="13" fill="none" stroke="#C3DDF3" stroke-width="1.2"/>' +
+    '<g class="fan-blades" fill="#4DADEA"><path d="M32 26C25 20 25 10 32 8 39 10 39 20 32 26Z"/>' +
+    '<path d="M32 26C25 20 25 10 32 8 39 10 39 20 32 26Z" transform="rotate(120 32 26)"/>' +
+    '<path d="M32 26C25 20 25 10 32 8 39 10 39 20 32 26Z" transform="rotate(240 32 26)"/></g>' +
+    '<circle cx="32" cy="26" r="4.5" fill="#2F6FA8"/></svg>',
+  WINDOW: '<svg class="icon-svg" viewBox="0 0 64 64" aria-hidden="true">' +
+    '<rect x="9" y="5" width="46" height="50" rx="4" fill="#C98A4B"/>' +
+    '<rect x="14" y="10" width="16.5" height="19.5" rx="1.5" fill="#8FD3FF"/><rect x="33.5" y="10" width="16.5" height="19.5" rx="1.5" fill="#8FD3FF"/>' +
+    '<rect x="14" y="32.5" width="16.5" height="17.5" rx="1.5" fill="#8FD3FF"/><rect x="33.5" y="32.5" width="16.5" height="17.5" rx="1.5" fill="#8FD3FF"/>' +
+    '<path d="M18 25 26 14M37 25l5-7" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>' +
+    '<rect x="6" y="54" width="52" height="5" rx="2" fill="#A86E35"/></svg>',
+  RECTANGLE: '<svg class="icon-svg" viewBox="0 0 64 64" aria-hidden="true">' +
+    '<rect x="3" y="17" width="58" height="30" rx="4" fill="#43A047"/>' +
+    '<path d="M7 17H57a4 4 0 0 1 4 4V31H3V21a4 4 0 0 1 4-4Z" fill="#fff" opacity=".18"/></svg>'
+};
+
+function renderIcon(el, item) {
+  el.classList.add('emoji');
+  if (item.svg && ICON_SVG[item.svg]) el.innerHTML = ICON_SVG[item.svg];
+  else el.textContent = item.icon;
+}
 
 const CATEGORIES = [
   {
-    id: 'animals', name: 'Animals', emoji: '\u{1F43E}',
+    id: 'animals', name: 'Animals', emoji: '\u{1F981}',
     items: [
       { id: 'DOG', name: 'DOG', icon: '\u{1F436}', fact: 'Dogs wag their tail when happy!', q: 'Can you wag like a dog?', chain: 'Dogs have wet noses to smell better. Can YOU smell your food before eating?' },
       { id: 'CAT', name: 'CAT', icon: '\u{1F431}', fact: 'Cats sleep for 16 hours every day!', q: 'How many hours do YOU sleep?', chain: 'Cats can see in the dark! Their eyes glow at night.' },
@@ -15,7 +46,7 @@ const CATEGORIES = [
       { id: 'BIRD', name: 'BIRD', icon: '\u{1F426}', fact: 'Birds are the only animals with feathers!', q: 'Flap your arms like a bird!', chain: 'Some birds fly higher than airplanes!' },
       { id: 'MONKEY', name: 'MONKEY', icon: '\u{1F435}', fact: 'Monkeys love eating bananas!', q: 'What is YOUR favorite fruit?', chain: 'Monkeys laugh and tickle each other just like us!' },
       { id: 'FROG', name: 'FROG', icon: '\u{1F438}', fact: 'Frogs jump 20 times their own size!', q: 'Jump like a frog! Ribbit!', chain: 'Frogs start as tiny tadpoles then grow legs! Like magic!' },
-      { id: 'BUTTERFLY', name: 'BUTTERFLY', icon: '\u{1F98B}', fact: 'Butterflies start as caterpillars!', q: 'Name the colors of a butterfly!', chain: 'A caterpillar wraps in a cocoon and becomes a butterfly!' },
+      { id: 'BUTTERFLY', name: 'BUTTERFLY', icon: '\u{1F98B}', fact: 'Butterflies start as caterpillars!', q: 'Name the colors of a butterfly!', chain: 'A caterpillar makes a hard case called a chrysalis, then comes out a butterfly!' },
       { id: 'TURTLE', name: 'TURTLE', icon: '\u{1F422}', fact: 'Turtles carry their home on their back!', q: 'What would YOU keep in a shell?', chain: 'Some turtles live for 100 years! Older than grandma!' },
       { id: 'PARROT', name: 'PARROT', icon: '\u{1F99C}', fact: 'Parrots can learn to talk like us!', q: 'What would you teach a parrot?', chain: 'Parrots come in every rainbow color!' },
       { id: 'PENGUIN', name: 'PENGUIN', icon: '\u{1F427}', fact: 'Penguins swim fast but cannot fly!', q: 'Waddle like a penguin!', chain: 'Penguin daddies keep the egg warm on their feet!' },
@@ -31,7 +62,7 @@ const CATEGORIES = [
       { id: 'ORANGE_FRUIT', name: 'ORANGE', icon: '\u{1F34A}', fact: 'Oranges are full of juice inside!', q: 'Can you squeeze your hands like an orange?', chain: 'The color orange was named after the fruit!' },
       { id: 'GRAPES', name: 'GRAPES', icon: '\u{1F347}', fact: 'Grapes grow on long vines in the sunshine!', q: 'Can you pick pretend grapes above you?', chain: 'It takes about 75 grapes to make one glass of juice!' },
       { id: 'WATERMELON', name: 'WATERMELON', icon: '\u{1F349}', fact: 'Watermelons are mostly water inside!', q: 'Is watermelon bigger than your head?', chain: 'The biggest watermelon ever weighed as much as a person!' },
-      { id: 'STRAWBERRY', name: 'STRAWBERRY', icon: '\u{1F353}', fact: 'Strawberries have tiny seeds on the outside!', q: 'Can you count dots on a strawberry?', chain: 'Strawberries are the only fruit with seeds on the outside!' },
+      { id: 'STRAWBERRY', name: 'STRAWBERRY', icon: '\u{1F353}', fact: 'Strawberries have tiny seeds on the outside!', q: 'Can you count dots on a strawberry?', chain: 'One strawberry has about 200 tiny seeds on its skin!' },
       { id: 'MANGO', name: 'MANGO', icon: '\u{1F96D}', fact: 'Mangoes are sweet and come from warm places!', q: 'Can you find something yellow and orange?', chain: 'Mango is the most eaten fruit in the whole world!' },
       { id: 'CHERRY', name: 'CHERRY', icon: '\u{1F352}', fact: 'Cherries grow in pairs like best friends!', q: 'Can you hold two things like cherry twins?', chain: 'Cherry trees grow beautiful pink flowers in spring!' }
     ]
@@ -66,13 +97,13 @@ const CATEGORIES = [
     id: 'house', name: 'House', emoji: '\u{1F3E0}',
     items: [
       { id: 'CHAIR', name: 'CHAIR', icon: '\u{1FA91}', fact: 'Chairs have four legs for sitting!', q: 'Count the legs on a chair! How many?', chain: 'Long ago only kings had chairs! Others sat on the floor.' },
-      { id: 'TABLE', name: 'TABLE', icon: '\u{1F4CB}', fact: 'We eat and draw on tables!', q: 'What do you like to do at the table?', chain: 'Some tables fold up tiny! Like magic.' },
+      { id: 'TABLE', name: 'TABLE', icon: '', svg: 'TABLE', fact: 'We eat and draw on tables!', q: 'What do you like to do at the table?', chain: 'Some tables fold up tiny! Like magic.' },
       { id: 'BED', name: 'BED', icon: '\u{1F6CF}️', fact: 'Beds are soft and cozy for sleeping!', q: 'Pretend to sleep! Close your eyes!', chain: 'Cats love sleeping on beds too! Just like you.' },
       { id: 'DOOR', name: 'DOOR', icon: '\u{1F6AA}', fact: 'Doors open and close to let us in!', q: 'Knock on a door! Knock knock knock!', chain: 'The oldest door is 5,000 years old and still works!' },
-      { id: 'WINDOW', name: 'WINDOW', icon: '\u{1FA9F}', fact: 'Windows let sunshine come inside!', q: 'Look out a window! What do you see?', chain: 'Long ago windows had no glass! Just open holes.' },
+      { id: 'WINDOW', name: 'WINDOW', icon: '', svg: 'WINDOW', fact: 'Windows let sunshine come inside!', q: 'Look out a window! What do you see?', chain: 'Long ago windows had no glass! Just open holes.' },
       { id: 'LAMP', name: 'LAMP', icon: '\u{1F4A1}', fact: 'Lamps make light so we can see at night!', q: 'Turn a pretend lamp on and off! Click!', chain: 'Before lamps, people used candles and fire!' },
       { id: 'CLOCK', name: 'CLOCK', icon: '\u{1F570}️', fact: 'Clocks tell us what time it is!', q: 'Go tick-tock like a clock!', chain: 'The first clocks used shadows from the sun!' },
-      { id: 'FAN', name: 'FAN', icon: '\u{1F300}', fact: 'Fans spin round to make cool air!', q: 'Spin your arm around like a fan!', chain: 'The first fans were big leaves people waved!' }
+      { id: 'FAN', name: 'FAN', icon: '', svg: 'FAN', fact: 'Fans spin round to make cool air!', q: 'Spin your arm around like a fan!', chain: 'The first fans were big leaves people waved!' }
     ]
   },
   {
@@ -109,9 +140,9 @@ const CATEGORIES = [
       { id: 'HAND', name: 'HAND', icon: '\u{270B}', fact: 'You have 5 fingers on each hand!', q: 'Count your fingers! How many total?', chain: 'Your fingerprints are unique — nobody else has the same ones!' },
       { id: 'EAR', name: 'EAR', icon: '\u{1F442}', fact: 'Your ears help you hear sounds all around!', q: 'Cup your ears — can you hear better?', chain: 'Your ears also help you balance so you do not fall!' },
       { id: 'TEETH', name: 'TEETH', icon: '\u{1F9B7}', fact: 'Kids have 20 baby teeth that fall out!', q: 'How many teeth do you have right now?', chain: 'Sharks grow new teeth their whole life — thousands of them!' },
-      { id: 'HAIR', name: 'HAIR', icon: '\u{1F9D1}', fact: 'You have about 100,000 hairs on your head!', q: 'Touch your hair! Is it straight or curly?', chain: 'Your hair grows about as fast as grass!' },
+      { id: 'HAIR', name: 'HAIR', icon: '\u{1F9B1}', fact: 'You have about 100,000 hairs on your head!', q: 'Touch your hair! Is it straight or curly?', chain: 'Your hair grows about as fast as grass!' },
       { id: 'FOOT', name: 'FOOT', icon: '\u{1F9B6}', fact: 'Your feet have 26 bones in each one!', q: 'Stomp your feet on the ground! Stomp stomp!', chain: 'By the time you grow up, your feet will walk around the Earth 4 times!' },
-      { id: 'TONGUE', name: 'TONGUE', icon: '\u{1F445}', fact: 'Your tongue helps you taste sweet, sour, and salty!', q: 'Stick out your tongue! Can you touch your nose?', chain: 'Your tongue is the strongest muscle in your body!' }
+      { id: 'TONGUE', name: 'TONGUE', icon: '\u{1F445}', fact: 'Your tongue helps you taste sweet, sour, and salty!', q: 'Stick out your tongue! Can you touch your nose?', chain: 'Your tongue print is special, just like your fingerprint!' }
     ]
   },
   {
@@ -149,10 +180,8 @@ const CATEGORIES = [
       { id: 'STAR', name: 'STAR', icon: '\u{2B50}', fact: 'Stars have pointy tips that shine bright!', q: 'Can you draw a star in the air?', chain: 'There are more stars in the sky than grains of sand on Earth!' },
       { id: 'HEART', name: 'HEART', icon: '\u{2764}\u{FE0F}', fact: 'A heart shape means love and caring!', q: 'Make a heart shape with your hands!', chain: 'Your real heart beats 100,000 times every day!' },
       { id: 'DIAMOND', name: 'DIAMOND', icon: '\u{1F537}', fact: 'A diamond is a square turned on its side!', q: 'Tilt your head — does a square become a diamond?', chain: 'Real diamonds are the hardest thing on Earth!' },
-      { id: 'RECTANGLE', name: 'RECTANGLE', icon: '\u{1F7E9}', fact: 'A rectangle has two long sides and two short sides!', q: 'Find something shaped like a rectangle!', chain: 'Your door, your book, and your phone are all rectangles!' },
+      { id: 'RECTANGLE', name: 'RECTANGLE', icon: '', svg: 'RECTANGLE', fact: 'A rectangle has two long sides and two short sides!', q: 'Find something shaped like a rectangle!', chain: 'Your door, your book, and your phone are all rectangles!' },
       { id: 'OVAL', name: 'OVAL', icon: '\u{1F95A}', fact: 'An oval is like a stretched circle — like an egg!', q: 'Draw an oval in the air!', chain: 'A rugby ball and a mirror can be oval shaped!' }
     ]
   }
 ];
-
-const ANIMALS = CATEGORIES[0].items;

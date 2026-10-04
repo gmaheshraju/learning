@@ -2,423 +2,488 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Trace Letters — Heshvitha's Learning World</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=14">
   <style>
-    body { display: block; align-items: unset; justify-content: unset; }
-
-    .tr-wrap { max-width: 500px; margin: 0 auto; padding: 0 8px 20px; }
-
-    .tr-top {
-      text-align: center; padding: 6px 0;
-      animation: slideUp .4s ease-out;
+    .tr-wrap {
+      --size: clamp(240px, min(90vw, 100dvh - 360px), 600px);
+      display: grid; grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "label" "modes" "canvas" "progress" "controls" "letters";
+      justify-items: center; max-width: 1180px; margin: 0 auto;
     }
-    .tr-letter-label {
-      font-size: clamp(16px, 3.5vmin, 26px);
-      font-weight: 800; color: var(--textM);
+    .tr-top { grid-area: label; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 2px 0 6px; animation: slideUp .4s ease-out; }
+    .tr-letter-label { font-size: clamp(18px, 3vmin, 30px); font-weight: 900; color: var(--textM); }
+    .tr-letter-label span { color: var(--p0ink); }
+    .tr-say {
+      flex: none; width: 40px; height: 40px; border-radius: 50%;
+      border: 2px solid var(--line); background: var(--card); cursor: pointer;
+      font-family: var(--emoji); font-size: 18px; display: grid; place-items: center;
     }
-    .tr-letter-label span { color: #E85D75; }
+
+    .tr-mode-toggle { grid-area: modes; display: flex; justify-content: center; gap: 8px; margin: 0 0 8px; }
+    .tr-mode-btn {
+      min-height: 40px; min-width: 64px; padding: 0 16px; border-radius: 999px;
+      border: 2px solid var(--line); background: var(--card);
+      font-size: clamp(15px, 2vmin, 19px); font-weight: 900;
+      cursor: pointer; color: var(--textL); transition: border-color .2s, color .2s, background-color .2s;
+    }
+    .tr-mode-btn.active { border-color: #E85D75; color: var(--p0ink); background: rgba(232,93,117,.1); }
 
     .tr-canvas-wrap {
-      position: relative;
-      width: clamp(260px, 70vmin, 380px);
-      height: clamp(260px, 70vmin, 380px);
-      margin: 8px auto;
+      grid-area: canvas;
+      position: relative; width: var(--size); height: var(--size);
       background: var(--card);
-      border: clamp(3px, .6vmin, 6px) solid var(--sh);
-      border-radius: clamp(20px, 4vmin, 32px);
+      border: clamp(3px, .6vmin, 6px) solid var(--line);
+      border-radius: clamp(22px, 4vmin, 36px);
       box-shadow: 0 4px 20px rgba(0,0,0,.08);
       overflow: hidden;
       touch-action: none;
+      -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
     }
-
-    .tr-canvas-wrap canvas {
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 100%;
-    }
+    .tr-canvas-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    /* drawn at full strength, made see-through here, so overlapping strokes stay even */
+    #tr-draw { opacity: .62; cursor: crosshair; }
 
     .tr-progress-bar {
-      width: clamp(200px, 50vmin, 320px);
-      height: 12px; margin: 10px auto;
-      background: var(--sh); border-radius: 8px;
-      overflow: hidden;
+      grid-area: progress;
+      width: min(var(--size), 360px); height: 14px; margin: 12px auto 4px;
+      background: var(--line); border-radius: 8px; overflow: hidden;
     }
-    .tr-progress-fill {
-      height: 100%; background: #7EC850;
-      border-radius: 8px; transition: width .3s;
-      width: 0%;
-    }
+    .tr-progress-fill { height: 100%; width: 0%; background: #7EC850; border-radius: 8px; transition: width .25s; }
 
-    .tr-controls {
-      display: flex; justify-content: center; gap: 10px;
-      margin: 8px 0;
-    }
-    .tr-btn {
-      border: none; border-radius: 50px;
-      padding: clamp(8px, 1.5vmin, 14px) clamp(16px, 3vmin, 32px);
-      font-size: clamp(12px, 2.2vmin, 18px); font-weight: 800;
-      cursor: pointer; color: #fff;
-      box-shadow: 0 3px 10px rgba(0,0,0,.1);
-      transition: transform .15s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .tr-btn:hover { transform: scale(1.06); }
-    .tr-btn:active { transform: scale(.94); }
+    .tr-controls { grid-area: controls; display: flex; justify-content: center; gap: 12px; margin: 8px 0; }
+    .tr-controls .btn { font-size: clamp(15px, 2vmin, 20px); }
+    @keyframes nudge { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.1) } }
+    .btn.nudge { animation: nudge .9s ease-in-out infinite; }
 
     .tr-letter-nav {
-      display: flex; justify-content: center; gap: 6px;
-      flex-wrap: wrap; margin: 8px 0;
+      grid-area: letters;
+      display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;
+      margin: 6px 0; max-width: 640px;
     }
     .tr-letter-btn {
-      width: clamp(32px, 7vmin, 44px); height: clamp(32px, 7vmin, 44px);
-      border: 2px solid var(--sh); border-radius: 10px;
-      background: var(--card); font-size: clamp(14px, 3vmin, 22px);
+      width: var(--tap); height: var(--tap);
+      border: 2px solid var(--line); border-radius: 12px;
+      background: var(--card); font-size: clamp(17px, 2.4vmin, 22px);
       font-weight: 900; cursor: pointer; color: var(--text);
-      transition: all .2s; display: flex; align-items: center;
-      justify-content: center;
-      -webkit-tap-highlight-color: transparent;
+      transition: border-color .2s, background-color .2s, color .2s;
+      display: flex; align-items: center; justify-content: center;
     }
-    .tr-letter-btn:hover { border-color: #F5A623; }
-    .tr-letter-btn.active { border-color: #E85D75; background: #FFF0F2; color: #E85D75; }
-    .tr-letter-btn.done { border-color: #7EC850; background: #F0FAE8; color: #7EC850; }
+    .tr-letter-btn.done { border-color: #7EC850; background: rgba(126,200,80,.16); color: var(--p3ink); }
+    .tr-letter-btn.active { border-color: #E85D75; background: rgba(232,93,117,.12); color: var(--p0ink); }
 
-    .tr-stars-c {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none; z-index: 100; overflow: hidden;
+    .tr-stars-c { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
+
+    @media (hover: hover) and (pointer: fine) {
+      .tr-letter-btn:hover, .tr-mode-btn:hover { border-color: #F5A623; }
     }
 
-    .tr-mode-toggle {
-      display: flex; justify-content: center; gap: 6px; margin: 6px 0;
+    /* Tablets held upright: leave room for the letter strip under the canvas */
+    @media (min-width: 600px) and (orientation: portrait) {
+      .tr-wrap { --size: clamp(300px, 100dvh - 540px, 620px); }
     }
-    .tr-mode-btn {
-      padding: 4px 14px; border-radius: 20px;
-      border: 2px solid var(--sh); background: var(--card);
-      font-size: clamp(11px, 2vmin, 16px); font-weight: 700;
-      cursor: pointer; color: var(--textL); transition: all .2s;
+
+    /* Wide screens and phones held sideways: canvas on the left, everything else beside it */
+    @media (min-width: 760px) and (min-aspect-ratio: 5/4), (orientation: landscape) and (max-height: 520px) {
+      .tr-wrap {
+        --size: clamp(200px, min(56vw, 100dvh - 210px), 700px);
+        grid-template-columns: auto minmax(220px, 420px);
+        grid-template-areas: "canvas label" "canvas modes" "canvas progress" "canvas controls" "canvas letters";
+        grid-template-rows: auto auto auto auto 1fr;
+        justify-content: center; align-items: start; column-gap: clamp(16px, 3vw, 44px);
+      }
+      .tr-canvas-wrap { grid-row: 1 / -1; }
+      .tr-top { padding-top: 8px; }
     }
-    .tr-mode-btn.active { border-color: #E85D75; color: #E85D75; background: #FFF0F2; }
+    @media (orientation: landscape) and (max-height: 520px) {
+      .tr-wrap { --size: clamp(190px, 100dvh - 120px, 340px); }
+      .tr-letter-nav {
+        flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; max-width: 100%;
+        scrollbar-width: none; padding: 2px 4px 6px; scroll-snap-type: x proximity;
+      }
+      .tr-letter-nav::-webkit-scrollbar { display: none; }
+      .tr-letter-btn { flex: none; scroll-snap-align: center; }
+    }
   </style>
 </head>
 <body>
   <div class="gw">
-    <div class="hdr">
-      <h1>
-        <em style="color:#E85D75">T</em><em style="color:#F5A623">r</em><em style="color:#7EC850">a</em><em style="color:#4DADEA">c</em><em style="color:#B07CD8">e</em>
-      </h1>
-      <div class="sub">Trace letters with your finger!</div>
-    </div>
-        <nav class="nav-links">
-      <a href="index.html">Match</a>
-      <a href="learn.html">Learn</a>
-      <a href="find.html">Find It!</a>
-      <a href="discover.html">Discover</a>
-      <a href="trace.html" class="active">Trace</a>
-      <a href="stories.html">Stories</a>
-      <a href="print.html">Print</a>
-      <a href="worksheet.html">Worksheets</a>
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">T</em><em style="color:#F5A623">r</em><em style="color:#7EC850">a</em><em style="color:#4DADEA">c</em><em style="color:#B07CD8">e</em></h1>
+      <p class="sub">Trace letters with your finger!</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities">
+      <a href="index.html" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
+      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
+      <a href="find.html" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
+      <a href="discover.html" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
+      <a href="trace.html" class="active" aria-current="page" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
+      <a href="stories.html" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
+      <a href="print.html" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
+      <a href="worksheet.html" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
     </nav>
 
-    <div class="tr-wrap" id="tr-area">
+    <main class="tr-wrap" id="tr-area">
       <div class="tr-top">
-        <div class="tr-letter-label" id="tr-label">Trace the letter <span id="tr-current">A</span></div>
+        <div class="tr-letter-label" id="tr-label" aria-live="polite">Trace the letter <span id="tr-current">A</span></div>
+        <button type="button" class="tr-say" id="tr-say" aria-label="Hear it again">🔊</button>
       </div>
 
-      <div class="tr-mode-toggle">
-        <button class="tr-mode-btn active" id="mode-upper">ABC</button>
-        <button class="tr-mode-btn" id="mode-lower">abc</button>
-        <button class="tr-mode-btn" id="mode-num">123</button>
+      <div class="tr-mode-toggle" role="group" aria-label="What to trace">
+        <button type="button" class="tr-mode-btn active" data-mode="upper" aria-pressed="true">ABC</button>
+        <button type="button" class="tr-mode-btn" data-mode="lower" aria-pressed="false">abc</button>
+        <button type="button" class="tr-mode-btn" data-mode="num" aria-pressed="false">123</button>
       </div>
 
       <div class="tr-canvas-wrap" id="tr-canvas-wrap">
-        <canvas id="tr-guide"></canvas>
-        <canvas id="tr-draw"></canvas>
+        <canvas id="tr-guide" aria-hidden="true"></canvas>
+        <canvas id="tr-draw" aria-label="Tracing area. Draw over the letter with your finger."></canvas>
       </div>
 
-      <div class="tr-progress-bar">
+      <div class="tr-progress-bar" role="progressbar" aria-label="Tracing progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="tr-bar">
         <div class="tr-progress-fill" id="tr-fill"></div>
       </div>
 
       <div class="tr-controls">
-        <button class="tr-btn" style="background:#F5A623" id="tr-clear">Undo 🔄</button>
-        <button class="tr-btn" style="background:#7EC850" id="tr-next">Next ➡️</button>
+        <button type="button" class="btn" style="background:#E8961A" id="tr-clear">Clear <span class="emoji">🧽</span></button>
+        <button type="button" class="btn" style="background:#5DB534" id="tr-next">Next <span class="emoji">➡️</span></button>
       </div>
 
-      <div class="tr-letter-nav" id="tr-nav"></div>
-    </div>
-    <div class="tr-stars-c" id="tr-stars"></div>
+      <div class="tr-letter-nav" id="tr-nav" role="group" aria-label="Pick a letter"></div>
+    </main>
+    <div class="tr-stars-c" id="tr-stars" aria-hidden="true"></div>
   </div>
 
+  <script src="js/common.js?v=14"></script>
   <script>
-    var UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-    var LOWER = 'abcdefghijklmnopqrstuvwxyz'.split('');
-    var NUMS = '0123456789'.split('');
-    var COLORS = ['#E85D75','#F5A623','#7EC850','#4DADEA','#B07CD8'];
+    var SETS = {
+      upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+      lower: 'abcdefghijklmnopqrstuvwxyz'.split(''),
+      num: '0123456789'.split('')
+    };
+    var NUM_NAMES = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    var COLORS = ['#E85D75', '#F5A623', '#7EC850', '#4DADEA', '#B07CD8'];
+    var DONE_AT = 60;      // % of the letter covered to count as traced
+    var MASK = 96;         // progress is measured on a small grid: cheap on any device
 
     var mode = 'upper';
-    var letters = UPPER;
+    var letters = SETS.upper;
     var currentIdx = 0;
-    var drawing = false;
-    var pixelsFilled = 0;
-    var totalPixels = 0;
     var completed = new Set();
-    var lastX = 0, lastY = 0;
 
-    var guideCanvas, drawCanvas, guideCtx, drawCtx;
-    var canvasSize = 0;
+    var wrap = document.getElementById('tr-canvas-wrap');
+    var guideCanvas = document.getElementById('tr-guide');
+    var drawCanvas = document.getElementById('tr-draw');
+    var guideCtx = guideCanvas.getContext('2d');
+    var drawCtx = drawCanvas.getContext('2d');
+    var size = 0, dpr = 1;
 
-    var voice = null;
-    function loadVoice() {
-      var voices = speechSynthesis.getVoices();
-      var prefer = ['Google US English','Google UK English Female','Microsoft Zira','Samantha','Karen','Moira'];
-      for (var i = 0; i < prefer.length; i++) {
-        var v = voices.find(function(v) { return v.name.includes(prefer[i]); });
-        if (v) { voice = v; return; }
+    // Low-resolution copies of the letter and of the ink, used only for scoring.
+    function maskCanvas() {
+      var c = document.createElement('canvas');
+      c.width = c.height = MASK;
+      return c.getContext('2d', { willReadFrequently: true });
+    }
+    var letterMaskCtx = maskCanvas();
+    var inkCtx = maskCanvas();
+    var letterMask = new Uint8Array(MASK * MASK);
+    var letterCount = 0;
+
+    var navBtns = [];
+    var stars = document.getElementById('tr-stars');
+    var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function speak(text, rate) { Speech.speak(text, rate || 0.8); }
+
+    function letterName(l) {
+      if (mode === 'num') return 'the number ' + NUM_NAMES[+l];
+      if (mode === 'lower') return 'the small letter ' + l;
+      return 'the letter ' + l;
+    }
+
+    function sayLetter() { speak('Trace ' + letterName(letters[currentIdx]), 0.8); }
+
+    /* ---------- canvas sizing ---------- */
+    function fitCanvas() {
+      var newSize = wrap.clientWidth;
+      var newDpr = Math.min(window.devicePixelRatio || 1, 3);
+      if (!newSize || (newSize === size && newDpr === dpr)) return false;
+
+      // keep what has been drawn when the device rotates or the window resizes
+      var old = null;
+      if (size) {
+        old = document.createElement('canvas');
+        old.width = drawCanvas.width; old.height = drawCanvas.height;
+        old.getContext('2d').drawImage(drawCanvas, 0, 0);
       }
-      var en = voices.find(function(v) { return v.lang.startsWith('en-US'); });
-      if (en) voice = en;
-    }
-    speechSynthesis.onvoiceschanged = loadVoice;
-    loadVoice();
-
-    function speak(text, rate) {
-      speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(text);
-      u.rate = rate || 0.8;
-      u.pitch = 1.15;
-      u.lang = 'en-US';
-      if (voice) u.voice = voice;
-      speechSynthesis.speak(u);
+      size = newSize; dpr = newDpr;
+      guideCanvas.width = guideCanvas.height = drawCanvas.width = drawCanvas.height = Math.round(size * dpr);
+      guideCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (old) drawCtx.drawImage(old, 0, 0, size, size);
+      return true;
     }
 
-    function spawnStars(x, y) {
-      var ct = document.getElementById('tr-stars');
-      var emojis = ['\u{2B50}','\u{2728}','\u{1F31F}','\u{1F4AB}','\u{1F389}','\u{1F496}'];
-      for (var i = 0; i < 10; i++) {
-        var s = document.createElement('div');
-        s.className = 'star';
-        s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        s.style.left = (x + (Math.random() - .5) * 200) + 'px';
-        s.style.top = (y + (Math.random() - .5) * 200) + 'px';
-        ct.appendChild(s);
-        setTimeout((function(el) { return function() { el.remove(); }; })(s), 900);
+    /* ---------- the letter to trace ---------- */
+    function guideFont(px) { return '700 ' + px + 'px Andika, Nunito, "Trebuchet MS", system-ui, sans-serif'; }
+
+    // Centre the letter's actual ink (not its em box) so "g" or "7" sit in the middle too.
+    function layoutLetter(ctx, letter) {
+      var fontSize = size * 0.7;
+      ctx.font = guideFont(fontSize);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'alphabetic';
+      var m = ctx.measureText(letter);
+      var h = (m.actualBoundingBoxAscent || fontSize * .7) + (m.actualBoundingBoxDescent || 0);
+      var w = (m.actualBoundingBoxLeft || 0) + (m.actualBoundingBoxRight || m.width);
+      var fit = Math.min(1, (size * 0.76) / h, (size * 0.8) / w);
+      if (fit < 1) {
+        fontSize *= fit;
+        ctx.font = guideFont(fontSize);
+        m = ctx.measureText(letter);
       }
+      var asc = m.actualBoundingBoxAscent || fontSize * .7, desc = m.actualBoundingBoxDescent || 0;
+      var left = m.actualBoundingBoxLeft || m.width / 2, right = m.actualBoundingBoxRight || m.width / 2;
+      return { x: size / 2 + (left - right) / 2, y: size / 2 + (asc - desc) / 2 };
     }
 
-    function initCanvas() {
-      guideCanvas = document.getElementById('tr-guide');
-      drawCanvas = document.getElementById('tr-draw');
-      var wrap = document.getElementById('tr-canvas-wrap');
+    function drawGuide() {
+      var letter = letters[currentIdx];
+      var dark = darkQuery.matches;
+      guideCtx.clearRect(0, 0, size, size);
 
-      canvasSize = wrap.clientWidth;
-      var dpr = window.devicePixelRatio || 1;
-      guideCanvas.width = drawCanvas.width = canvasSize * dpr;
-      guideCanvas.height = drawCanvas.height = canvasSize * dpr;
-
-      guideCtx = guideCanvas.getContext('2d');
-      drawCtx = drawCanvas.getContext('2d');
-      guideCtx.scale(dpr, dpr);
-      drawCtx.scale(dpr, dpr);
-    }
-
-    function drawGuide(letter) {
-      guideCtx.clearRect(0, 0, canvasSize, canvasSize);
-
-      guideCtx.strokeStyle = '#e0e0e0';
-      guideCtx.lineWidth = 1;
+      guideCtx.strokeStyle = dark ? 'rgba(255,255,255,.12)' : '#ECE4E4';
+      guideCtx.lineWidth = 1.5;
       guideCtx.setLineDash([8, 8]);
       guideCtx.beginPath();
-      guideCtx.moveTo(0, canvasSize / 2);
-      guideCtx.lineTo(canvasSize, canvasSize / 2);
+      guideCtx.moveTo(0, size / 2); guideCtx.lineTo(size, size / 2);
+      guideCtx.moveTo(size / 2, 0); guideCtx.lineTo(size / 2, size);
       guideCtx.stroke();
-      guideCtx.beginPath();
-      guideCtx.moveTo(canvasSize / 2, 0);
-      guideCtx.lineTo(canvasSize / 2, canvasSize);
-      guideCtx.stroke();
+
+      var at = layoutLetter(guideCtx, letter);
+      guideCtx.fillStyle = dark ? 'rgba(255,255,255,.09)' : 'rgba(150,130,135,.13)';
+      guideCtx.fillText(letter, at.x, at.y);
+      guideCtx.strokeStyle = dark ? 'rgba(255,255,255,.42)' : '#CFC4C6';
+      guideCtx.lineWidth = Math.max(2.5, size / 140);
+      guideCtx.setLineDash([size / 36, size / 60]);
+      guideCtx.lineJoin = 'round';
+      guideCtx.strokeText(letter, at.x, at.y);
       guideCtx.setLineDash([]);
 
-      var fontSize = canvasSize * 0.65;
-      guideCtx.font = '900 ' + fontSize + 'px "Trebuchet MS", system-ui, sans-serif';
-      guideCtx.textAlign = 'center';
-      guideCtx.textBaseline = 'middle';
-
-      guideCtx.strokeStyle = '#ddd';
-      guideCtx.lineWidth = 3;
-      guideCtx.setLineDash([10, 6]);
-      guideCtx.strokeText(letter, canvasSize / 2, canvasSize / 2);
-      guideCtx.setLineDash([]);
-
-      guideCtx.fillStyle = 'rgba(200, 200, 200, 0.15)';
-      guideCtx.fillText(letter, canvasSize / 2, canvasSize / 2);
-
-      countGuidePixels();
+      // the same letter, solid, on the scoring grid
+      letterMaskCtx.setTransform(1, 0, 0, 1, 0, 0);
+      letterMaskCtx.clearRect(0, 0, MASK, MASK);
+      letterMaskCtx.setTransform(MASK / size, 0, 0, MASK / size, 0, 0);
+      layoutLetter(letterMaskCtx, letter);
+      letterMaskCtx.fillStyle = '#000';
+      letterMaskCtx.fillText(letter, at.x, at.y);
+      var data = letterMaskCtx.getImageData(0, 0, MASK, MASK).data;
+      letterCount = 0;
+      for (var i = 0; i < letterMask.length; i++) {
+        letterMask[i] = data[i * 4 + 3] > 110 ? 1 : 0;
+        letterCount += letterMask[i];
+      }
     }
 
-    function countGuidePixels() {
-      var dpr = window.devicePixelRatio || 1;
-      var data = guideCtx.getImageData(0, 0, canvasSize * dpr, canvasSize * dpr).data;
-      totalPixels = 0;
-      for (var i = 3; i < data.length; i += 4) {
-        if (data[i] > 30) totalPixels++;
+    /* ---------- drawing ---------- */
+    var activeId = null, activeType = '', last = null, rect = null;
+
+    function strokeStyle(ctx) {
+      ctx.strokeStyle = ctx.fillStyle = COLORS[currentIdx % COLORS.length];
+      ctx.lineWidth = size * 0.085;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+    }
+
+    function paint(from, to) {
+      [drawCtx, inkCtx].forEach(function (ctx) {
+        if (ctx === inkCtx) ctx.setTransform(MASK / size, 0, 0, MASK / size, 0, 0);
+        strokeStyle(ctx);
+        ctx.beginPath();
+        if (from) { ctx.moveTo(from.x, from.y); ctx.lineTo(to.x, to.y); ctx.stroke(); }
+        else { ctx.arc(to.x, to.y, ctx.lineWidth / 2, 0, Math.PI * 2); ctx.fill(); }
+      });
+    }
+
+    function pos(e) {
+      return { x: (e.clientX - rect.left) * size / rect.width, y: (e.clientY - rect.top) * size / rect.height };
+    }
+
+    drawCanvas.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      // A second finger or a resting palm must not hijack the stroke; a pen may take over from a finger.
+      if (activeId !== null && !(e.pointerType === 'pen' && activeType === 'touch')) return;
+      if (e.pointerType === 'touch' && (e.width > 60 || e.height > 60)) return;
+      e.preventDefault();
+      activeId = e.pointerId;
+      activeType = e.pointerType;
+      try { drawCanvas.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+      rect = drawCanvas.getBoundingClientRect();
+      last = pos(e);
+      paint(null, last);   // a single tap leaves a dot (and dots the i)
+      queueCheck();
+    });
+
+    drawCanvas.addEventListener('pointermove', function (e) {
+      if (e.pointerId !== activeId) return;
+      e.preventDefault();
+      var evs = (e.getCoalescedEvents && e.getCoalescedEvents()) || [];
+      if (!evs.length) evs = [e];
+      for (var i = 0; i < evs.length; i++) {
+        var p = pos(evs[i]);
+        paint(last, p);
+        last = p;
+      }
+      queueCheck();
+    });
+
+    function endStroke(e) {
+      if (e.pointerId !== activeId) return;
+      activeId = null;
+      last = null;
+      queueCheck();
+    }
+    drawCanvas.addEventListener('pointerup', endStroke);
+    drawCanvas.addEventListener('pointercancel', endStroke);
+    // iOS: stop a long press on the canvas from opening the magnifier/menu
+    drawCanvas.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+    /* ---------- scoring ---------- */
+    var checkQueued = false;
+    function queueCheck() {
+      if (checkQueued) return;
+      checkQueued = true;
+      requestAnimationFrame(function () { checkQueued = false; checkProgress(); });
+    }
+
+    function setBar(pct) {
+      var shown = Math.min(100, Math.round(pct / DONE_AT * 100));
+      document.getElementById('tr-fill').style.width = shown + '%';
+      document.getElementById('tr-bar').setAttribute('aria-valuenow', String(shown));
+    }
+
+    function checkProgress() {
+      if (!letterCount) return;
+      var ink = inkCtx.getImageData(0, 0, MASK, MASK).data;
+      var overlap = 0;
+      for (var i = 0; i < letterMask.length; i++) {
+        if (letterMask[i] && ink[i * 4 + 3] > 40) overlap++;
+      }
+      var pct = overlap / letterCount * 100;
+      setBar(pct);
+
+      if (pct >= DONE_AT && !completed.has(currentIdx)) {
+        completed.add(currentIdx);
+        var r = wrap.getBoundingClientRect();
+        App.burst(stars, r.left + r.width / 2, r.top + r.height / 2, 12, r.width * .8);
+        speak('Great job! ' + (mode === 'num' ? NUM_NAMES[+letters[currentIdx]] : letters[currentIdx]) + '!', 0.85);
+        updateNav();
+        document.getElementById('tr-next').classList.add('nudge');
       }
     }
 
     function clearDraw() {
-      drawCtx.clearRect(0, 0, canvasSize, canvasSize);
-      pixelsFilled = 0;
-      document.getElementById('tr-fill').style.width = '0%';
+      drawCtx.clearRect(0, 0, size, size);
+      inkCtx.setTransform(1, 0, 0, 1, 0, 0);
+      inkCtx.clearRect(0, 0, MASK, MASK);
+      setBar(0);
     }
 
-    function getPos(e) {
-      var rect = drawCanvas.getBoundingClientRect();
-      var touch = e.touches ? e.touches[0] : e;
-      return {
-        x: (touch.clientX - rect.left) * (canvasSize / rect.width),
-        y: (touch.clientY - rect.top) * (canvasSize / rect.height)
-      };
+    /* ---------- letters, modes ---------- */
+    function buildNav() {
+      var nav = document.getElementById('tr-nav');
+      nav.innerHTML = '';
+      navBtns = letters.map(function (l, i) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tr-letter-btn';
+        btn.textContent = l;
+        btn.setAttribute('aria-label', letterName(l));
+        btn.addEventListener('click', function () { setLetter(i); });
+        nav.appendChild(btn);
+        return btn;
+      });
     }
 
-    function startDraw(e) {
-      e.preventDefault();
-      drawing = true;
-      var p = getPos(e);
-      lastX = p.x;
-      lastY = p.y;
-    }
-
-    function moveDraw(e) {
-      e.preventDefault();
-      if (!drawing) return;
-      var p = getPos(e);
-      var color = COLORS[currentIdx % COLORS.length];
-
-      drawCtx.strokeStyle = color;
-      drawCtx.lineWidth = canvasSize * 0.08;
-      drawCtx.lineCap = 'round';
-      drawCtx.lineJoin = 'round';
-      drawCtx.globalAlpha = 0.6;
-
-      drawCtx.beginPath();
-      drawCtx.moveTo(lastX, lastY);
-      drawCtx.lineTo(p.x, p.y);
-      drawCtx.stroke();
-
-      lastX = p.x;
-      lastY = p.y;
-
-      checkProgress();
-    }
-
-    function endDraw(e) {
-      e.preventDefault();
-      drawing = false;
-    }
-
-    function checkProgress() {
-      var dpr = window.devicePixelRatio || 1;
-      var guideData = guideCtx.getImageData(0, 0, canvasSize * dpr, canvasSize * dpr).data;
-      var drawData = drawCtx.getImageData(0, 0, canvasSize * dpr, canvasSize * dpr).data;
-
-      var overlap = 0;
-      for (var i = 3; i < guideData.length; i += 16) {
-        if (guideData[i] > 30 && drawData[i] > 30) overlap++;
-      }
-
-      var totalSampled = 0;
-      for (var i = 3; i < guideData.length; i += 16) {
-        if (guideData[i] > 30) totalSampled++;
-      }
-
-      var pct = totalSampled > 0 ? Math.min(100, (overlap / totalSampled) * 100) : 0;
-      document.getElementById('tr-fill').style.width = pct + '%';
-
-      if (pct > 60 && !completed.has(currentIdx)) {
-        completed.add(currentIdx);
-        var rect = document.getElementById('tr-canvas-wrap').getBoundingClientRect();
-        spawnStars(rect.left + rect.width / 2, rect.top + rect.height / 2);
-
-        var letter = letters[currentIdx];
-        speak('Great job! ' + letter + '!', 0.85);
-
-        updateNav();
-      }
+    function updateNav() {
+      navBtns.forEach(function (btn, i) {
+        btn.classList.toggle('active', i === currentIdx);
+        btn.classList.toggle('done', completed.has(i));
+        btn.setAttribute('aria-pressed', String(i === currentIdx));
+      });
+      App.revealInRow(navBtns[currentIdx], true);
     }
 
     function setLetter(idx) {
       currentIdx = idx;
-      var letter = letters[currentIdx];
-      document.getElementById('tr-current').textContent = letter;
+      var label = mode === 'num' ? 'number' : 'letter';
+      document.getElementById('tr-label').innerHTML = 'Trace the ' + label + ' <span id="tr-current"></span>';
+      document.getElementById('tr-current').textContent = letters[idx];
+      document.getElementById('tr-next').classList.remove('nudge');
       clearDraw();
-      drawGuide(letter);
+      drawGuide();
       updateNav();
-
-      var name = letter;
-      if (mode === 'num') {
-        var numNames = ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine'];
-        name = numNames[parseInt(letter)] || letter;
-      }
-      speak('Trace the letter ' + name, 0.8);
-    }
-
-    function updateNav() {
-      var nav = document.getElementById('tr-nav');
-      nav.innerHTML = '';
-      for (var i = 0; i < letters.length; i++) {
-        var btn = document.createElement('button');
-        btn.className = 'tr-letter-btn';
-        if (i === currentIdx) btn.classList.add('active');
-        if (completed.has(i)) btn.classList.add('done');
-        btn.textContent = letters[i];
-        btn.addEventListener('click', (function(idx) {
-          return function() { setLetter(idx); };
-        })(i));
-        nav.appendChild(btn);
-      }
+      sayLetter();
     }
 
     function setMode(m) {
       mode = m;
+      letters = SETS[m];
       completed.clear();
-      if (m === 'upper') letters = UPPER;
-      else if (m === 'lower') letters = LOWER;
-      else letters = NUMS;
-
-      document.getElementById('mode-upper').classList.toggle('active', m === 'upper');
-      document.getElementById('mode-lower').classList.toggle('active', m === 'lower');
-      document.getElementById('mode-num').classList.toggle('active', m === 'num');
-
-      var label = mode === 'num' ? 'number' : 'letter';
-      document.getElementById('tr-label').innerHTML = 'Trace the ' + label + ' <span id="tr-current">' + letters[0] + '</span>';
-
+      document.querySelectorAll('.tr-mode-btn').forEach(function (b) {
+        var on = b.dataset.mode === m;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+      buildNav();
       setLetter(0);
     }
 
-    initCanvas();
-
-    drawCanvas.addEventListener('mousedown', startDraw);
-    drawCanvas.addEventListener('mousemove', moveDraw);
-    drawCanvas.addEventListener('mouseup', endDraw);
-    drawCanvas.addEventListener('mouseleave', endDraw);
-    drawCanvas.addEventListener('touchstart', startDraw, { passive: false });
-    drawCanvas.addEventListener('touchmove', moveDraw, { passive: false });
-    drawCanvas.addEventListener('touchend', endDraw, { passive: false });
-
-    document.getElementById('tr-clear').addEventListener('click', function() {
+    document.getElementById('tr-clear').addEventListener('click', function () {
       completed.delete(currentIdx);
       clearDraw();
       updateNav();
+      document.getElementById('tr-next').classList.remove('nudge');
+    });
+    document.getElementById('tr-next').addEventListener('click', function () {
+      setLetter((currentIdx + 1) % letters.length);
+    });
+    document.getElementById('tr-say').addEventListener('click', sayLetter);
+    document.querySelectorAll('.tr-mode-btn').forEach(function (b) {
+      b.addEventListener('click', function () { setMode(b.dataset.mode); });
     });
 
-    document.getElementById('tr-next').addEventListener('click', function() {
-      var next = (currentIdx + 1) % letters.length;
-      setLetter(next);
-    });
+    // Re-fit on rotation / resize, keeping the drawing.
+    if (window.ResizeObserver) {
+      new ResizeObserver(function () { if (fitCanvas()) drawGuide(); }).observe(wrap);
+    } else {
+      window.addEventListener('resize', function () { if (fitCanvas()) drawGuide(); });
+    }
+    if (darkQuery.addEventListener) darkQuery.addEventListener('change', drawGuide);
+    // The tracing font may arrive after the first letter was drawn.
+    if (document.fonts && document.fonts.load) {
+      document.fonts.load(guideFont(100), 'Aag').then(function () { if (size) drawGuide(); });
+    }
 
-    document.getElementById('mode-upper').addEventListener('click', function() { setMode('upper'); });
-    document.getElementById('mode-lower').addEventListener('click', function() { setMode('lower'); });
-    document.getElementById('mode-num').addEventListener('click', function() { setMode('num'); });
-
+    fitCanvas();
+    buildNav();
     setLetter(0);
   </script>
 </body>

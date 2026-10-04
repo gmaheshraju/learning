@@ -2,44 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Heshvitha's Learning World</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
-  <link rel="stylesheet" href="css/style.css?v=4">
+  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=14">
 </head>
 <body>
   <div class="gw" id="game">
     <div class="stars-c" id="stars"></div>
-    <div class="hdr">
-      <h1>
-        <em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Match
-      </h1>
-      <div class="sub">Pick a topic and match the same color!</div>
-    </div>
-        <nav class="nav-links">
-      <a href="index.html" class="active">Match</a>
-      <a href="learn.html">Learn</a>
-      <a href="find.html">Find It!</a>
-      <a href="discover.html">Discover</a>
-      <a href="trace.html">Trace</a>
-      <a href="stories.html">Stories</a>
-      <a href="print.html">Print</a>
-      <a href="worksheet.html">Worksheets</a>
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Match</h1>
+      <p class="sub">Pick a topic and match the same color!</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities">
+      <a href="index.html" class="active" aria-current="page" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
+      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
+      <a href="find.html" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
+      <a href="discover.html" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
+      <a href="trace.html" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
+      <a href="stories.html" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
+      <a href="print.html" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
+      <a href="worksheet.html" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
     </nav>
-    <div class="bar" id="bar">
-      <div class="it cat-tag" id="cat-label" style="display:none"></div>
-      <div class="it">⭐ <span id="sc">0</span></div>
-      <div class="it">🎯 <span id="rn">1</span><span style="color:var(--textL);font-weight:400">/5</span></div>
-      <div class="it sound-toggle" id="sound-btn" title="Toggle sound">🔊</div>
+    <div class="bar" id="bar" hidden>
+      <button type="button" class="cat-tag" id="cat-label" aria-label="Change topic"></button>
+      <div class="it" aria-label="Score"><span class="emoji" aria-hidden="true">⭐</span> <span id="sc">0</span></div>
+      <div class="it" aria-label="Round"><span class="emoji" aria-hidden="true">🎯</span> <span id="rn">1</span><span style="color:var(--textL);font-weight:600">/5</span></div>
     </div>
-    <div id="play"></div>
+    <main id="play"></main>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/animals.js"></script>
-  <script src="js/fruits_vegs.js"></script>
-  <script src="js/kitchen_house.js"></script>
-  <script src="js/vehicles_colors.js"></script>
-  <script src="js/game.js"></script>
+  <script src="js/common.js?v=14"></script>
+  <script src="js/data.js?v=14"></script>
+  <script src="js/game.js?v=14"></script>
 </body>
 </html>

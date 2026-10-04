@@ -2,179 +2,125 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Worksheets — Heshvitha's Learning World</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
-  <link rel="stylesheet" href="css/style.css?v=4">
+  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=14">
   <style>
-    .ws-wrap { max-width: 900px; margin: 0 auto; padding: 20px 12px; }
-    .ws-intro { text-align: center; margin-bottom: 16px; animation: slideUp .5s ease-out; }
-    .ws-intro p { font-size: 13px; color: var(--textL); margin-top: 4px; line-height: 1.5; }
-
-    .ws-btn {
-      display: inline-block; color: #fff;
-      border: none; border-radius: 50px; padding: 10px 28px;
-      font-size: 15px; font-weight: 800; cursor: pointer;
-      margin: 6px 4px; transition: transform .15s;
-      box-shadow: 0 3px 12px rgba(0,0,0,.12);
-    }
-    .ws-btn:hover { transform: scale(1.06); }
-    .ws-btn:active { transform: scale(.95); }
-
-    .cat-pills {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;
-      margin-bottom: 16px; animation: slideUp .5s .04s both;
-    }
-    .cat-pill {
-      padding: 6px 14px; border-radius: 20px; border: 2px solid var(--sh);
-      background: var(--card); font-size: 13px; font-weight: 700;
-      cursor: pointer; transition: all .2s; color: var(--text);
-    }
-    .cat-pill:hover, .cat-pill.active { border-color: #F5A623; background: #FFF7EA; }
-    .cat-pill.active { font-weight: 900; }
+    .ws-wrap { max-width: 900px; margin: 0 auto; }
+    .ws-intro { text-align: center; margin-bottom: 14px; animation: slideUp .5s ease-out; }
+    .ws-intro p { font-size: clamp(14px, 1.8vmin, 17px); color: var(--textL); font-weight: 600; line-height: 1.5; margin-bottom: 10px; }
 
     .ws-page {
       width: 100%; margin: 0 auto 20px;
-      border: 2px dashed var(--sh); border-radius: 16px;
-      padding: 8px 10px; background: var(--card);
+      border: 2px dashed var(--line); border-radius: 16px;
+      padding: 10px 12px; background: var(--card);
     }
-    .ws-page-title {
-      text-align: center; font-size: 15px; font-weight: 900;
-      margin-bottom: 1px; color: var(--text);
-    }
-    .ws-page-mode {
-      text-align: center; margin-bottom: 4px;
-    }
+    .ws-page-title { text-align: center; font-size: 16px; font-weight: 900; margin-bottom: 2px; color: var(--text); }
+    .ws-page-mode { text-align: center; margin-bottom: 6px; }
     .ws-page-mode span {
-      font-size: 9px; font-weight: 800; text-transform: uppercase;
+      font-size: 10px; font-weight: 900; text-transform: uppercase;
       letter-spacing: 2px; padding: 2px 10px; border-radius: 20px;
     }
 
-    .ws-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 6px;
-    }
-
-    .ws-quad {
-      border: 2px solid var(--sh); border-radius: 10px;
-      padding: 6px 6px; background: #fff;
-    }
+    .ws-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; }
+    .ws-quad { border: 2px solid var(--line); border-radius: 10px; padding: 6px; background: var(--card); }
     .ws-quad-title {
-      text-align: center; font-size: 10px; font-weight: 800;
-      color: var(--textL); text-transform: uppercase; letter-spacing: 1px;
-      margin-bottom: 3px;
+      text-align: center; font-size: 11px; font-weight: 900;
+      color: var(--textL); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;
     }
 
-    .ws-row {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 3px;
-    }
+    .ws-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
     .ws-row:last-child { margin-bottom: 0; }
-
     .ws-cell {
       width: 42%; display: flex; align-items: center; justify-content: center;
-      border: 2px solid; border-radius: 8px;
-      padding: 3px 3px; min-height: 36px;
+      border: 2px solid; border-radius: 8px; padding: 3px; min-height: 40px;
     }
-    .ws-dots {
-      flex: 1; border-bottom: 2px dotted #ccc; margin: 0 3px;
-      align-self: center; min-width: 12px;
-    }
+    .ws-dots { flex: 1; border-bottom: 2px dotted var(--line); margin: 0 4px; align-self: center; min-width: 12px; }
 
-    .ws-emoji { font-size: 24px; line-height: 1; }
-    .ws-word {
-      font-size: 13px; font-weight: 900; letter-spacing: 1px;
-      text-align: center; line-height: 1.1;
-    }
-    .ws-word.ws-long { font-size: 10px; letter-spacing: 0.5px; }
-    .ws-spell {
-      font-size: 6px; font-weight: 700; letter-spacing: 1px;
-      opacity: .6; margin-top: 1px; text-align: center;
-    }
+    .ws-emoji { font-size: 26px; }
+    .ws-word { font-size: 14px; font-weight: 900; letter-spacing: 1px; text-align: center; line-height: 1.1; }
+    .ws-word.ws-long { font-size: 11px; letter-spacing: .5px; }
+    .ws-spell { font-size: 7px; font-weight: 800; letter-spacing: 1px; opacity: .7; margin-top: 1px; text-align: center; }
 
-    .ws-footer {
-      text-align: center; margin-top: 4px; font-size: 8px;
-      color: var(--textL); font-weight: 600;
+    .ws-footer { text-align: center; margin-top: 6px; font-size: 9px; color: var(--textL); font-weight: 700; }
+
+    @media (max-width: 560px) {
+      .ws-grid { grid-template-columns: 1fr; grid-template-rows: none; }
+      .ws-emoji { font-size: 30px; }
+      .ws-word { font-size: 15px; }
     }
 
     @media print {
-      html, body { height: 100%; background: #fff !important; padding: 0; margin: 0; }
-      .nav-links, .ws-btn, .ws-intro, .cat-pills, .hdr { display: none !important; }
-      .gw { padding: 0; max-width: 100%; display: block; min-height: auto; }
-      .ws-wrap { padding: 0; max-width: 100%; }
+      html, body { height: 100%; margin: 0; }
+      .ws-intro, .cat-pills, .hdr { display: none !important; }
+      .gw { padding: 0; max-width: 100%; }
+      .ws-wrap { max-width: 100%; }
       .ws-page {
-        border: none; border-radius: 0;
-        padding: 16px 24px 12px;
-        box-shadow: none; max-width: 100%;
-        page-break-inside: avoid;
-        page-break-after: always;
-        margin: 0;
+        border: none; border-radius: 0; padding: 16px 24px 12px; margin: 0;
+        background: #fff; break-inside: avoid; break-after: page;
       }
-      .ws-page:last-child { page-break-after: auto; }
-      .ws-page-title { font-size: 16px; margin-bottom: 2px; }
-      .ws-page-mode { margin-bottom: 6px; }
-      .ws-grid {
-        gap: 40px 30px;
-      }
-      .ws-quad {
-        box-shadow: none;
-        padding: 8px 10px;
-      }
+      .ws-page:last-child { break-after: auto; }
+      .ws-page-title { font-size: 16px; }
+      .ws-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 40px 30px; }
+      .ws-quad { background: #fff; padding: 8px 10px; }
       .ws-quad-title { font-size: 11px; margin-bottom: 5px; }
       .ws-row { margin-bottom: 5px; }
       .ws-emoji { font-size: 28px; }
-      .ws-cell { min-height: 38px; padding: 4px; border-radius: 8px; }
-      .ws-dots { margin: 0 4px; }
-      .ws-footer { margin-top: 6px; font-size: 8px; }
+      .ws-cell { min-height: 38px; padding: 4px; }
+      .ws-dots { border-bottom-color: #bbb; }
       .ws-word { font-size: 13px; }
       .ws-word.ws-long { font-size: 10px; }
       .ws-spell { font-size: 6px; }
-    }
-
-    @media (max-width: 500px) {
-      .ws-grid { grid-template-columns: 1fr; }
-      .ws-emoji { font-size: 28px; }
-      .ws-word { font-size: 14px; }
+      .ws-footer { font-size: 8px; }
     }
   </style>
 </head>
 <body>
   <div class="gw">
-    <div class="hdr">
-      <h1>
-        <em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Worksheets
-      </h1>
-      <div class="sub">Print and draw lines to match!</div>
-    </div>
-        <nav class="nav-links">
-      <a href="index.html">Match</a>
-      <a href="learn.html">Learn</a>
-      <a href="find.html">Find It!</a>
-      <a href="discover.html">Discover</a>
-      <a href="trace.html">Trace</a>
-      <a href="stories.html">Stories</a>
-      <a href="print.html">Print</a>
-      <a href="worksheet.html" class="active">Worksheets</a>
+    <header class="hdr">
+      <h1><em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Worksheets</h1>
+      <p class="sub">Print and draw lines to match!</p>
+    </header>
+    <nav class="nav-links" aria-label="Activities">
+      <a href="index.html" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
+      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
+      <a href="find.html" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
+      <a href="discover.html" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
+      <a href="trace.html" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
+      <a href="stories.html" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
+      <a href="print.html" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
+      <a href="worksheet.html" class="active" aria-current="page" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
     </nav>
 
-    <div class="ws-wrap">
+    <main class="ws-wrap">
       <div class="ws-intro">
-        <p>4 mini worksheets per page — print front (Easy) and back (Hard)!<br>
-        Each box has 4 items to match by drawing lines.</p>
-        <button class="ws-btn" style="background:#4DADEA" onclick="window.print()">🖨️ Print Worksheets</button>
+        <p>4 mini worksheets per page — print the front (Easy) and back (Hard)!<br>
+        Each box has 4 things to match by drawing lines.</p>
+        <button type="button" class="btn" style="background:#2F9BE0" onclick="window.print()"><span class="emoji">🖨️</span> Print Worksheets</button>
       </div>
 
       <div class="cat-pills" id="cat-pills"></div>
       <div id="ws-pages"></div>
-    </div>
+    </main>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/animals.js"></script>
-  <script src="js/fruits_vegs.js"></script>
-  <script src="js/kitchen_house.js"></script>
-  <script src="js/vehicles_colors.js"></script>
+  <script src="js/common.js?v=14"></script>
+  <script src="js/data.js?v=14"></script>
   <script>
     const WS_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850'];
     const WS_BGS = ['#FFF0F2','#FFF7EA','#EBF5FF','#F0FAE8'];
@@ -183,7 +129,6 @@
 
     const pillsContainer = document.getElementById('cat-pills');
     const pagesContainer = document.getElementById('ws-pages');
-    let activePill = null;
 
     function shuffle(arr) {
       const a = [...arr];
@@ -215,7 +160,7 @@
         leftCell.style.background = WS_BGS[i];
         const leftEmoji = document.createElement('div');
         leftEmoji.className = 'ws-emoji';
-        leftEmoji.textContent = item.icon;
+        renderIcon(leftEmoji, item);
         leftCell.appendChild(leftEmoji);
 
         const dots = document.createElement('div');
@@ -231,18 +176,18 @@
         if (mode === 'easy') {
           const rightEmoji = document.createElement('div');
           rightEmoji.className = 'ws-emoji';
-          rightEmoji.textContent = rightItem.icon;
+          renderIcon(rightEmoji, rightItem);
           rightCell.appendChild(rightEmoji);
         } else {
           const wordWrap = document.createElement('div');
           const wl = document.createElement('div');
           wl.className = 'ws-word' + (rightItem.name.length > 6 ? ' ws-long' : '');
           wl.textContent = rightItem.name;
-          wl.style.color = WS_COLORS[i];
+          wl.style.color = WS_COLORS[rightOrigIdx];
           const sp = document.createElement('div');
           sp.className = 'ws-spell';
           sp.textContent = rightItem.name.split('').join(' · ');
-          sp.style.color = WS_COLORS[i];
+          sp.style.color = WS_COLORS[rightOrigIdx];
           wordWrap.appendChild(wl);
           wordWrap.appendChild(sp);
           rightCell.appendChild(wordWrap);
@@ -325,16 +270,18 @@
 
     CATEGORIES.forEach((cat, i) => {
       const pill = document.createElement('button');
-      pill.className = 'cat-pill' + (i === 0 ? ' active' : '');
-      pill.textContent = cat.emoji + ' ' + cat.name;
+      pill.type = 'button';
+      pill.className = 'cat-pill';
+      pill.innerHTML = '<span class="emoji" aria-hidden="true">' + cat.emoji + '</span>' + cat.name;
       pill.addEventListener('click', () => {
-        if (activePill) activePill.classList.remove('active');
+        pillsContainer.querySelectorAll('.cat-pill').forEach(p => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
         pill.classList.add('active');
-        activePill = pill;
+        pill.setAttribute('aria-pressed', 'true');
+        App.revealInRow(pill, true);
         renderWorksheets(cat);
       });
       pillsContainer.appendChild(pill);
-      if (i === 0) { activePill = pill; renderWorksheets(cat); }
+      if (i === 0) { pill.classList.add('active'); pill.setAttribute('aria-pressed', 'true'); renderWorksheets(cat); }
     });
   </script>
 </body>

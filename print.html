@@ -2,127 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Print Cards — Heshvitha's Learning World</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=14">
   <style>
-    .print-wrap {
-      max-width: 700px; margin: 0 auto; padding: 20px 12px;
-    }
-    .print-intro {
-      text-align: center; margin-bottom: 20px;
-      animation: slideUp .5s ease-out;
-    }
-    .print-intro p { font-size: 13px; color: var(--textL); margin-top: 4px; line-height: 1.5; }
+    .print-wrap { max-width: 860px; margin: 0 auto; }
+    .print-intro { text-align: center; margin-bottom: 14px; animation: slideUp .5s ease-out; }
+    .print-intro p { font-size: clamp(14px, 1.8vmin, 17px); color: var(--textL); font-weight: 600; line-height: 1.5; margin-bottom: 10px; }
 
-    .print-btn {
-      display: inline-block; background: #4DADEA; color: #fff;
-      border: none; border-radius: 50px; padding: 10px 28px;
-      font-size: 15px; font-weight: 800; cursor: pointer;
-      margin: 12px auto; transition: transform .15s;
-      box-shadow: 0 3px 12px rgba(77,173,234,.3);
-    }
-    .print-btn:hover { transform: scale(1.06); }
-    .print-btn:active { transform: scale(.95); }
-
-    .cat-pills {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;
-      margin-bottom: 16px; animation: slideUp .5s .04s both;
-    }
-    .cat-pill {
-      padding: 6px 14px; border-radius: 20px; border: 2px solid var(--sh);
-      background: var(--card); font-size: 13px; font-weight: 700;
-      cursor: pointer; transition: all .2s; color: var(--text);
-    }
-    .cat-pill:hover, .cat-pill.active { border-color: #F5A623; background: #FFF7EA; }
-    .cat-pill.active { font-weight: 900; }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-
+    .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
     .pcard {
-      background: var(--card);
-      border: 3px solid;
-      border-radius: 14px;
-      aspect-ratio: 1;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 8px;
-      box-shadow: 0 2px 8px var(--sh);
+      border: 3px solid; border-radius: 14px; aspect-ratio: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 8px; min-width: 0; box-shadow: 0 2px 8px var(--sh);
+      container-type: inline-size;
     }
-    .pcard canvas { max-width: 90%; max-height: 70%; }
-    .pcard .pname {
-      font-size: 14px; font-weight: 900;
-      letter-spacing: 2px; margin-top: 4px;
-    }
-    .pcard-word {
-      font-size: 22px; font-weight: 900;
-      letter-spacing: 3px;
-    }
-    .pcard-word.pword-long { font-size: 15px; letter-spacing: 1px; }
-    .pcard-word .pspell {
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 1.5px; margin-top: 4px; opacity: .6;
-    }
+    .pcard-emoji { font-size: 48px; font-size: 42cqi; }
+    .pcard .pname { font-size: 14px; font-size: max(10px, 10cqi); font-weight: 900; letter-spacing: 2px; margin-top: 6px; }
+    .pcard-word { font-size: 22px; font-size: 17cqi; font-weight: 900; letter-spacing: 3px; text-align: center; }
+    .pcard-word.pword-long { font-size: 15px; font-size: 11cqi; letter-spacing: 1px; }
+    .pspell { font-size: 10px; font-size: max(8px, 7cqi); font-weight: 800; letter-spacing: 1.5px; margin-top: 4px; opacity: .7; text-align: center; }
 
     .section-label {
-      font-size: 14px; font-weight: 700; color: var(--textL);
+      font-size: 14px; font-weight: 800; color: var(--textL);
       text-transform: uppercase; letter-spacing: 1.5px;
-      margin-bottom: 10px; margin-top: 8px; text-align: center;
+      margin: 8px 0 10px; text-align: center;
     }
+    .cut-line { border: none; border-top: 2px dashed var(--textL); margin: 20px 0; opacity: .35; }
 
-    .cut-line {
-      border: none; border-top: 2px dashed var(--textL);
-      margin: 20px 0; opacity: .3;
+    @media (max-width: 440px) {
+      .card-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
     }
 
     @media print {
-      body { background: #fff !important; padding: 0; }
-      .nav-links, .print-btn, .print-intro p, .hdr .sub, .cat-pills { display: none !important; }
-      .gw { padding: 8px; }
+      .print-intro, .hdr .sub, .cat-pills { display: none !important; }
+      .gw { padding: 8px; max-width: none; }
       .hdr { margin-bottom: 8px; }
-      .card-grid { gap: 6px; }
-      .pcard { box-shadow: none; border-width: 2px; page-break-inside: avoid; }
+      .card-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+      .pcard { box-shadow: none; border-width: 2px; break-inside: avoid; }
       .cut-line { opacity: .5; }
       .section-label { margin-top: 4px; }
-    }
-
-    @media (max-width: 440px) {
-      .card-grid { grid-template-columns: repeat(3, 1fr); }
-      .pcard-word { font-size: 18px; }
-      .pcard-word.pword-long { font-size: 13px; }
     }
   </style>
 </head>
 <body>
   <div class="gw">
-    <div class="hdr">
-      <h1>
-        <em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Cards
-      </h1>
-      <div class="sub">Print, cut, and play!</div>
-    </div>
-        <nav class="nav-links">
-      <a href="index.html">Match</a>
-      <a href="learn.html">Learn</a>
-      <a href="find.html">Find It!</a>
-      <a href="discover.html">Discover</a>
-      <a href="trace.html">Trace</a>
-      <a href="stories.html">Stories</a>
-      <a href="print.html" class="active">Print</a>
-      <a href="worksheet.html">Worksheets</a>
+    <header class="hdr">
+      <h1><em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Cards</h1>
+      <p class="sub">Print, cut, and play!</p>
+    </header>
+    <nav class="nav-links" aria-label="Activities">
+      <a href="index.html" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
+      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
+      <a href="find.html" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
+      <a href="discover.html" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
+      <a href="trace.html" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
+      <a href="stories.html" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
+      <a href="print.html" class="active" aria-current="page" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
+      <a href="worksheet.html" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
     </nav>
 
-    <div class="print-wrap">
+    <main class="print-wrap">
       <div class="print-intro">
-        <p>Pick a category, print on your color printer, and cut the cards!<br>
-        Match animal cards to word cards on the table.</p>
-        <button class="print-btn" onclick="window.print()">🖨️ Print This Page</button>
+        <p>Pick a topic, print in colour, and cut out the cards!<br>
+        Match the picture cards to the word cards on the table.</p>
+        <button type="button" class="btn" style="background:#2F9BE0" onclick="window.print()"><span class="emoji">🖨️</span> Print This Page</button>
       </div>
 
       <div class="cat-pills" id="cat-pills"></div>
@@ -134,14 +93,11 @@
 
       <div class="section-label" id="word-label">✂️ Word Cards — Cut These Out</div>
       <div class="card-grid" id="word-cards"></div>
-    </div>
+    </main>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/animals.js"></script>
-  <script src="js/fruits_vegs.js"></script>
-  <script src="js/kitchen_house.js"></script>
-  <script src="js/vehicles_colors.js"></script>
+  <script src="js/common.js?v=14"></script>
+  <script src="js/data.js?v=14"></script>
   <script>
     const PRINT_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850','#B07CD8','#FF8A65',
                            '#26A69A','#AB47BC','#EF5350','#42A5F5','#66BB6A','#FFA726',
@@ -153,7 +109,6 @@
     const pillsContainer = document.getElementById('cat-pills');
     const picGrid = document.getElementById('pic-cards');
     const wordGrid = document.getElementById('word-cards');
-    let activePill = null;
 
     function renderCategory(cat) {
       picGrid.innerHTML = '';
@@ -167,16 +122,14 @@
         ac.className = 'pcard';
         ac.style.borderColor = pc;
         ac.style.background = bg;
-        const emojiDiv = document.createElement('div');
-        emojiDiv.style.fontSize = '48px';
-        emojiDiv.style.lineHeight = '1';
-        emojiDiv.textContent = a.icon;
-        ac.appendChild(emojiDiv);
+        const emoji = document.createElement('div');
+        emoji.className = 'pcard-emoji';
+        renderIcon(emoji, a);
         const name = document.createElement('div');
         name.className = 'pname';
         name.textContent = a.name;
         name.style.color = pc;
-        ac.appendChild(name);
+        ac.append(emoji, name);
         picGrid.appendChild(ac);
 
         const wc = document.createElement('div');
@@ -191,24 +144,25 @@
         sp.className = 'pspell';
         sp.textContent = a.name.split('').join(' · ');
         sp.style.color = pc;
-        wc.appendChild(wl);
-        wc.appendChild(sp);
+        wc.append(wl, sp);
         wordGrid.appendChild(wc);
       });
     }
 
     CATEGORIES.forEach((cat, i) => {
       const pill = document.createElement('button');
-      pill.className = 'cat-pill' + (i === 0 ? ' active' : '');
-      pill.textContent = cat.emoji + ' ' + cat.name;
+      pill.type = 'button';
+      pill.className = 'cat-pill';
+      pill.innerHTML = '<span class="emoji" aria-hidden="true">' + cat.emoji + '</span>' + cat.name;
       pill.addEventListener('click', () => {
-        if (activePill) activePill.classList.remove('active');
+        pillsContainer.querySelectorAll('.cat-pill').forEach(p => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
         pill.classList.add('active');
-        activePill = pill;
+        pill.setAttribute('aria-pressed', 'true');
+        App.revealInRow(pill, true);
         renderCategory(cat);
       });
       pillsContainer.appendChild(pill);
-      if (i === 0) { activePill = pill; renderCategory(cat); }
+      if (i === 0) { pill.classList.add('active'); pill.setAttribute('aria-pressed', 'true'); renderCategory(cat); }
     });
   </script>
 </body>

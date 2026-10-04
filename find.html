@@ -2,455 +2,360 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Find It! — Heshvitha's Learning World</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=14">
   <style>
-    body { display: block; align-items: unset; justify-content: unset; }
-
-    .fi-wrap { max-width: 600px; margin: 0 auto; padding: 0 8px 20px; }
+    .fi-wrap { max-width: 760px; margin: 0 auto; }
+    .fi-title { text-align: center; font-size: clamp(18px, 2.6vmin, 30px); font-weight: 900; margin: 4px 0 12px; color: var(--textM); }
 
     .fi-prompt {
-      text-align: center; padding: 14px 10px 10px;
-      animation: slideUp .4s ease-out;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 8px 4px 6px; animation: slideUp .4s ease-out; text-align: center;
     }
     .fi-prompt-text {
-      font-size: clamp(20px, 5vmin, 36px); font-weight: 800;
-      line-height: 1.3; color: var(--text);
+      font-size: clamp(22px, 4.6vmin, 44px); font-weight: 900; line-height: 1.25; color: var(--text);
+      background: none; border: none; cursor: pointer; padding: 0;
     }
-    .fi-prompt-text .fi-highlight {
-      color: #E85D75; display: inline;
+    .fi-prompt-text .fi-highlight { color: var(--p0ink); }
+    .fi-replay {
+      flex: none; width: var(--tap); height: var(--tap); border-radius: 50%;
+      border: 2px solid var(--line); background: var(--card); cursor: pointer;
+      font-family: var(--emoji); font-size: 20px; display: grid; place-items: center;
+      box-shadow: 0 2px 8px var(--sh);
     }
-    .fi-prompt-sub {
-      font-size: clamp(11px, 2.2vmin, 18px); color: var(--textL);
-      margin-top: 4px; font-weight: 600;
-    }
+    .fi-replay:active { transform: scale(.9); }
+    .fi-prompt-sub { text-align: center; font-size: clamp(13px, 2vmin, 20px); color: var(--textL); font-weight: 700; margin-bottom: 4px; }
 
     .fi-grid {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: clamp(10px, 2.5vmin, 20px);
-      padding: 10px 4px;
-      max-width: 440px; margin: 0 auto;
+      gap: clamp(10px, 2.2vmin, 22px);
+      padding: 8px 2px;
+      width: 100%; max-width: clamp(330px, 62vmin, 640px); margin: 0 auto;
     }
-
     .fi-card {
-      aspect-ratio: 1;
+      -webkit-appearance: none; appearance: none;
+      aspect-ratio: 1; min-width: 0;
+      container-type: inline-size;
       background: var(--card);
-      border: clamp(3px, .6vmin, 6px) solid var(--sh);
-      border-radius: clamp(16px, 3vmin, 28px);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+      border: clamp(3px, .6vmin, 6px) solid var(--line);
+      border-radius: clamp(18px, 3vmin, 30px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
       cursor: pointer; transition: transform .12s;
       user-select: none; -webkit-user-select: none;
       box-shadow: 0 3px 14px rgba(0,0,0,.08);
-      position: relative; overflow: hidden;
-      -webkit-tap-highlight-color: transparent;
+      position: relative; overflow: hidden; padding: 0;
     }
     .fi-card:active { transform: scale(.93); }
-    .fi-card .fi-emoji {
-      font-size: clamp(48px, 14vmin, 90px); line-height: 1;
-      transition: transform .3s;
-    }
-    .fi-card .fi-label {
-      font-size: clamp(12px, 2.5vmin, 20px); font-weight: 800;
-      margin-top: 6px; color: var(--textL);
-      text-transform: uppercase; letter-spacing: 1px;
+    .fi-emoji { font-size: clamp(48px, 13vmin, 120px); font-size: 52cqi; transition: transform .3s; }
+    .fi-label {
+      font-size: clamp(12px, 2.2vmin, 22px); font-size: 10cqi; font-weight: 900;
+      margin-top: 4px; color: var(--textL); text-transform: uppercase; letter-spacing: 1px;
       opacity: 0; transition: opacity .3s;
     }
-
-    .fi-card.fi-correct {
-      border-color: #7EC850 !important;
-      background: #F0FAE8;
-      animation: celebrate .5s ease;
-    }
-    .fi-card.fi-correct .fi-emoji { transform: scale(1.2); }
-    .fi-card.fi-correct .fi-label { opacity: 1; color: #2E7D32; }
-
-    .fi-card.fi-wrong {
-      animation: wiggle .4s ease;
-      border-color: #ffcdd2 !important;
-    }
-
-    .fi-card.fi-bounce {
-      animation: bounceIn .4s ease-out both;
-    }
+    .fi-card.fi-correct { border-color: #7EC850; background: var(--ok-bg); animation: celebrate .5s ease forwards; }
+    .fi-card.fi-correct .fi-emoji { transform: scale(1.12); }
+    .fi-card.fi-correct .fi-label { opacity: 1; color: var(--p3ink); }
+    .fi-card.fi-wrong { animation: wiggle .45s ease; border-color: #ffb3c0; }
+    .fi-card.fi-bounce { animation: bounceIn .4s ease-out both; }
 
     .fi-learn {
-      text-align: center; padding: 16px 12px;
-      animation: fadeIn .4s ease-out;
-      max-width: 380px; margin: 0 auto;
+      text-align: center; padding: 12px 8px; animation: fadeIn .4s ease-out;
+      max-width: 520px; margin: 0 auto;
     }
-    .fi-learn-emoji { font-size: clamp(56px, 16vmin, 100px); line-height: 1; }
-    .fi-learn-word {
-      font-size: clamp(32px, 8vmin, 56px); font-weight: 900;
-      margin: 8px 0 2px; color: var(--text);
-      letter-spacing: 2px;
-    }
-    .fi-learn-phonics {
-      font-size: clamp(16px, 3.5vmin, 26px); font-weight: 700;
-      color: #F5A623; letter-spacing: 3px; margin-bottom: 4px;
-    }
-    .fi-learn-telugu {
-      font-size: clamp(18px, 4vmin, 30px); font-weight: 700;
-      color: var(--textL); margin-bottom: 10px;
-    }
+    .fi-learn-emoji { font-size: clamp(64px, 16vmin, 150px); line-height: 1; }
+    .fi-learn-word { font-size: clamp(34px, 7.5vmin, 72px); font-weight: 900; margin: 8px 0 2px; color: var(--text); letter-spacing: 2px; word-break: break-word; }
+    .fi-learn-phonics { font-size: clamp(16px, 3.2vmin, 28px); font-weight: 800; color: var(--p1ink); letter-spacing: 3px; margin-bottom: 4px; }
+    .fi-learn-telugu { font-size: clamp(19px, 3.8vmin, 32px); font-weight: 700; color: var(--textL); margin-bottom: 10px; }
     .fi-learn-sentence {
-      font-size: clamp(14px, 3vmin, 22px); font-weight: 600;
-      color: var(--textM); line-height: 1.6;
-      padding: 8px 16px; border-radius: 12px;
-      background: var(--sh);
+      font-size: clamp(16px, 2.8vmin, 26px); font-weight: 700; color: var(--textM); line-height: 1.55;
+      padding: 10px 16px; border-radius: 14px; background: var(--sh); margin-bottom: 14px;
     }
 
-    .fi-stars-c {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none; z-index: 100; overflow: hidden;
-    }
+    .fi-stars-c { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
 
-    .fi-progress {
-      display: flex; justify-content: center; gap: 8px;
-      padding: 8px 0;
-    }
-    .fi-dot {
-      width: clamp(10px, 2.5vmin, 16px); height: clamp(10px, 2.5vmin, 16px);
-      border-radius: 50%; background: var(--sh);
-      transition: background .3s, transform .3s;
-    }
+    .fi-progress { display: flex; justify-content: center; gap: 8px; padding: 4px 0; }
+    .fi-dot { width: clamp(10px, 2vmin, 16px); height: clamp(10px, 2vmin, 16px); border-radius: 50%; background: var(--line); transition: background .3s, transform .3s; }
     .fi-dot.done { background: #7EC850; transform: scale(1.15); }
     .fi-dot.current { background: #F5A623; transform: scale(1.25); }
 
-    .fi-complete {
-      text-align: center; padding: 30px 16px;
-      animation: bounceIn .5s ease-out;
-    }
-    .fi-complete .fi-big { font-size: clamp(60px, 18vmin, 120px); display: block; animation: float 2s ease-in-out infinite; }
-    .fi-complete h2 {
-      font-size: clamp(24px, 6vmin, 48px); font-weight: 900;
-      animation: rainbow 2.5s linear infinite; margin: 10px 0;
-    }
-    .fi-complete p {
-      font-size: clamp(14px, 3vmin, 24px); color: var(--textL);
-      margin-bottom: 16px;
-    }
-    .fi-btn {
-      display: inline-block; border: none; border-radius: 50px;
-      padding: clamp(10px, 2vmin, 18px) clamp(24px, 5vmin, 48px);
-      font-size: clamp(14px, 2.8vmin, 24px); font-weight: 800;
-      cursor: pointer; color: #fff;
-      box-shadow: 0 4px 14px rgba(0,0,0,.12);
-      transition: transform .15s; margin: 4px;
-    }
-    .fi-btn:hover { transform: scale(1.06); }
-    .fi-btn:active { transform: scale(.94); }
+    .fi-complete { text-align: center; padding: 24px 16px; animation: bounceIn .5s ease-out; }
+    .fi-complete .fi-big { font-family: var(--emoji); font-size: clamp(64px, 16vmin, 130px); display: block; animation: float 2s ease-in-out infinite; }
+    .fi-complete h2 { font-size: clamp(26px, 5.4vmin, 52px); font-weight: 900; animation: rainbow 2.5s linear infinite; margin: 10px 0; }
+    .fi-complete p { font-size: clamp(15px, 2.6vmin, 26px); color: var(--textL); font-weight: 700; margin-bottom: 18px; }
 
-    @media (prefers-color-scheme: dark) {
-      .fi-card.fi-correct { background: #1E4A20; }
+    /* Phones held sideways: four pictures in one row */
+    @media (orientation: landscape) and (max-height: 520px) {
+      .fi-grid { grid-template-columns: repeat(4, 1fr); max-width: min(680px, 100%); padding-top: 4px; }
+      .fi-prompt { padding: 2px; }
+      .fi-prompt-sub { display: none; }
+      .fi-learn { display: grid; grid-template-columns: auto 1fr; column-gap: 20px; align-items: center; max-width: 760px; text-align: left; }
+      .fi-learn-emoji { grid-row: span 6; font-size: clamp(90px, 34vh, 150px); }
     }
-    :root[data-theme="dark"] .fi-card.fi-correct { background: #1E4A20; }
-    :root[data-theme="light"] .fi-card.fi-correct { background: #F0FAE8; }
   </style>
 </head>
 <body>
   <div class="gw">
-    <div class="hdr">
-      <h1>
-        <em style="color:#E85D75">F</em><em style="color:#F5A623">i</em><em style="color:#7EC850">n</em><em style="color:#4DADEA">d</em>
-        <em style="color:#B07CD8">I</em><em style="color:#E85D75">t</em><em style="color:#F5A623">!</em>
-      </h1>
-      <div class="sub">Listen and tap the right picture!</div>
-    </div>
-        <nav class="nav-links">
-      <a href="index.html">Match</a>
-      <a href="learn.html">Learn</a>
-      <a href="find.html" class="active">Find It!</a>
-      <a href="discover.html">Discover</a>
-      <a href="trace.html">Trace</a>
-      <a href="stories.html">Stories</a>
-      <a href="print.html">Print</a>
-      <a href="worksheet.html">Worksheets</a>
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">F</em><em style="color:#F5A623">i</em><em style="color:#7EC850">n</em><em style="color:#4DADEA">d</em> <em style="color:#B07CD8">I</em><em style="color:#E85D75">t</em><em style="color:#F5A623">!</em></h1>
+      <p class="sub">Listen and tap the right picture!</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities">
+      <a href="index.html" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
+      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
+      <a href="find.html" class="active" aria-current="page" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
+      <a href="discover.html" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
+      <a href="trace.html" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
+      <a href="stories.html" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
+      <a href="print.html" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
+      <a href="worksheet.html" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
     </nav>
 
-    <div class="fi-wrap" id="fi-area"></div>
-    <div class="fi-stars-c" id="fi-stars"></div>
+    <main class="fi-wrap" id="fi-area"></main>
+    <div class="fi-stars-c" id="fi-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/animals.js"></script>
-  <script src="js/fruits_vegs.js"></script>
-  <script src="js/kitchen_house.js"></script>
-  <script src="js/vehicles_colors.js"></script>
-  <script src="js/telugu.js"></script>
+  <script src="js/common.js?v=14"></script>
+  <script src="js/data.js?v=14"></script>
+  <script src="js/telugu.js?v=14"></script>
   <script>
     const ROUNDS = 6;
     const CHOICES = 4;
-    const COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850','#B07CD8','#FF8A65'];
     const CHEERS = [
       'Yes! Amazing!', 'You found it!', 'Great job!', 'Wow, so smart!',
       'Brilliant!', 'You got it!', 'Super!', 'Wonderful!'
     ];
 
-    let voice = null;
+    const area = document.getElementById('fi-area');
+    const stars = document.getElementById('fi-stars');
     let currentCat = null;
     let round = 0;
     let target = null;
     let locked = false;
     let usedIds = new Set();
+    let usedTargets = new Set();
+    let step = 0;   // bumps on every screen change so stale timers/callbacks drop out
 
-    function loadVoice() {
-      const voices = speechSynthesis.getVoices();
-      const prefer = ['Google US English','Google UK English Female','Microsoft Zira','Samantha','Karen','Moira'];
-      for (const name of prefer) {
-        const v = voices.find(v => v.name.includes(name));
-        if (v) { voice = v; return; }
-      }
-      const en = voices.find(v => v.lang.startsWith('en-US'));
-      if (en) voice = en;
-    }
-    speechSynthesis.onvoiceschanged = loadVoice;
-    loadVoice();
+    function speak(text, rate, onEnd) { Speech.speak(text, rate || 0.8, onEnd); }
+    function askQuestion() { speak('Where is the ' + target.name + '?', 0.75); }
 
-    function speak(text, rate, onEnd) {
-      speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(text);
-      u.rate = rate || 0.8;
-      u.pitch = 1.15;
-      u.lang = 'en-US';
-      if (voice) u.voice = voice;
-      var called = false;
-      function done() {
-        if (called) return;
-        called = true;
-        if (onEnd) onEnd();
-      }
-      u.onend = done;
-      u.onerror = done;
-      speechSynthesis.speak(u);
-      if (onEnd) setTimeout(done, Math.max(3000, text.length * 120));
-    }
-
-    function shuffle(arr) {
-      const a = [...arr];
-      for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
-    }
-
-    function spawnStars(x, y) {
-      const ct = document.getElementById('fi-stars');
-      const emojis = ['⭐','✨','🌟','💫','🎉','💖','🥳','👏'];
-      for (let i = 0; i < 12; i++) {
-        const s = document.createElement('div');
-        s.className = 'star';
-        s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        s.style.left = (x + (Math.random() - .5) * 200) + 'px';
-        s.style.top = (y + (Math.random() - .5) * 200) + 'px';
-        ct.appendChild(s);
-        setTimeout(() => s.remove(), 900);
-      }
+    function resetGame() {
+      round = 0;
+      usedIds.clear();
+      usedTargets.clear();
     }
 
     function showCategoryPicker() {
-      const area = document.getElementById('fi-area');
-      round = 0;
-      usedIds.clear();
-      area.innerHTML = '';
+      step++;
+      Speech.stop();
+      resetGame();
+      area.innerHTML = '<h2 class="fi-title">Pick a topic!</h2>';
 
       const grid = document.createElement('div');
       grid.className = 'cat-grid';
-      grid.style.maxWidth = '500px';
-      grid.style.margin = '0 auto';
-
       CATEGORIES.forEach((cat, i) => {
         const btn = document.createElement('button');
+        btn.type = 'button';
         btn.className = 'cat-btn';
-        btn.style.animationDelay = (i * 0.06) + 's';
-        btn.innerHTML = '<span class="cat-emoji">' + cat.emoji + '</span><span class="cat-name">' + cat.name + '</span>';
-        btn.addEventListener('click', function() {
-          currentCat = cat;
-          round = 0;
-          usedIds.clear();
-          startRound();
-        });
+        btn.style.animationDelay = (i * 0.05) + 's';
+        btn.innerHTML = '<span class="cat-emoji" aria-hidden="true">' + cat.emoji + '</span><span class="cat-name">' + cat.name + '</span>';
+        btn.addEventListener('click', () => { currentCat = cat; resetGame(); startRound(); });
         grid.appendChild(btn);
       });
-
       area.appendChild(grid);
     }
 
     function pickItems() {
       const items = currentCat.items;
-      var available = items.filter(function(it) { return !usedIds.has(it.id); });
+      let available = items.filter(it => !usedIds.has(it.id));
       if (available.length < CHOICES) {
         usedIds.clear();
         available = items.slice();
       }
+      const picked = App.shuffle(available).slice(0, CHOICES);
+      picked.forEach(it => usedIds.add(it.id));
 
-      var picked = shuffle(available).slice(0, CHOICES);
-      picked.forEach(function(it) { usedIds.add(it.id); });
+      // never ask for the same thing twice in one game
+      const fresh = picked.filter(it => !usedTargets.has(it.id));
+      const pool = fresh.length ? fresh : picked;
+      target = pool[Math.floor(Math.random() * pool.length)];
+      usedTargets.add(target.id);
+      return App.shuffle(picked);
+    }
 
-      target = picked[Math.floor(Math.random() * picked.length)];
-      return shuffle(picked);
+    function progressDots() {
+      const progress = document.createElement('div');
+      progress.className = 'fi-progress';
+      progress.setAttribute('aria-label', 'Question ' + (round + 1) + ' of ' + ROUNDS);
+      for (let d = 0; d < ROUNDS; d++) {
+        const dot = document.createElement('span');
+        dot.className = 'fi-dot' + (d < round ? ' done' : '') + (d === round ? ' current' : '');
+        progress.appendChild(dot);
+      }
+      return progress;
     }
 
     function startRound() {
+      const my = ++step;
       locked = true;
-      var area = document.getElementById('fi-area');
       area.innerHTML = '';
+      const choices = pickItems();
+      area.appendChild(progressDots());
 
-      var choices = pickItems();
-
-      var progress = document.createElement('div');
-      progress.className = 'fi-progress';
-      for (var d = 0; d < ROUNDS; d++) {
-        var dot = document.createElement('div');
-        dot.className = 'fi-dot';
-        if (d < round) dot.classList.add('done');
-        if (d === round) dot.classList.add('current');
-        progress.appendChild(dot);
-      }
-      area.appendChild(progress);
-
-      var prompt = document.createElement('div');
+      const prompt = document.createElement('div');
       prompt.className = 'fi-prompt';
       prompt.innerHTML =
-        '<div class="fi-prompt-text">Where is the <span class="fi-highlight">' + target.name + '</span>?</div>' +
-        '<div class="fi-prompt-sub">Tap the right picture!</div>';
+        '<button type="button" class="fi-prompt-text">Where is the <span class="fi-highlight"></span>?</button>' +
+        '<button type="button" class="fi-replay" aria-label="Hear the question again">🔊</button>';
+      prompt.querySelector('.fi-highlight').textContent = target.name;
+      prompt.querySelectorAll('button').forEach(b => b.addEventListener('click', askQuestion));
       area.appendChild(prompt);
 
-      var grid = document.createElement('div');
-      grid.className = 'fi-grid';
+      const sub = document.createElement('div');
+      sub.className = 'fi-prompt-sub';
+      sub.textContent = 'Tap the right picture!';
+      area.appendChild(sub);
 
-      choices.forEach(function(item, i) {
-        var card = document.createElement('div');
+      const grid = document.createElement('div');
+      grid.className = 'fi-grid';
+      choices.forEach((item, i) => {
+        const card = document.createElement('button');
+        card.type = 'button';
         card.className = 'fi-card fi-bounce';
         card.style.animationDelay = (i * 0.08) + 's';
-        card.dataset.id = item.id;
-
-        var emoji = document.createElement('div');
+        card.setAttribute('aria-label', item.name);
+        const emoji = document.createElement('span');
         emoji.className = 'fi-emoji';
-        emoji.textContent = item.icon;
-        card.appendChild(emoji);
-
-        var label = document.createElement('div');
+        renderIcon(emoji, item);
+        const label = document.createElement('span');
         label.className = 'fi-label';
         label.textContent = item.name;
+        card.appendChild(emoji);
         card.appendChild(label);
-
-        card.addEventListener('click', function() {
-          handleTap(item, card);
-        });
-
+        card.addEventListener('animationend', e => { if (e.animationName === 'bounceIn') card.classList.remove('fi-bounce'); });
+        card.addEventListener('click', () => handleTap(item, card));
         grid.appendChild(card);
       });
-
       area.appendChild(grid);
 
-      setTimeout(function() {
-        speak('Where is the ' + target.name + '?', 0.75);
+      setTimeout(() => {
+        if (my !== step) return;
+        askQuestion();
         locked = false;
-      }, 500);
+      }, 450);
     }
 
     function handleTap(item, card) {
       if (locked) return;
       locked = true;
+      card.classList.remove('fi-bounce');
+      const my = step;
 
       if (item.id === target.id) {
         card.classList.add('fi-correct');
+        const rect = card.getBoundingClientRect();
+        App.burst(stars, rect.left + rect.width / 2, rect.top + rect.height / 2, 12);
+        const dot = area.querySelectorAll('.fi-dot')[round];
+        if (dot) { dot.classList.remove('current'); dot.classList.add('done'); }
 
-        var rect = card.getBoundingClientRect();
-        spawnStars(rect.left + rect.width / 2, rect.top + rect.height / 2);
-
-        var cheer = CHEERS[Math.floor(Math.random() * CHEERS.length)];
-        speak(cheer + ' ' + item.name + '!', 0.85, function() {
-          showLearnMoment(item);
-        });
-
-        var dots = document.querySelectorAll('.fi-dot');
-        if (dots[round]) {
-          dots[round].classList.remove('current');
-          dots[round].classList.add('done');
-        }
+        const cheer = CHEERS[Math.floor(Math.random() * CHEERS.length)];
+        speak(cheer + ' ' + item.name + '!', 0.85, () => { if (my === step) showLearnMoment(item); });
       } else {
+        card.classList.remove('fi-wrong');
+        void card.offsetWidth;
         card.classList.add('fi-wrong');
-        speak('Oops! Try again!', 0.85);
-        setTimeout(function() {
+        // say why, then ask again so a child who can't read still knows what to find
+        speak('Oops! Try again!', 0.85, () => { if (my === step) askQuestion(); });
+        setTimeout(() => {
+          if (my !== step) return;
           card.classList.remove('fi-wrong');
           locked = false;
-        }, 800);
+        }, 700);
       }
     }
 
+    function nextRound() {
+      round++;
+      if (round < ROUNDS) startRound(); else showComplete();
+    }
+
     function showLearnMoment(item) {
-      var area = document.getElementById('fi-area');
-
-      var progress = area.querySelector('.fi-progress');
+      const my = ++step;
       area.innerHTML = '';
-      if (progress) area.appendChild(progress);
+      area.appendChild(progressDots());
 
-      var learn = document.createElement('div');
+      const phonics = item.name.split('').join(' · ');
+      const telugu = TELUGU[item.id] || '';
+      const sentences = SENTENCES[item.id] || [];
+      const sentence = sentences.length ? sentences[Math.floor(Math.random() * sentences.length)] : '';
+
+      const learn = document.createElement('div');
       learn.className = 'fi-learn';
+      const emoji = document.createElement('div');
+      emoji.className = 'fi-learn-emoji';
+      renderIcon(emoji, item);
+      learn.appendChild(emoji);
+      [['fi-learn-word', item.name], ['fi-learn-phonics', phonics], ['fi-learn-telugu', telugu], ['fi-learn-sentence', sentence]]
+        .forEach(([cls, text]) => {
+          if (!text) return;
+          const d = document.createElement('div');
+          d.className = cls;
+          d.textContent = text;
+          if (cls === 'fi-learn-telugu') d.lang = 'te';
+          learn.appendChild(d);
+        });
 
-      var phonics = item.name.split('').join(' · ');
-      var telugu = TELUGU[item.id] || '';
-      var sentences = SENTENCES[item.id] || [];
-      var sentence = sentences.length > 0 ? sentences[Math.floor(Math.random() * sentences.length)] : '';
-
-      learn.innerHTML =
-        '<div class="fi-learn-emoji">' + item.icon + '</div>' +
-        '<div class="fi-learn-word">' + item.name + '</div>' +
-        '<div class="fi-learn-phonics">' + phonics + '</div>' +
-        (telugu ? '<div class="fi-learn-telugu">' + telugu + '</div>' : '') +
-        (sentence ? '<div class="fi-learn-sentence">' + sentence + '</div>' : '');
-
+      const next = document.createElement('button');
+      next.type = 'button';
+      next.className = 'btn';
+      next.style.background = '#2F9BE0';
+      next.textContent = round < ROUNDS - 1 ? 'Next →' : 'Finish 🏆';
+      next.addEventListener('click', () => { if (my === step) { Speech.stop(); nextRound(); } });
+      learn.appendChild(next);
       area.appendChild(learn);
 
-      var speakText = item.name + '. ' + phonics.replace(/·/g, ',') + '. ' + item.name + '.';
+      let speakText = item.name + '. ' + phonics.replace(/·/g, ',') + '. ' + item.name + '.';
       if (sentence) speakText += ' ' + sentence;
-
-      speak(speakText, 0.7, function() {
-        setTimeout(function() {
-          round++;
-          if (round < ROUNDS) {
-            startRound();
-          } else {
-            showComplete();
-          }
-        }, 800);
+      speak(speakText, 0.7, () => {
+        setTimeout(() => { if (my === step) nextRound(); }, 1500);
       });
     }
 
     function showComplete() {
-      var area = document.getElementById('fi-area');
-      area.innerHTML = '';
+      step++;
+      area.innerHTML =
+        '<div class="fi-complete">' +
+          '<span class="fi-big" aria-hidden="true">🏆</span>' +
+          '<h2>Superstar!</h2>' +
+          '<p>You found ' + ROUNDS + ' ' + currentCat.name.toLowerCase() + '!</p>' +
+          '<div class="btn-stack">' +
+            '<button type="button" class="btn" style="background:#5DB534" id="fi-again">Play Again <span class="emoji">🔄</span></button>' +
+            '<button type="button" class="btn" style="background:#2F9BE0" id="fi-new">New Topic <span class="emoji">🎯</span></button>' +
+          '</div>' +
+        '</div>';
 
-      var div = document.createElement('div');
-      div.className = 'fi-complete';
-      div.innerHTML =
-        '<span class="fi-big">🏆</span>' +
-        '<h2>Superstar!</h2>' +
-        '<p>You found all ' + ROUNDS + ' ' + currentCat.name.toLowerCase() + '!</p>' +
-        '<button class="fi-btn" style="background:#7EC850" id="fi-again">Play Again 🔄</button>' +
-        '<br>' +
-        '<button class="fi-btn" style="background:#4DADEA" id="fi-new">New Topic 🎯</button>';
-      area.appendChild(div);
-
-      for (var i = 0; i < 5; i++) {
-        spawnStars(
-          Math.random() * window.innerWidth,
-          Math.random() * window.innerHeight * 0.6
-        );
+      for (let i = 0; i < 5; i++) {
+        App.burst(stars, Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.6, 12);
       }
+      speak('Superstar! You found them all!', 0.85);
 
-      speak('Superstar! You found all the ' + currentCat.name + '!', 0.85);
-
-      document.getElementById('fi-again').addEventListener('click', function() {
-        round = 0;
-        usedIds.clear();
-        startRound();
-      });
+      document.getElementById('fi-again').addEventListener('click', () => { resetGame(); startRound(); });
       document.getElementById('fi-new').addEventListener('click', showCategoryPicker);
     }
 

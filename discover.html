@@ -2,161 +2,120 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Tap & Discover — Heshvitha's Learning World</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦋</text></svg>">
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=14">
   <style>
-    body { display: block; align-items: unset; justify-content: unset; }
-
-    .dc-wrap { max-width: 500px; margin: 0 auto; padding: 0 8px 20px; }
-
-    .dc-scene {
-      text-align: center; padding: 10px 0;
-      animation: fadeIn .4s ease-out;
-    }
+    .dc-wrap { max-width: 640px; margin: 0 auto; }
+    .dc-scene { text-align: center; padding: 6px 0; animation: fadeIn .4s ease-out; }
 
     .dc-card {
-      width: clamp(180px, 50vmin, 280px);
-      height: clamp(180px, 50vmin, 280px);
-      margin: 10px auto;
+      -webkit-appearance: none; appearance: none;
+      width: clamp(190px, 46vmin, 400px); height: clamp(190px, 46vmin, 400px);
+      margin: 8px auto; padding: 0;
       background: var(--card);
-      border: clamp(4px, .8vmin, 7px) solid var(--sh);
-      border-radius: clamp(24px, 5vmin, 40px);
+      border: clamp(4px, .8vmin, 8px) solid var(--line);
+      border-radius: clamp(26px, 5vmin, 48px);
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
       box-shadow: 0 4px 20px rgba(0,0,0,.08);
       transition: transform .15s, border-color .3s;
       user-select: none; -webkit-user-select: none;
-      -webkit-tap-highlight-color: transparent;
       position: relative; overflow: hidden;
     }
     .dc-card:active { transform: scale(.92); }
-    .dc-card.dc-tapped { pointer-events: none; }
+    .dc-card.dc-tapped { cursor: default; }
+    .dc-card.dc-tapped:active { transform: none; }
 
-    .dc-emoji {
-      font-size: clamp(72px, 22vmin, 140px);
-      line-height: 1; transition: all .4s ease;
-    }
-    .dc-emoji.dc-shake {
-      animation: wiggle .3s ease;
-    }
-    .dc-emoji.dc-pop {
-      animation: bounceIn .5s ease-out;
-    }
+    .dc-emoji { font-size: clamp(80px, 22vmin, 200px); }
+    .dc-emoji.dc-grow { animation: dc-grow .4s ease-out; }
+    .dc-emoji.dc-shake { animation: wiggle .3s ease; }
+    .dc-emoji.dc-pop { animation: bounceIn .5s ease-out; }
 
     .dc-hint {
-      font-size: clamp(14px, 3vmin, 22px);
-      color: var(--textL); font-weight: 700;
-      margin: 6px 0 4px;
-      animation: float 2s ease-in-out infinite;
+      font-size: clamp(16px, 2.8vmin, 26px); color: var(--textL); font-weight: 800;
+      margin: 6px 0 4px; animation: float 2s ease-in-out infinite;
     }
     .dc-hint.dc-hidden { visibility: hidden; }
 
-    .dc-result {
-      animation: fadeIn .4s ease-out;
-      margin-top: 8px;
-    }
-    .dc-result-word {
-      font-size: clamp(28px, 7vmin, 48px);
-      font-weight: 900; color: var(--text);
-      letter-spacing: 2px; margin-bottom: 2px;
-    }
-    .dc-result-phonics {
-      font-size: clamp(14px, 3vmin, 22px);
-      font-weight: 700; color: #F5A623;
-      letter-spacing: 3px; margin-bottom: 2px;
-    }
-    .dc-result-telugu {
-      font-size: clamp(16px, 3.5vmin, 26px);
-      font-weight: 700; color: var(--textL);
-      margin-bottom: 6px;
-    }
+    .dc-result { animation: fadeIn .4s ease-out; margin-top: 6px; }
+    .dc-result-word { font-size: clamp(30px, 6.4vmin, 60px); font-weight: 900; letter-spacing: 2px; margin-bottom: 2px; }
+    .dc-result-phonics { font-size: clamp(15px, 2.8vmin, 26px); font-weight: 800; color: var(--p1ink); letter-spacing: 3px; margin-bottom: 2px; }
+    .dc-result-telugu { font-size: clamp(18px, 3.4vmin, 30px); font-weight: 700; color: var(--textL); margin-bottom: 8px; }
     .dc-result-action {
-      font-size: clamp(14px, 3vmin, 22px);
-      font-weight: 600; color: var(--textM);
-      background: var(--sh); border-radius: 12px;
-      padding: 8px 16px; line-height: 1.5;
-      max-width: 340px; margin: 0 auto 6px;
+      font-size: clamp(16px, 2.8vmin, 26px); font-weight: 700; color: var(--textM);
+      background: var(--sh); border-radius: 14px; padding: 8px 16px; line-height: 1.5;
+      max-width: 420px; margin: 0 auto 6px;
     }
-    .dc-result-prompt {
-      font-size: clamp(13px, 2.8vmin, 20px);
-      font-weight: 800; color: #7EC850;
-      margin-top: 6px;
-    }
+    .dc-result-prompt { font-size: clamp(15px, 2.6vmin, 24px); font-weight: 900; color: var(--p3ink); margin: 6px 0 12px; }
 
-    .dc-nav {
-      display: flex; justify-content: center; gap: 12px;
-      margin-top: 12px;
-    }
-    .dc-nav-btn {
-      border: none; border-radius: 50px;
-      padding: clamp(8px, 1.8vmin, 14px) clamp(20px, 4vmin, 36px);
-      font-size: clamp(13px, 2.5vmin, 20px); font-weight: 800;
-      cursor: pointer; color: #fff;
-      box-shadow: 0 3px 12px rgba(0,0,0,.1);
-      transition: transform .15s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .dc-nav-btn:hover { transform: scale(1.06); }
-    .dc-nav-btn:active { transform: scale(.94); }
-
-    .dc-dots {
-      display: flex; justify-content: center; gap: 6px;
-      margin: 8px 0;
-    }
-    .dc-dot {
-      width: clamp(8px, 2vmin, 12px); height: clamp(8px, 2vmin, 12px);
-      border-radius: 50%; background: var(--sh);
-      transition: background .3s, transform .3s;
-    }
+    .dc-dots { display: flex; justify-content: center; gap: 8px; margin: 6px 0; }
+    .dc-dot { width: clamp(10px, 1.8vmin, 14px); height: clamp(10px, 1.8vmin, 14px); border-radius: 50%; background: var(--line); transition: background .3s, transform .3s; }
     .dc-dot.done { background: #7EC850; }
     .dc-dot.current { background: #F5A623; transform: scale(1.3); }
 
-    .dc-stars-c {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none; z-index: 100; overflow: hidden;
-    }
+    .dc-stars-c { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
 
-    .dc-sparkle {
-      position: absolute; font-size: 20px;
-      pointer-events: none;
-      animation: starPop .8s ease-out forwards;
-    }
+    .dc-end { text-align: center; padding: 24px 16px; animation: bounceIn .5s ease-out; }
+    .dc-end .dc-big { font-family: var(--emoji); font-size: clamp(64px, 16vmin, 130px); display: block; animation: float 2s ease-in-out infinite; }
+    .dc-end h2 { font-size: clamp(24px, 5vmin, 48px); font-weight: 900; animation: rainbow 2.5s linear infinite; margin: 10px 0; }
+    .dc-end p { font-size: clamp(15px, 2.6vmin, 24px); color: var(--textL); font-weight: 700; margin-bottom: 18px; }
 
     @keyframes dc-grow {
       0% { transform: scale(.3); opacity: 0; }
       50% { transform: scale(1.15); }
       100% { transform: scale(1); opacity: 1; }
     }
+
+    /* Phones held sideways: picture on the left, words on the right */
+    @media (orientation: landscape) and (max-height: 520px) {
+      .dc-wrap { max-width: 820px; }
+      .dc-scene { display: grid; grid-template-columns: auto 1fr; column-gap: 24px; align-items: center; text-align: left; }
+      .dc-card { grid-row: span 2; width: clamp(150px, 52vh, 230px); height: clamp(150px, 52vh, 230px); margin: 0; }
+      .dc-emoji { font-size: clamp(70px, 26vh, 120px); }
+      .dc-result-action { margin-left: 0; }
+    }
   </style>
 </head>
 <body>
   <div class="gw">
-    <div class="hdr">
-      <h1>
-        <em style="color:#E85D75">T</em><em style="color:#F5A623">a</em><em style="color:#7EC850">p</em>
-        <em style="color:#4DADEA">&</em>
-        <em style="color:#B07CD8">D</em><em style="color:#E85D75">i</em><em style="color:#F5A623">s</em><em style="color:#7EC850">c</em><em style="color:#4DADEA">o</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">e</em><em style="color:#F5A623">r</em>
-      </h1>
-      <div class="sub">Tap and see what happens!</div>
-    </div>
-        <nav class="nav-links">
-      <a href="index.html">Match</a>
-      <a href="learn.html">Learn</a>
-      <a href="find.html">Find It!</a>
-      <a href="discover.html" class="active">Discover</a>
-      <a href="trace.html">Trace</a>
-      <a href="stories.html">Stories</a>
-      <a href="print.html">Print</a>
-      <a href="worksheet.html">Worksheets</a>
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">T</em><em style="color:#F5A623">a</em><em style="color:#7EC850">p</em> <em style="color:#4DADEA">&amp;</em> <em style="color:#B07CD8">D</em><em style="color:#E85D75">i</em><em style="color:#F5A623">s</em><em style="color:#7EC850">c</em><em style="color:#4DADEA">o</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">e</em><em style="color:#F5A623">r</em></h1>
+      <p class="sub">Tap and see what happens!</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities">
+      <a href="index.html" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
+      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
+      <a href="find.html" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
+      <a href="discover.html" class="active" aria-current="page" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
+      <a href="trace.html" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
+      <a href="stories.html" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
+      <a href="print.html" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
+      <a href="worksheet.html" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
     </nav>
 
-    <div class="dc-wrap" id="dc-area"></div>
-    <div class="dc-stars-c" id="dc-stars"></div>
+    <main class="dc-wrap" id="dc-area"></main>
+    <div class="dc-stars-c" id="dc-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/telugu.js"></script>
+  <script src="js/common.js?v=14"></script>
+  <script src="js/telugu.js?v=14"></script>
   <script>
     var SCENES = [
       { start: '\u{1F95A}', end: '\u{1F423}', word: 'CHICK', telugu: '\u{C15}\u{C4A}\u{C21}\u{C3F}\u{C2A}\u{C3F}\u{C32}\u{C4D}\u{C32}', action: 'The egg cracked! A baby chick!', prompt: 'Can you say Cheep Cheep?', color: '#F5A623' },
@@ -173,258 +132,155 @@
       { start: '\u{1F327}\u{FE0F}', end: '\u{2602}\u{FE0F}', word: 'UMBRELLA', telugu: '\u{C17}\u{C4A}\u{C21}\u{C41}\u{C17}\u{C41}', action: 'It is raining! Open the umbrella!', prompt: 'Can you say Umbrella?', color: '#4DADEA' },
       { start: '\u{1F953}', end: '\u{1F373}', word: 'COOK', telugu: '\u{C35}\u{C02}\u{C1F}', action: 'Sizzle! We are cooking breakfast!', prompt: 'What do you eat for breakfast?', color: '#F5A623' },
       { start: '\u{1F3A8}', end: '\u{1F5BC}\u{FE0F}', word: 'PAINTING', telugu: '\u{C1A}\u{C3F}\u{C24}\u{C4D}\u{C30}\u{C02}', action: 'Beautiful! You made a painting!', prompt: 'What colors do you see?', color: '#B07CD8' },
-      { start: '\u{1FAB1}', end: '\u{1F98B}', word: 'BUTTERFLY', telugu: TELUGU.BUTTERFLY || '\u{C38}\u{C40}\u{C24}\u{C3E}\u{C15}\u{C4B}\u{C15}\u{C1A}\u{C3F}\u{C32}\u{C41}\u{C15}', action: 'Magic! The worm became a butterfly!', prompt: 'Can you fly like a butterfly?', color: '#7EC850' },
+      { start: '\u{1F41B}', end: '\u{1F98B}', word: 'BUTTERFLY', telugu: TELUGU.BUTTERFLY || '\u{C38}\u{C40}\u{C24}\u{C3E}\u{C15}\u{C4B}\u{C15}\u{C1A}\u{C3F}\u{C32}\u{C41}\u{C15}', action: 'Magic! The caterpillar became a butterfly!', prompt: 'Can you fly like a butterfly?', color: '#7EC850' },
       { start: '\u{1F33E}', end: '\u{1F35E}', word: 'BREAD', telugu: '\u{C30}\u{C4A}\u{C1F}\u{C4D}\u{C1F}\u{C46}', action: 'We baked bread from wheat!', prompt: 'Yum! Do you like bread?', color: '#F5A623' },
     ];
 
     var PER_SET = 4;
-    var current = 0;
-    var tappedInSet = 0;
-    var setStart = 0;
+    var AUTO_NEXT_MS = 3500;   // time to act out the prompt before moving on
+    var area = document.getElementById('dc-area');
+    var stars = document.getElementById('dc-stars');
     var shuffled = [];
+    var setStart = 0;
+    var items = [];
+    var current = 0;
+    var step = 0;   // bumps on every screen change so stale timers drop out
+    var card, emoji, hint, result;
 
-    var voice = null;
-    function loadVoice() {
-      var voices = speechSynthesis.getVoices();
-      var prefer = ['Google US English','Google UK English Female','Microsoft Zira','Samantha','Karen','Moira'];
-      for (var i = 0; i < prefer.length; i++) {
-        var v = voices.find(function(v) { return v.name.includes(prefer[i]); });
-        if (v) { voice = v; return; }
-      }
-      var en = voices.find(function(v) { return v.lang.startsWith('en-US'); });
-      if (en) voice = en;
-    }
-    speechSynthesis.onvoiceschanged = loadVoice;
-    loadVoice();
+    function speak(text, rate, onEnd) { Speech.speak(text, rate || 0.8, onEnd); }
 
-    function speak(text, rate, onEnd) {
-      speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(text);
-      u.rate = rate || 0.8;
-      u.pitch = 1.15;
-      u.lang = 'en-US';
-      if (voice) u.voice = voice;
-      var called = false;
-      function done() { if (called) return; called = true; if (onEnd) onEnd(); }
-      u.onend = done;
-      u.onerror = done;
-      speechSynthesis.speak(u);
-      if (onEnd) setTimeout(done, Math.max(3000, text.length * 120));
-    }
-
-    function shuffle(arr) {
-      var a = arr.slice();
-      for (var i = a.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var t = a[i]; a[i] = a[j]; a[j] = t;
-      }
-      return a;
-    }
-
-    function spawnStars(x, y) {
-      var ct = document.getElementById('dc-stars');
-      var emojis = ['⭐','✨','\u{1F31F}','\u{1F4AB}','\u{1F389}','\u{1F496}'];
-      for (var i = 0; i < 10; i++) {
-        var s = document.createElement('div');
-        s.className = 'star';
-        s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        s.style.left = (x + (Math.random() - .5) * 180) + 'px';
-        s.style.top = (y + (Math.random() - .5) * 180) + 'px';
-        ct.appendChild(s);
-        setTimeout((function(el) { return function() { el.remove(); }; })(s), 900);
-      }
+    function restartAnimation(el, cls) {
+      el.classList.remove('dc-grow', 'dc-shake', 'dc-pop');
+      void el.offsetWidth;
+      el.classList.add(cls);
     }
 
     function init() {
-      shuffled = shuffle(SCENES);
+      shuffled = App.shuffle(SCENES);
       setStart = 0;
-      tappedInSet = 0;
       showSet();
     }
 
     function showSet() {
-      var area = document.getElementById('dc-area');
-      area.innerHTML = '';
-      tappedInSet = 0;
-
-      var items = shuffled.slice(setStart, setStart + PER_SET);
-      if (items.length === 0) {
-        shuffled = shuffle(SCENES);
+      step++;
+      items = shuffled.slice(setStart, setStart + PER_SET);
+      if (!items.length) {
+        shuffled = App.shuffle(SCENES);
         setStart = 0;
         items = shuffled.slice(0, PER_SET);
       }
-
-      var dots = document.createElement('div');
-      dots.className = 'dc-dots';
-      for (var d = 0; d < items.length; d++) {
-        var dot = document.createElement('div');
-        dot.className = 'dc-dot';
-        if (d === 0) dot.classList.add('current');
-        dots.appendChild(dot);
-      }
-      area.appendChild(dots);
-
-      var scene = document.createElement('div');
-      scene.className = 'dc-scene';
-      scene.id = 'dc-scene';
-
-      var card = document.createElement('div');
-      card.className = 'dc-card';
-      card.id = 'dc-card';
-      card.style.borderColor = items[0].color;
-      var emoji = document.createElement('div');
-      emoji.className = 'dc-emoji';
-      emoji.id = 'dc-emoji';
-      emoji.textContent = items[0].start;
-      card.appendChild(emoji);
-      scene.appendChild(card);
-
-      var hint = document.createElement('div');
-      hint.className = 'dc-hint';
-      hint.id = 'dc-hint';
-      hint.textContent = '\u{1F449} Tap me!';
-      scene.appendChild(hint);
-
-      var resultDiv = document.createElement('div');
-      resultDiv.id = 'dc-result';
-      scene.appendChild(resultDiv);
-
-      area.appendChild(scene);
-
       current = 0;
-      card.addEventListener('click', function() {
-        handleTap(items);
-      });
 
+      var dots = '';
+      for (var d = 0; d < items.length; d++) dots += '<span class="dc-dot"></span>';
+      area.innerHTML =
+        '<div class="dc-dots" aria-hidden="true">' + dots + '</div>' +
+        '<div class="dc-scene">' +
+          '<button type="button" class="dc-card" id="dc-card" aria-label="Tap to see what happens"><span class="dc-emoji emoji" id="dc-emoji"></span></button>' +
+          '<div class="dc-hint" id="dc-hint">\u{1F449} Tap me!</div>' +
+          '<div id="dc-result" aria-live="polite"></div>' +
+        '</div>';
+      card = document.getElementById('dc-card');
+      emoji = document.getElementById('dc-emoji');
+      hint = document.getElementById('dc-hint');
+      result = document.getElementById('dc-result');
+      card.addEventListener('click', handleTap);
+
+      showScene();
       speak('Tap and see what happens!', 0.85);
     }
 
-    function handleTap(items) {
+    function showScene() {
       var item = items[current];
-      var card = document.getElementById('dc-card');
-      var emoji = document.getElementById('dc-emoji');
-      var hint = document.getElementById('dc-hint');
+      card.classList.remove('dc-tapped');
+      card.style.borderColor = '';
+      emoji.textContent = item.start;
+      restartAnimation(emoji, 'dc-grow');
+      hint.classList.remove('dc-hidden');
+      result.className = '';
+      result.innerHTML = '';
+      var dots = area.querySelectorAll('.dc-dot');
+      if (dots[current]) dots[current].classList.add('current');
+    }
 
+    function handleTap() {
       if (card.classList.contains('dc-tapped')) return;
+      var my = step;
+      var item = items[current];
       card.classList.add('dc-tapped');
-
-      emoji.classList.add('dc-shake');
+      restartAnimation(emoji, 'dc-shake');
       hint.classList.add('dc-hidden');
 
-      setTimeout(function() {
+      setTimeout(function () {
+        if (my !== step) return;
         emoji.textContent = item.end;
-        emoji.classList.remove('dc-shake');
-        emoji.classList.add('dc-pop');
+        restartAnimation(emoji, 'dc-pop');
         card.style.borderColor = item.color;
 
         var rect = card.getBoundingClientRect();
-        spawnStars(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        App.burst(stars, rect.left + rect.width / 2, rect.top + rect.height / 2, 10, 180);
 
         var phonics = item.word.split('').join(' · ');
-        var resultDiv = document.getElementById('dc-result');
-        resultDiv.innerHTML = '';
-        resultDiv.className = 'dc-result';
+        result.className = 'dc-result';
+        result.innerHTML = '';
+        [['dc-result-word', item.word], ['dc-result-phonics', phonics], ['dc-result-telugu', item.telugu],
+         ['dc-result-action', item.action], ['dc-result-prompt', '\u{1F3A4} ' + item.prompt]].forEach(function (p) {
+          var el = document.createElement('div');
+          el.className = p[0];
+          el.textContent = p[1];
+          if (p[0] === 'dc-result-word') el.style.color = item.color;
+          if (p[0] === 'dc-result-telugu') el.lang = 'te';
+          result.appendChild(el);
+        });
+        var next = document.createElement('button');
+        next.type = 'button';
+        next.className = 'btn';
+        next.style.background = '#2F9BE0';
+        next.textContent = current < items.length - 1 ? 'Next →' : 'Done ⭐';
+        next.addEventListener('click', function () { if (my === step) { Speech.stop(); nextInSet(); } });
+        result.appendChild(next);
 
-        var word = document.createElement('div');
-        word.className = 'dc-result-word';
-        word.textContent = item.word;
-        word.style.color = item.color;
-
-        var ph = document.createElement('div');
-        ph.className = 'dc-result-phonics';
-        ph.textContent = phonics;
-
-        var tel = document.createElement('div');
-        tel.className = 'dc-result-telugu';
-        tel.textContent = item.telugu;
-
-        var act = document.createElement('div');
-        act.className = 'dc-result-action';
-        act.textContent = item.action;
-
-        var prompt = document.createElement('div');
-        prompt.className = 'dc-result-prompt';
-        prompt.textContent = '\u{1F3A4} ' + item.prompt;
-
-        resultDiv.appendChild(word);
-        resultDiv.appendChild(ph);
-        resultDiv.appendChild(tel);
-        resultDiv.appendChild(act);
-        resultDiv.appendChild(prompt);
-
-        var dots = document.querySelectorAll('.dc-dot');
-        if (dots[current]) {
-          dots[current].classList.remove('current');
-          dots[current].classList.add('done');
-        }
+        var dots = area.querySelectorAll('.dc-dot');
+        if (dots[current]) { dots[current].classList.remove('current'); dots[current].classList.add('done'); }
 
         var speakText = item.action + ' ' + item.word + '. ' + phonics.replace(/·/g, ',') + '. ' + item.prompt;
-        speak(speakText, 0.75, function() {
-          setTimeout(function() { nextInSet(items); }, 1200);
+        speak(speakText, 0.75, function () {
+          setTimeout(function () { if (my === step) nextInSet(); }, AUTO_NEXT_MS);
         });
       }, 400);
     }
 
-    function nextInSet(items) {
+    function nextInSet() {
+      step++;
       current++;
-      tappedInSet++;
-
       if (current >= items.length) {
         setStart += PER_SET;
         if (setStart >= shuffled.length) {
-          shuffled = shuffle(SCENES);
+          shuffled = App.shuffle(SCENES);
           setStart = 0;
         }
         showSetComplete();
         return;
       }
-
-      var card = document.getElementById('dc-card');
-      var emoji = document.getElementById('dc-emoji');
-      var hint = document.getElementById('dc-hint');
-      var resultDiv = document.getElementById('dc-result');
-
-      card.classList.remove('dc-tapped');
-      emoji.classList.remove('dc-pop');
-      emoji.textContent = items[current].start;
-      emoji.style.animation = 'none';
-      void emoji.offsetWidth;
-      emoji.style.animation = 'dc-grow .4s ease-out';
-      card.style.borderColor = items[current].color;
-      hint.classList.remove('dc-hidden');
-      resultDiv.innerHTML = '';
-
-      var dots = document.querySelectorAll('.dc-dot');
-      if (dots[current]) dots[current].classList.add('current');
-
+      showScene();
       speak('What happens next? Tap!', 0.85);
     }
 
     function showSetComplete() {
-      var area = document.getElementById('dc-area');
-      area.innerHTML = '';
-
-      var div = document.createElement('div');
-      div.style.textAlign = 'center';
-      div.style.padding = '30px 16px';
-      div.style.animation = 'bounceIn .5s ease-out';
-      div.innerHTML =
-        '<span style="font-size:clamp(60px,18vmin,120px);display:block;animation:float 2s ease-in-out infinite">\u{1F31F}</span>' +
-        '<h2 style="font-size:clamp(22px,5vmin,40px);font-weight:900;animation:rainbow 2.5s linear infinite;margin:10px 0">Amazing Explorer!</h2>' +
-        '<p style="font-size:clamp(13px,2.8vmin,22px);color:var(--textL);margin-bottom:16px">You discovered so many things!</p>' +
-        '<button class="dc-nav-btn" style="background:#7EC850" id="dc-more">More Discoveries \u{1F50D}</button>' +
-        '<br><br>' +
-        '<button class="dc-nav-btn" style="background:#4DADEA" id="dc-restart">Start Over \u{1F504}</button>';
-      area.appendChild(div);
-
+      step++;
+      area.innerHTML =
+        '<div class="dc-end">' +
+          '<span class="dc-big" aria-hidden="true">\u{1F31F}</span>' +
+          '<h2>Amazing Explorer!</h2>' +
+          '<p>You discovered so many things!</p>' +
+          '<div class="btn-stack">' +
+            '<button type="button" class="btn" style="background:#5DB534" id="dc-more">More Discoveries <span class="emoji">\u{1F50D}</span></button>' +
+            '<button type="button" class="btn" style="background:#2F9BE0" id="dc-restart">Start Over <span class="emoji">\u{1F504}</span></button>' +
+          '</div>' +
+        '</div>';
       speak('Amazing explorer! You discovered so many things!', 0.85);
-
-      document.getElementById('dc-more').addEventListener('click', function() {
-        showSet();
-      });
-      document.getElementById('dc-restart').addEventListener('click', function() {
-        init();
-      });
+      document.getElementById('dc-more').addEventListener('click', showSet);
+      document.getElementById('dc-restart').addEventListener('click', init);
     }
 
     init();
