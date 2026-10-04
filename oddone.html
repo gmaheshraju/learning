@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Odd One Out — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .oo { max-width: 760px; margin: 0 auto; }
+    .oo-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 2.4vmin, 22px);
+      width: 100%; max-width: clamp(330px, 58vmin, 560px); margin: 4px auto 12px;
+    }
+    .oo-card {
+      aspect-ratio: 1; border-radius: clamp(18px, 3vmin, 30px); padding: 0;
+      border: 4px solid var(--line); background: var(--card); cursor: pointer; container-type: inline-size;
+      display: grid; place-items: center; box-shadow: 0 3px 14px var(--sh);
+      font-family: var(--emoji); line-height: 1;
+      animation: bounceIn .4s ease-out both; transition: transform .15s, border-color .2s, opacity .3s;
+    }
+    /* sized from the card's own width (container units must live on a child) */
+    .oo-in { width: 100%; height: 100%; display: grid; place-items: center; font-size: 54px; font-size: 56cqi; }
+    .oo-in svg { width: 70%; height: 70%; }
+    .oo-in .num { font-family: var(--font); font-weight: 900; color: var(--text); font-size: 48cqi; }
+    .oo-card:active { transform: scale(.94); }
+    .oo-card.nope { animation: wiggle .45s ease; border-color: #ffb3c0; }
+    .oo-card.odd { border-color: #EF6C8A; box-shadow: 0 0 0 6px rgba(239,108,138,.25); transform: scale(1.05); }
+    .oo-card.same { border-color: #7EC850; opacity: .75; }
+    .reason {
+      text-align: center; font-size: clamp(17px, 2.8vmin, 26px); font-weight: 800; color: var(--text);
+      min-height: 2.6em; max-width: 620px; margin: 0 auto 8px; animation: fadeIn .3s ease-out;
+    }
+    @media (hover: hover) and (pointer: fine) { .oo-card:hover { border-color: #EF6C8A; } }
+    @media (orientation: landscape) and (max-height: 520px) {
+      .oo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: min(640px, calc((100dvh - 236px) * 4 + 30px)); }
+      .reason { min-height: 0; font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">O</em><em style="color:#F5A623">d</em><em style="color:#7EC850">d</em> <em style="color:#4DADEA">O</em><em style="color:#B07CD8">n</em><em style="color:#E85D75">e</em> <em style="color:#F5A623">O</em><em style="color:#7EC850">u</em><em style="color:#4DADEA">t</em></h1>
+      <p class="sub">Which one doesn&#x27;t belong? Why?</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="oddone"></nav>
+    <main class="oo land-split">
+      <div class="act-bar">
+        <div id="level"></div>
+        <button type="button" class="tool-btn" id="skip" aria-label="Another one" title="Another one">🔀</button>
+      </div>
+      <div class="prompt-row">
+        <span class="prompt-text" id="prompt" aria-live="polite">Which one doesn't belong?</span>
+        <button type="button" class="say-btn" id="say" aria-label="Hear it again">🔊</button>
+      </div>
+      <div class="oo-grid" id="grid" role="group" aria-label="Pictures"></div>
+      <div class="reason" id="reason" aria-live="polite"></div>
+      <div class="btn-row" id="actions"></div>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script src="js/data.js?v=15"></script>
+  <script src="js/shapes.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 3, label: 'Animal, food or car?' },
+      { age: 4, label: 'Colours and shapes' },
+      { age: 5, label: 'Think harder' },
+      { age: 6, label: 'Tricky ones' }
+    ];
+    // Topic groups from the shared picture data, with how to say them.
+    var GROUPS = {
+      animals: { one: 'an animal', many: 'animals' },
+      fruits: { one: 'a fruit', many: 'fruits' },
+      vegetables: { one: 'a vegetable', many: 'vegetables' },
+      vehicles: { one: 'something that goes', many: 'things that go' },
+      clothes: { one: 'something we wear', many: 'clothes' },
+      kitchen: { one: 'a kitchen thing', many: 'kitchen things' },
+      bodyparts: { one: 'a part of the body', many: 'parts of the body' }
+    };
+    var EASY_PAIRS = [['animals', 'fruits'], ['animals', 'vehicles'], ['fruits', 'vehicles'], ['vehicles', 'animals'], ['fruits', 'animals'], ['clothes', 'animals'], ['animals', 'clothes'], ['vehicles', 'fruits']];
+    // Each: the group, pictures that belong, pictures that don't, and the reason (with {odd}).
+    var THEMES = [
+      { many: 'things that fly', in: [['🐦', 'bird'], ['✈️', 'plane'], ['🦋', 'butterfly'], ['🚁', 'helicopter'], ['🦅', 'eagle']], out: [['🚗', 'car'], ['🐘', 'elephant'], ['🐢', 'turtle'], ['🚲', 'bike']], why: 'The {odd} cannot fly. The others can!' },
+      { many: 'things in the sea', in: [['🐟', 'fish'], ['🐙', 'octopus'], ['🐳', 'whale'], ['🦀', 'crab'], ['🐠', 'tropical fish']], out: [['🐶', 'dog'], ['🦁', 'lion'], ['🐄', 'cow']], why: 'The {odd} does not live in the sea. The others do!' },
+      { many: 'fruits', in: [['🍎', 'apple'], ['🍌', 'banana'], ['🍇', 'grapes'], ['🍓', 'strawberry'], ['🍉', 'watermelon']], out: [['🥕', 'carrot'], ['🥦', 'broccoli'], ['🌽', 'corn']], why: 'The {odd} is a vegetable. The others are fruits!' },
+      { many: 'hot things', in: [['☀️', 'sun'], ['🔥', 'fire'], ['☕', 'hot tea'], ['🍲', 'hot soup']], out: [['🧊', 'ice'], ['⛄', 'snowman'], ['🍦', 'ice cream']], why: 'The {odd} is cold. The others are hot!' },
+      { many: 'cold things', in: [['🧊', 'ice'], ['⛄', 'snowman'], ['🍦', 'ice cream'], ['❄️', 'snowflake']], out: [['☀️', 'sun'], ['🔥', 'fire'], ['☕', 'hot tea']], why: 'The {odd} is hot. The others are cold!' },
+      { many: 'things with wheels', in: [['🚗', 'car'], ['🚲', 'bike'], ['🚌', 'bus'], ['🛴', 'scooter'], ['🚂', 'train']], out: [['⛵', 'boat'], ['🛶', 'canoe'], ['🚀', 'rocket']], why: 'The {odd} has no wheels. The others do!' },
+      { many: 'things we wear', in: [['👕', 'shirt'], ['👖', 'pants'], ['🧦', 'socks'], ['🧢', 'cap'], ['👗', 'dress']], out: [['🍎', 'apple'], ['🚗', 'car'], ['🐶', 'dog']], why: 'We cannot wear a {odd}!' },
+      { many: 'things that make music', in: [['🎸', 'guitar'], ['🥁', 'drum'], ['🎹', 'piano'], ['🎺', 'trumpet'], ['🎻', 'violin']], out: [['🍌', 'banana'], ['⚽', 'ball'], ['🧦', 'sock']], why: 'The {odd} does not make music!' },
+      { many: 'round things', in: [['⚽', 'football'], ['🏀', 'basketball'], ['🌕', 'moon'], ['🍊', 'orange']], out: [['📦', 'box'], ['📚', 'books'], ['🧱', 'brick']], why: 'The {odd} is not round. The others are!' },
+      { many: 'things we see at night', in: [['🌙', 'moon'], ['⭐', 'star'], ['🦉', 'owl'], ['🌃', 'night sky']], out: [['☀️', 'sun'], ['🌈', 'rainbow']], why: 'We see the {odd} in the daytime!' }
+    ];
+    var HARD = [
+      { many: 'animals with four legs', in: [['🐶', 'dog'], ['🐱', 'cat'], ['🐘', 'elephant'], ['🦒', 'giraffe'], ['🐄', 'cow'], ['🐴', 'horse']], out: [['🐔', 'hen'], ['🦆', 'duck'], ['🐧', 'penguin']], why: 'The {odd} has two legs. The others have four!' },
+      { many: 'insects', in: [['🐝', 'bee'], ['🐞', 'ladybird'], ['🐜', 'ant'], ['🦋', 'butterfly']], out: [['🕷️', 'spider']], why: 'The spider has eight legs. Insects have six, so it is not an insect!' },
+      { many: 'living things', in: [['🌳', 'tree'], ['🐶', 'dog'], ['🌻', 'sunflower'], ['🐟', 'fish'], ['🐦', 'bird']], out: [['🚗', 'car'], ['⚽', 'ball'], ['🏠', 'house']], why: 'The {odd} is not alive. It does not eat or grow!' },
+      { many: 'farm animals', in: [['🐄', 'cow'], ['🐖', 'pig'], ['🐑', 'sheep'], ['🐔', 'hen'], ['🐐', 'goat']], out: [['🦁', 'lion'], ['🦒', 'giraffe'], ['🐼', 'panda']], why: 'The {odd} does not live on a farm. It lives in the wild!' },
+      { many: 'things that give light', in: [['☀️', 'sun'], ['💡', 'light bulb'], ['🕯️', 'candle'], ['🔦', 'torch']], out: [['🌳', 'tree'], ['🧸', 'teddy'], ['🍎', 'apple']], why: 'The {odd} does not give light!' },
+      { many: 'things we eat with', in: [['🥄', 'spoon'], ['🍴', 'fork'], ['🥢', 'chopsticks']], out: [['✏️', 'pencil'], ['🔑', 'key']], why: 'We do not eat with a {odd}!' },
+      { many: 'even numbers', nums: true, in: [['2', 'two'], ['4', 'four'], ['6', 'six'], ['8', 'eight'], ['10', 'ten']], out: [['3', 'three'], ['5', 'five'], ['7', 'seven'], ['9', 'nine']], why: '{odd} is odd. The others can be shared into two equal groups!' },
+      { many: 'baby animals', in: [['🐣', 'chick'], ['🐥', 'baby chick'], ['🐤', 'little chick']], out: [['🐔', 'hen']], why: 'The {odd} is a grown-up. The others are babies!' }
+    ];
+    var C = Shapes.COLORS, S = Shapes.SHAPES;
+    var COLOR_KEYS = ['red', 'blue', 'yellow', 'green', 'purple'];
+    var SHAPE_KEYS = ['circle', 'square', 'triangle', 'star', 'heart'];
+
+    var grid = document.getElementById('grid'), promptEl = document.getElementById('prompt'), reasonEl = document.getElementById('reason'), actions = document.getElementById('actions');
+    var level = 0, q = null, wrongs = 0, busy = false, token = 0, lastKey = '';
+
+    function say(t, rate, cb) { Speech.speak(t, rate || 0.88, cb); }
+    function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+    function some(a, n) { return App.shuffle(a).slice(0, n); }
+    function emojiItem(e) { return { html: e[0], name: e[1] }; }
+    function fill(t, odd) { return t.replace('{odd}', odd); }
+    function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    function fromTopics(pairs) {
+      var pr = pick(pairs), A = CATEGORIES.filter(function (c) { return c.id === pr[0]; })[0], B = CATEGORIES.filter(function (c) { return c.id === pr[1]; })[0];
+      var same = some(A.items, 3).map(function (it) { return { item: it, name: it.name.toLowerCase() }; });
+      var odd = { item: pick(B.items) };
+      odd.name = odd.item.name.toLowerCase();
+      var g = GROUPS[pr[0]];
+      return { key: pr.join(), same: same, odd: odd, group: g.many, why: 'The ' + odd.name + ' is not ' + g.one + '. The others are all ' + g.many + '!' };
+    }
+    function fromShapes() {
+      if (Math.random() < 0.5) {
+        var s = pick(SHAPE_KEYS), cs = some(COLOR_KEYS, 2);
+        return { key: 'c' + cs, same: [0, 1, 2].map(function () { return { html: Shapes.svg(s, cs[0]), name: C[cs[0]].name + ' ' + S[s].name }; }),
+          odd: { html: Shapes.svg(s, cs[1]), name: C[cs[1]].name + ' ' + S[s].name }, group: C[cs[0]].name + ' ones',
+          why: 'The ' + C[cs[1]].name + ' one is a different colour. The others are all ' + C[cs[0]].name + '!' };
+      }
+      var c = pick(COLOR_KEYS), ss = some(SHAPE_KEYS, 2);
+      return { key: 's' + ss, same: [0, 1, 2].map(function () { return { html: Shapes.svg(ss[0], c), name: S[ss[0]].name }; }),
+        odd: { html: Shapes.svg(ss[1], c), name: S[ss[1]].name }, group: S[ss[0]].plural,
+        why: 'The ' + S[ss[1]].name + ' is a different shape. The others are all ' + S[ss[0]].plural + '!' };
+    }
+    // Same shape, many colours, and one different shape: she has to ignore colour.
+    function ignoreColour() {
+      var ss = some(SHAPE_KEYS, 2), cs = some(COLOR_KEYS, 4);
+      return { key: 'ic' + ss, same: [0, 1, 2].map(function (i) { return { html: Shapes.svg(ss[0], cs[i]), name: C[cs[i]].name + ' ' + S[ss[0]].name }; }),
+        odd: { html: Shapes.svg(ss[1], cs[3]), name: S[ss[1]].name }, group: S[ss[0]].plural,
+        why: 'The ' + S[ss[1]].name + ' is a different shape. The colours do not matter this time!' };
+    }
+    function fromTheme(list) {
+      var t = pick(list);
+      var same = some(t.in, 3).map(emojiItem), odd = emojiItem(pick(t.out));
+      if (t.nums) {
+        same.forEach(function (s) { s.html = '<span class="num">' + s.html + '</span>'; });
+        odd.html = '<span class="num">' + odd.html + '</span>';
+      }
+      return { key: t.many, same: same, odd: odd, group: t.many, why: cap(fill(t.why, t.nums ? cap(odd.name) : odd.name)) };
+    }
+
+    function makeQuestion() {
+      if (level === 0) return fromTopics(EASY_PAIRS);
+      if (level === 1) return Math.random() < 0.5 ? fromShapes() : fromTopics(EASY_PAIRS.concat([['vegetables', 'clothes'], ['kitchen', 'animals'], ['bodyparts', 'vehicles']]));
+      if (level === 2) return Math.random() < 0.75 ? fromTheme(THEMES) : fromTopics([['fruits', 'vegetables'], ['vegetables', 'fruits'], ['kitchen', 'clothes']]);
+      return Math.random() < 0.2 ? ignoreColour() : fromTheme(Math.random() < 0.7 ? HARD : THEMES);
+    }
+
+    function newQuestion() {
+      token++;
+      busy = false;
+      wrongs = 0;
+      do { q = makeQuestion(); } while (q.key === lastKey && Math.random() < 0.8);
+      lastKey = q.key;
+      reasonEl.textContent = '';
+      actions.innerHTML = '';
+      promptEl.textContent = "Which one doesn't belong?";
+      var all = App.shuffle(q.same.map(function (s) { return { s: s, odd: false }; }).concat([{ s: q.odd, odd: true }]));
+      grid.innerHTML = '';
+      all.forEach(function (a, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'oo-card';
+        b.style.animationDelay = (i * 0.07) + 's';
+        b.setAttribute('aria-label', a.s.name);
+        b.innerHTML = '<span class="oo-in"></span>';
+        if (a.s.item) renderIcon(b.firstChild, a.s.item); else b.firstChild.innerHTML = a.s.html;
+        b.addEventListener('click', function () { choose(a, b); });
+        a.el = b;
+        grid.appendChild(b);
+      });
+      q.cards = all;
+      say("Which one doesn't belong?");
+    }
+
+    function choose(a, el) {
+      if (busy) return;
+      if (!a.odd) {
+        wrongs++;
+        el.classList.remove('nope'); void el.offsetWidth; el.classList.add('nope');
+        App.sfx('oops');
+        say(wrongs >= 2 ? 'Three of them are ' + q.group + '. Which one is not?' : 'That one belongs! Look again.');
+        return;
+      }
+      busy = true;
+      var my = token;
+      App.sfx('yay');
+      q.cards.forEach(function (c) { c.el.classList.add(c.odd ? 'odd' : 'same'); });
+      var r = el.getBoundingClientRect();
+      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 10, r.width * 1.5);
+      if (level === 0) { reveal(my); return; }
+      // Ask why first: explaining is the real thinking. A grown-up can talk it through.
+      promptEl.textContent = 'Yes! Why doesn’t it belong? 🤔';
+      say("Yes! Why doesn't it belong?");
+      actions.innerHTML = '<button type="button" class="btn" id="why" style="background:#EF6C8A">Show why</button>';
+      document.getElementById('why').addEventListener('click', function () { reveal(my); });
+    }
+
+    function reveal(my) {
+      if (my !== token) return;
+      promptEl.textContent = 'Well spotted!';
+      reasonEl.textContent = q.why;
+      actions.innerHTML = '<button type="button" class="btn" id="next" style="background:#5DB534">Next →</button>';
+      document.getElementById('next').addEventListener('click', function () { Speech.stop(); newQuestion(); });
+      say(q.why, 0.86, function () {
+        if (level === 0) setTimeout(function () { if (my === token) newQuestion(); }, 2200);
+      });
+    }
+
+    document.getElementById('say').addEventListener('click', function () { say(promptEl.textContent.replace('🤔', '')); });
+    document.getElementById('skip').addEventListener('click', function () { Speech.stop(); newQuestion(); });
+
+    var lv = App.levelControl(document.getElementById('level'), 'oddone', LEVELS, function (l) { level = l; newQuestion(); });
+    level = lv.get();
+    newQuestion();
+  </script>
+</body>
+</html>

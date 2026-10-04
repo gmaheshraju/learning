@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>What Happens Next — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .od { max-width: 980px; margin: 0 auto; }
+    .slots { display: flex; justify-content: center; gap: clamp(6px, 2vw, 16px); margin: 6px auto 8px; }
+    .slots { --n: 3; }
+    .slot {
+      /* as big as fits: n boxes plus the arrows between them, within the page width */
+      --s: clamp(54px, min(24vw, (100vw - 2 * var(--gutter) - var(--n) * 30px) / var(--n)), 150px);
+      width: var(--s); display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .slot-box {
+      width: var(--s); height: var(--s); border-radius: 22px; border: 3px dashed var(--line);
+      background: var(--card); display: grid; place-items: center; position: relative;
+      font-family: var(--emoji); font-size: calc(var(--s) * .62); line-height: 1; cursor: pointer;
+      transition: border-color .2s, transform .2s, background-color .2s;
+    }
+    .slot-box.next { border-color: #AB47BC; background: rgba(171,71,188,.07); }
+    .slot-box.full { border-style: solid; border-color: #AB47BC; box-shadow: 0 3px 12px var(--sh); }
+    .slot-box.good { border-color: #7EC850; background: var(--ok-bg); }
+    .slot-box.nope { animation: wiggle .45s ease; border-color: #ffb3c0; }
+    .slot-box.lit { transform: translateY(-8px) scale(1.06); }
+    .slot-box.pop { animation: bounceIn .4s ease-out; }
+    .slot-word { font-size: clamp(13px, 2.2vmin, 18px); font-weight: 900; color: var(--textL); text-transform: uppercase; letter-spacing: 1px; }
+    .arrow { align-self: center; font-size: 22px; color: var(--textL); margin-top: -26px; flex: none; }
+
+    .tray { display: flex; justify-content: center; flex-wrap: wrap; gap: clamp(10px, 3vw, 20px); margin: 18px auto 10px; min-height: 100px; }
+    .ocard {
+      width: clamp(80px, 22vw, 130px); height: clamp(80px, 22vw, 130px); border-radius: 22px; padding: 0;
+      border: 3px solid var(--line); background: var(--card); cursor: pointer;
+      font-family: var(--emoji); font-size: clamp(48px, 13vw, 80px); line-height: 1;
+      box-shadow: 0 3px 12px var(--sh); animation: bounceIn .4s ease-out both; transition: transform .12s;
+    }
+    .ocard:active { transform: scale(.92); }
+    .ocard.nope { animation: wiggle .45s ease; border-color: #ffb3c0; }
+    .ocard.used { visibility: hidden; }
+    .caption { text-align: center; font-size: clamp(16px, 2.6vmin, 24px); font-weight: 800; color: var(--textM); min-height: 1.6em; margin-top: 6px; }
+    @media (hover: hover) and (pointer: fine) { .ocard:hover { border-color: #AB47BC; } }
+    @media (orientation: landscape) and (max-height: 520px) {
+      .od { display: grid; grid-template-columns: auto auto; justify-content: center; align-items: center; column-gap: 28px; }
+      .od > .act-bar { grid-column: 1; margin: 0; }
+      .od > .prompt-row { grid-column: 2; margin: 0; justify-content: flex-start; }
+      .slot { --s: 72px; }
+      .slot-word { font-size: 12px; }
+      .tray { margin: 0; min-height: 0; max-width: 250px; gap: 8px; }
+      .ocard { width: 64px; height: 64px; font-size: 40px; border-radius: 16px; }
+      .caption { grid-column: 1 / -1; min-height: 0; margin: 0; font-size: 16px; }
+      #check-row { grid-column: 1 / -1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">W</em><em style="color:#F5A623">h</em><em style="color:#7EC850">a</em><em style="color:#4DADEA">t</em> <em style="color:#B07CD8">H</em><em style="color:#E85D75">a</em><em style="color:#F5A623">p</em><em style="color:#7EC850">p</em><em style="color:#4DADEA">e</em><em style="color:#B07CD8">n</em><em style="color:#E85D75">s</em> <em style="color:#F5A623">N</em><em style="color:#7EC850">e</em><em style="color:#4DADEA">x</em><em style="color:#B07CD8">t</em></h1>
+      <p class="sub">Put the pictures in order</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="order"></nav>
+    <main class="od">
+      <div class="act-bar">
+        <div id="level"></div>
+        <button type="button" class="tool-btn" id="skip" aria-label="Another story" title="Another one">🔀</button>
+      </div>
+      <div class="prompt-row">
+        <span class="prompt-text" id="prompt" aria-live="polite"></span>
+        <button type="button" class="say-btn" id="say" aria-label="Hear it again">🔊</button>
+      </div>
+      <div class="slots" id="slots"></div>
+      <div class="tray" id="tray" role="group" aria-label="Pictures"></div>
+      <div class="btn-row" id="check-row" hidden><button type="button" class="btn" id="check" style="background:#AB47BC">✓ Check my order</button></div>
+      <div class="caption" id="caption" aria-live="polite"></div>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 3, label: 'What comes first?', steps: 2, given: 0, checkAtEnd: false },
+      { age: 4, label: '3 pictures, one given', steps: 3, given: 1, checkAtEnd: false },
+      { age: 5, label: '3 pictures', steps: 3, given: 0, checkAtEnd: false },
+      { age: 6, label: '4 pictures', steps: 4, given: 0, checkAtEnd: true },
+      { age: 7, label: '4 + one odd one', steps: 4, given: 0, checkAtEnd: true, decoy: true }
+    ];
+    var THREE = [
+      [['🥚', 'egg', 'First there is an egg.'], ['🐣', 'chick', 'Then the chick hatches.'], ['🐔', 'hen', 'Last, it grows into a hen.']],
+      [['🌰', 'seed', 'First we plant a seed.'], ['🌱', 'sprout', 'Then a little sprout grows.'], ['🌻', 'flower', 'Last, a big flower blooms.']],
+      [['☁️', 'clouds', 'First the clouds come.'], ['🌧️', 'rain', 'Then it rains.'], ['🌈', 'rainbow', 'Last, a rainbow comes out.']],
+      [['🧱', 'bricks', 'First we get the bricks.'], ['🏗️', 'building', 'Then we build.'], ['🏠', 'house', 'Last, the house is ready.']],
+      [['🌾', 'wheat', 'First the wheat grows.'], ['🍞', 'bread', 'Then we bake bread.'], ['🥪', 'sandwich', 'Last, we make a sandwich.']],
+      [['🥚', 'tiny egg', 'First there is a tiny egg on a leaf.'], ['🐛', 'caterpillar', 'Then a caterpillar comes out.'], ['🦋', 'butterfly', 'Last, it becomes a butterfly.']],
+      [['🌅', 'morning', 'First the sun comes up.'], ['☀️', 'daytime', 'Then it is daytime.'], ['🌙', 'night', 'Last, it is night time.']],
+      [['🥚', 'egg', 'First we take an egg.'], ['🍳', 'cooking', 'Then we cook it in a pan.'], ['🍽️', 'plate', 'Last, we eat it from a plate.']],
+      [['❄️', 'snow', 'First the snow falls.'], ['⛄', 'snowman', 'Then we build a snowman.'], ['💧', 'water', 'Last, the sun melts it into water.']]
+    ];
+    var FOUR = [
+      [['🥚', 'egg', 'First there is an egg.'], ['🐣', 'hatching', 'Then it cracks and hatches.'], ['🐥', 'chick', 'Next, a fluffy chick.'], ['🐔', 'hen', 'Last, it grows into a hen.']],
+      [['🌰', 'seed', 'First we plant a seed.'], ['🌱', 'sprout', 'Then a sprout pops up.'], ['🌿', 'plant', 'Next, it grows leaves.'], ['🌻', 'flower', 'Last, a flower blooms.']],
+      [['👶', 'baby', 'First you are a baby.'], ['🧒', 'child', 'Then you grow into a child.'], ['🧑', 'grown-up', 'Next, a grown-up.'], ['🧓', 'grandparent', 'Last, a grandparent.']],
+      [['🌸', 'blossom', 'First the apple tree has flowers.'], ['🍏', 'little apple', 'Then little green apples grow.'], ['🍎', 'red apple', 'Next, the apples turn red.'], ['🥧', 'apple pie', 'Last, we bake an apple pie.']],
+      [['🌅', 'sunrise', 'First the sun rises.'], ['☀️', 'daytime', 'Then it is daytime.'], ['🌇', 'sunset', 'Next, the sun sets.'], ['🌙', 'night', 'Last, it is night.']],
+      [['🍞', 'bread', 'First we take some bread.'], ['🧈', 'butter', 'Then we spread butter.'], ['🥪', 'sandwich', 'Next, we make a sandwich.'], ['😋', 'yummy', 'Last, we eat it. Yum!']],
+      [['✏️', 'write', 'First we write a letter.'], ['✉️', 'envelope', 'Then we put it in an envelope.'], ['📮', 'post box', 'Next, we post it.'], ['📬', 'mailbox', 'Last, it arrives in the mailbox.']],
+      [['☀️', 'sun', 'First the sun warms the sea.'], ['☁️', 'clouds', 'Then clouds form in the sky.'], ['🌧️', 'rain', 'Next, it rains.'], ['🌊', 'sea', 'Last, the rain flows back to the sea.']]
+    ];
+    var DECOYS = [['🚗', 'car'], ['🎈', 'balloon'], ['🐟', 'fish'], ['🍦', 'ice cream'], ['⚽', 'ball'], ['🎸', 'guitar'], ['🧸', 'teddy bear']];
+    var WORDS = { 2: ['First', 'Then'], 3: ['First', 'Next', 'Last'], 4: ['First', 'Then', 'Next', 'Last'] };
+
+    var slotsEl = document.getElementById('slots'), trayEl = document.getElementById('tray'), promptEl = document.getElementById('prompt'), captionEl = document.getElementById('caption');
+    var level = 0, story = null, filled = [], cards = [], busy = false, token = 0, lastIdx = -1;
+
+    function say(t, rate, cb) { Speech.speak(t, rate || 0.88, cb); }
+    function setPrompt(t) { promptEl.textContent = t; }
+
+    function newStory() {
+      var L = LEVELS[level];
+      token++;
+      busy = false;
+      var pool = L.steps === 4 ? FOUR : THREE;
+      var idx;
+      do { idx = Math.floor(Math.random() * pool.length); } while (pool.length > 1 && idx === lastIdx);
+      lastIdx = idx;
+      var full = pool[idx];
+      story = L.steps === 2 ? [full[0], full[full.length - 1]] : full.slice();
+      filled = story.map(function () { return null; });
+      cards = story.map(function (s, i) { return { step: s, at: i, slot: -1 }; });
+      if (L.decoy) {
+        var d = DECOYS[Math.floor(Math.random() * DECOYS.length)];
+        cards.push({ step: [d[0], d[1], ''], at: -1, slot: -1, decoy: true });
+      }
+      for (var g = 0; g < L.given; g++) { filled[g] = cards[g]; cards[g].slot = g; cards[g].locked = true; }
+      cards = App.shuffle(cards);
+      captionEl.textContent = '';
+      document.getElementById('check-row').hidden = !L.checkAtEnd;
+      render();
+      var ask = L.steps === 2 ? 'What happens first?' : L.checkAtEnd ? 'Put the pictures in order, then press check!' : L.given ? 'The first one is done. What happens next?' : 'Put them in order! What happens first?';
+      setPrompt(ask);
+      say(ask);
+    }
+
+    function render() {
+      var L = LEVELS[level], words = WORDS[story.length];
+      slotsEl.innerHTML = '';
+      slotsEl.style.setProperty('--n', story.length);
+      var next = filled.indexOf(null);
+      story.forEach(function (_, i) {
+        if (i) {
+          var arr = document.createElement('span');
+          arr.className = 'arrow';
+          arr.setAttribute('aria-hidden', 'true');
+          arr.textContent = '›';
+          slotsEl.appendChild(arr);
+        }
+        var s = document.createElement('div');
+        s.className = 'slot';
+        var c = filled[i];
+        s.innerHTML = '<div class="slot-box' + (c ? ' full' : '') + (c && c.locked ? ' good' : '') + (!c && i === next ? ' next' : '') + '" role="button" tabindex="0" aria-label="' +
+          words[i] + (c ? ': ' + c.step[1] : ', empty') + '">' + (c ? c.step[0] : '') + '</div><div class="slot-word">' + words[i] + '</div>';
+        var box = s.firstChild;
+        box.addEventListener('click', function () { unplace(i); });
+        slotsEl.appendChild(s);
+      });
+      trayEl.innerHTML = '';
+      cards.forEach(function (c, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'ocard' + (c.slot >= 0 ? ' used' : '');
+        b.style.animationDelay = (i * 0.06) + 's';
+        b.textContent = c.step[0];
+        b.setAttribute('aria-label', c.step[1]);
+        b.addEventListener('click', function () { place(c, b); });
+        c.el = b;
+        trayEl.appendChild(b);
+      });
+      var full = filled.every(Boolean);
+      document.getElementById('check').disabled = !full;
+    }
+
+    function place(c, btn) {
+      if (busy || c.slot >= 0) return;
+      var L = LEVELS[level];
+      var i = filled.indexOf(null);
+      if (i < 0) return;
+      if (!L.checkAtEnd && c.at !== i) {
+        btn.classList.remove('nope'); void btn.offsetWidth; btn.classList.add('nope');
+        App.sfx('oops');
+        say(i === 0 ? 'Hmm. What happens first?' : 'Not yet! What happens before that?');
+        return;
+      }
+      filled[i] = c;
+      c.slot = i;
+      if (!L.checkAtEnd) c.locked = true;
+      App.sfx('snap');
+      render();
+      slotsEl.querySelectorAll('.slot-box')[i].classList.add('pop');
+      if (L.checkAtEnd) { if (filled.every(Boolean)) say('Now press check!'); return; }
+      say(cap(c.step[1]) + '!');
+      // with two pictures, the other one is last
+      if (story.length === 2 && filled[1] === null) {
+        var other = cards.filter(function (x) { return x.slot < 0; })[0];
+        setTimeout(function () { filled[1] = other; other.slot = 1; other.locked = true; render(); done(); }, 700);
+        return;
+      }
+      if (filled.every(Boolean)) done();
+      else setPrompt(filled.indexOf(null) === story.length - 1 ? 'And last?' : 'What happens next?');
+    }
+
+    function unplace(i) {
+      var c = filled[i];
+      if (busy || !c || c.locked) return;
+      filled[i] = null;
+      c.slot = -1;
+      App.sfx('tick');
+      render();
+    }
+
+    document.getElementById('check').addEventListener('click', function () {
+      if (busy || !filled.every(Boolean)) return;
+      var wrong = [];
+      filled.forEach(function (c, i) { if (c.at === i) c.locked = true; else wrong.push(i); });
+      if (!wrong.length) { render(); done(); return; }
+      App.sfx('oops');
+      var boxes = slotsEl.querySelectorAll('.slot-box');
+      wrong.forEach(function (i) { boxes[i].classList.add('nope'); });
+      var decoyPlaced = wrong.some(function (i) { return filled[i].decoy; });
+      say(decoyPlaced ? 'One picture is not part of this story! Try again.' : wrong.length === 1 ? 'Almost! One is in the wrong place.' : 'Some are in the wrong place. Try again!');
+      busy = true;
+      setTimeout(function () {
+        wrong.forEach(function (i) { filled[i].slot = -1; filled[i] = null; });
+        busy = false;
+        render();
+      }, 650);
+    });
+
+    // Tell the story back, lighting each picture as it is told.
+    function done() {
+      busy = true;
+      var my = token;
+      App.sfx('yay');
+      var r = slotsEl.getBoundingClientRect();
+      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 14, r.width);
+      setPrompt('You did it! Here is the story:');
+      var boxes = slotsEl.querySelectorAll('.slot-box');
+      var i = 0;
+      (function tell() {
+        if (my !== token) return;
+        boxes.forEach(function (b) { b.classList.remove('lit'); });
+        if (i >= story.length) {
+          captionEl.textContent = '';
+          setTimeout(function () { if (my === token) newStory(); }, 1200);
+          return;
+        }
+        boxes[i].classList.add('lit');
+        captionEl.textContent = story[i][2];
+        var line = story[i][2];
+        i++;
+        say(line, 0.88, function () { setTimeout(tell, 250); });
+      })();
+    }
+    function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    document.getElementById('say').addEventListener('click', function () { say(promptEl.textContent); });
+    document.getElementById('skip').addEventListener('click', function () { Speech.stop(); newStory(); });
+
+    var lv = App.levelControl(document.getElementById('level'), 'order', LEVELS, function (l) { level = l; newStory(); });
+    level = lv.get();
+    newStory();
+  </script>
+</body>
+</html>

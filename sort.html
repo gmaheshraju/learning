@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sort It — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .so { max-width: 1100px; margin: 0 auto; }
+    .so-area { position: relative; width: 100%; touch-action: none; -webkit-user-select: none; user-select: none; }
+    .baskets { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; gap: clamp(8px, 2vw, 22px); }
+    .basket {
+      position: relative; flex: 1; max-width: 260px; border-radius: 22px 22px 34px 34px;
+      border: 4px solid var(--bc, var(--line)); background: var(--card);
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+      padding: 8px 6px 6px; transition: transform .15s, box-shadow .2s, background-color .2s;
+      box-shadow: inset 0 -16px 0 rgba(0,0,0,.04), 0 3px 12px var(--sh);
+    }
+    .basket.hot { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(245,166,35,.35); }
+    .basket.nope { animation: wiggle .45s ease; }
+    .b-label { display: flex; align-items: center; justify-content: center; height: 46px; gap: 4px; }
+    .b-label svg { width: 40px; height: 40px; }
+    .b-label .emoji { font-size: 36px; }
+    .b-word { font-size: 14px; font-weight: 900; color: var(--textM); letter-spacing: .3px; }
+    .b-in { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 2px; margin-top: 4px; min-height: 30px; }
+    .b-in .mini { width: 24px; height: 24px; display: grid; place-items: center; font-family: var(--emoji); font-size: 20px; line-height: 1; }
+    .b-in .mini svg { width: 100%; height: 100%; }
+
+    .thing {
+      position: absolute; left: 0; top: 0; display: grid; place-items: center;
+      font-family: var(--emoji); line-height: 1; filter: drop-shadow(0 3px 3px rgba(0,0,0,.2));
+      transition: transform .35s cubic-bezier(.3,1.4,.5,1); will-change: transform;
+    }
+    .thing svg { width: 100%; height: 100%; overflow: visible; }
+    .thing.dragging { transition: none; filter: drop-shadow(0 10px 10px rgba(0,0,0,.3)); z-index: 50; }
+    .thing.home { transition: transform .45s cubic-bezier(.3,1.4,.5,1); }
+
+    .rule-banner {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 999px;
+      background: #F5A623; color: #fff; font-weight: 900; font-size: clamp(15px, 2.2vmin, 22px);
+      text-shadow: 0 1px 2px rgba(0,0,0,.2); animation: bounceIn .5s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">S</em><em style="color:#F5A623">o</em><em style="color:#7EC850">r</em><em style="color:#4DADEA">t</em> <em style="color:#B07CD8">I</em><em style="color:#E85D75">t</em></h1>
+      <p class="sub">Put each one where it belongs</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="sort"></nav>
+    <main class="so land-split">
+      <div class="act-bar">
+        <div id="level"></div>
+      </div>
+      <div class="prompt-row">
+        <span class="prompt-text" id="prompt" aria-live="polite"></span>
+        <button type="button" class="say-btn" id="say" aria-label="Hear it again">🔊</button>
+      </div>
+      <div class="so-area" id="area">
+        <div class="baskets" id="baskets"></div>
+      </div>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script src="js/shapes.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 2, label: 'Colours', kind: 'color', n: 6, baskets: 2 },
+      { age: 3, label: 'More colours', kind: 'color', n: 9, baskets: 3, mixShapes: true },
+      { age: 4, label: 'Shapes, sizes, kinds', kind: 'cycle', n: 9, baskets: 3 },
+      { age: 5, label: 'Switch!', kind: 'switch', n: 8, baskets: 2 },
+      { age: 6, label: 'Super switch!', kind: 'switch', n: 12, baskets: 3 }
+    ];
+    var KINDS = {
+      animals: { word: 'Animals', icon: '🐶', te: 'జంతువులు', items: ['🐶', '🐱', '🐘', '🦁', '🐸', '🐰', '🐵', '🐢'] },
+      food: { word: 'Food', icon: '🍎', te: 'ఆహారం', items: ['🍎', '🍌', '🥕', '🍇', '🍓', '🥦', '🍉', '🌽'] },
+      go: { word: 'Things that go', icon: '🚗', te: 'వాహనాలు', items: ['🚗', '🚌', '🚂', '✈️', '🚲', '🚀', '⛵', '🚒'] }
+    };
+    var C = Shapes.COLORS, S = Shapes.SHAPES;
+    var COLOR_KEYS = ['red', 'blue', 'yellow', 'green', 'purple'];
+    var SHAPE_KEYS = ['circle', 'square', 'triangle', 'star', 'heart'];
+
+    var area = document.getElementById('area');
+    var basketsEl = document.getElementById('baskets');
+    var promptEl = document.getElementById('prompt');
+    var level = 0, round = 0, items = [], baskets = [], rule = 'color', phaseRules = [], picked = null, busy = false;
+    var promptText = '';
+
+    function say(t, rate) { Speech.speak(t, rate || 0.88); }
+    function pick(arr, n) { return App.shuffle(arr).slice(0, n); }
+
+    /* ----- making a round ----- */
+    function makeRound() {
+      var L = LEVELS[level];
+      var kind = L.kind === 'cycle' ? ['shape', 'size', 'kind'][round % 3] : L.kind;
+      items = []; baskets = []; phaseRules = [];
+      if (kind === 'color') {
+        var cols = pick(COLOR_KEYS, L.baskets);
+        baskets = cols.map(function (c) { return { color: c }; });
+        for (var i = 0; i < L.n; i++) items.push({ color: cols[i % cols.length], shape: L.mixShapes ? pick(SHAPE_KEYS, 1)[0] : 'circle', size: 1 });
+        phaseRules = [{ rule: 'color', count: L.n }];
+      } else if (kind === 'shape') {
+        var shs = pick(SHAPE_KEYS, L.baskets);
+        baskets = shs.map(function (s) { return { shape: s }; });
+        for (var j = 0; j < L.n; j++) items.push({ shape: shs[j % shs.length], color: pick(COLOR_KEYS, 1)[0], size: 1 });
+        phaseRules = [{ rule: 'shape', count: L.n }];
+      } else if (kind === 'size') {
+        var sh = pick(SHAPE_KEYS, 1)[0];
+        baskets = [{ size: 1, shape: sh }, { size: 0.55, shape: sh }];
+        for (var k = 0; k < 8; k++) items.push({ shape: sh, color: pick(COLOR_KEYS, 1)[0], size: k % 2 ? 0.55 : 1 });
+        phaseRules = [{ rule: 'size', count: 8 }];
+      } else if (kind === 'kind') {
+        var ks = Object.keys(KINDS);
+        baskets = ks.map(function (kk) { return { kind: kk }; });
+        ks.forEach(function (kk) { pick(KINDS[kk].items, 3).forEach(function (e) { items.push({ kind: kk, emoji: e }); }); });
+        phaseRules = [{ rule: 'kind', count: 9 }];
+      } else {
+        // The switch game: each basket has a colour AND a shape. Every card matches one basket
+        // by colour and a different basket by shape, so she has to hold the current rule in mind.
+        var cs = pick(COLOR_KEYS, L.baskets), ss = pick(SHAPE_KEYS, L.baskets);
+        baskets = cs.map(function (c, i) { return { color: c, shape: ss[i] }; });
+        var per = L.baskets === 2 ? 4 : 3, phases = L.n / per;
+        for (var p = 0; p < phases; p++) {
+          var r = p % 2 ? 'shape' : 'color';
+          phaseRules.push({ rule: r, count: per });
+          for (var q = 0; q < per; q++) {
+            var a = q % L.baskets, b = (a + 1 + Math.floor(Math.random() * (L.baskets - 1))) % L.baskets;
+            items.push({ color: cs[a], shape: ss[b], size: 1, phase: p });
+          }
+        }
+      }
+      items = items.map(function (it, i) { it.id = i; it.done = false; if (it.phase === undefined) it.phase = 0; return it; });
+      if (phaseRules.length === 1) items = App.shuffle(items);
+    }
+
+    function itemHTML(it, mini) {
+      if (it.emoji) return '<span' + (mini ? '' : ' style="font-size:' + Math.round(itemSize * 0.8) + 'px"') + '>' + it.emoji + '</span>';
+      return Shapes.svg(it.shape, it.color, it.size || 1);
+    }
+
+    function basketHTML(b) {
+      var label = '', word = '';
+      if (b.kind) { label = '<span class="emoji">' + KINDS[b.kind].icon + '</span>'; word = KINDS[b.kind].word; }
+      else if (b.size) { label = Shapes.svg(b.shape, 'grey', b.size); word = b.size === 1 ? 'Big' : 'Small'; }
+      else if (b.color && b.shape) { label = Shapes.svg(b.shape, b.color); word = ''; }
+      else if (b.color) { label = Shapes.svg('circle', b.color); word = cap(C[b.color].name) + ' · ' + C[b.color].te; }
+      else { label = Shapes.svg(b.shape, 'grey'); word = cap(S[b.shape].plural); }
+      return '<div class="b-label">' + label + '</div>' + (word ? '<div class="b-word">' + word + '</div>' : '') + '<div class="b-in"></div>';
+    }
+    function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    function currentPhase() {
+      var left = items.filter(function (it) { return !it.done; });
+      return left.length ? left[0].phase : -1;
+    }
+
+    function ruleWords(r) {
+      return { color: 'colour', shape: 'shape', size: 'size', kind: 'kind' }[r];
+    }
+
+    function setPrompt(text, speak) {
+      promptText = text;
+      promptEl.innerHTML = text;
+      if (speak) say(promptEl.textContent);
+    }
+
+    function describeTask(speak) {
+      var r = rule;
+      var L = LEVELS[level];
+      var text;
+      if (L.kind === 'switch') text = '<span class="rule-banner">Sort by ' + ruleWords(r).toUpperCase() + ' ' + (r === 'color' ? '🎨' : '🔷') + '</span>';
+      else if (r === 'color') text = 'Put each one in its colour basket!';
+      else if (r === 'shape') text = 'Sort the shapes!';
+      else if (r === 'size') text = 'Big ones and small ones!';
+      else text = 'Animals, food, and things that go!';
+      setPrompt(text, speak);
+    }
+
+    /* ----- layout ----- */
+    var itemSize = 70, layoutInfo = null;
+    function layout() {
+      var padBottom = parseFloat(getComputedStyle(document.querySelector('.gw')).paddingBottom) || 0;
+      var top = area.getBoundingClientRect().top + window.scrollY;
+      var H = Math.max(window.innerHeight < 520 && window.innerWidth > window.innerHeight ? 200 : 320, Math.floor(window.innerHeight - top - padBottom - 8));
+      var W = area.clientWidth;
+      area.style.height = H + 'px';
+      var basketH = Math.max(window.innerHeight < 520 && window.innerWidth > window.innerHeight ? 84 : 118, Math.min(190, H * 0.32));
+      basketsEl.style.height = basketH + 'px';
+      var tableH = H - basketH - 12;
+      var showing = items.filter(function (it) { return !it.done && it.phase === currentPhase(); });
+      var n = Math.max(showing.length, 1);
+      var cols = Math.max(2, Math.min(n, Math.round(Math.sqrt(n * W / tableH))));
+      var rows = Math.ceil(n / cols);
+      itemSize = Math.max(48, Math.min(104, W / cols * 0.72, tableH / rows * 0.72));
+      layoutInfo = { W: W, H: H, tableH: tableH, cols: cols, rows: rows };
+      showing.forEach(function (it, i) {
+        var c = i % cols, r = Math.floor(i / cols);
+        var jx = ((it.id * 37) % 11 - 5) / 5 * (W / cols - itemSize) * 0.25;
+        var jy = ((it.id * 53) % 13 - 6) / 6 * (tableH / rows - itemSize) * 0.25;
+        it.hx = (c + 0.5) * W / cols - itemSize / 2 + jx;
+        it.hy = (r + 0.5) * tableH / rows - itemSize / 2 + jy;
+        if (it.el) {
+          it.el.style.width = it.el.style.height = itemSize + 'px';
+          if (it.emoji) it.el.firstChild.style.fontSize = Math.round(itemSize * 0.8) + 'px';
+          moveTo(it, it.hx, it.hy);
+        }
+      });
+    }
+    function moveTo(it, x, y) {
+      it.x = x; it.y = y;
+      it.el.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    }
+
+    /* ----- drawing a round ----- */
+    function startRound(speak) {
+      busy = false;
+      picked = null;
+      makeRound();
+      area.querySelectorAll('.thing').forEach(function (el) { el.remove(); });
+      basketsEl.innerHTML = '';
+      baskets.forEach(function (b, i) {
+        var el = document.createElement('div');
+        el.className = 'basket';
+        el.setAttribute('role', 'button');
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('aria-label', basketName(b) + ' basket');
+        el.style.setProperty('--bc', b.color ? C[b.color].fill : b.kind ? '#F5A623' : '#90A4AE');
+        el.innerHTML = basketHTML(b);
+        el.addEventListener('click', function () { if (picked) tryDrop(picked, i); });
+        b.el = el;
+        basketsEl.appendChild(el);
+      });
+      showPhase(speak);
+    }
+
+    function basketName(b) {
+      if (b.kind) return KINDS[b.kind].word;
+      if (b.size) return b.size === 1 ? 'Big' : 'Small';
+      if (b.color && b.shape) return C[b.color].name + ' ' + S[b.shape].name;
+      if (b.color) return C[b.color].name;
+      return S[b.shape].plural;
+    }
+
+    function itemName(it) {
+      if (it.emoji) return it.emoji;
+      return (it.size && it.size < 1 ? 'small ' : '') + C[it.color].name + ' ' + S[it.shape].name;
+    }
+
+    function showPhase(speak) {
+      var ph = currentPhase();
+      if (ph < 0) return;
+      rule = phaseRules[ph].rule;
+      items.forEach(function (it) {
+        if (it.phase !== ph || it.done || it.el) return;
+        var el = document.createElement('div');
+        el.className = 'thing draggable';
+        el.setAttribute('role', 'button');
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('aria-label', itemName(it));
+        el.innerHTML = itemHTML(it);
+        it.el = el;
+        area.appendChild(el);
+        attach(it);
+      });
+      layout();
+      describeTask(speak);
+    }
+
+    /* ----- moving things ----- */
+    function attach(it) {
+      var ox = 0, oy = 0;
+      App.drag(it.el, {
+        canStart: function () { return !it.done && !busy; },
+        start: function () { ox = it.x; oy = it.y; it.el.classList.add('dragging'); },
+        move: function (x, y, dx, dy) {
+          moveTo(it, ox + dx, oy + dy);
+          var hot = App.dropTarget(x, y, baskets.map(function (b) { return b.el; }), 30);
+          baskets.forEach(function (b) { b.el.classList.toggle('hot', b.el === hot); });
+        },
+        end: function (x, y, moved) {
+          it.el.classList.remove('dragging');
+          baskets.forEach(function (b) { b.el.classList.remove('hot'); });
+          if (!moved) { select(it); return; }
+          var el = App.dropTarget(x, y, baskets.map(function (b) { return b.el; }), 30);
+          if (el) tryDrop(it, baskets.map(function (b) { return b.el; }).indexOf(el));
+          else goHome(it);
+        }
+      });
+      it.el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(it); } });
+    }
+
+    function select(it) {
+      if (picked) picked.el.style.outline = '';
+      picked = picked === it ? null : it;
+      if (picked) {
+        picked.el.style.outline = '4px solid #F5A623';
+        picked.el.style.outlineOffset = '4px';
+        picked.el.style.borderRadius = '12px';
+        App.sfx('pop');
+        if (level <= 1) say(itemName(it));
+      }
+    }
+
+    function goHome(it) {
+      it.el.classList.add('home');
+      moveTo(it, it.hx, it.hy);
+      setTimeout(function () { it.el && it.el.classList.remove('home'); }, 460);
+    }
+
+    function fits(it, b) {
+      if (rule === 'color') return it.color === b.color;
+      if (rule === 'shape') return it.shape === b.shape;
+      if (rule === 'size') return it.size === b.size;
+      return it.kind === b.kind;
+    }
+
+    function tryDrop(it, bi) {
+      var b = baskets[bi];
+      if (picked) { picked.el.style.outline = ''; picked = null; }
+      if (fits(it, b)) {
+        it.done = true;
+        var mini = document.createElement('span');
+        mini.className = 'mini';
+        mini.innerHTML = itemHTML(it, true);
+        b.el.querySelector('.b-in').appendChild(mini);
+        it.el.remove();
+        it.el = null;
+        App.sfx('snap');
+        if (level <= 1) say(cap(C[it.color].name) + '!');
+        else if (level === 2 && rule === 'shape') say(cap(S[it.shape].name) + '!');
+        afterSort();
+      } else {
+        App.sfx('oops');
+        b.el.classList.remove('nope');
+        void b.el.offsetWidth;
+        b.el.classList.add('nope');
+        goHome(it);
+        hintFor(it);
+      }
+    }
+
+    function hintFor(it) {
+      if (LEVELS[level].kind === 'switch') { say('Remember, sort by ' + ruleWords(rule) + '!'); return; }
+      if (rule === 'color') say('That one is ' + C[it.color].name + '. Find the ' + C[it.color].name + ' basket!');
+      else if (rule === 'shape') say('That is a ' + S[it.shape].name + '. Where do the ' + S[it.shape].plural + ' go?');
+      else if (rule === 'size') say(it.size === 1 ? 'That one is big!' : 'That one is small!');
+      else say('Is it an animal, food, or something that goes?');
+    }
+
+    function afterSort() {
+      var left = items.filter(function (it) { return !it.done; });
+      if (!left.length) { roundDone(); return; }
+      var ph = currentPhase();
+      var shownLeft = items.filter(function (it) { return it.el; }).length;
+      if (!shownLeft) {
+        // next part of the switch game: same baskets, new rule
+        busy = true;
+        App.sfx('yay');
+        setTimeout(function () {
+          busy = false;
+          showPhase(false);
+          setPrompt('<span class="rule-banner">Switch! Now sort by ' + ruleWords(phaseRules[ph].rule).toUpperCase() + ' ' + (phaseRules[ph].rule === 'color' ? '🎨' : '🔷') + '</span>', false);
+          say('Switch! Now sort by ' + ruleWords(phaseRules[ph].rule) + '!');
+        }, 700);
+      }
+    }
+
+    function roundDone() {
+      busy = true;
+      App.sfx('yay');
+      var r = basketsEl.getBoundingClientRect();
+      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top, 16, r.width * 0.8);
+      setPrompt('All sorted! <span class="emoji">🎉</span>', false);
+      say(['All sorted! Great sorting!', 'You did it!', 'Wonderful sorting!'][round % 3]);
+      round++;
+      setTimeout(function () { startRound(true); }, 2600);
+    }
+
+    document.getElementById('say').addEventListener('click', function () { say(promptEl.textContent); });
+
+    var lv = App.levelControl(document.getElementById('level'), 'sort', LEVELS, function (l) {
+      level = l;
+      round = 0;
+      startRound(true);
+    });
+    level = lv.get();
+
+    var rt = null;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(layout, 120); });
+    startRound(true);
+  </script>
+</body>
+</html>

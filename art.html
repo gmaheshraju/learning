@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Art Studio — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .art { max-width: 1280px; margin: 0 auto; }
+    .mode-tabs { display: inline-flex; gap: 4px; padding: 3px; border-radius: 999px; border: 2px solid var(--line); background: var(--card); }
+    .mode-tab {
+      min-height: 38px; padding: 0 14px; border-radius: 999px; border: none; background: none;
+      font-size: 15px; font-weight: 900; color: var(--textM); cursor: pointer; white-space: nowrap;
+    }
+    .mode-tab .emoji { font-size: 17px; }
+    .mode-tab[aria-selected="true"] { background: #E85D75; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+
+    /* ----- paint ----- */
+    .studio {
+      display: grid; grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "tools" "paper" "side"; gap: 10px; justify-items: center;
+    }
+    .tools {
+      grid-area: tools; display: flex; gap: 8px; align-items: center; max-width: 100%;
+      overflow-x: auto; scrollbar-width: none; padding: 2px 4px 4px;
+    }
+    .tools::-webkit-scrollbar { display: none; }
+    .tools .sep { width: 2px; height: 30px; background: var(--line); border-radius: 2px; flex: none; }
+    .size-dot { display: block; border-radius: 50%; background: currentColor; }
+
+    .paper-wrap {
+      grid-area: paper; position: relative; width: 100%;
+      height: clamp(240px, 100dvh - 478px, 1400px);
+      display: grid; place-items: center;
+    }
+    #paper, .cbook svg {
+      background: #fff; border-radius: 18px; box-shadow: 0 4px 22px rgba(0,0,0,.12);
+      touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+    }
+    #paper { cursor: crosshair; }
+    .idea {
+      position: absolute; left: 50%; top: 10px; transform: translateX(-50%);
+      max-width: calc(100% - 24px); padding: 8px 16px; border-radius: 16px;
+      background: rgba(255,255,255,.95); color: #3D2C2E; box-shadow: 0 4px 14px rgba(0,0,0,.15);
+      font-size: clamp(15px, 2.2vmin, 22px); font-weight: 900; text-align: center; pointer-events: none;
+      animation: fadeIn .3s ease-out;
+    }
+
+    .side { grid-area: side; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .colors { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-width: 520px; }
+    .swatch {
+      width: 42px; height: 42px; border-radius: 50%; border: 3px solid rgba(0,0,0,.12);
+      cursor: pointer; transition: transform .12s; padding: 0;
+    }
+    .swatch[aria-checked="true"] { transform: scale(1.14); box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--text); }
+    .swatch:active { transform: scale(.9); }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+    .stamp-tray {
+      grid-area: tools; display: flex; gap: 6px; max-width: 100%; overflow-x: auto; scrollbar-width: none;
+      padding: 6px; border-radius: 18px; background: var(--card); border: 2px solid var(--line);
+      margin-top: 52px; z-index: 5; box-shadow: 0 4px 14px var(--sh);
+    }
+    .stamp-tray::-webkit-scrollbar { display: none; }
+    .stamp-tray button {
+      flex: none; width: 46px; height: 46px; border-radius: 12px; border: 2px solid transparent;
+      background: none; font-family: var(--emoji); font-size: 28px; cursor: pointer; line-height: 1;
+    }
+    .stamp-tray button[aria-checked="true"] { border-color: #F5A623; background: var(--tint); }
+
+    /* ----- colour in ----- */
+    .cmode { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; justify-items: center; }
+    .cmode .side { grid-area: auto; }
+    .page-pick { display: flex; gap: 8px; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 2px 4px 6px; }
+    .page-pick::-webkit-scrollbar { display: none; }
+    .page-pick button {
+      flex: none; width: 64px; height: 64px; padding: 4px; border-radius: 14px;
+      border: 2px solid var(--line); background: #fff; cursor: pointer;
+    }
+    .page-pick button[aria-pressed="true"] { border-color: #E85D75; box-shadow: 0 0 0 3px rgba(232,93,117,.25); }
+    .page-pick svg { width: 100%; height: 100%; pointer-events: none; }
+    .cbook { width: 100%; height: clamp(240px, 100dvh - 470px, 1100px); display: grid; place-items: center; }
+    .cbook svg { width: auto; height: 100%; max-width: 100%; aspect-ratio: 1; }
+    .cbook .r { cursor: pointer; transition: fill .15s; }
+    .cbook .r, .page-pick .r { stroke: #2B2730; stroke-width: 5; stroke-linejoin: round; }
+    .cbook .ln, .page-pick .ln { fill: none; stroke: #2B2730; stroke-width: 5; stroke-linecap: round; pointer-events: none; }
+
+    /* ----- gallery ----- */
+    .gal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 42vw), 1fr)); gap: 12px; }
+    .gal-item {
+      position: relative; aspect-ratio: 1; border-radius: 18px; overflow: hidden; padding: 0;
+      border: 3px solid var(--line); background: #fff; cursor: pointer; box-shadow: 0 2px 10px var(--sh);
+    }
+    .gal-item img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .gal-item .kind { position: absolute; left: 6px; top: 6px; font-family: var(--emoji); font-size: 18px; background: rgba(255,255,255,.9); border-radius: 50%; width: 30px; height: 30px; display: grid; place-items: center; }
+    .gal-empty { text-align: center; padding: 40px 16px; font-size: 18px; font-weight: 800; color: var(--textM); }
+    .gal-empty .emoji { font-size: 64px; display: block; margin-bottom: 10px; }
+    .gal-view { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .gal-view img { max-width: 100%; max-height: calc(100dvh - 300px); border-radius: 18px; background: #fff; box-shadow: 0 4px 22px rgba(0,0,0,.14); }
+
+    .toast {
+      position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+      padding: 10px 20px; border-radius: 999px; background: #3D2C2E; color: #fff;
+      font-weight: 900; font-size: 16px; z-index: 200; animation: slideUp .3s ease-out; pointer-events: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .swatch:hover { transform: scale(1.08); }
+      .page-pick button:hover, .gal-item:hover { border-color: #F5A623; }
+    }
+
+    /* Wide screens and phones held sideways: tools left, paper middle, colours right */
+    @media (min-width: 760px) and (min-aspect-ratio: 5/4), (orientation: landscape) and (max-height: 520px) {
+      .studio { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "tools paper side"; align-items: start; }
+      .tools { flex-direction: column; overflow: visible; padding: 0; }
+      .tools .sep { width: 30px; height: 2px; }
+      .paper-wrap { height: calc(100dvh - 252px); min-height: 240px; }
+      .side { max-width: 112px; }
+      .colors { display: grid; grid-template-columns: repeat(2, 42px); }
+      .actions { display: grid; grid-template-columns: repeat(2, var(--tap)); }
+      .stamp-tray { grid-area: paper; align-self: start; margin-top: 0; flex-wrap: wrap; max-width: 330px; justify-self: start; }
+      .cmode { grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; }
+      .page-pick { flex-direction: column; overflow-y: auto; max-height: calc(100dvh - 252px); padding: 2px; }
+      .cbook { height: calc(100dvh - 252px); min-height: 240px; }
+    }
+    @media (orientation: landscape) and (max-height: 520px) {
+      .tools { display: grid; grid-template-columns: repeat(2, 38px); gap: 4px; align-content: start; }
+      .tools .sep { display: none; }
+      .tools .tool-btn, .actions .tool-btn { width: 38px; height: 38px; font-size: 18px; }
+      .swatch { width: 32px; height: 32px; }
+      .side { max-width: none; }
+      .colors { grid-template-columns: repeat(3, 32px); gap: 6px; }
+      .actions { grid-template-columns: repeat(4, 38px); gap: 6px; }
+      .paper-wrap, .cbook { height: calc(100dvh - 176px); }
+      .page-pick { max-height: calc(100dvh - 140px); }
+      .page-pick button { width: 52px; height: 52px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">A</em><em style="color:#F5A623">r</em><em style="color:#7EC850">t</em> <em style="color:#4DADEA">S</em><em style="color:#B07CD8">t</em><em style="color:#E85D75">u</em><em style="color:#F5A623">d</em><em style="color:#7EC850">i</em><em style="color:#4DADEA">o</em></h1>
+      <p class="sub">Paint, stamp and colour in</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="art"></nav>
+    <main class="art">
+      <div class="act-bar">
+        <div class="mode-tabs" role="tablist" aria-label="Studio">
+          <button type="button" class="mode-tab" role="tab" data-mode="paint" aria-selected="true"><span class="emoji" aria-hidden="true">🖌️</span> Paint</button>
+          <button type="button" class="mode-tab" role="tab" data-mode="color" aria-selected="false"><span class="emoji" aria-hidden="true">🖍️</span> Colour in</button>
+          <button type="button" class="mode-tab" role="tab" data-mode="gallery" aria-selected="false"><span class="emoji" aria-hidden="true">🖼️</span> My art</button>
+        </div>
+        <div id="level"></div>
+      </div>
+
+      <section class="studio" id="mode-paint" role="tabpanel" aria-label="Paint">
+        <div class="tools" id="tools" role="toolbar" aria-label="Brushes"></div>
+        <div class="stamp-tray" id="stamp-tray" role="radiogroup" aria-label="Stamps" hidden></div>
+        <div class="paper-wrap" id="paper-wrap">
+          <canvas id="paper" aria-label="Drawing paper"></canvas>
+          <div class="idea" id="idea" hidden></div>
+        </div>
+        <div class="side">
+          <div class="colors" id="colors" role="radiogroup" aria-label="Colours"></div>
+          <div class="actions">
+            <button type="button" class="tool-btn" id="undo" aria-label="Undo" title="Undo">↩️</button>
+            <button type="button" class="tool-btn" id="clear" aria-label="New paper" title="New paper">🧻</button>
+            <button type="button" class="tool-btn" id="idea-btn" aria-label="Give me an idea" title="Give me an idea">💡</button>
+            <button type="button" class="tool-btn" id="save" aria-label="Save to My art" title="Save to My art">💾</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="cmode" id="mode-color" role="tabpanel" aria-label="Colour in" hidden>
+        <div class="page-pick" id="page-pick" role="group" aria-label="Pictures to colour"></div>
+        <div class="cbook" id="cbook"></div>
+        <div class="side">
+          <div class="colors" id="colors2" role="radiogroup" aria-label="Colours"></div>
+          <div class="actions">
+            <button type="button" class="tool-btn" id="c-undo" aria-label="Undo" title="Undo">↩️</button>
+            <button type="button" class="tool-btn" id="c-clear" aria-label="Start again" title="Start again">🧻</button>
+            <button type="button" class="tool-btn" id="c-save" aria-label="Save to My art" title="Save to My art">💾</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="mode-gallery" role="tabpanel" aria-label="My art" hidden>
+        <div class="gal-grid" id="gal-grid"></div>
+        <div class="gal-view" id="gal-view" hidden></div>
+      </section>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 2, label: 'Simple tools' },
+      { age: 3, label: 'More tools' },
+      { age: 4, label: 'All tools' }
+    ];
+    var COLORS = [
+      ['#E53935', 'Red'], ['#FB8C00', 'Orange'], ['#FDD835', 'Yellow'], ['#43A047', 'Green'], ['#1E88E5', 'Blue'],
+      ['#8E24AA', 'Purple'], ['#EC407A', 'Pink'], ['#8D6E63', 'Brown'], ['#212121', 'Black'], ['#FFFFFF', 'White']
+    ];
+    var BRUSHES = [
+      { id: 'crayon', emoji: '🖍️', label: 'Crayon', level: 0 },
+      { id: 'rainbow', emoji: '🌈', label: 'Rainbow', level: 0 },
+      { id: 'stamp', emoji: '⭐', label: 'Stamps', level: 0 },
+      { id: 'sparkle', emoji: '✨', label: 'Sparkles', level: 1 },
+      { id: 'eraser', emoji: '🧽', label: 'Eraser', level: 1 }
+    ];
+    var SYMS = [
+      { id: 'mirror', emoji: '🦋', label: 'Mirror', level: 2 },
+      { id: 'kaleido', emoji: '❄️', label: 'Kaleidoscope', level: 2 }
+    ];
+    var SIZES = [9, 18, 34];
+    var STAMPS = ['⭐', '❤️', '🌸', '🦋', '🐞', '🐶', '🐱', '🐟', '🐘', '🦁', '🐢', '🚗', '🚀', '🍎', '🍓', '🎈', '☀️', '🌙', '☁️', '🌈', '🌳', '🏠'];
+    var SPARKLE = ['#FFD54F', '#FF8A80', '#80D8FF', '#B9F6CA', '#EA80FC', '#FFFFFF'];
+    var IDEAS = [
+      ['Draw the big round sun!', 'Make lots and lots of dots!', 'Draw rain coming down!', 'Stamp stars all over the sky!', 'Draw a long wiggly snake!', 'Make the whole page blue like the sea!'],
+      ['Draw your family!', 'Draw a house for a cat!', 'Draw what you ate today!', 'Draw a rainbow!', 'Draw a monster with three eyes!', 'Draw your favourite animal!', 'Draw a garden full of flowers!'],
+      ['Draw a car that can fly!', 'Make up a new fruit and draw it!', 'Draw a home for a fish!', 'Draw a machine that makes ice cream!', 'Draw yourself as a superhero!', 'Draw an animal nobody has ever seen!', 'Make a snowflake with the kaleidoscope!', 'Draw a butterfly with the mirror brush!']
+    ];
+
+    var level = 0, brush = 'crayon', sym = null, sizeIdx = 2, color = '#1E88E5', stamp = '⭐';
+    var lastIdea = '';
+    var EMOJI_FONT = getComputedStyle(document.documentElement).getPropertyValue('--emoji').trim() || 'sans-serif';
+
+    function say(text, rate) { Speech.speak(text, rate || 0.9); }
+    function toast(text) {
+      var old = document.querySelector('.toast');
+      if (old) old.remove();
+      var t = document.createElement('div');
+      t.className = 'toast';
+      t.setAttribute('role', 'status');
+      t.textContent = text;
+      document.body.appendChild(t);
+      setTimeout(function () { t.remove(); }, 2200);
+    }
+
+    /* ================= Paint ================= */
+    var cv = document.getElementById('paper');
+    var ctx = cv.getContext('2d');
+    var wrap = document.getElementById('paper-wrap');
+    var paper = { w: 1000, h: 750 }, paperSet = false, k = 1;
+    var ops = [];   // every stroke in paper units, so undo, resize and rotation can redraw exactly
+
+    function fitPaper() {
+      var W = wrap.clientWidth, H = wrap.clientHeight;
+      if (!W || !H) return;
+      if (!paperSet) { paper.h = Math.round(1000 * Math.max(0.62, Math.min(1.5, H / W))); paperSet = true; }
+      var s = Math.min(W / paper.w, H / paper.h);
+      var cssW = Math.floor(paper.w * s), cssH = Math.floor(paper.h * s);
+      var px = Math.min(Math.min(window.devicePixelRatio || 1, 2), 2200 / Math.max(cssW, cssH));
+      cv.style.width = cssW + 'px';
+      cv.style.height = cssH + 'px';
+      var bw = Math.round(cssW * px), bh = Math.round(cssH * px);
+      if (cv.width !== bw || cv.height !== bh) { cv.width = bw; cv.height = bh; }
+      k = cv.width / paper.w;
+      redraw();
+    }
+
+    // Small seeded random numbers, so sparkles land in the same place when redrawn.
+    function rng(seed) {
+      return function () {
+        seed = seed + 0x6D2B79F5 | 0;
+        var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
+
+    function symmetric(op, draw) {
+      if (!op.sym) { draw(); return; }
+      var cx = paper.w / 2, cy = paper.h / 2, n = op.sym === 'mirror' ? 1 : 6;
+      for (var i = 0; i < n; i++) {
+        for (var m = 0; m < 2; m++) {
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.rotate(i * Math.PI * 2 / n);
+          if (m) ctx.scale(-1, 1);
+          ctx.translate(-cx, -cy);
+          draw();
+          ctx.restore();
+        }
+      }
+    }
+
+    function spacing(op) { return op.tool === 'stamp' ? op.size * 3.2 : op.size * 1.1; }
+
+    function addPoint(op, x, y) {
+      var n = op.pts.length / 2;
+      var d = 0;
+      if (n) {
+        var px = op.pts[op.pts.length - 2], py = op.pts[op.pts.length - 1];
+        d = op.dist[n - 1] + Math.hypot(x - px, y - py);
+      }
+      op.pts.push(x, y);
+      op.dist.push(d);
+      if (op.tool === 'stamp' || op.tool === 'sparkle') {
+        while (op.nextMark <= d) {
+          var mx = x, my = y;
+          if (n) {
+            var ax = op.pts[op.pts.length - 4], ay = op.pts[op.pts.length - 3], d0 = op.dist[n - 1];
+            var f = d > d0 ? (op.nextMark - d0) / (d - d0) : 1;
+            mx = ax + (x - ax) * f; my = ay + (y - ay) * f;
+          }
+          op.marks.push(mx, my);
+          op.nextMark += spacing(op);
+        }
+      }
+    }
+
+    function strokeColor(op, i) {
+      if (op.tool === 'rainbow') return 'hsl(' + Math.round((op.seed % 360) + op.dist[i] * 0.5) % 360 + ',90%,55%)';
+      return op.color;
+    }
+
+    function renderSegments(op, from) {
+      if (op.tool === 'stamp' || op.tool === 'sparkle') return;
+      var p = op.pts, n = p.length / 2;
+      symmetric(op, function () {
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.lineWidth = op.size;
+        if (from === 0) {
+          ctx.fillStyle = strokeColor(op, 0);
+          ctx.beginPath();
+          ctx.arc(p[0], p[1], op.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        for (var i = Math.max(1, from); i < n; i++) {
+          ctx.strokeStyle = strokeColor(op, i);
+          ctx.beginPath();
+          ctx.moveTo(p[2 * i - 2], p[2 * i - 1]);
+          ctx.lineTo(p[2 * i], p[2 * i + 1]);
+          ctx.stroke();
+        }
+      });
+    }
+
+    function starPath(x, y, r) {
+      ctx.beginPath();
+      for (var i = 0; i < 8; i++) {
+        var a = i * Math.PI / 4, rr = i % 2 ? r * 0.38 : r;
+        ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr);
+      }
+      ctx.closePath();
+    }
+
+    function renderMarks(op, from) {
+      var m = op.marks;
+      if (!m.length) return;
+      symmetric(op, function () {
+        for (var i = from; i < m.length / 2; i++) {
+          var x = m[2 * i], y = m[2 * i + 1];
+          if (op.tool === 'stamp') {
+            ctx.font = Math.round(op.size * 3) + 'px ' + EMOJI_FONT;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(op.emoji, x, y);
+          } else {
+            var r = rng(op.seed + i * 7919);
+            ctx.fillStyle = SPARKLE[Math.floor(r() * SPARKLE.length)];
+            starPath(x + (r() - 0.5) * op.size * 1.6, y + (r() - 0.5) * op.size * 1.6, op.size * (0.45 + r() * 0.5));
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(0,0,0,.12)';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+          }
+        }
+      });
+    }
+
+    function visibleOps() {
+      var start = 0;
+      for (var i = ops.length - 1; i >= 0; i--) if (ops[i].t === 'clear') { start = i + 1; break; }
+      return ops.slice(start);
+    }
+
+    function redraw() {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, cv.width, cv.height);
+      ctx.setTransform(k, 0, 0, k, 0, 0);
+      visibleOps().forEach(function (op) { renderSegments(op, 0); renderMarks(op, 0); });
+      updateActions();
+    }
+
+    function extend(op, x, y) {
+      var i0 = op.pts.length / 2, m0 = op.marks.length / 2;
+      addPoint(op, x, y);
+      ctx.setTransform(k, 0, 0, k, 0, 0);
+      renderSegments(op, i0);
+      renderMarks(op, m0);
+    }
+
+    var activeId = null, active = null, rect = null;
+    function toPaper(e) {
+      return [(e.clientX - rect.left) * paper.w / rect.width, (e.clientY - rect.top) * paper.h / rect.height];
+    }
+    cv.addEventListener('pointerdown', function (e) {
+      if (activeId !== null || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      if (e.pointerType === 'touch' && (e.width > 60 || e.height > 60)) return;   // a resting palm
+      e.preventDefault();
+      activeId = e.pointerId;
+      try { cv.setPointerCapture(activeId); } catch (err) { /* ignore */ }
+      rect = cv.getBoundingClientRect();
+      hideIdea();
+      closeTray();
+      active = {
+        t: 'stroke', tool: brush, color: brush === 'eraser' ? '#FFFFFF' : color, size: SIZES[sizeIdx],
+        sym: sym, seed: Math.floor(Math.random() * 1e9), emoji: stamp, pts: [], dist: [], marks: [], nextMark: 0
+      };
+      ops.push(active);
+      var p = toPaper(e);
+      extend(active, p[0], p[1]);
+      if (brush === 'stamp') App.sfx('pop');
+    });
+    cv.addEventListener('pointermove', function (e) {
+      if (e.pointerId !== activeId || !active) return;
+      e.preventDefault();
+      var evs = (e.getCoalescedEvents && e.getCoalescedEvents()) || [];
+      if (!evs.length) evs = [e];
+      for (var i = 0; i < evs.length; i++) {
+        var p = toPaper(evs[i]);
+        var before = active.marks.length;
+        extend(active, p[0], p[1]);
+        if (active.tool === 'stamp' && active.marks.length > before) App.sfx('pop');
+      }
+    });
+    function endStroke(e) {
+      if (e.pointerId !== activeId) return;
+      activeId = null;
+      active = null;
+      updateActions();
+    }
+    cv.addEventListener('pointerup', endStroke);
+    cv.addEventListener('pointercancel', endStroke);
+    cv.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+    function updateActions() {
+      document.getElementById('undo').disabled = !ops.length;
+      var blank = !visibleOps().length;
+      document.getElementById('clear').disabled = blank;
+      document.getElementById('save').disabled = blank;
+    }
+
+    document.getElementById('undo').addEventListener('click', function () {
+      if (!ops.length) return;
+      ops.pop();
+      redraw();
+      App.sfx('tick');
+    });
+    document.getElementById('clear').addEventListener('click', function () {
+      if (!visibleOps().length) return;
+      ops.push({ t: 'clear' });
+      redraw();
+      App.sfx('pop');
+      say('Fresh paper!');
+    });
+    document.getElementById('save').addEventListener('click', function () {
+      if (!visibleOps().length) { say('Draw something first!'); return; }
+      var item = App.gallery.add('art', App.snapshot(cv, 900));
+      if (item) { App.sfx('yay'); say('Saved! Lovely picture!'); toast('Saved to My art 🖼️'); }
+      else toast('Could not save: this device is out of space');
+    });
+
+    var ideaEl = document.getElementById('idea'), ideaTimer = null;
+    function hideIdea() { ideaEl.hidden = true; clearTimeout(ideaTimer); }
+    document.getElementById('idea-btn').addEventListener('click', function () {
+      var list = IDEAS[level].filter(function (s) { return s !== lastIdea; });
+      lastIdea = list[Math.floor(Math.random() * list.length)];
+      ideaEl.textContent = '💡 ' + lastIdea;
+      ideaEl.hidden = false;
+      clearTimeout(ideaTimer);
+      ideaTimer = setTimeout(hideIdea, 9000);
+      say(lastIdea);
+      // a symmetry idea switches the brush on for her
+      if (/kaleidoscope/i.test(lastIdea)) setSym('kaleido', true);
+      if (/mirror/i.test(lastIdea)) setSym('mirror', true);
+    });
+
+    /* ----- tools ----- */
+    var toolsEl = document.getElementById('tools');
+    var tray = document.getElementById('stamp-tray');
+    function sizeDot() {
+      var px = [10, 16, 24][sizeIdx];
+      return '<span class="size-dot" style="width:' + px + 'px;height:' + px + 'px;color:' + (color === '#FFFFFF' ? '#bbb' : color) + '"></span>';
+    }
+    function renderTools() {
+      var html = '';
+      BRUSHES.forEach(function (b) {
+        if (b.level > level) return;
+        html += '<button type="button" class="tool-btn" data-brush="' + b.id + '" aria-label="' + b.label + '" title="' + b.label +
+          '" aria-pressed="' + (brush === b.id) + '">' + (b.id === 'stamp' ? stamp : b.emoji) + '</button>';
+      });
+      if (level >= 1) {
+        html += '<span class="sep" aria-hidden="true"></span><button type="button" class="tool-btn" id="size-btn" aria-label="Brush size" title="Brush size">' + sizeDot() + '</button>';
+      }
+      if (level >= 2) {
+        html += '<span class="sep" aria-hidden="true"></span>';
+        SYMS.forEach(function (s) {
+          html += '<button type="button" class="tool-btn" data-sym="' + s.id + '" aria-label="' + s.label + '" title="' + s.label +
+            '" aria-pressed="' + (sym === s.id) + '">' + s.emoji + '</button>';
+        });
+      }
+      toolsEl.innerHTML = html;
+    }
+    function setSym(id, on) {
+      sym = on ? id : null;
+      renderTools();
+    }
+    function closeTray() { tray.hidden = true; }
+    function openTray() {
+      tray.innerHTML = STAMPS.map(function (s) {
+        return '<button type="button" role="radio" aria-checked="' + (s === stamp) + '" aria-label="Stamp ' + s + '">' + s + '</button>';
+      }).join('');
+      tray.hidden = false;
+    }
+    tray.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      stamp = b.textContent;
+      closeTray();
+      renderTools();
+      App.sfx('pop');
+    });
+    toolsEl.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      if (b.id === 'size-btn') {
+        sizeIdx = (sizeIdx + 1) % SIZES.length;
+        b.innerHTML = sizeDot();
+        say(['Small', 'Medium', 'Big'][sizeIdx]);
+        return;
+      }
+      if (b.dataset.sym) {
+        var on = sym !== b.dataset.sym;
+        setSym(b.dataset.sym, on);
+        say(on ? (b.dataset.sym === 'mirror' ? 'Mirror! Draw on one side.' : 'Kaleidoscope! Draw and watch it spin.') : 'Normal brush');
+        return;
+      }
+      var id = b.dataset.brush;
+      if (id === 'stamp' && brush === 'stamp' && tray.hidden) { openTray(); return; }
+      brush = id;
+      renderTools();
+      if (id === 'stamp') openTray(); else closeTray();
+      var info = BRUSHES.filter(function (x) { return x.id === id; })[0];
+      say(info.label);
+    });
+
+    /* ----- colours (shared by Paint and Colour in) ----- */
+    function renderColors() {
+      ['colors', 'colors2'].forEach(function (cid) {
+        var box = document.getElementById(cid);
+        box.innerHTML = COLORS.map(function (c) {
+          return '<button type="button" class="swatch" role="radio" data-color="' + c[0] + '" aria-label="' + c[1] + '" title="' + c[1] +
+            '" aria-checked="' + (c[0] === color) + '" style="background:' + c[0] + '"></button>';
+        }).join('');
+      });
+    }
+    function pickColor(e) {
+      var b = e.target.closest('.swatch');
+      if (!b) return;
+      color = b.dataset.color;
+      if (brush === 'eraser' || brush === 'stamp') brush = 'crayon';
+      renderColors();
+      renderTools();
+      closeTray();
+      say(b.getAttribute('aria-label'));
+    }
+    document.getElementById('colors').addEventListener('click', pickColor);
+    document.getElementById('colors2').addEventListener('click', pickColor);
+
+    /* ================= Colour in ================= */
+    function star(cx, cy, r) {
+      var d = '';
+      for (var i = 0; i < 10; i++) {
+        var a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * 0.45 : r;
+        d += (i ? 'L' : 'M') + (cx + Math.cos(a) * rr).toFixed(1) + ' ' + (cy + Math.sin(a) * rr).toFixed(1);
+      }
+      return '<path class="r" d="' + d + 'Z"/>';
+    }
+    function ring(n, dist, rx, ry, offset, cy) {
+      var out = '';
+      for (var i = 0; i < n; i++) {
+        var deg = offset + i * 360 / n, a = deg * Math.PI / 180;
+        var x = (200 + Math.sin(a) * dist).toFixed(1), y = ((cy || 200) - Math.cos(a) * dist).toFixed(1);
+        out += '<ellipse class="r" cx="' + x + '" cy="' + y + '" rx="' + rx + '" ry="' + ry + '" transform="rotate(' + deg + ' ' + x + ' ' + y + ')"/>';
+      }
+      return out;
+    }
+    var PAGES = [
+      { id: 'butterfly', name: 'the butterfly', svg:
+        '<path class="ln" d="M193 118C184 90 170 74 150 64M207 118C216 90 230 74 250 64"/>' +
+        '<circle class="r" cx="148" cy="62" r="11"/><circle class="r" cx="252" cy="62" r="11"/>' +
+        '<path class="r" d="M194 185C150 95 64 62 50 128C40 182 110 214 194 208Z"/><path class="r" d="M206 185C250 95 336 62 350 128C360 182 290 214 206 208Z"/>' +
+        '<path class="r" d="M194 220C128 222 80 262 96 312C112 354 172 342 196 252Z"/><path class="r" d="M206 220C272 222 320 262 304 312C288 354 228 342 204 252Z"/>' +
+        '<circle class="r" cx="112" cy="140" r="22"/><circle class="r" cx="288" cy="140" r="22"/><circle class="r" cx="140" cy="292" r="15"/><circle class="r" cx="260" cy="292" r="15"/>' +
+        '<rect class="r" x="186" y="150" width="28" height="182" rx="14"/><circle class="r" cx="200" cy="134" r="24"/>' },
+      { id: 'flower', name: 'the flower', svg:
+        '<path class="r" d="M194 160h12v140h-12z"/>' +
+        '<path class="r" d="M200 252C160 222 130 240 118 262C150 272 182 270 200 252Z"/><path class="r" d="M200 232C240 202 270 216 284 240C252 252 220 250 200 232Z"/>' +
+        ring(6, 48, 25, 36, 0, 135) + '<circle class="r" cx="200" cy="135" r="30"/>' +
+        '<path class="r" d="M148 312h104l-16 76h-72z"/><rect class="r" x="136" y="292" width="128" height="26" rx="8"/>' },
+      { id: 'house', name: 'the house', svg:
+        '<rect class="r" x="-10" y="332" width="420" height="80"/><circle class="r" cx="338" cy="68" r="36"/>' +
+        '<path class="r" d="M58 96a22 22 0 0 1 40-12a26 26 0 0 1 48 8a18 18 0 0 1 2 36H60a18 18 0 0 1-2-32Z"/>' +
+        '<rect class="r" x="252" y="96" width="34" height="74"/><path class="r" d="M66 192 200 82 334 192Z"/>' +
+        '<rect class="r" x="88" y="192" width="224" height="146"/><rect class="r" x="176" y="252" width="56" height="86" rx="6"/>' +
+        '<rect class="r" x="108" y="214" width="52" height="46"/><rect class="r" x="248" y="214" width="52" height="46"/>' +
+        '<path class="ln" d="M134 214v46M108 237h52M274 214v46M248 237h52"/>' },
+      { id: 'fish', name: 'the fish', svg:
+        '<circle class="r" cx="40" cy="120" r="12"/><circle class="r" cx="62" cy="82" r="8"/><circle class="r" cx="40" cy="50" r="6"/>' +
+        '<path class="r" d="M302 200 368 136 356 200 368 264Z"/><path class="r" d="M150 128C178 72 242 80 254 128Z"/><path class="r" d="M168 274C190 318 232 314 238 276Z"/>' +
+        '<ellipse class="r" cx="190" cy="200" rx="130" ry="84"/>' +
+        '<path class="r" d="M140 130Q162 200 140 270L166 279Q188 200 166 121Z"/><path class="r" d="M212 117Q234 200 212 283L238 278Q260 200 238 122Z"/>' +
+        '<circle class="r" cx="96" cy="180" r="18"/><circle class="r" cx="100" cy="180" r="8"/><path class="ln" d="M66 214q14 8 28 0"/>' },
+      { id: 'car', name: 'the car', svg:
+        '<rect class="r" x="-10" y="330" width="420" height="80"/>' +
+        '<path class="r" d="M40 262Q40 216 82 212H122L158 160H262L302 212H330Q366 214 366 252V290H40Z"/>' +
+        '<path class="r" d="M166 174H204V212H140Z"/><path class="r" d="M216 174H256L284 212H216Z"/><rect class="r" x="338" y="232" width="20" height="16" rx="4"/>' +
+        '<circle class="r" cx="112" cy="292" r="38"/><circle class="r" cx="298" cy="292" r="38"/><circle class="r" cx="112" cy="292" r="15"/><circle class="r" cx="298" cy="292" r="15"/>' },
+      { id: 'cat', name: 'the cat', svg:
+        '<path class="r" d="M92 160 108 46 182 112Z"/><path class="r" d="M308 160 292 46 218 112Z"/>' +
+        '<path class="r" d="M112 128 118 82 152 112Z"/><path class="r" d="M288 128 282 82 248 112Z"/>' +
+        '<ellipse class="r" cx="200" cy="218" rx="142" ry="122"/>' +
+        '<ellipse class="r" cx="146" cy="196" rx="27" ry="31"/><ellipse class="r" cx="254" cy="196" rx="27" ry="31"/>' +
+        '<ellipse class="r" cx="150" cy="202" rx="10" ry="17"/><ellipse class="r" cx="258" cy="202" rx="10" ry="17"/>' +
+        '<circle class="r" cx="108" cy="262" r="20"/><circle class="r" cx="292" cy="262" r="20"/><path class="r" d="M184 240h32l-16 18z"/>' +
+        '<path class="ln" d="M200 258v14M200 272c-10 18-30 16-35 3M200 272c10 18 30 16 35 3M150 250 82 238M150 262 82 268M250 250 318 238M250 262 318 268"/>' },
+      { id: 'rocket', name: 'the rocket', svg:
+        star(62, 76, 22) + star(338, 110, 16) + star(330, 330, 20) + star(70, 318, 14) +
+        '<path class="r" d="M150 232 98 304 152 292Z"/><path class="r" d="M250 232 302 304 248 292Z"/>' +
+        '<path class="r" d="M200 38C252 90 262 160 256 292H144C138 160 148 90 200 38Z"/><path class="r" d="M200 38C224 60 238 84 245 110H155C162 84 176 60 200 38Z"/>' +
+        '<circle class="r" cx="200" cy="172" r="30"/><path class="r" d="M162 292H238L224 322H176Z"/><path class="r" d="M180 324C172 352 186 376 200 392C214 376 228 352 220 324Z"/>' },
+      { id: 'mandala', name: 'the pattern', svg:
+        '<circle class="r" cx="200" cy="200" r="188"/>' + ring(8, 112, 27, 46, 22.5) + ring(8, 64, 20, 34, 0) +
+        '<circle class="r" cx="200" cy="200" r="28"/>' + (function () {
+          var out = '';
+          for (var i = 0; i < 16; i++) {
+            var a = i * Math.PI / 8;
+            out += '<circle class="r" cx="' + (200 + Math.sin(a) * 166).toFixed(1) + '" cy="' + (200 - Math.cos(a) * 166).toFixed(1) + '" r="13"/>';
+          }
+          return out;
+        })() }
+    ];
+    function pageSvg(p) {
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Colouring page: ' + p.name.replace('the ', '') + '">' +
+        '<g fill="#FFFFFF" stroke="#2B2730" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">' +
+        p.svg.replace(/class="ln"/g, 'class="ln" fill="none"') + '</g></svg>';
+    }
+
+    var cbook = document.getElementById('cbook');
+    var pagePick = document.getElementById('page-pick');
+    var cPage = PAGES[0], cFills = {}, cHistory = [];
+    function renderPagePick() {
+      pagePick.innerHTML = PAGES.map(function (p) {
+        return '<button type="button" data-page="' + p.id + '" aria-pressed="' + (p === cPage) + '" aria-label="Colour ' + p.name + '">' + pageSvg(p) + '</button>';
+      }).join('');
+    }
+    function renderPage() {
+      cbook.innerHTML = pageSvg(cPage);
+      var fills = cFills[cPage.id] || {};
+      cbook.querySelectorAll('.r').forEach(function (el, i) {
+        el.setAttribute('data-i', i);
+        if (fills[i]) el.setAttribute('fill', fills[i]);
+      });
+      updateColorActions();
+    }
+    function updateColorActions() {
+      var mine = cHistory.some(function (h) { return h.page === cPage.id; });
+      document.getElementById('c-undo').disabled = !mine;
+      var filled = Object.keys(cFills[cPage.id] || {}).length > 0;
+      document.getElementById('c-clear').disabled = !filled;
+      document.getElementById('c-save').disabled = !filled;
+    }
+    pagePick.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      cPage = PAGES.filter(function (p) { return p.id === b.dataset.page; })[0];
+      renderPagePick();
+      renderPage();
+      say("Let's colour " + cPage.name + '!');
+    });
+    cbook.addEventListener('click', function (e) {
+      var el = e.target.closest('.r');
+      if (!el) return;
+      var i = +el.getAttribute('data-i');
+      var fills = cFills[cPage.id] || (cFills[cPage.id] = {});
+      var prev = fills[i] || null;
+      if (prev === color) return;
+      cHistory.push({ page: cPage.id, i: i, prev: prev });
+      fills[i] = color;
+      el.setAttribute('fill', color);
+      App.sfx('pop');
+      updateColorActions();
+    });
+    document.getElementById('c-undo').addEventListener('click', function () {
+      for (var j = cHistory.length - 1; j >= 0; j--) {
+        var h = cHistory[j];
+        if (h.page !== cPage.id) continue;
+        cHistory.splice(j, 1);
+        if (h.all) cFills[cPage.id] = h.all;
+        else if (h.prev) cFills[cPage.id][h.i] = h.prev;
+        else delete cFills[cPage.id][h.i];
+        renderPage();
+        App.sfx('tick');
+        return;
+      }
+    });
+    document.getElementById('c-clear').addEventListener('click', function () {
+      var fills = cFills[cPage.id];
+      if (!fills || !Object.keys(fills).length) return;
+      cHistory.push({ page: cPage.id, all: fills });
+      cFills[cPage.id] = {};
+      renderPage();
+      say('Start again!');
+    });
+    document.getElementById('c-save').addEventListener('click', function () {
+      var svg = cbook.querySelector('svg').cloneNode(true);
+      svg.setAttribute('width', '800');
+      svg.setAttribute('height', '800');
+      var img = new Image();
+      img.onload = function () {
+        var c = document.createElement('canvas');
+        c.width = c.height = 800;
+        var g = c.getContext('2d');
+        g.fillStyle = '#fff';
+        g.fillRect(0, 0, 800, 800);
+        g.drawImage(img, 0, 0, 800, 800);
+        var item = App.gallery.add('art', App.snapshot(c, 800));
+        if (item) { App.sfx('yay'); say('Saved! Beautiful colours!'); toast('Saved to My art 🖼️'); }
+        else toast('Could not save: this device is out of space');
+      };
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
+    });
+
+    /* ================= My art ================= */
+    var galGrid = document.getElementById('gal-grid');
+    var galView = document.getElementById('gal-view');
+    function renderGallery() {
+      galView.hidden = true;
+      galGrid.hidden = false;
+      var list = App.gallery.list();
+      if (!list.length) {
+        galGrid.innerHTML = '<div class="gal-empty" style="grid-column:1/-1"><span class="emoji">🖼️</span>Nothing here yet. Paint or colour something and tap 💾 to keep it!</div>';
+        return;
+      }
+      galGrid.innerHTML = list.map(function (g) {
+        var scene = g.kind === 'scene';
+        return '<button type="button" class="gal-item" data-id="' + g.id + '" aria-label="' + (scene ? 'Story scene' : 'Picture') + '">' +
+          '<img alt="" src="' + g.src + '"><span class="kind" aria-hidden="true">' + (scene ? '🏞️' : '🎨') + '</span></button>';
+      }).join('');
+    }
+    galGrid.addEventListener('click', function (e) {
+      var b = e.target.closest('.gal-item');
+      if (b) viewArt(b.dataset.id);
+    });
+    function viewArt(id) {
+      var g = App.gallery.list().filter(function (x) { return x.id === id; })[0];
+      if (!g) { renderGallery(); return; }
+      galGrid.hidden = true;
+      galView.hidden = false;
+      galView.innerHTML = '<img alt="Saved picture" src="' + g.src + '"><div class="btn-row">' +
+        '<button type="button" class="btn" id="gv-back" style="background:#9A8587">← Back</button>' +
+        '<a class="btn" href="puzzle.html?pic=' + g.id + '" style="background:#E8961A"><span class="emoji">🧩</span> Make a puzzle</a>' +
+        '<button type="button" class="btn" id="gv-save" style="background:#2F9BE0"><span class="emoji">📲</span> Save</button>' +
+        '<button type="button" class="btn" id="gv-del" style="background:#E0506A"><span class="emoji">🗑️</span> Delete</button></div>';
+      document.getElementById('gv-back').addEventListener('click', renderGallery);
+      document.getElementById('gv-save').addEventListener('click', function () { App.saveImage(g.src, 'heshvi-' + g.id + '.jpg'); });
+      var del = document.getElementById('gv-del'), armed = false;
+      del.addEventListener('click', function () {
+        if (!armed) { armed = true; del.innerHTML = 'Tap again to delete'; return; }
+        App.gallery.remove(g.id);
+        renderGallery();
+      });
+    }
+
+    /* ================= Modes and level ================= */
+    var mode = 'paint';
+    var levelHost = document.getElementById('level');
+    function setMode(m, quiet) {
+      mode = m;
+      document.querySelectorAll('.mode-tab').forEach(function (t) {
+        t.setAttribute('aria-selected', String(t.dataset.mode === m));
+      });
+      document.getElementById('mode-paint').hidden = m !== 'paint';
+      document.getElementById('mode-color').hidden = m !== 'color';
+      document.getElementById('mode-gallery').hidden = m !== 'gallery';
+      levelHost.hidden = m !== 'paint';
+      closeTray();
+      if (m === 'paint') { fitPaper(); if (!quiet) say('Pick a colour and draw!'); }
+      if (m === 'color') { renderPagePick(); renderPage(); if (!quiet) say('Pick a colour, then tap to fill!'); }
+      if (m === 'gallery') { renderGallery(); if (!quiet) say('Your art!'); }
+    }
+    document.querySelectorAll('.mode-tab').forEach(function (t) {
+      t.addEventListener('click', function () { if (t.dataset.mode !== mode) setMode(t.dataset.mode); });
+    });
+
+    var lv = App.levelControl(levelHost, 'art', LEVELS, function (l) {
+      level = l;
+      if (BRUSHES.filter(function (b) { return b.id === brush; })[0].level > level) brush = 'crayon';
+      if (level < 2) sym = null;
+      if (level < 1) sizeIdx = 2;
+      renderTools();
+    });
+    level = lv.get();
+    if (level === 0) sizeIdx = 2; else sizeIdx = 1;
+
+    if (window.ResizeObserver) new ResizeObserver(function () { if (mode === 'paint') fitPaper(); }).observe(wrap);
+    else window.addEventListener('resize', function () { if (mode === 'paint') fitPaper(); });
+
+    renderColors();
+    renderTools();
+    setMode(location.hash === '#gallery' ? 'gallery' : location.hash === '#color' ? 'color' : 'paint', true);
+  </script>
+</body>
+</html>

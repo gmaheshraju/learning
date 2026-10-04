@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Patterns — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .pt { max-width: 980px; margin: 0 auto; }
+    .mode-tabs { display: inline-flex; gap: 4px; padding: 3px; border-radius: 999px; border: 2px solid var(--line); background: var(--card); }
+    .mode-tab {
+      min-height: 38px; padding: 0 14px; border-radius: 999px; border: none; background: none;
+      font-size: 15px; font-weight: 900; color: var(--textM); cursor: pointer; white-space: nowrap;
+    }
+    .mode-tab[aria-selected="true"] { background: #FF8A65; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+
+    .strip {
+      --cell: 76px;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+      padding: 14px 10px; margin: 6px auto 16px; max-width: 900px;
+      background: var(--card); border-radius: 24px; box-shadow: 0 3px 14px var(--sh);
+    }
+    .cell {
+      width: var(--cell); height: var(--cell); border-radius: 18px; display: grid; place-items: center;
+      background: var(--bg); border: 3px solid transparent; position: relative;
+      font-family: var(--emoji); font-size: calc(var(--cell) * .66); line-height: 1;
+      transition: transform .2s, border-color .2s, background-color .2s;
+    }
+    .cell svg { width: 86%; height: 86%; }
+    .cell.gap { border: 3px dashed #FF8A65; background: rgba(255,138,101,.08); }
+    .cell.gap::after { content: '?'; font-family: var(--font); font-size: calc(var(--cell) * .5); font-weight: 900; color: #FF8A65; }
+    .cell.gap.filled::after { content: none; }
+    .cell.lit { transform: translateY(-8px) scale(1.08); border-color: #F5A623; }
+    .cell.pop { animation: bounceIn .45s ease-out; }
+    .cell .group { display: flex; flex-wrap: wrap; justify-content: center; gap: 1px; width: 92%; font-size: calc(var(--cell) * .26); }
+    .cell .num { font-family: var(--font); font-weight: 900; font-size: calc(var(--cell) * .5); color: var(--text); }
+
+    .options { display: flex; justify-content: center; gap: clamp(10px, 3vw, 22px); flex-wrap: wrap; margin-bottom: 14px; }
+    .opt {
+      width: clamp(78px, 21vw, 116px); height: clamp(78px, 21vw, 116px); border-radius: 24px; padding: 0;
+      border: 3px solid var(--line); background: var(--card); cursor: pointer;
+      display: grid; place-items: center; font-family: var(--emoji); font-size: clamp(46px, 13vw, 70px); line-height: 1;
+      box-shadow: 0 3px 12px var(--sh); transition: transform .12s, border-color .2s;
+      animation: bounceIn .4s ease-out both;
+    }
+    .opt svg { width: 82%; height: 82%; }
+    .opt:active { transform: scale(.92); }
+    .opt.nope { animation: wiggle .45s ease; border-color: #ffb3c0; }
+    .opt .group { display: flex; flex-wrap: wrap; justify-content: center; gap: 1px; width: 90%; font-size: clamp(14px, 4vw, 22px); }
+    .opt .num { font-family: var(--font); font-weight: 900; font-size: clamp(36px, 10vw, 56px); color: var(--text); }
+    .stars { text-align: center; font-family: var(--emoji); font-size: 26px; letter-spacing: 4px; min-height: 34px; }
+
+    .maker-palette { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+    .maker-palette .opt { width: clamp(62px, 15vw, 90px); height: clamp(62px, 15vw, 90px); font-size: clamp(36px, 9vw, 54px); animation: none; }
+    .set-pick { display: flex; justify-content: center; gap: 8px; margin-bottom: 10px; }
+
+    @media (hover: hover) and (pointer: fine) {
+      .opt:hover { border-color: #FF8A65; }
+      .mode-tab:not([aria-selected="true"]):hover { color: var(--text); }
+    }
+    @media (orientation: landscape) and (max-height: 520px) {
+      .strip { padding: 6px; margin: 2px auto 6px; }
+      .opt { width: 60px; height: 60px; font-size: 36px; border-radius: 18px; }
+      .stars { min-height: 0; font-size: 18px; }
+      .prompt-row { margin: 0 0 4px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">P</em><em style="color:#F5A623">a</em><em style="color:#7EC850">t</em><em style="color:#4DADEA">t</em><em style="color:#B07CD8">e</em><em style="color:#E85D75">r</em><em style="color:#F5A623">n</em><em style="color:#7EC850">s</em></h1>
+      <p class="sub">What comes next? Make your own!</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="patterns"></nav>
+    <main class="pt">
+      <div class="act-bar">
+        <div class="mode-tabs" role="tablist" aria-label="Patterns">
+          <button type="button" class="mode-tab" role="tab" data-mode="next" aria-selected="true">🔁 What comes next?</button>
+          <button type="button" class="mode-tab" role="tab" data-mode="make" aria-selected="false">🎨 Make one</button>
+        </div>
+        <div id="level"></div>
+      </div>
+
+      <section id="mode-next">
+        <div class="prompt-row">
+          <span class="prompt-text" id="prompt">What comes next?</span>
+          <button type="button" class="say-btn" id="say" aria-label="Hear the pattern">🔊</button>
+        </div>
+        <div class="strip" id="strip" aria-label="Pattern"></div>
+        <div class="options" id="options" role="group" aria-label="Choices"></div>
+        <div class="stars" id="stars" aria-label="Progress"></div>
+      </section>
+
+      <section id="mode-make" hidden>
+        <div class="prompt-row">
+          <span class="prompt-text">Make your own pattern!</span>
+        </div>
+        <div class="set-pick" id="set-pick" role="radiogroup" aria-label="Pieces"></div>
+        <div class="strip" id="mstrip" aria-label="Your pattern"></div>
+        <div class="maker-palette" id="palette" role="group" aria-label="Add a piece"></div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="m-play" style="background:#5DB534"><span class="emoji">▶️</span> Play it</button>
+          <button type="button" class="tool-btn" id="m-back" aria-label="Remove the last piece" title="Remove last">⌫</button>
+          <button type="button" class="tool-btn" id="m-clear" aria-label="Start again" title="Start again">🧻</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script src="js/shapes.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 2, label: 'Red, blue, red…', cores: ['AB'], options: 2 },
+      { age: 3, label: 'AB · AAB · ABB', cores: ['AB', 'AAB', 'ABB'], options: 3 },
+      { age: 4, label: 'ABC · gaps', cores: ['ABC', 'AABB', 'AAB', 'ABB'], options: 3 },
+      { age: 5, label: 'Two gaps', cores: ['ABCD', 'AABC', 'ABBC', 'AABB', 'ABC'], options: 4 },
+      { age: 6, label: 'Growing patterns', cores: ['ABCD', 'AABBC', 'ABAC', 'AABC'], options: 4 }
+    ];
+    var NOTES = [523.25, 659.25, 783.99, 1046.5, 880];   // C E G C' A: every order sounds friendly
+    var C = Shapes.COLORS, S = Shapes.SHAPES;
+    var COLOR_KEYS = ['red', 'blue', 'yellow', 'green', 'purple', 'orange'];
+    var SHAPE_KEYS = ['circle', 'square', 'triangle', 'star', 'heart'];
+    var EMOJI = {
+      fruit: [['🍎', 'apple'], ['🍌', 'banana'], ['🍇', 'grapes'], ['🍓', 'strawberry'], ['🍊', 'orange']],
+      animal: [['🐶', 'dog'], ['🐱', 'cat'], ['🐰', 'rabbit'], ['🐸', 'frog'], ['🐥', 'chick']],
+      sky: [['☀️', 'sun'], ['🌙', 'moon'], ['⭐', 'star'], ['☁️', 'cloud'], ['🌈', 'rainbow']]
+    };
+    var NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+
+    function colorTok(c) { return { key: 'c:' + c, html: Shapes.svg('circle', c), name: C[c].name }; }
+    function shapeTok(s, c) { return { key: 's:' + s + ':' + c, html: Shapes.svg(s, c), name: S[s].name, full: C[c].name + ' ' + S[s].name }; }
+    function emojiTok(e) { return { key: 'e:' + e[0], html: '<span>' + e[0] + '</span>', name: e[1] }; }
+    function groupTok(n, e) { return { key: 'g:' + n, html: '<span class="group">' + new Array(n + 1).join(e) + '</span>', name: NUMBER_WORDS[n] || String(n) }; }
+    function numTok(n) { return { key: 'n:' + n, html: '<span class="num">' + n + '</span>', name: String(n) }; }
+
+    function shuffle(a) { return App.shuffle(a); }
+    function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+
+    // A set of `count` distinct tokens of one family: colours, shapes or pictures.
+    function tokenSet(count, lv) {
+      var fam = lv === 0 ? 'color' : pick(['color', 'shape', 'emoji', 'emoji']);
+      if (fam === 'color') return shuffle(COLOR_KEYS).slice(0, count + 1).map(colorTok);
+      if (fam === 'shape') {
+        var cols = shuffle(COLOR_KEYS);
+        return shuffle(SHAPE_KEYS).slice(0, count + 1).map(function (s, i) { return shapeTok(s, cols[i]); });
+      }
+      return shuffle(EMOJI[pick(Object.keys(EMOJI))]).slice(0, count + 1).map(emojiTok);
+    }
+
+    /* ----- puzzles ----- */
+    function makePuzzle() {
+      var L = LEVELS[level];
+      if (level === 4 && Math.random() < 0.55) return special();
+      var core = pick(L.cores);
+      var letters = core.split('');
+      var distinct = letters.filter(function (c, i) { return letters.indexOf(c) === i; }).length;
+      var toks = tokenSet(distinct, level);
+      var unit = letters.map(function (ch) { return ch.charCodeAt(0) - 65; });
+      var seq = [], gaps = [];
+      if (level <= 1) {
+        var reps = core.length === 2 ? 3 : 2;
+        for (var r = 0; r < reps; r++) unit.forEach(function (u) { seq.push(u); });
+        seq.push(unit[0]);
+        gaps = [seq.length - 1];
+      } else {
+        for (var r2 = 0; r2 < 3; r2++) unit.forEach(function (u) { seq.push(u); });
+        var lastStart = core.length * 2;
+        var slots = shuffle(seq.map(function (_, i) { return i; }).filter(function (i) { return i >= lastStart; }));
+        gaps = slots.slice(0, level === 2 ? 1 : 2).sort(function (a, b) { return a - b; });
+      }
+      return {
+        cells: seq.map(function (u) { return { tok: toks[u], note: NOTES[u] }; }),
+        gaps: gaps,
+        pool: toks
+      };
+    }
+
+    // Age 6-7 extras: growing groups, counting on, and two things changing at once.
+    function special() {
+      var kind = pick(['grow', 'count', 'two']);
+      if (kind === 'grow') {
+        var e = pick(['⭐', '🍎', '🐞', '🌸']), start = pick([1, 1, 2]);
+        var cells = [];
+        for (var i = 0; i < 4; i++) cells.push({ tok: groupTok(start + i, e), note: NOTES[i % 4] });
+        cells.push({ tok: groupTok(start + 4, e), note: NOTES[0] });
+        return { cells: cells, gaps: [4], pool: [groupTok(start + 4, e), groupTok(start + 3, e), groupTok(start + 5, e), groupTok(start + 6, e)] };
+      }
+      if (kind === 'count') {
+        var step = pick([2, 2, 5, 10]), first = step;
+        var cs = [];
+        for (var j = 0; j < 5; j++) cs.push({ tok: numTok(first + step * j), note: NOTES[j % 4] });
+        var ans = first + step * 4;
+        return { cells: cs, gaps: [4], pool: [numTok(ans), numTok(ans - 1), numTok(ans + 1), numTok(ans + step)] };
+      }
+      var cols = shuffle(COLOR_KEYS).slice(0, 2), shs = shuffle(SHAPE_KEYS).slice(0, 3), cells2 = [];
+      for (var k = 0; k < 7; k++) cells2.push({ tok: shapeTok(shs[k % 3], cols[k % 2]), note: NOTES[k % 3] });
+      var right = shapeTok(shs[6 % 3], cols[6 % 2]);
+      return { cells: cells2, gaps: [6], pool: [right, shapeTok(shs[0], cols[1]), shapeTok(shs[1], cols[0]), shapeTok(shs[2], cols[0])], two: true };
+    }
+
+    /* ----- What comes next ----- */
+    var strip = document.getElementById('strip'), optionsEl = document.getElementById('options'), starsEl = document.getElementById('stars');
+    var level = 0, puzzle = null, gapAt = 0, wrongs = 0, solved = 0, busy = false, playId = 0;
+
+    function say(t, rate, cb) { Speech.speak(t, rate || 0.88, cb); }
+
+    function fitCells(el, n) {
+      var w = el.clientWidth - 20;
+      var perRow = Math.min(n, w < 500 ? 6 : 12);
+      var size = Math.floor(Math.min(96, (w - (perRow - 1) * 8) / perRow));
+      if (window.innerHeight < 520 && window.innerWidth > window.innerHeight) size = Math.min(size, 54);
+      el.style.setProperty('--cell', Math.max(40, size) + 'px');
+    }
+
+    function renderPuzzle() {
+      strip.innerHTML = '';
+      puzzle.cells.forEach(function (c, i) {
+        var d = document.createElement('div');
+        var isGap = puzzle.gaps.indexOf(i) !== -1;
+        d.className = 'cell' + (isGap ? ' gap' : '');
+        if (!isGap) d.innerHTML = c.tok.html;
+        d.setAttribute('aria-label', isGap ? 'missing' : (c.tok.full || c.tok.name));
+        strip.appendChild(d);
+      });
+      fitCells(strip, puzzle.cells.length);
+      var answers = puzzle.gaps.map(function (g) { return puzzle.cells[g].tok; });
+      var opts = [];
+      puzzle.pool.forEach(function (t) { if (!opts.some(function (o) { return o.key === t.key; })) opts.push(t); });
+      answers.forEach(function (a) { if (!opts.some(function (o) { return o.key === a.key; })) opts.unshift(a); });
+      // keep every right answer, then fill up with distractors
+      var keep = opts.filter(function (o) { return answers.some(function (a) { return a.key === o.key; }); });
+      var rest = shuffle(opts.filter(function (o) { return keep.indexOf(o) === -1; }));
+      var count = puzzle.two || level === 4 ? 4 : LEVELS[level].options;
+      opts = shuffle(keep.concat(rest).slice(0, Math.max(count, keep.length)));
+      optionsEl.innerHTML = '';
+      opts.forEach(function (t, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'opt';
+        b.style.animationDelay = (i * 0.06) + 's';
+        b.innerHTML = t.html;
+        b.setAttribute('aria-label', t.full || t.name);
+        b.addEventListener('click', function () { choose(t, b); });
+        optionsEl.appendChild(b);
+      });
+      gapAt = 0;
+      wrongs = 0;
+      markGap();
+    }
+
+    function markGap() {
+      strip.querySelectorAll('.cell').forEach(function (c, i) { c.classList.toggle('lit', false); });
+    }
+
+    // Light each picture in turn with its note, so the pattern can be heard as well as seen.
+    function playStrip(el, cells, done) {
+      var my = ++playId;
+      var nodes = el.querySelectorAll('.cell');
+      var i = 0;
+      (function step() {
+        if (my !== playId) return;
+        if (i > 0) nodes[i - 1].classList.remove('lit');
+        if (i >= nodes.length) { if (done) done(); return; }
+        nodes[i].classList.add('lit');
+        if (!nodes[i].classList.contains('gap') || nodes[i].classList.contains('filled')) App.tone(cells[i].note, 0, 0.28, 'triangle', 0.16);
+        else App.sfx('tick');
+        i++;
+        setTimeout(step, 380);
+      })();
+    }
+
+    function namesUpTo(n) {
+      return puzzle.cells.slice(0, n).map(function (c) { return c.tok.name; }).join(', ');
+    }
+
+    function newPuzzle(first) {
+      busy = false;
+      puzzle = makePuzzle();
+      renderPuzzle();
+      setTimeout(function () {
+        playStrip(strip, puzzle.cells, function () { if (!first) say('What comes next?'); });
+      }, 350);
+      if (first) say('What comes next?');
+    }
+
+    function choose(t, btn) {
+      if (busy) return;
+      var g = puzzle.gaps[gapAt];
+      var want = puzzle.cells[g].tok;
+      if (t.key === want.key) {
+        var cell = strip.querySelectorAll('.cell')[g];
+        cell.innerHTML = t.html;
+        cell.classList.add('filled', 'pop');
+        cell.setAttribute('aria-label', t.full || t.name);
+        App.tone(puzzle.cells[g].note, 0, 0.3, 'triangle', 0.18);
+        gapAt++;
+        if (gapAt < puzzle.gaps.length) { say(cap(t.name) + '! And the next one?'); return; }
+        solved++;
+        busy = true;
+        renderStars();
+        App.sfx('yay');
+        var r = strip.getBoundingClientRect();
+        App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 12, r.width * 0.7);
+        say('Yes! ' + cap(t.name) + '!');
+        setTimeout(function () {
+          playStrip(strip, puzzle.cells, function () {
+            if (solved % 5 === 0) say("You're a pattern pro!");
+            setTimeout(function () { newPuzzle(false); }, solved % 5 === 0 ? 1800 : 500);
+          });
+        }, 900);
+      } else {
+        wrongs++;
+        btn.classList.remove('nope');
+        void btn.offsetWidth;
+        btn.classList.add('nope');
+        App.sfx('oops');
+        // after two tries, gently point at the answer
+        if (wrongs >= 2) {
+          optionsEl.querySelectorAll('.opt').forEach(function (o) {
+            if (o.getAttribute('aria-label') === (want.full || want.name)) o.style.borderColor = '#7EC850';
+          });
+        }
+        if (level <= 1) say('Listen! ' + namesUpTo(g) + '. What comes next?', 0.85);
+        else say('Not quite. Look at the pattern again!');
+      }
+    }
+    function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    function renderStars() {
+      var n = solved % 5 || (solved ? 5 : 0);
+      starsEl.textContent = new Array(n + 1).join('⭐') + new Array(5 - n + 1).join('☆');
+      starsEl.setAttribute('aria-label', n + ' of 5');
+    }
+
+    document.getElementById('say').addEventListener('click', function () {
+      var g = puzzle.gaps[gapAt] !== undefined ? puzzle.gaps[gapAt] : puzzle.cells.length;
+      playStrip(strip, puzzle.cells);
+      say(namesUpTo(g) + '. What comes next?', 0.85);
+    });
+
+    /* ----- Make your own ----- */
+    var SETS = [
+      { id: 'color', label: '🔴 Colours', toks: function () { return ['red', 'blue', 'yellow', 'green', 'purple'].map(colorTok); } },
+      { id: 'shape', label: '🔷 Shapes', toks: function () { return SHAPE_KEYS.map(function (s, i) { return shapeTok(s, ['red', 'blue', 'yellow', 'green', 'purple'][i]); }); } },
+      { id: 'fruit', label: '🍎 Fruit', toks: function () { return EMOJI.fruit.map(emojiTok); } },
+      { id: 'animal', label: '🐶 Animals', toks: function () { return EMOJI.animal.map(emojiTok); } }
+    ];
+    var mSet = SETS[0], mToks = mSet.toks(), mine = [];
+    var mstrip = document.getElementById('mstrip'), palette = document.getElementById('palette');
+    function renderSets() {
+      document.getElementById('set-pick').innerHTML = SETS.map(function (s) {
+        return '<button type="button" class="cat-pill' + (s === mSet ? ' active' : '') + '" role="radio" aria-checked="' + (s === mSet) + '" data-set="' + s.id + '">' + s.label + '</button>';
+      }).join('');
+    }
+    function renderPalette() {
+      palette.innerHTML = '';
+      mToks.forEach(function (t, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'opt';
+        b.innerHTML = t.html;
+        b.setAttribute('aria-label', 'Add ' + t.name);
+        b.addEventListener('click', function () {
+          if (mine.length >= 12) { say("That's a long one! Press play!"); return; }
+          mine.push({ tok: t, note: NOTES[i] });
+          App.tone(NOTES[i], 0, 0.25, 'triangle', 0.16);
+          renderMine(true);
+        });
+        palette.appendChild(b);
+      });
+    }
+    function renderMine(popLast) {
+      mstrip.innerHTML = '';
+      var n = Math.max(mine.length, 6);
+      for (var i = 0; i < n; i++) {
+        var d = document.createElement('div');
+        d.className = 'cell' + (i < mine.length ? '' : ' empty');
+        if (i < mine.length) { d.innerHTML = mine[i].tok.html; d.setAttribute('aria-label', mine[i].tok.name); }
+        else d.style.border = '3px dashed var(--line)';
+        if (popLast && i === mine.length - 1) d.classList.add('pop');
+        mstrip.appendChild(d);
+      }
+      fitCells(mstrip, n);
+      document.getElementById('m-play').disabled = !mine.length;
+      document.getElementById('m-back').disabled = !mine.length;
+      document.getElementById('m-clear').disabled = !mine.length;
+    }
+    // The smallest repeating unit, if her row repeats at least twice.
+    function period(list) {
+      for (var p = 1; p <= list.length / 2; p++) {
+        var ok = true;
+        for (var i = p; i < list.length; i++) if (list[i].tok.key !== list[i - p].tok.key) { ok = false; break; }
+        if (ok && list.length >= p * 2 && !(p === 1 && list.length < 3)) return p;
+      }
+      return 0;
+    }
+    document.getElementById('set-pick').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-set]');
+      if (!b) return;
+      mSet = SETS.filter(function (s) { return s.id === b.getAttribute('data-set'); })[0];
+      mToks = mSet.toks();
+      mine = [];
+      renderSets(); renderPalette(); renderMine();
+    });
+    document.getElementById('m-play').addEventListener('click', function () {
+      if (!mine.length) return;
+      playStrip(mstrip, mine, function () {
+        var p = period(mine);
+        if (p > 1) say("That's a pattern! It goes " + mine.slice(0, p).map(function (c) { return c.tok.name; }).join(', ') + '!');
+        else if (p === 1) say('All the same! Can you make it change?');
+        else if (mine.length < 4) say('Add some more!');
+        else say('Lovely! Can you make it repeat?');
+      });
+    });
+    document.getElementById('m-back').addEventListener('click', function () { mine.pop(); renderMine(); App.sfx('tick'); });
+    document.getElementById('m-clear').addEventListener('click', function () { mine = []; renderMine(); App.sfx('pop'); });
+
+    /* ----- modes, level ----- */
+    var mode = 'next';
+    document.querySelectorAll('.mode-tab').forEach(function (t) {
+      t.addEventListener('click', function () {
+        if (t.dataset.mode === mode) return;
+        mode = t.dataset.mode;
+        playId++;
+        document.querySelectorAll('.mode-tab').forEach(function (x) { x.setAttribute('aria-selected', String(x === t)); });
+        document.getElementById('mode-next').hidden = mode !== 'next';
+        document.getElementById('mode-make').hidden = mode !== 'make';
+        document.getElementById('level').hidden = mode !== 'next';
+        if (mode === 'make') { renderSets(); renderPalette(); renderMine(); say('Make your own pattern! Tap to add.'); }
+        else newPuzzle(false);
+      });
+    });
+
+    var lv = App.levelControl(document.getElementById('level'), 'patterns', LEVELS, function (l) {
+      level = l;
+      solved = 0;
+      renderStars();
+      newPuzzle(false);
+    });
+    level = lv.get();
+    renderStars();
+    window.addEventListener('resize', function () {
+      fitCells(strip, puzzle.cells.length);
+      if (mode === 'make') fitCells(mstrip, Math.max(mine.length, 6));
+    });
+    newPuzzle(true);
+  </script>
+</body>
+</html>

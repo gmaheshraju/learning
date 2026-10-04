@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>For Grown-ups — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .guide { max-width: 860px; margin: 0 auto; }
+    .g-intro { text-align: center; font-size: 16px; font-weight: 700; color: var(--textM); line-height: 1.55; margin: 0 auto 14px; max-width: 640px; }
+    .g-tabs { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .g-tab {
+      min-height: var(--tap); padding: 0 18px; border-radius: 999px; border: 2px solid var(--line);
+      background: var(--card); font-size: 16px; font-weight: 900; color: var(--textM); cursor: pointer;
+    }
+    .g-tab[aria-selected="true"] { background: #F5A623; border-color: #F5A623; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+    .g-band { animation: fadeIn .35s ease-out; }
+    .g-band h2 { font-size: clamp(22px, 3vmin, 32px); font-weight: 900; text-align: center; margin-bottom: 4px; }
+    .g-band .g-lead { text-align: center; font-size: 15px; color: var(--textM); font-weight: 700; margin-bottom: 14px; }
+    .g-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 12px; }
+    .g-card {
+      background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 14px 16px;
+      box-shadow: 0 2px 10px var(--sh);
+    }
+    .g-card h3 { font-size: 17px; font-weight: 900; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .g-card h3 .emoji { font-size: 22px; }
+    .g-card ul { padding-left: 20px; }
+    .g-card li { font-size: 15px; line-height: 1.5; margin-bottom: 6px; color: var(--text); }
+    .g-card li small { color: var(--textL); font-weight: 700; }
+    .g-try { display: flex; flex-wrap: wrap; gap: 8px; }
+    .g-try a {
+      display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px;
+      border-radius: 999px; border: 2px solid var(--line); background: var(--bg);
+      text-decoration: none; color: var(--text); font-weight: 800; font-size: 14px;
+    }
+    .g-try a .emoji { font-size: 18px; }
+    .g-wide { grid-column: 1 / -1; }
+    .g-sources { margin-top: 18px; }
+    .g-sources li { font-size: 13px; }
+    .g-sources a { color: var(--p2ink); }
+    @media (hover: hover) and (pointer: fine) {
+      .g-tab:hover, .g-try a:hover { border-color: #F5A623; }
+    }
+    @media print {
+      .g-tabs { display: none; }
+      .g-band { display: block !important; break-inside: avoid; margin-bottom: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">F</em><em style="color:#F5A623">o</em><em style="color:#7EC850">r</em> <em style="color:#4DADEA">G</em><em style="color:#B07CD8">r</em><em style="color:#E85D75">o</em><em style="color:#F5A623">w</em><em style="color:#7EC850">n</em><em style="color:#4DADEA">-</em><em style="color:#B07CD8">u</em><em style="color:#E85D75">p</em><em style="color:#F5A623">s</em></h1>
+      <p class="sub">What helps creativity and problem solving at each age</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="guide"></nav>
+    <main class="guide">
+      <p class="g-intro">Children become creative and good problem solvers through play: trying things, getting stuck, trying another way, and talking about it with you. Here is what tends to help most at each age, and which games in this app match.</p>
+
+      <div class="g-tabs" role="tablist" aria-label="Age">
+        <button type="button" class="g-tab" role="tab" data-band="b2" aria-selected="true">2–3 years</button>
+        <button type="button" class="g-tab" role="tab" data-band="b3" aria-selected="false">3–4 years</button>
+        <button type="button" class="g-tab" role="tab" data-band="b4" aria-selected="false">4–5 years</button>
+        <button type="button" class="g-tab" role="tab" data-band="b5" aria-selected="false">5–7 years</button>
+      </div>
+
+      <section class="g-band" id="b2" role="tabpanel" aria-label="2 to 3 years">
+        <h2>2–3 years: little explorer</h2>
+        <p class="g-lead">Everything is cause and effect. Short, repeatable play where she is in charge.</p>
+        <div class="g-grid">
+          <div class="g-card">
+            <h3><span class="emoji">🌱</span> What she is learning</h3>
+            <ul>
+              <li>Pretends with objects, like feeding a block to a doll. <small>(CDC, 30 months)</small></li>
+              <li>Solves simple problems, like standing on a stool to reach something. <small>(CDC, 30 months)</small></li>
+              <li>Follows two-step instructions and knows at least one colour. <small>(CDC, 30 months)</small></li>
+              <li>Copies a circle when shown, strings large beads. <small>(CDC, 3 years)</small></li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">💡</span> What helps most</h3>
+            <ul>
+              <li><b>Trying again in a new way.</b> Toddler play that asks her to focus on a goal and try another way when the first try fails builds self-control and flexible thinking. <small>(Harvard Center on the Developing Child)</small></li>
+              <li><b>Simple puzzles.</b> Puzzle play between ages 2 and 4 predicts better spatial skills at 4½. <small>(Levine et al., 2012)</small></li>
+              <li><b>Sorting by one thing</b>, like colour, and <b>mess-free making</b>: scribbling, stamping, colour mixing. The process matters, not the result.</li>
+              <li><b>Stop-and-go songs</b> like freeze dance practise self-control. <small>(Harvard)</small></li>
+              <li><b>Both languages.</b> Bilingualism is linked to stronger executive function, so use Telugu and English freely. <small>(Harvard)</small></li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">🤝</span> Play together</h3>
+            <ul>
+              <li>Narrate what she does: "You put the red one in the red basket!"</li>
+              <li>Ask "What will you do next?" and "Is there another way?" <small>(Harvard)</small></li>
+              <li>Praise trying and effort, not being right.</li>
+              <li>Keep it to a few minutes and stop while it is still fun.</li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">🏠</span> Away from the screen</h3>
+            <ul>
+              <li>Stacking cups, shape sorters, chunky puzzles.</li>
+              <li>Play dough, crayons on big paper, sorting laundry by colour.</li>
+              <li>Freeze dance in the living room; pretend cooking with real pots.</li>
+            </ul>
+          </div>
+          <div class="g-card g-wide">
+            <h3><span class="emoji">🎮</span> Try these</h3>
+            <div class="g-try" data-try="art,music,puzzle,sort,scenes,patterns,discover,find,learn,match"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="g-band" id="b3" role="tabpanel" aria-label="3 to 4 years" hidden>
+        <h2>3–4 years: storyteller</h2>
+        <p class="g-lead">Pretend play and stories take off. She can start following and switching simple rules.</p>
+        <div class="g-grid">
+          <div class="g-card">
+            <h3><span class="emoji">🌱</span> What she is learning</h3>
+            <ul>
+              <li>Names a few colours and tells what comes next in a well-known story. <small>(CDC, 4 years)</small></li>
+              <li>Draws a person with three or more body parts. <small>(CDC, 4 years)</small></li>
+              <li>Pretends to be something else: a teacher, a superhero, a dog. <small>(CDC, 4 years)</small></li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">💡</span> What helps most</h3>
+            <ul>
+              <li><b>Pretend play and storytelling.</b> Making up stories and props makes children hold ideas in mind, plan and adjust. <small>(Harvard, 3–5)</small></li>
+              <li><b>Sorting, then switching the rule</b>: sort by colour, then the same things by shape. This builds cognitive flexibility. <small>(Harvard, 3–5)</small></li>
+              <li><b>Puzzles that get a little harder</b> exercise visual memory and planning. <small>(Harvard, 3–5)</small></li>
+              <li><b>Repeating patterns</b> (red, blue, red, blue). Pattern skill before school predicts later maths. <small>(Rittle-Johnson et al.)</small></li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">🤝</span> Play together</h3>
+            <ul>
+              <li>Ask about her pictures: "Tell me about it." Write her story down and read it back.</li>
+              <li>Plan before playing: "Who will be in your scene? What will happen?" <small>(Harvard's "play plans")</small></li>
+              <li>Tell stories in Telugu too; bilingual storytelling is encouraged. <small>(Harvard)</small></li>
+              <li>Let her be the teacher: "Show me how you did it."</li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">🏠</span> Away from the screen</h3>
+            <ul>
+              <li>Bead or block patterns to copy and continue.</li>
+              <li>I spy, Simon says, simple card matching.</li>
+              <li>Cooking together: waiting, pouring, following steps.</li>
+            </ul>
+          </div>
+          <div class="g-card g-wide">
+            <h3><span class="emoji">🎮</span> Try these</h3>
+            <div class="g-try" data-try="scenes,art,sort,patterns,puzzle,memory,order,oddone,maze,music,stories,trace"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="g-band" id="b4" role="tabpanel" aria-label="4 to 5 years" hidden>
+        <h2>4–5 years: planner</h2>
+        <p class="g-lead">She can hold a plan in mind for a few steps, explain her thinking, and fix her own mistakes.</p>
+        <div class="g-grid">
+          <div class="g-card">
+            <h3><span class="emoji">🌱</span> What she is learning</h3>
+            <ul>
+              <li>Counts to 10 and names some numbers from 1 to 5. <small>(CDC, 5 years)</small></li>
+              <li>Pays attention for 5 to 10 minutes during activities. <small>(CDC, 5 years)</small></li>
+              <li>Writes some letters in her name; uses words like yesterday and tomorrow. <small>(CDC, 5 years)</small></li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">💡</span> What helps most</h3>
+            <ul>
+              <li><b>Planning ahead</b>: mazes and giving step-by-step directions to a robot, then testing and fixing them.</li>
+              <li><b>Spatial play</b>: bigger puzzles, mirror and symmetry drawing.</li>
+              <li><b>Harder patterns</b>: ABC, AABB, finding the missing piece in the middle.</li>
+              <li><b>Explaining reasons</b>: "Why doesn't this one belong?" There can be more than one good answer.</li>
+              <li><b>Making up</b> tunes, patterns and pictures of her own.</li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">🤝</span> Play together</h3>
+            <ul>
+              <li>When she is stuck, ask "What could we try?" before helping.</li>
+              <li>Treat mistakes as clues: "The bunny bumped. Which arrow should change?"</li>
+              <li>Keep a gallery of her art and talk about it later.</li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">🏠</span> Away from the screen</h3>
+            <ul>
+              <li>Treasure hunts with simple directions ("three steps forward, turn").</li>
+              <li>Building towers or bridges that must hold a toy.</li>
+              <li>Paper mazes, dot-to-dot, folding and cutting paper shapes.</li>
+            </ul>
+          </div>
+          <div class="g-card g-wide">
+            <h3><span class="emoji">🎮</span> Try these</h3>
+            <div class="g-try" data-try="coder,maze,puzzle,patterns,memory,sort,oddone,order,music,art,scenes,trace"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="g-band" id="b5" role="tabpanel" aria-label="5 to 7 years" hidden>
+        <h2>5–7 years: inventor</h2>
+        <p class="g-lead">Games with rules, logic puzzles and real coding. She can set her own challenges.</p>
+        <div class="g-grid">
+          <div class="g-card">
+            <h3><span class="emoji">🌱</span> What she is learning</h3>
+            <ul>
+              <li>Starts to enjoy games that have rules, and to keep the rules herself. <small>(Harvard, 5–7)</small></li>
+              <li>Can follow and make plans several moves ahead. <small>(Harvard, 5–7)</small></li>
+              <li>Ready for simple programming: ScratchJr was designed for ages 5 to 7. <small>(Bers)</small></li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">💡</span> What helps most</h3>
+            <ul>
+              <li><b>Memory card games</b> like Concentration exercise working memory. <small>(Harvard, 5–7)</small></li>
+              <li><b>Mazes, logic and reasoning puzzles</b> exercise attention, working memory and flexible thinking. <small>(Harvard, 5–7)</small></li>
+              <li><b>Coding with repeats</b>: spotting that steps repeat and using a loop.</li>
+              <li><b>Creating with a goal</b>: "Draw a machine that…", "Make a tune that repeats".</li>
+              <li><b>Longer stories</b> with a beginning, a middle and an end.</li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">🤝</span> Play together</h3>
+            <ul>
+              <li>Step back: let her choose how hard to make it. <small>(Harvard: reduce the adult role as soon as possible)</small></li>
+              <li>Talk about strategy: "How did you remember where it was?"</li>
+              <li>Take turns, and celebrate fixing mistakes as much as winning.</li>
+            </ul>
+          </div>
+          <div class="g-card">
+            <h3><span class="emoji">🏠</span> Away from the screen</h3>
+            <ul>
+              <li>Card and board games: snap, Go Fish, Uno, simple strategy games. <small>(Harvard)</small></li>
+              <li>Building kits, paper aeroplanes, making a comic strip.</li>
+              <li>Singing in rounds, clapping patterns.</li>
+            </ul>
+          </div>
+          <div class="g-card g-wide">
+            <h3><span class="emoji">🎮</span> Try these</h3>
+            <div class="g-try" data-try="coder,maze,memory,puzzle,patterns,oddone,sort,music,art,scenes,worksheet"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="g-grid" style="margin-top:14px">
+        <div class="g-card g-wide">
+          <h3><span class="emoji">📱</span> Using screens well</h3>
+          <ul>
+            <li>For ages 2 to 5, the American Academy of Pediatrics suggests about one hour a day of high-quality, interactive content, ideally played <b>together</b>, and then linking it to the real world ("Let's find something red in the kitchen!"). <small>(AAP, Media and Young Minds)</small></li>
+            <li>This app has no ads, no tracking, no timers, no streaks and no "keep playing" tricks. It works offline. Every game has a natural stopping point.</li>
+            <li>The best part is the talk around the game. Ask "why", "how did you know", and "what if".</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="g-card g-sources">
+        <h3><span class="emoji">📚</span> Sources</h3>
+        <ul>
+          <li><a href="https://www.cdc.gov/act-early/milestones/index.html" target="_blank" rel="noopener">CDC — Learn the Signs. Act Early. Developmental milestones (30 months, 3, 4 and 5 years)</a></li>
+          <li><a href="https://developingchild.harvard.edu/resources/activities-guide-enhancing-and-practicing-executive-function-skills-with-children-from-infancy-to-adolescence/" target="_blank" rel="noopener">Harvard Center on the Developing Child — Activities guide: enhancing and practicing executive function skills</a></li>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/22040312/" target="_blank" rel="noopener">Levine, Ratliff, Huttenlocher &amp; Cannon (2012). Early puzzle play: a predictor of preschoolers' spatial transformation skill. Developmental Psychology.</a></li>
+          <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0022096520304197" target="_blank" rel="noopener">Rittle-Johnson et al. Finding patterns in objects and numbers: repeating patterning in pre-K predicts kindergarten mathematics knowledge.</a></li>
+          <li><a href="https://eric.ed.gov/?id=EJ1190774" target="_blank" rel="noopener">Coding and computational thinking in early childhood: the impact of ScratchJr (designed for ages 5–7).</a></li>
+          <li><a href="https://publications.aap.org/pediatrics/article/138/5/e20162591/60503/Media-and-Young-Minds" target="_blank" rel="noopener">American Academy of Pediatrics (2016). Media and Young Minds.</a></li>
+        </ul>
+      </div>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script>
+    var tabs = document.querySelectorAll('.g-tab');
+    function show(band) {
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('data-band') === band;
+        t.setAttribute('aria-selected', String(on));
+        document.getElementById(t.getAttribute('data-band')).hidden = !on;
+      });
+    }
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () { show(t.getAttribute('data-band')); });
+    });
+
+    // "Try these" links come from the same list as the Home page.
+    document.querySelectorAll('.g-try').forEach(function (box) {
+      box.getAttribute('data-try').split(',').forEach(function (id) {
+        var a = App.activity(id);
+        if (!a) return;
+        var link = document.createElement('a');
+        link.href = a.file;
+        link.innerHTML = '<span class="emoji" aria-hidden="true">' + a.emoji + '</span>' + a.name;
+        box.appendChild(link);
+      });
+    });
+
+    var age = App.getAge();
+    show(age >= 5 ? 'b5' : age === 4 ? 'b4' : age === 3 ? 'b3' : 'b2');
+  </script>
+</body>
+</html>

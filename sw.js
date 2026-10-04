@@ -2,11 +2,13 @@
    shows up straight away) and served from the cache when there is no network,
    so the games keep working in the car or on a plane. Bump VERSION to drop
    old caches. */
-var VERSION = 'heshvi-v2';
+var VERSION = 'heshvi-v3';
 var CORE = [
-  './', 'index.html', 'learn.html', 'find.html', 'discover.html', 'trace.html',
-  'stories.html', 'print.html', 'worksheet.html',
-  'css/style.css', 'js/common.js', 'js/data.js', 'js/telugu.js', 'js/game.js',
+  './', 'index.html', 'guide.html',
+  'art.html', 'scenes.html', 'music.html',
+  'puzzle.html', 'sort.html', 'patterns.html', 'memory.html', 'order.html', 'oddone.html', 'maze.html', 'coder.html',
+  'match.html', 'learn.html', 'find.html', 'discover.html', 'trace.html', 'stories.html', 'print.html', 'worksheet.html',
+  'css/style.css', 'js/common.js', 'js/data.js', 'js/telugu.js', 'js/game.js', 'js/shapes.js',
   'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/apple-touch-icon.png'
 ];
 var NETWORK_TIMEOUT_MS = 4000;

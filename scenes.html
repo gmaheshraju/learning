@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Story Scenes — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .sc { max-width: 1200px; margin: 0 auto; }
+    .bg-pick { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 4px 8px; max-width: 100%; margin: 0 auto 4px; }
+    .bg-pick::-webkit-scrollbar { display: none; }
+    .bg-btn {
+      flex: none; width: 70px; height: 50px; padding: 0; border-radius: 12px; overflow: hidden;
+      border: 3px solid var(--line); cursor: pointer; background: var(--card);
+    }
+    .bg-btn canvas { width: 100%; height: 100%; display: block; }
+    .bg-btn[aria-pressed="true"] { border-color: #4DADEA; box-shadow: 0 0 0 3px rgba(77,173,234,.3); }
+
+    .stage-wrap { display: grid; place-items: center; }
+    .stage {
+      position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 4px 22px rgba(0,0,0,.14);
+      touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+    }
+    .stage canvas.bgc { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .sticker {
+      position: absolute; left: 0; top: 0; transform-origin: center; line-height: 1;
+      font-family: var(--emoji); cursor: grab; white-space: nowrap;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,.18));
+    }
+    .sticker.sel { outline: 3px dashed #4DADEA; outline-offset: 4px; border-radius: 10px; }
+    .sticker.dragging { cursor: grabbing; filter: drop-shadow(0 8px 10px rgba(0,0,0,.3)); }
+    .sticker.bubble {
+      font-family: var(--font); font-weight: 900; color: #3D2C2E; background: #fff; border-radius: 18px;
+      padding: .25em .55em; border: 3px solid #3D2C2E; filter: none; white-space: pre-wrap; max-width: 12em; text-align: center;
+    }
+    .sticker.bubble::after {
+      content: ''; position: absolute; left: 22%; bottom: -.55em; width: .7em; height: .7em; background: #fff;
+      border-right: 3px solid #3D2C2E; border-bottom: 3px solid #3D2C2E; transform: rotate(45deg);
+    }
+
+    .sel-bar { display: flex; justify-content: center; align-items: center; gap: 6px; margin: 8px 0 6px; min-height: 48px; }
+    .sel-bar .who { font-family: var(--emoji); font-size: 28px; min-width: 34px; text-align: center; }
+    .trays { max-width: 900px; margin: 0 auto; }
+    .tray-tabs { display: flex; gap: 6px; margin-bottom: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+    .tray-tabs::-webkit-scrollbar { display: none; }
+    .tray-tabs > :first-child { margin-left: auto; }
+    .tray-tabs > :last-child { margin-right: auto; }
+    .bar-sep { width: 2px; height: 30px; background: var(--line); border-radius: 2px; margin: 0 2px; }
+    .stickers { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 6px; border-radius: 18px; background: var(--card); border: 2px solid var(--line); }
+    .stickers::-webkit-scrollbar { display: none; }
+    .stickers button {
+      flex: none; width: 54px; height: 54px; border-radius: 14px; border: none; background: none; cursor: pointer;
+      font-family: var(--emoji); font-size: 36px; line-height: 1;
+    }
+    .stickers button:active { transform: scale(.88); }
+    .story-line {
+      text-align: center; font-size: clamp(17px, 2.6vmin, 24px); font-weight: 800; color: var(--text);
+      min-height: 1.5em; margin: 4px auto; max-width: 700px;
+    }
+    .words-row { display: flex; gap: 8px; justify-content: center; margin: 6px 0; }
+    .words-row input {
+      font: inherit; font-size: 17px; font-weight: 700; padding: 8px 14px; border-radius: 999px; min-height: 44px;
+      border: 2px solid var(--line); background: var(--card); color: var(--text); width: min(320px, 60vw);
+    }
+    .toast {
+      position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+      padding: 10px 20px; border-radius: 999px; background: #3D2C2E; color: #fff; font-weight: 900; z-index: 200;
+      animation: slideUp .3s ease-out; pointer-events: none;
+    }
+    .toast a { color: #FFD54F; pointer-events: auto; }
+    @media (hover: hover) and (pointer: fine) {
+      .stickers button:hover { background: var(--tint); }
+      .bg-btn:hover { border-color: #4DADEA; }
+    }
+    @media (max-width: 400px) {
+      .sel-bar .tool-btn { width: 40px; height: 40px; font-size: 18px; }
+      .sel-bar .who { font-size: 24px; min-width: 26px; }
+      .stickers button { width: 48px; height: 48px; font-size: 32px; }
+    }
+    @media (orientation: landscape) and (max-height: 520px) {
+      .sc { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; align-items: start; }
+      .sc > .act-bar { grid-column: 1 / -1; }
+      .sc > .stage-wrap { grid-column: 1; grid-row: 2 / span 5; }
+      .sc > .bg-pick, .sc > .story-line, .sc > .words-row, .sc > .sel-bar, .sc > .trays { grid-column: 2; }
+      .bg-pick { margin: 0; padding-bottom: 4px; }
+      .bg-btn { width: 56px; height: 40px; }
+      .story-line { margin: 0; font-size: 15px; min-height: 0; }
+      .sel-bar { flex-wrap: wrap; margin: 4px 0; }
+      .sel-bar .tool-btn { width: 36px; height: 36px; font-size: 16px; }
+      .stickers button { width: 44px; height: 44px; font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">S</em><em style="color:#F5A623">t</em><em style="color:#7EC850">o</em><em style="color:#4DADEA">r</em><em style="color:#B07CD8">y</em> <em style="color:#E85D75">S</em><em style="color:#F5A623">c</em><em style="color:#7EC850">e</em><em style="color:#4DADEA">n</em><em style="color:#B07CD8">e</em><em style="color:#E85D75">s</em></h1>
+      <p class="sub">Build a picture, then tell its story</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="scenes"></nav>
+    <main class="sc">
+      <div class="act-bar">
+        <div id="level"></div>
+        <button type="button" class="tool-btn" id="tell" aria-label="Tell me a story question" title="Story question">🎤</button>
+        <button type="button" class="tool-btn" id="words" aria-label="Add words" title="Add words" hidden>💬</button>
+      </div>
+      <div class="bg-pick" id="bg-pick" role="group" aria-label="Pick a place"></div>
+      <div class="story-line" id="story-line" aria-live="polite"></div>
+      <div class="stage-wrap"><div class="stage" id="stage" aria-label="Your scene"><canvas class="bgc" id="bgc"></canvas></div></div>
+      <div class="words-row" id="words-row" hidden>
+        <input type="text" id="words-in" maxlength="40" placeholder="What do they say?" aria-label="Words for the speech bubble">
+        <button type="button" class="btn" id="words-add" style="background:#4DADEA;min-height:44px;padding:6px 18px">Add</button>
+      </div>
+      <div class="sel-bar" id="sel-bar">
+        <span class="who" id="who" aria-hidden="true"></span>
+        <button type="button" class="tool-btn" id="smaller" aria-label="Smaller" title="Smaller">➖</button>
+        <button type="button" class="tool-btn" id="bigger" aria-label="Bigger" title="Bigger">➕</button>
+        <button type="button" class="tool-btn" id="flip" aria-label="Flip" title="Flip">↔️</button>
+        <button type="button" class="tool-btn" id="del" aria-label="Remove" title="Remove">🗑️</button>
+        <span class="bar-sep" aria-hidden="true"></span>
+        <button type="button" class="tool-btn" id="save" aria-label="Save to My art" title="Save">💾</button>
+        <button type="button" class="tool-btn" id="fresh" aria-label="New scene" title="New scene">🧻</button>
+      </div>
+      <div class="trays">
+        <div class="tray-tabs" id="tray-tabs" role="tablist" aria-label="Stickers"></div>
+        <div class="stickers" id="stickers" role="group" aria-label="Tap to add"></div>
+      </div>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 2, label: 'Little storyteller' },
+      { age: 4, label: 'Storyteller' },
+      { age: 6, label: 'Story writer' }
+    ];
+    var TRAYS = [
+      { id: 'people', icon: '👧🏽', name: 'People', items: [['👧🏽', 'girl'], ['👦🏽', 'boy'], ['👩🏽', 'mummy'], ['👨🏽', 'daddy'], ['👵🏽', 'grandma'], ['👴🏽', 'grandpa'], ['👶🏽', 'baby'], ['🧒🏽', 'child'], ['👸🏽', 'princess'], ['🤴🏽', 'prince'], ['👮🏽', 'police officer'], ['🧚🏽', 'fairy']] },
+      { id: 'animals', icon: '🐶', name: 'Animals', items: [['🐶', 'dog'], ['🐱', 'cat'], ['🐰', 'rabbit'], ['🐘', 'elephant'], ['🦁', 'lion'], ['🐒', 'monkey'], ['🐢', 'turtle'], ['🦋', 'butterfly'], ['🐦', 'bird'], ['🐟', 'fish'], ['🐄', 'cow'], ['🐔', 'hen'], ['🦆', 'duck'], ['🐸', 'frog'], ['🐴', 'horse'], ['🐼', 'panda'], ['🐝', 'bee'], ['🐙', 'octopus']] },
+      { id: 'nature', icon: '🌳', name: 'Nature', items: [['🌳', 'tree'], ['🌴', 'palm tree'], ['🌸', 'flower'], ['🌻', 'sunflower'], ['🍄', 'mushroom'], ['🌈', 'rainbow'], ['☀️', 'sun'], ['🌙', 'moon'], ['⭐', 'star'], ['☁️', 'cloud'], ['🌧️', 'rain cloud'], ['🌊', 'wave'], ['⛄', 'snowman'], ['🔥', 'campfire']] },
+      { id: 'things', icon: '🚗', name: 'Things', items: [['🏠', 'house'], ['⛺', 'tent'], ['🚗', 'car'], ['🚌', 'bus'], ['🚂', 'train'], ['✈️', 'plane'], ['⛵', 'boat'], ['🎈', 'balloon'], ['🎁', 'present'], ['⚽', 'ball'], ['🪁', 'kite'], ['☂️', 'umbrella'], ['🍎', 'apple'], ['🍦', 'ice cream'], ['🎂', 'cake'], ['🧸', 'teddy']] },
+      { id: 'magic', icon: '🦄', name: 'Magic', items: [['🦄', 'unicorn'], ['🐉', 'dragon'], ['👑', 'crown'], ['🏰', 'castle'], ['🚀', 'rocket'], ['🛸', 'flying saucer'], ['👻', 'friendly ghost'], ['✨', 'sparkles'], ['💎', 'jewel'], ['🗝️', 'magic key']] }
+    ];
+    var PROMPTS = [
+      ['Who is in your picture?', 'Can you find the {name}?', 'What colour is the {name}?', 'Where is the {name}?', 'Is the {name} happy?', 'What does the {name} say?'],
+      ['What is the {name} doing?', 'Where is the {name} going?', 'Who is the {name}’s friend?', 'What happens next?', 'How does the {name} feel?', 'What will the {name} eat today?'],
+      ['What is the problem in your story?', 'How will the {name} fix the problem?', 'Give your story a title!', 'What did the {name} say first?', 'How does your story end?', 'What surprise happens to the {name}?']
+    ];
+    var EMOJI_FONT = getComputedStyle(document.documentElement).getPropertyValue('--emoji').trim() || 'sans-serif';
+    var DRAFT_KEY = 'heshvi-scene-draft';
+
+    function sky(g, w, h, a, b) { var gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, a); gr.addColorStop(1, b); g.fillStyle = gr; g.fillRect(0, 0, w, h); }
+    function band(g, w, h, color, y, curve) {
+      g.fillStyle = color; g.beginPath(); g.moveTo(0, h * y);
+      g.quadraticCurveTo(w * 0.5, h * (y - curve), w, h * y); g.lineTo(w, h); g.lineTo(0, h); g.fill();
+    }
+    function dots(g, w, h, color, count, seed, maxY, r) {
+      g.fillStyle = color;
+      for (var i = 0; i < count; i++) {
+        seed = (seed * 9301 + 49297) % 233280;
+        var x = seed / 233280 * w;
+        seed = (seed * 9301 + 49297) % 233280;
+        var y = seed / 233280 * h * maxY;
+        g.beginPath(); g.arc(x, y, r * (0.6 + (i % 3) * 0.3), 0, Math.PI * 2); g.fill();
+      }
+    }
+    var BGS = [
+      { id: 'park', name: 'the park', draw: function (g, w, h) {
+        sky(g, w, h, '#8FD3FF', '#E8F7FF');
+        g.fillStyle = '#FFD54F'; g.beginPath(); g.arc(w * 0.86, h * 0.17, h * 0.08, 0, 7); g.fill();
+        band(g, w, h, '#AED581', 0.64, 0.1); band(g, w, h, '#8BC34A', 0.76, 0.05);
+      } },
+      { id: 'beach', name: 'the beach', draw: function (g, w, h) {
+        sky(g, w, h, '#81D4FA', '#E1F5FE');
+        g.fillStyle = '#FFE082'; g.beginPath(); g.arc(w * 0.18, h * 0.18, h * 0.08, 0, 7); g.fill();
+        band(g, w, h, '#29B6F6', 0.55, 0); band(g, w, h, '#4FC3F7', 0.62, 0.03); band(g, w, h, '#FFE0B2', 0.74, 0.06);
+      } },
+      { id: 'space', name: 'space', draw: function (g, w, h) {
+        sky(g, w, h, '#1A1A4E', '#2D1B69');
+        dots(g, w, h, 'rgba(255,255,255,.85)', 70, 7, 1, Math.max(1.2, h * 0.004));
+        g.fillStyle = '#FF8A65'; g.beginPath(); g.arc(w * 0.82, h * 0.78, h * 0.14, 0, 7); g.fill();
+        g.strokeStyle = '#FFCC80'; g.lineWidth = h * 0.02; g.beginPath(); g.ellipse(w * 0.82, h * 0.78, h * 0.24, h * 0.06, -0.3, 0, 7); g.stroke();
+      } },
+      { id: 'farm', name: 'the farm', draw: function (g, w, h) {
+        sky(g, w, h, '#B3E5FC', '#FFF8E1');
+        band(g, w, h, '#C5E1A5', 0.58, 0.12); band(g, w, h, '#DCE775', 0.72, 0.04);
+        g.strokeStyle = '#A1887F'; g.lineWidth = h * 0.012;
+        for (var i = 0; i <= 12; i++) { var x = w * i / 12; g.beginPath(); g.moveTo(x, h * 0.7); g.lineTo(x, h * 0.8); g.stroke(); }
+        g.beginPath(); g.moveTo(0, h * 0.73); g.lineTo(w, h * 0.73); g.moveTo(0, h * 0.77); g.lineTo(w, h * 0.77); g.stroke();
+      } },
+      { id: 'sea', name: 'under the sea', draw: function (g, w, h) {
+        sky(g, w, h, '#4FC3F7', '#01579B');
+        band(g, w, h, '#FFE0B2', 0.86, 0.04);
+        dots(g, w, h, 'rgba(255,255,255,.35)', 26, 3, 0.8, h * 0.012);
+        g.strokeStyle = '#43A047'; g.lineWidth = h * 0.02; g.lineCap = 'round';
+        [0.1, 0.16, 0.88, 0.93].forEach(function (x, i) {
+          g.beginPath(); g.moveTo(w * x, h * 0.9);
+          g.bezierCurveTo(w * (x - 0.03), h * 0.78, w * (x + 0.03), h * 0.7, w * x, h * (0.58 + (i % 2) * 0.06)); g.stroke();
+        });
+      } },
+      { id: 'snow', name: 'the snow', draw: function (g, w, h) {
+        sky(g, w, h, '#B0BEC5', '#ECEFF1');
+        band(g, w, h, '#FFFFFF', 0.7, 0.08);
+        dots(g, w, h, '#FFFFFF', 60, 11, 0.7, h * 0.008);
+      } }
+    ];
+
+    var stage = document.getElementById('stage'), bgc = document.getElementById('bgc'), lineEl = document.getElementById('story-line');
+    var level = 0, bg = BGS[0], tray = TRAYS[0], items = [], sel = null, W = 0, H = 0, aspect = 0.75, promptIdx = 0;
+
+    function say(t, rate) { Speech.speak(t, rate || 0.9); }
+    function toast(html) {
+      var old = document.querySelector('.toast');
+      if (old) old.remove();
+      var t = document.createElement('div');
+      t.className = 'toast';
+      t.setAttribute('role', 'status');
+      t.innerHTML = html;
+      document.body.appendChild(t);
+      setTimeout(function () { t.remove(); }, 3200);
+    }
+
+    function chooseAspect() {
+      var portrait = window.innerHeight > window.innerWidth && window.innerWidth < 700;
+      aspect = portrait ? 1.1 : 0.66;   // height / width
+    }
+
+    function layout() {
+      var wrapW = stage.parentElement.clientWidth;
+      var padBottom = parseFloat(getComputedStyle(document.querySelector('.gw')).paddingBottom) || 0;
+      var top = stage.getBoundingClientRect().top + window.scrollY;
+      var shortLand = window.innerHeight < 520 && window.innerWidth > window.innerHeight;
+      var maxH = shortLand ? window.innerHeight - top - padBottom - 6 : Math.max(220, window.innerHeight - top - padBottom - 178);
+      if (shortLand) wrapW = Math.min(wrapW, document.querySelector('.sc').clientWidth * 0.56);
+      W = Math.floor(Math.min(wrapW, maxH / aspect, 1100));
+      H = Math.floor(W * aspect);
+      stage.style.width = W + 'px';
+      stage.style.height = H + 'px';
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      bgc.width = Math.round(W * dpr); bgc.height = Math.round(H * dpr);
+      var g = bgc.getContext('2d');
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      bg.draw(g, W, H);
+      items.forEach(place);
+    }
+
+    function place(it) {
+      it.el.style.fontSize = Math.round(it.size * H) + 'px';
+      it.el.style.left = (it.x * W) + 'px';
+      it.el.style.top = (it.y * H) + 'px';
+      it.el.style.transform = 'translate(-50%, -50%) scaleX(' + (it.flip ? -1 : 1) + ')';
+    }
+
+    function save() {
+      try {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({ bg: bg.id, aspect: aspect, items: items.map(function (i) { return { e: i.e, n: i.n, x: i.x, y: i.y, size: i.size, flip: i.flip, text: i.text }; }) }));
+      } catch (e) { /* storage full or blocked: fine */ }
+    }
+
+    function addItem(data, quiet) {
+      var it = { e: data.e, n: data.n, x: data.x, y: data.y, size: data.size || 0.15, flip: !!data.flip, text: data.text || null };
+      var el = document.createElement('div');
+      el.className = 'sticker draggable' + (it.text ? ' bubble' : '');
+      el.textContent = it.text || it.e;
+      el.setAttribute('role', 'img');
+      el.setAttribute('aria-label', it.text ? 'Speech bubble: ' + it.text : it.n);
+      it.el = el;
+      stage.appendChild(el);
+      items.push(it);
+      place(it);
+      var ox = 0, oy = 0;
+      App.drag(el, {
+        start: function () { select(it); ox = it.x; oy = it.y; el.classList.add('dragging'); },
+        move: function (x, y, dx, dy) {
+          it.x = Math.max(0.02, Math.min(0.98, ox + dx / W));
+          it.y = Math.max(0.02, Math.min(0.98, oy + dy / H));
+          place(it);
+        },
+        end: function (x, y, moved) {
+          el.classList.remove('dragging');
+          if (moved) save();
+          else if (!quiet && !it.text) say(it.n);
+        }
+      });
+      if (!quiet) save();
+      return it;
+    }
+
+    function select(it) {
+      if (sel && sel.el) sel.el.classList.remove('sel');
+      sel = it;
+      if (it) {
+        it.el.classList.add('sel');
+        stage.appendChild(it.el);   // bring to front
+        items.splice(items.indexOf(it), 1);
+        items.push(it);
+      }
+      document.getElementById('who').textContent = it ? (it.text ? '💬' : it.e) : '';
+      ['smaller', 'bigger', 'flip', 'del'].forEach(function (id) { document.getElementById(id).disabled = !it; });
+    }
+
+    stage.addEventListener('pointerdown', function (e) { if (e.target === stage || e.target === bgc) select(null); });
+
+    document.getElementById('bigger').addEventListener('click', function () { if (!sel) return; sel.size = Math.min(0.6, sel.size * 1.25); place(sel); save(); App.sfx('tick'); });
+    document.getElementById('smaller').addEventListener('click', function () { if (!sel) return; sel.size = Math.max(0.05, sel.size / 1.25); place(sel); save(); App.sfx('tick'); });
+    document.getElementById('flip').addEventListener('click', function () { if (!sel) return; sel.flip = !sel.flip; place(sel); save(); App.sfx('tick'); });
+    document.getElementById('del').addEventListener('click', function () {
+      if (!sel) return;
+      sel.el.remove();
+      items.splice(items.indexOf(sel), 1);
+      select(null); save(); App.sfx('pop');
+    });
+
+    /* ----- trays ----- */
+    function renderTrays() {
+      document.getElementById('tray-tabs').innerHTML = TRAYS.map(function (t) {
+        return '<button type="button" class="cat-pill' + (t === tray ? ' active' : '') + '" role="tab" aria-selected="' + (t === tray) + '" data-tray="' + t.id + '"><span class="emoji" aria-hidden="true">' + t.icon + '</span>' + t.name + '</button>';
+      }).join('');
+      document.getElementById('stickers').innerHTML = tray.items.map(function (s, i) {
+        return '<button type="button" data-i="' + i + '" aria-label="Add ' + s[1] + '">' + s[0] + '</button>';
+      }).join('');
+    }
+    document.getElementById('tray-tabs').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-tray]');
+      if (!b) return;
+      tray = TRAYS.filter(function (t) { return t.id === b.getAttribute('data-tray'); })[0];
+      renderTrays();
+    });
+    document.getElementById('stickers').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      var s = tray.items[+b.getAttribute('data-i')];
+      var n = items.length;
+      var it = addItem({ e: s[0], n: s[1], x: 0.25 + ((n * 0.17) % 0.5), y: 0.4 + ((n * 0.11) % 0.35) });
+      select(it);
+      App.sfx('pop');
+      say(cap(s[1]) + '!');
+    });
+    function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    /* ----- backgrounds ----- */
+    function renderBgs() {
+      var box = document.getElementById('bg-pick');
+      box.innerHTML = '';
+      BGS.forEach(function (b) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'bg-btn';
+        btn.setAttribute('aria-pressed', String(b === bg));
+        btn.setAttribute('aria-label', cap(b.name));
+        var c = document.createElement('canvas');
+        c.width = 140; c.height = 100;
+        b.draw(c.getContext('2d'), 140, 100);
+        btn.appendChild(c);
+        btn.addEventListener('click', function () {
+          bg = b; renderBgs(); layout(); save();
+          say(cap(b.name) + '!');
+        });
+        box.appendChild(btn);
+      });
+    }
+
+    /* ----- story questions ----- */
+    document.getElementById('tell').addEventListener('click', function () {
+      var named = items.filter(function (i) { return !i.text; });
+      if (!named.length) { lineEl.textContent = 'Add someone to your picture first!'; say(lineEl.textContent); return; }
+      var list = PROMPTS[level];
+      var tpl = list[promptIdx++ % list.length];
+      var who = named[Math.floor(Math.random() * named.length)];
+      var q = tpl.replace('{name}', who.n);
+      lineEl.textContent = '🎤 ' + q;
+      say(q);
+    });
+
+    /* ----- speech bubbles (ages 6+) ----- */
+    document.getElementById('words').addEventListener('click', function () {
+      var row = document.getElementById('words-row');
+      row.hidden = !row.hidden;
+      if (!row.hidden) document.getElementById('words-in').focus();
+    });
+    function addWords() {
+      var input = document.getElementById('words-in');
+      var t = input.value.trim();
+      if (!t) return;
+      var it = addItem({ e: '', n: 'speech bubble', text: t, x: 0.5, y: 0.2, size: 0.07 });
+      select(it);
+      input.value = '';
+      document.getElementById('words-row').hidden = true;
+      App.sfx('pop');
+    }
+    document.getElementById('words-add').addEventListener('click', addWords);
+    document.getElementById('words-in').addEventListener('keydown', function (e) { if (e.key === 'Enter') addWords(); });
+
+    /* ----- save to My art ----- */
+    function roundRect(g, x, y, w, h, r) {
+      g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r);
+      g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath();
+    }
+    document.getElementById('save').addEventListener('click', function () {
+      if (!items.length) { say('Add something to your scene first!'); return; }
+      var w = 1000, h = Math.round(1000 * aspect), k = w / W;
+      var c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      var g = c.getContext('2d');
+      bg.draw(g, w, h);
+      items.forEach(function (it) {
+        var fs = it.size * h;
+        g.save();
+        g.translate(it.x * w, it.y * h);
+        if (it.text) {
+          g.font = '900 ' + Math.round(fs) + 'px Nunito, sans-serif';
+          var tw = g.measureText(it.text).width, pw = tw + fs * 1.1, ph = fs * 1.6;
+          g.fillStyle = '#fff'; g.strokeStyle = '#3D2C2E'; g.lineWidth = 3 * k;
+          roundRect(g, -pw / 2, -ph / 2, pw, ph, ph / 2.4); g.fill(); g.stroke();
+          g.fillStyle = '#3D2C2E'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(it.text, 0, 0);
+        } else {
+          if (it.flip) g.scale(-1, 1);
+          g.font = Math.round(fs) + 'px ' + EMOJI_FONT;
+          g.textAlign = 'center'; g.textBaseline = 'middle';
+          g.fillText(it.e, 0, 0);
+        }
+        g.restore();
+      });
+      var item = App.gallery.add('scene', App.snapshot(c, 1000));
+      if (item) {
+        App.sfx('yay');
+        say('Saved! What a story!');
+        toast('Saved! See it in <a href="art.html#gallery">My art</a> or make a <a href="puzzle.html?pic=' + item.id + '">puzzle</a>');
+      } else toast('Could not save: this device is out of space');
+    });
+
+    var armed = false, armTimer = null;
+    document.getElementById('fresh').addEventListener('click', function () {
+      if (!items.length) return;
+      if (!armed) {
+        armed = true;
+        say('Tap again for a new scene!');
+        clearTimeout(armTimer);
+        armTimer = setTimeout(function () { armed = false; }, 3000);
+        return;
+      }
+      armed = false;
+      items.forEach(function (i) { i.el.remove(); });
+      items = [];
+      select(null);
+      chooseAspect();
+      layout();
+      save();
+      lineEl.textContent = '';
+      say('A new scene!');
+    });
+
+    var lv = App.levelControl(document.getElementById('level'), 'scenes', LEVELS, function (l) {
+      level = l;
+      document.getElementById('words').hidden = level < 2;
+      promptIdx = 0;
+    });
+    level = lv.get();
+    document.getElementById('words').hidden = level < 2;
+
+    // Pick up where she left off.
+    var draft = null;
+    try { draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch (e) { draft = null; }
+    if (draft && draft.items) {
+      bg = BGS.filter(function (b) { return b.id === draft.bg; })[0] || BGS[0];
+      aspect = draft.aspect || 0.66;
+    } else chooseAspect();
+    renderBgs();
+    renderTrays();
+    layout();
+    if (draft && draft.items) draft.items.forEach(function (d) { addItem(d, true); });
+    select(null);
+    if (!items.length) { lineEl.textContent = 'Pick a place, then add people and animals!'; say(lineEl.textContent); }
+
+    var rt = null;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(layout, 120); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Memory Cards — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .mm { max-width: 900px; margin: 0 auto; }
+    .turns { display: flex; justify-content: center; gap: 10px; margin: 0 0 10px; }
+    .player {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px;
+      border: 3px solid var(--line); background: var(--card); font-weight: 900; font-size: 16px; color: var(--textM);
+      transition: border-color .2s, transform .2s;
+    }
+    .player .emoji { font-size: 22px; }
+    .player.now { border-color: #26A69A; color: var(--text); transform: scale(1.06); }
+    .player b { font-size: 18px; }
+
+    .board { display: grid; gap: clamp(8px, 1.6vmin, 14px); justify-content: center; margin: 0 auto; perspective: 900px; }
+    .mcard {
+      position: relative; width: var(--w); height: var(--h); padding: 0; border: none; background: none; cursor: pointer;
+      transform-style: preserve-3d; transition: transform .45s cubic-bezier(.3,1.3,.5,1);
+    }
+    .mcard.up { transform: rotateY(180deg); }
+    .mcard .face {
+      position: absolute; inset: 0; border-radius: clamp(14px, 2vmin, 22px); display: grid; place-items: center;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: 0 3px 12px var(--sh);
+    }
+    .mcard .back {
+      background: linear-gradient(135deg, #26A69A, #4DADEA);
+      border: 4px solid rgba(255,255,255,.6);
+    }
+    .mcard .back::after { content: '🦋'; font-family: var(--emoji); font-size: calc(var(--h) * .34); opacity: .9; }
+    .mcard .front {
+      background: var(--card); border: 4px solid var(--line); transform: rotateY(180deg);
+      font-family: var(--emoji); font-size: calc(var(--h) * .5); line-height: 1;
+    }
+    .mcard .front .icon-svg { width: 1em; height: 1em; }
+    .mcard.matched .front { border-color: #7EC850; background: var(--ok-bg); animation: celebrate .5s ease; }
+    .mcard.matched { cursor: default; }
+    .moves { text-align: center; font-weight: 800; color: var(--textL); margin-top: 10px; font-size: 15px; }
+    @media (prefers-reduced-motion: reduce) { .mcard { transition: none; } }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">M</em><em style="color:#F5A623">e</em><em style="color:#7EC850">m</em><em style="color:#4DADEA">o</em><em style="color:#B07CD8">r</em><em style="color:#E85D75">y</em> <em style="color:#F5A623">C</em><em style="color:#7EC850">a</em><em style="color:#4DADEA">r</em><em style="color:#B07CD8">d</em><em style="color:#E85D75">s</em></h1>
+      <p class="sub">Flip two cards. Find the pairs!</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="memory"></nav>
+    <main class="mm">
+      <div class="act-bar">
+        <div id="level"></div>
+        <button type="button" class="tool-btn" id="two" aria-pressed="false" aria-label="Take turns with a grown-up" title="Take turns">👫</button>
+        <button type="button" class="tool-btn" id="again" aria-label="New game" title="New game">🔀</button>
+      </div>
+      <div class="turns" id="turns" hidden>
+        <span class="player" id="p0"><span class="emoji" aria-hidden="true">👧</span> Me <b id="s0">0</b></span>
+        <span class="player" id="p1"><span class="emoji" aria-hidden="true">🧑</span> Grown-up <b id="s1">0</b></span>
+      </div>
+      <div class="prompt-row"><span class="prompt-text" id="prompt" aria-live="polite">Find the pairs!</span></div>
+      <div class="board" id="board" role="grid" aria-label="Memory cards"></div>
+      <div class="moves" id="moves"></div>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script src="js/data.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 3, label: '2 pairs + peek', pairs: 2, peek: 2600 },
+      { age: 4, label: '3 pairs + peek', pairs: 3, peek: 2000 },
+      { age: 5, label: '4 pairs', pairs: 4, peek: 0 },
+      { age: 6, label: '6 pairs', pairs: 6, peek: 0 },
+      { age: 7, label: '8 pairs', pairs: 8, peek: 0 }
+    ];
+    var board = document.getElementById('board'), promptEl = document.getElementById('prompt'), movesEl = document.getElementById('moves');
+    var level = 0, cards = [], first = null, lock = false, moves = 0, found = 0, two = false, turn = 0, scores = [0, 0], topic = null;
+
+    function say(t, rate) { Speech.speak(t, rate || 0.9); }
+    function setPrompt(t) { promptEl.innerHTML = t; }
+
+    // Pick the column count that gives the biggest cards in the space available.
+    function fit() {
+      var n = cards.length;
+      var padBottom = parseFloat(getComputedStyle(document.querySelector('.gw')).paddingBottom) || 0;
+      var top = board.getBoundingClientRect().top + window.scrollY;
+      var W = board.parentElement.clientWidth;
+      var H = Math.max(window.innerHeight < 520 && window.innerWidth > window.innerHeight ? 150 : 260, window.innerHeight - top - padBottom - 40);
+      var gap = Math.min(14, Math.max(8, W * 0.016)), best = null;
+      for (var cols = 2; cols <= n; cols++) {
+        if (n % cols) continue;
+        var rows = n / cols;
+        var w = Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) * 0.8, 150);
+        if (!best || w > best.w) best = { cols: cols, w: w };
+      }
+      board.style.gridTemplateColumns = 'repeat(' + best.cols + ', auto)';
+      board.style.setProperty('--w', Math.floor(best.w) + 'px');
+      board.style.setProperty('--h', Math.floor(best.w * 1.25) + 'px');
+    }
+
+    function newGame() {
+      var L = LEVELS[level];
+      var cats = CATEGORIES.filter(function (c) { return c.items.length >= L.pairs; });
+      topic = cats[Math.floor(Math.random() * cats.length)];
+      var picks = App.shuffle(topic.items).slice(0, L.pairs);
+      cards = App.shuffle(picks.concat(picks)).map(function (item, i) { return { item: item, i: i, up: false, matched: false }; });
+      first = null; lock = false; moves = 0; found = 0; turn = 0; scores = [0, 0];
+      board.innerHTML = '';
+      cards.forEach(function (c) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'mcard';
+        b.setAttribute('aria-label', 'Card ' + (c.i + 1) + ', face down');
+        b.innerHTML = '<span class="face back" aria-hidden="true"></span><span class="face front" aria-hidden="true"></span>';
+        renderIcon(b.querySelector('.front'), c.item);
+        b.addEventListener('click', function () { flip(c); });
+        c.el = b;
+        board.appendChild(b);
+      });
+      fit();
+      updateTurns();
+      movesEl.textContent = '';
+      if (L.peek) {
+        lock = true;
+        setPrompt('Look carefully… <span class="emoji">👀</span>');
+        cards.forEach(function (c) { c.el.classList.add('up'); });
+        say('Look carefully, and remember!');
+        setTimeout(function () {
+          cards.forEach(function (c) { c.el.classList.remove('up'); });
+          lock = false;
+          setPrompt('Find the pairs!');
+        }, L.peek);
+      } else {
+        setPrompt('Find the pairs!');
+        say('Find the pairs!');
+      }
+    }
+
+    function show(c, up) {
+      c.up = up;
+      c.el.classList.toggle('up', up);
+      c.el.setAttribute('aria-label', up ? c.item.name : 'Card ' + (c.i + 1) + ', face down');
+    }
+
+    function flip(c) {
+      if (lock || c.up || c.matched) return;
+      show(c, true);
+      App.sfx('tick');
+      say(c.item.name.toLowerCase());
+      if (!first) { first = c; return; }
+      var a = first, b = c;
+      first = null;
+      moves++;
+      movesEl.textContent = moves + (moves === 1 ? ' try' : ' tries');
+      if (a.item.id === b.item.id) {
+        a.matched = b.matched = true;
+        a.el.classList.add('matched'); b.el.classList.add('matched');
+        a.el.disabled = b.el.disabled = true;
+        found++;
+        scores[turn]++;
+        updateTurns();
+        setTimeout(function () { App.sfx('snap'); say('A pair! ' + cap(a.item.name.toLowerCase()) + '!'); }, 350);
+        if (found === cards.length / 2) setTimeout(win, 1300);
+      } else {
+        lock = true;
+        setTimeout(function () {
+          show(a, false); show(b, false);
+          lock = false;
+          if (two) { turn = 1 - turn; updateTurns(); say(turn ? "Grown-up's turn!" : 'Your turn!'); }
+        }, 1200);
+      }
+    }
+    function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    function updateTurns() {
+      document.getElementById('turns').hidden = !two;
+      document.getElementById('p0').classList.toggle('now', turn === 0);
+      document.getElementById('p1').classList.toggle('now', turn === 1);
+      document.getElementById('s0').textContent = scores[0];
+      document.getElementById('s1').textContent = scores[1];
+    }
+
+    function win() {
+      var r = board.getBoundingClientRect();
+      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 18, r.width);
+      App.sfx('yay');
+      var msg = 'You found them all!';
+      if (two) msg = scores[0] > scores[1] ? 'You win! Great memory!' : scores[0] < scores[1] ? 'Grown-up wins this time! Play again?' : "It's a tie! Great memory, both of you!";
+      setPrompt(msg + ' <span class="emoji">🎉</span>');
+      say(msg);
+      movesEl.innerHTML = moves + ' tries · <button type="button" class="btn" id="again2" style="background:#26A69A;min-height:40px;padding:6px 18px;font-size:15px;margin-left:8px">Play again</button>';
+      document.getElementById('again2').addEventListener('click', newGame);
+    }
+
+    document.getElementById('again').addEventListener('click', newGame);
+    document.getElementById('two').addEventListener('click', function () {
+      two = !two;
+      this.setAttribute('aria-pressed', String(two));
+      say(two ? 'Take turns! You go first.' : 'Just me!');
+      newGame();
+    });
+
+    var lv = App.levelControl(document.getElementById('level'), 'memory', LEVELS, function (l) { level = l; newGame(); });
+    level = lv.get();
+    var rt = null;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(fit, 120); });
+    newGame();
+  </script>
+</body>
+</html>

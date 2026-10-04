@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Jigsaw — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .pz { max-width: 1280px; margin: 0 auto; }
+    .pics { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 4px 8px; margin: 0 auto 6px; max-width: 100%; }
+    .pics::-webkit-scrollbar { display: none; }
+    .pic-btn {
+      flex: none; width: 66px; height: 50px; padding: 0; border-radius: 12px; overflow: hidden;
+      border: 3px solid var(--line); background: var(--card); cursor: pointer;
+    }
+    .pic-btn canvas, .pic-btn img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .pic-btn[aria-pressed="true"] { border-color: #F5A623; box-shadow: 0 0 0 3px rgba(245,166,35,.3); }
+    .pics .pic-label { flex: none; align-self: center; font-size: 12px; font-weight: 900; color: var(--textL); text-transform: uppercase; letter-spacing: 1px; padding: 0 2px 0 6px; }
+
+    .pz-area { position: relative; width: 100%; touch-action: none; -webkit-user-select: none; user-select: none; }
+    .pz-board {
+      position: absolute; border-radius: 10px; background: var(--card);
+      box-shadow: inset 0 0 0 3px var(--line), 0 4px 18px var(--sh);
+    }
+    .pz-board canvas { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 10px; }
+    .pz-tray { position: absolute; border-radius: 18px; border: 3px dashed var(--line); }
+    .piece { position: absolute; left: 0; top: 0; filter: drop-shadow(0 3px 4px rgba(0,0,0,.28)); will-change: transform; }
+    .piece.placed { filter: none; pointer-events: none; transition: opacity .6s .2s; }
+    .piece.gone { opacity: 0; }
+    .piece.picked { filter: drop-shadow(0 0 6px #F5A623) drop-shadow(0 0 3px #F5A623); }
+    .piece.dragging { filter: drop-shadow(0 10px 12px rgba(0,0,0,.35)); }
+    .pz-win {
+      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      padding-bottom: 12px; pointer-events: none;
+    }
+    .pz-win .btn-row { pointer-events: auto; animation: bounceIn .5s ease-out; }
+    .pz-win h2 { font-size: clamp(26px, 5vmin, 48px); font-weight: 900; animation: rainbow 2.5s linear infinite; text-shadow: 0 2px 0 var(--bg); }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">J</em><em style="color:#F5A623">i</em><em style="color:#7EC850">g</em><em style="color:#4DADEA">s</em><em style="color:#B07CD8">a</em><em style="color:#E85D75">w</em></h1>
+      <p class="sub">Drag the pieces into the picture</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="puzzle"></nav>
+    <main class="pz land-split">
+      <div class="act-bar">
+        <div id="level"></div>
+        <button type="button" class="tool-btn" id="hint" aria-pressed="true" aria-label="Helper picture" title="Helper picture">👁️</button>
+        <button type="button" class="tool-btn" id="mix" aria-label="Mix up the pieces again" title="Mix again">🔀</button>
+      </div>
+      <div class="pics" id="pics" role="group" aria-label="Pick a picture"></div>
+      <div class="pz-area" id="area" aria-label="Puzzle"></div>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 2, label: '2 pieces', cols: 2, rows: 1 },
+      { age: 3, label: '4 pieces', cols: 2, rows: 2 },
+      { age: 4, label: '6 pieces', cols: 3, rows: 2 },
+      { age: 5, label: '9 pieces', cols: 3, rows: 3 },
+      { age: 6, label: '12 pieces', cols: 4, rows: 3 },
+      { age: 7, label: '16 pieces', cols: 4, rows: 4 }
+    ];
+    // Built-in pictures: a sky, maybe some ground, and big emoji (x, y, size as fractions of the picture).
+    var SCENES = [
+      { name: 'the lion', sky: ['#FFE082', '#FFB74D'], ground: '#9CCC65', items: [['🦁', .5, .56, .56], ['☀️', .84, .2, .2]] },
+      { name: 'the elephant', sky: ['#B3E5FC', '#81D4FA'], ground: '#AED581', items: [['🌳', .2, .52, .46], ['🐘', .63, .6, .5]] },
+      { name: 'the fish', sky: ['#4FC3F7', '#0277BD'], ground: '#FFE0B2', items: [['🐠', .34, .44, .36], ['🐙', .72, .62, .32], ['🐟', .78, .22, .18]] },
+      { name: 'the rocket', sky: ['#311B92', '#1A237E'], ground: null, items: [['🚀', .45, .55, .5], ['🌙', .83, .22, .24], ['⭐', .14, .2, .12], ['⭐', .24, .82, .1], ['🪐', .8, .78, .2]] },
+      { name: 'the butterfly', sky: ['#F8BBD0', '#E1BEE7'], ground: '#81C784', items: [['🦋', .5, .38, .4], ['🌷', .18, .8, .24], ['🌻', .82, .78, .28], ['🌸', .5, .86, .16]] },
+      { name: 'the train', sky: ['#81D4FA', '#E1F5FE'], ground: '#A1887F', items: [['🚂', .5, .62, .48], ['☁️', .2, .2, .2], ['☁️', .76, .16, .16]] },
+      { name: 'the puppy', sky: ['#B3E5FC', '#E1F5FE'], ground: '#9CCC65', items: [['🏠', .3, .5, .5], ['🐶', .73, .7, .34]] },
+      { name: 'the giraffe', sky: ['#FFF59D', '#FFCC80'], ground: '#C5E1A5', items: [['🌴', .16, .58, .42], ['🦒', .55, .5, .72]] },
+      { name: 'the turtle', sky: ['#81D4FA', '#E1F5FE'], ground: '#FFE0B2', items: [['☀️', .2, .2, .2], ['🌊', .82, .68, .3], ['🐢', .45, .74, .34]] },
+      { name: 'the rainbow', sky: ['#E1F5FE', '#B3E5FC'], ground: '#AED581', items: [['🌈', .5, .46, .62], ['☁️', .2, .34, .2], ['☁️', .8, .3, .2]] },
+      { name: 'the panda', sky: ['#DCEDC8', '#AED581'], ground: '#66BB6A', items: [['🎋', .16, .55, .46], ['🐼', .56, .56, .56]] },
+      { name: 'the birthday cake', sky: ['#FCE4EC', '#F8BBD0'], ground: '#FFF8E1', items: [['🎈', .16, .3, .3], ['🎂', .5, .58, .5], ['🎁', .83, .72, .26]] }
+    ];
+    var EMOJI_FONT = getComputedStyle(document.documentElement).getPropertyValue('--emoji').trim() || 'sans-serif';
+    var RATIO = 3 / 4;   // board height / width
+
+    var area = document.getElementById('area');
+    var picsEl = document.getElementById('pics');
+    var hintBtn = document.getElementById('hint');
+    var level = 0, hint = true, source = null, picCanvas = null, layout = null;
+    var pieces = [], picked = null, done = false, zTop = 10;
+
+    function say(t, rate) { Speech.speak(t, rate || 0.9); }
+
+    function drawScene(g, w, h, s) {
+      var grad = g.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, s.sky[0]);
+      grad.addColorStop(1, s.sky[1]);
+      g.fillStyle = grad;
+      g.fillRect(0, 0, w, h);
+      if (s.ground) {
+        g.fillStyle = s.ground;
+        g.beginPath();
+        g.moveTo(0, h * 0.78);
+        g.quadraticCurveTo(w * 0.5, h * 0.7, w, h * 0.78);
+        g.lineTo(w, h); g.lineTo(0, h);
+        g.fill();
+      }
+      g.textAlign = 'center';
+      g.textBaseline = 'middle';
+      s.items.forEach(function (it) {
+        g.font = Math.round(h * it[3]) + 'px ' + EMOJI_FONT;
+        g.fillText(it[0], w * it[1], h * it[2]);
+      });
+    }
+
+    // The picture, drawn at the board's size (cover-cropped for her own art).
+    function makePicture(w, h) {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var c = document.createElement('canvas');
+      c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+      var g = c.getContext('2d');
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (source.scene) drawScene(g, w, h, source.scene);
+      else {
+        var img = source.img, s = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+        g.fillStyle = '#fff';
+        g.fillRect(0, 0, w, h);
+        g.drawImage(img, (w - img.naturalWidth * s) / 2, (h - img.naturalHeight * s) / 2, img.naturalWidth * s, img.naturalHeight * s);
+      }
+      return c;
+    }
+
+    /* ----- jigsaw shapes ----- */
+    // One edge from A to B. s = +1 knob out, -1 hole in, 0 flat. The knob points to the
+    // left of the travel direction, which is outward when going round the piece clockwise.
+    function edge(g, ax, ay, bx, by, s, t) {
+      if (!s) { g.lineTo(bx, by); return; }
+      var dx = bx - ax, dy = by - ay, len = Math.hypot(dx, dy), nx = dy / len, ny = -dx / len;
+      function P(f, o) { return [ax + dx * f + nx * o * s * t, ay + dy * f + ny * o * s * t]; }
+      var a = P(0.37, 0), b1 = P(0.43, 0.32), b2 = P(0.29, 1.02), m = P(0.5, 1.02), c1 = P(0.71, 1.02), c2 = P(0.57, 0.32), e = P(0.63, 0);
+      g.lineTo(a[0], a[1]);
+      g.bezierCurveTo(b1[0], b1[1], b2[0], b2[1], m[0], m[1]);
+      g.bezierCurveTo(c1[0], c1[1], c2[0], c2[1], e[0], e[1]);
+      g.lineTo(bx, by);
+    }
+    function piecePath(g, p, w, h, t) {
+      g.beginPath();
+      g.moveTo(0, 0);
+      edge(g, 0, 0, w, 0, p.top, t);
+      edge(g, w, 0, w, h, p.right, t);
+      edge(g, w, h, 0, h, p.bottom, t);
+      edge(g, 0, h, 0, 0, p.left, t);
+      g.closePath();
+    }
+
+    /* ----- layout ----- */
+    function computeLayout() {
+      var L = LEVELS[level];
+      var W = area.clientWidth;
+      var padBottom = parseFloat(getComputedStyle(document.querySelector('.gw')).paddingBottom) || 0;
+      var H = Math.max(window.innerHeight < 520 && window.innerWidth > window.innerHeight ? 200 : 340, Math.floor(window.innerHeight - (area.getBoundingClientRect().top + window.scrollY) - padBottom - 8));
+      area.style.height = H + 'px';
+      var side = W > H * 1.15, board, tray;
+      if (side) {
+        var bw = Math.min(W * 0.58, (H - 16) / RATIO);
+        board = { x: 6, y: (H - bw * RATIO) / 2, w: bw, h: bw * RATIO };
+        tray = { x: bw + 22, y: 6, w: W - bw - 28, h: H - 12 };
+      } else {
+        var share = L.rows === 1 ? 0.4 : L.rows === 2 ? 0.48 : 0.54;
+        var bw2 = Math.min(W - 12, (H * share) / RATIO);
+        board = { x: (W - bw2) / 2, y: 4, w: bw2, h: bw2 * RATIO };
+        tray = { x: 6, y: board.h + 18, w: W - 12, h: H - board.h - 24 };
+      }
+      var cw = board.w / L.cols, ch = board.h / L.rows;
+      return { W: W, H: H, board: board, tray: tray, cw: cw, ch: ch, t: Math.min(cw, ch) * 0.2 };
+    }
+
+    function target(p) { return { x: layout.board.x + p.c * layout.cw, y: layout.board.y + p.r * layout.ch }; }
+
+    function clampPos(x, y) {
+      var L = layout, t = L.t;
+      return {
+        x: Math.max(t, Math.min(L.W - L.cw - t, x)),
+        y: Math.max(t, Math.min(L.H - L.ch - t, y))
+      };
+    }
+
+    function setPos(p, x, y) {
+      p.x = x; p.y = y;
+      p.el.style.transform = 'translate(' + (x - layout.t) + 'px,' + (y - layout.t) + 'px)';
+    }
+
+    function renderPiece(p) {
+      var L = layout, t = L.t, w = L.cw + 2 * t, h = L.ch + 2 * t;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var c = p.el;
+      c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+      c.style.width = w + 'px'; c.style.height = h + 'px';
+      var g = c.getContext('2d');
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.clearRect(0, 0, w, h);
+      g.translate(t, t);
+      g.save();
+      piecePath(g, p, L.cw, L.ch, t);
+      g.clip();
+      g.drawImage(picCanvas, -p.c * L.cw, -p.r * L.ch, L.board.w, L.board.h);
+      g.restore();
+      piecePath(g, p, L.cw, L.ch, t);
+      g.lineWidth = 2.5; g.strokeStyle = 'rgba(255,255,255,.75)'; g.stroke();
+      g.lineWidth = 1; g.strokeStyle = 'rgba(0,0,0,.35)'; g.stroke();
+    }
+
+    function drawBoard() {
+      var L = layout, cv = area.querySelector('.pz-board canvas');
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = Math.round(L.board.w * dpr); cv.height = Math.round(L.board.h * dpr);
+      var g = cv.getContext('2d');
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.clearRect(0, 0, L.board.w, L.board.h);
+      if (done || hint) {
+        g.globalAlpha = done ? 1 : 0.28;
+        g.drawImage(picCanvas, 0, 0, L.board.w, L.board.h);
+        g.globalAlpha = 1;
+      }
+      if (done) return;
+      g.setLineDash([6, 6]);
+      g.lineWidth = 1.5;
+      g.strokeStyle = 'rgba(120,100,110,.45)';
+      pieces.forEach(function (p) {
+        g.save();
+        g.translate(p.c * L.cw, p.r * L.ch);
+        piecePath(g, p, L.cw, L.ch, L.t);
+        g.stroke();
+        g.restore();
+      });
+    }
+
+    // Build (or rebuild after a resize) everything inside the play area.
+    function build() {
+      layout = computeLayout();
+      var L = layout;
+      picCanvas = makePicture(L.board.w, L.board.h);
+      area.innerHTML = '';
+      var tray = document.createElement('div');
+      tray.className = 'pz-tray';
+      Object.assign(tray.style, { left: L.tray.x + 'px', top: L.tray.y + 'px', width: L.tray.w + 'px', height: L.tray.h + 'px' });
+      area.appendChild(tray);
+      var board = document.createElement('div');
+      board.className = 'pz-board';
+      Object.assign(board.style, { left: L.board.x + 'px', top: L.board.y + 'px', width: L.board.w + 'px', height: L.board.h + 'px' });
+      board.appendChild(document.createElement('canvas'));
+      board.addEventListener('click', onBoardTap);
+      area.appendChild(board);
+      drawBoard();
+
+      pieces.forEach(function (p) {
+        p.el = document.createElement('canvas');
+        p.el.className = 'piece draggable' + (p.placed ? ' placed' : '');
+        p.el.setAttribute('aria-hidden', 'true');
+        renderPiece(p);
+        area.appendChild(p.el);
+        if (p.placed) { var tg = target(p); setPos(p, tg.x, tg.y); p.el.style.zIndex = 1; if (done) p.el.classList.add('gone'); }
+        else {
+          var pos = clampPos(p.fx * L.W, p.fy * L.H);
+          setPos(p, pos.x, pos.y);
+          p.el.style.zIndex = ++zTop;
+        }
+        attachDrag(p);
+      });
+      if (done) showWin(true);
+    }
+
+    function scatter() {
+      var L = layout, tr = L.tray, free = pieces.filter(function (p) { return !p.placed; }), n = free.length;
+      // as many columns as suit the tray's shape measured in pieces, so they spread out rather than pile up
+      var cols = Math.max(1, Math.min(n, Math.round(Math.sqrt(n * (tr.w / L.cw) / (tr.h / L.ch))))), rows = Math.ceil(n / cols);
+      var slots = [];
+      for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) slots.push([tr.x + (c + 0.5) * tr.w / cols, tr.y + (r + 0.5) * tr.h / rows]);
+      slots = App.shuffle(slots);
+      free.forEach(function (p, i) {
+        var jx = (Math.random() - 0.5) * L.cw * 0.3, jy = (Math.random() - 0.5) * L.ch * 0.3;
+        var pos = clampPos(slots[i][0] - L.cw / 2 + jx, slots[i][1] - L.ch / 2 + jy);
+        p.fx = pos.x / L.W; p.fy = pos.y / L.H;
+      });
+    }
+
+    function newPuzzle(quiet) {
+      var L = LEVELS[level];
+      done = false;
+      picked = null;
+      var vH = [], vV = [];
+      for (var r = 0; r < L.rows; r++) {
+        vH.push([]); vV.push([]);
+        for (var c = 0; c < L.cols; c++) {
+          vH[r].push(Math.random() < 0.5 ? 1 : -1);
+          vV[r].push(Math.random() < 0.5 ? 1 : -1);
+        }
+      }
+      pieces = [];
+      for (var rr = 0; rr < L.rows; rr++) {
+        for (var cc = 0; cc < L.cols; cc++) {
+          pieces.push({
+            r: rr, c: cc, placed: false,
+            top: rr ? -vH[rr][cc] : 0, bottom: rr < L.rows - 1 ? vH[rr + 1][cc] : 0,
+            left: cc ? -vV[rr][cc] : 0, right: cc < L.cols - 1 ? vV[rr][cc + 1] : 0
+          });
+        }
+      }
+      layout = computeLayout();
+      scatter();
+      build();
+      if (!quiet) say("Let's make " + (source.scene ? source.scene.name : 'your picture') + '!');
+    }
+
+    /* ----- moving pieces ----- */
+    function snapTolerance() { return Math.min(layout.cw, layout.ch) * (level <= 1 ? 0.5 : 0.32); }
+
+    function place(p) {
+      var tg = target(p);
+      p.placed = true;
+      setPos(p, tg.x, tg.y);
+      p.el.classList.add('placed');
+      p.el.classList.remove('picked', 'dragging');
+      p.el.style.zIndex = 1;
+      if (picked === p) picked = null;
+      App.sfx('snap');
+      if (pieces.every(function (q) { return q.placed; })) win();
+      else if (level <= 1) say(['Yes!', 'It fits!', 'Good!'][Math.floor(Math.random() * 3)]);
+    }
+
+    function pick(p) {
+      if (picked) picked.el.classList.remove('picked');
+      picked = picked === p ? null : p;
+      if (picked) { picked.el.classList.add('picked'); picked.el.style.zIndex = ++zTop; App.sfx('pop'); }
+    }
+
+    function attachDrag(p) {
+      var ox = 0, oy = 0;
+      App.drag(p.el, {
+        canStart: function () { return !p.placed && !done; },
+        start: function () {
+          ox = p.x; oy = p.y;
+          p.el.style.zIndex = ++zTop;
+          p.el.classList.add('dragging');
+        },
+        move: function (x, y, dx, dy) {
+          var pos = clampPos(ox + dx, oy + dy);
+          setPos(p, pos.x, pos.y);
+        },
+        end: function (x, y, moved) {
+          p.el.classList.remove('dragging');
+          if (!moved) { pick(p); return; }
+          var tg = target(p);
+          if (Math.hypot(p.x - tg.x, p.y - tg.y) <= snapTolerance()) { place(p); return; }
+          p.fx = p.x / layout.W; p.fy = p.y / layout.H;
+          if (picked === p) pick(p);
+        }
+      });
+    }
+
+    // Tap a piece, then tap where it goes: for little hands that can't drag yet.
+    function onBoardTap(e) {
+      if (!picked || done) return;
+      var b = layout.board, r = area.getBoundingClientRect();
+      var x = e.clientX - r.left - b.x, y = e.clientY - r.top - b.y;
+      var c = Math.floor(x / layout.cw), row = Math.floor(y / layout.ch);
+      var p = picked;
+      if (c === p.c && row === p.r) { place(p); return; }
+      var pos = clampPos(b.x + c * layout.cw, b.y + row * layout.ch);
+      setPos(p, pos.x, pos.y);
+      p.fx = p.x / layout.W; p.fy = p.y / layout.H;
+      App.sfx('tick');
+      if (level <= 1) say('Not there. Try another spot!');
+    }
+
+    /* ----- winning ----- */
+    function win() {
+      done = true;
+      drawBoard();
+      // fade the pieces so the finished picture shows without seams
+      pieces.forEach(function (p) { p.el.classList.add('gone'); });
+      var r = area.querySelector('.pz-board').getBoundingClientRect();
+      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 16, r.width);
+      App.sfx('yay');
+      say('You did it! ' + (source.scene ? capital(source.scene.name.replace('the ', 'The ')) + '!' : 'Your picture!'));
+      showWin(false);
+    }
+    function capital(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+    function showWin() {
+      var old = area.querySelector('.pz-win');
+      if (old) old.remove();
+      var w = document.createElement('div');
+      w.className = 'pz-win';
+      w.innerHTML = '<div class="btn-row"><button type="button" class="btn" id="next-pic" style="background:#5DB534">Next picture →</button>' +
+        '<button type="button" class="btn" id="again" style="background:#E8961A">Again <span class="emoji">🔀</span></button></div>';
+      area.appendChild(w);
+      document.getElementById('next-pic').addEventListener('click', nextPicture);
+      document.getElementById('again').addEventListener('click', function () { newPuzzle(); });
+    }
+
+    /* ----- pictures ----- */
+    function renderPics() {
+      var html = '', mine = App.gallery.list();
+      if (mine.length) {
+        html += '<span class="pic-label">Mine</span>';
+        mine.forEach(function (g) {
+          html += '<button type="button" class="pic-btn" data-art="' + g.id + '" aria-label="My picture" aria-pressed="' + (source && source.id === g.id) + '"><img alt="" src="' + g.src + '"></button>';
+        });
+        html += '<span class="pic-label">Fun</span>';
+      }
+      SCENES.forEach(function (s, i) {
+        html += '<button type="button" class="pic-btn" data-scene="' + i + '" aria-label="' + s.name + '" aria-pressed="' + (source && source.scene === s) + '"></button>';
+      });
+      picsEl.innerHTML = html;
+      picsEl.querySelectorAll('[data-scene]').forEach(function (b) {
+        var c = document.createElement('canvas');
+        c.width = 132; c.height = 100;
+        drawScene(c.getContext('2d'), 132, 100, SCENES[+b.getAttribute('data-scene')]);
+        b.appendChild(c);
+      });
+      var sel = picsEl.querySelector('[aria-pressed="true"]');
+      if (sel) App.revealInRow(sel);
+    }
+    function useScene(i, quiet) {
+      source = { scene: SCENES[i], index: i };
+      renderPics();
+      newPuzzle(quiet);
+    }
+    function useArt(id, quiet) {
+      var g = App.gallery.list().filter(function (x) { return x.id === id; })[0];
+      if (!g) { useScene(0, quiet); return; }
+      var img = new Image();
+      img.onload = function () {
+        source = { id: g.id, img: img };
+        renderPics();
+        newPuzzle(quiet);
+      };
+      img.src = g.src;
+    }
+    function nextPicture() {
+      var i = source && source.scene ? (source.index + 1) % SCENES.length : 0;
+      useScene(i);
+    }
+    picsEl.addEventListener('click', function (e) {
+      var b = e.target.closest('.pic-btn');
+      if (!b) return;
+      if (b.hasAttribute('data-scene')) useScene(+b.getAttribute('data-scene'));
+      else useArt(b.getAttribute('data-art'));
+    });
+
+    /* ----- controls ----- */
+    function setHint(on) {
+      hint = on;
+      hintBtn.setAttribute('aria-pressed', String(on));
+      if (layout) drawBoard();
+    }
+    hintBtn.addEventListener('click', function () { setHint(!hint); say(hint ? 'Helper picture on' : 'Helper picture off'); });
+    document.getElementById('mix').addEventListener('click', function () { newPuzzle(); });
+
+    var lv = App.levelControl(document.getElementById('level'), 'puzzle', LEVELS, function (l) {
+      level = l;
+      setHint(level <= 2);
+      newPuzzle(true);
+      say(LEVELS[level].label + '!');
+    });
+    level = lv.get();
+    hint = level <= 2;
+    hintBtn.setAttribute('aria-pressed', String(hint));
+
+    var resizeTimer = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () { if (source) build(); }, 120);
+    });
+
+    var wanted = new URLSearchParams(location.search).get('pic');
+    if (wanted) useArt(wanted, true); else useScene(0, true);
+  </script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
@@ -19,36 +19,214 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=14">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .home { max-width: 1100px; margin: 0 auto; }
+
+    .age-card {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 16px;
+      background: var(--card); border: 2px solid var(--line); border-radius: 22px;
+      padding: 12px 16px; margin: 4px auto 18px; max-width: 760px;
+      box-shadow: 0 2px 10px var(--sh); animation: slideUp .5s .05s both;
+    }
+    .age-card.unset { border-color: #F5A623; animation: slideUp .5s .05s both, agePulse 2.4s ease-in-out 1s 3; }
+    @keyframes agePulse { 50% { box-shadow: 0 0 0 6px rgba(245,166,35,.25); } }
+    .age-q { font-size: 16px; font-weight: 800; color: var(--textM); }
+    .age-pick { display: flex; gap: 6px; }
+    .age-btn {
+      min-width: var(--tap); height: var(--tap); padding: 0 8px; border-radius: 14px;
+      border: 2px solid var(--line); background: var(--bg); color: var(--text);
+      font-size: 19px; font-weight: 900; cursor: pointer; transition: transform .12s, border-color .2s, background-color .2s;
+    }
+    .age-btn:active { transform: scale(.92); }
+    .age-btn[aria-checked="true"] { background: #F5A623; border-color: #F5A623; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+    .age-note { flex-basis: 100%; text-align: center; font-size: 13px; color: var(--textL); font-weight: 700; }
+
+    .sec { margin: 0 0 22px; }
+    .sec-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin: 0 4px 10px; }
+    .sec-head h2 { font-size: clamp(20px, 2.8vmin, 30px); font-weight: 900; }
+    .sec-head p { font-size: 14px; font-weight: 700; color: var(--textL); }
+
+    .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(168px, 44vw), 1fr)); gap: clamp(10px, 1.6vmin, 16px); }
+    .tile {
+      --c: #F5A623;
+      position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+      padding: 14px 14px 12px; min-height: 150px;
+      background: var(--card); border: 2px solid var(--line); border-radius: 22px;
+      text-decoration: none; color: var(--text);
+      box-shadow: 0 2px 10px var(--sh);
+      transition: transform .15s, border-color .2s, box-shadow .2s;
+      animation: bounceIn .4s ease-out both;
+      overflow: hidden;
+    }
+    .tile::before {
+      content: ''; position: absolute; inset: 0 0 auto 0; height: 6px; background: var(--c);
+    }
+    .tile:active { transform: scale(.96); }
+    .tile-emoji {
+      font-family: var(--emoji); font-size: 34px; line-height: 1;
+      width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center;
+      background: var(--tint); background: color-mix(in srgb, var(--c) 18%, var(--card));
+      margin: 4px 0 4px;
+    }
+    .tile-name { font-size: 18px; font-weight: 900; line-height: 1.2; }
+    .tile-tag { font-size: 13px; font-weight: 700; color: var(--textM); line-height: 1.35; }
+    .tile-meta { margin-top: auto; padding-top: 6px; display: flex; align-items: center; gap: 6px; width: 100%; }
+    .tile-age {
+      font-size: 12px; font-weight: 900; padding: 2px 8px; border-radius: 999px;
+      background: var(--sh); color: var(--textM); white-space: nowrap;
+    }
+    .tile-skills { font-family: var(--emoji); font-size: 15px; letter-spacing: 2px; margin-left: auto; }
+    .tile.later { opacity: .6; }
+    .tile.later .tile-age { background: #F5A623; color: #fff; }
+    .tile.new-badge::after {
+      content: 'NEW'; position: absolute; top: 14px; right: 12px;
+      font-size: 10px; font-weight: 900; letter-spacing: 1px; color: #fff;
+      background: #E85D75; padding: 2px 7px; border-radius: 999px;
+    }
+
+    .guide-card {
+      display: flex; align-items: center; gap: 14px; margin: 8px auto 18px; max-width: 760px;
+      padding: 16px 18px; border-radius: 22px; text-decoration: none; color: var(--text);
+      background: var(--card); border: 2px dashed var(--line); box-shadow: 0 2px 10px var(--sh);
+    }
+    .guide-card .gc-emoji { font-family: var(--emoji); font-size: 36px; }
+    .guide-card b { display: block; font-size: 17px; font-weight: 900; }
+    .guide-card span { font-size: 14px; color: var(--textM); font-weight: 700; }
+    .guide-card .gc-arrow { margin-left: auto; font-size: 24px; color: var(--textL); }
+
+    .install {
+      display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
+      max-width: 760px; margin: 0 auto 10px; padding: 10px 14px; border-radius: 16px;
+      background: var(--tint); font-size: 14px; font-weight: 700; color: var(--textM); text-align: center;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .tile:hover { transform: translateY(-3px); border-color: var(--c); box-shadow: 0 6px 18px var(--sh); }
+      .age-btn:hover { border-color: #F5A623; }
+      .guide-card:hover { border-color: #F5A623; }
+    }
+    @media (max-width: 420px) {
+      .tile { min-height: 136px; padding: 12px 11px 10px; }
+      .tile-name { font-size: 16px; }
+      .tile-emoji { width: 48px; height: 48px; font-size: 30px; }
+      .age-btn { min-width: 40px; font-size: 17px; }
+    }
+  </style>
 </head>
 <body>
-  <div class="gw" id="game">
-    <div class="stars-c" id="stars"></div>
+  <div class="gw">
     <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Match</h1>
-      <p class="sub">Pick a topic and match the same color!</p>
+      <h1><em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Learning World</h1>
+      <p class="sub">What shall we play today?</p>
       <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
     </header>
-    <nav class="nav-links" aria-label="Activities">
-      <a href="index.html" class="active" aria-current="page" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
-      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
-      <a href="find.html" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
-      <a href="discover.html" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
-      <a href="trace.html" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
-      <a href="stories.html" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
-      <a href="print.html" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
-      <a href="worksheet.html" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
-    </nav>
-    <div class="bar" id="bar" hidden>
-      <button type="button" class="cat-tag" id="cat-label" aria-label="Change topic"></button>
-      <div class="it" aria-label="Score"><span class="emoji" aria-hidden="true">⭐</span> <span id="sc">0</span></div>
-      <div class="it" aria-label="Round"><span class="emoji" aria-hidden="true">🎯</span> <span id="rn">1</span><span style="color:var(--textL);font-weight:600">/5</span></div>
-    </div>
-    <main id="play"></main>
-  </div>
+    <main class="home">
+      <section class="age-card" id="age-card" aria-labelledby="age-q">
+        <div class="age-q" id="age-q">Who's playing? Pick an age:</div>
+        <div class="age-pick" role="radiogroup" aria-labelledby="age-q" id="age-pick"></div>
+        <p class="age-note" id="age-note">Games start at the right level for this age. Any game can still be made easier or harder.</p>
+      </section>
 
-  <script src="js/common.js?v=14"></script>
-  <script src="js/data.js?v=14"></script>
-  <script src="js/game.js?v=14"></script>
+      <div id="sections"></div>
+
+      <a class="guide-card" href="guide.html">
+        <span class="gc-emoji" aria-hidden="true">👪</span>
+        <span><b>For grown-ups: what helps at each age</b><span>Milestones, what builds creativity and problem solving, and how to play together.</span></span>
+        <span class="gc-arrow" aria-hidden="true">›</span>
+      </a>
+
+      <div class="install" id="install" hidden></div>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script>
+    var NEW = ['art', 'scenes', 'music', 'puzzle', 'sort', 'patterns', 'memory', 'order', 'oddone', 'maze', 'coder'];
+    var agePick = document.getElementById('age-pick');
+    var sectionsEl = document.getElementById('sections');
+
+    function renderAges() {
+      var age = App.getAge();
+      document.getElementById('age-card').classList.toggle('unset', !age);
+      agePick.innerHTML = '';
+      [2, 3, 4, 5, 6, 7].forEach(function (a) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'age-btn';
+        b.setAttribute('role', 'radio');
+        b.setAttribute('aria-checked', String(a === age));
+        b.setAttribute('aria-label', a === 7 ? '7 years or older' : a + ' years');
+        b.textContent = a === 7 ? '7+' : String(a);
+        b.addEventListener('click', function () {
+          App.setAge(a);
+          renderAges();
+          renderSections();
+          Speech.speak(a === 7 ? 'Seven and up!' : a + ' years old!', 0.9);
+        });
+        agePick.appendChild(b);
+      });
+    }
+
+    function renderSections() {
+      var age = App.getAge();
+      sectionsEl.innerHTML = '';
+      App.SECTIONS.forEach(function (sec, si) {
+        var items = App.ACTIVITIES.filter(function (a) { return a.section === sec.id; });
+        // what suits her age first; "when she's a bit older" games last
+        if (age) items = items.slice().sort(function (a, b) { return (a.min > age) - (b.min > age); });
+
+        var el = document.createElement('section');
+        el.className = 'sec';
+        el.innerHTML = '<div class="sec-head"><h2><span class="emoji" aria-hidden="true">' + sec.emoji + '</span> ' + sec.name +
+          '</h2><p>' + sec.blurb + '</p></div><div class="tiles"></div>';
+        var grid = el.querySelector('.tiles');
+        items.forEach(function (a, i) {
+          var later = age && a.min > age;
+          var t = document.createElement('a');
+          t.className = 'tile' + (later ? ' later' : '') + (NEW.indexOf(a.id) !== -1 ? ' new-badge' : '');
+          t.href = a.file;
+          t.style.setProperty('--c', a.color);
+          t.style.animationDelay = (si * 0.05 + i * 0.03) + 's';
+          var skills = a.skills.map(function (s) { return App.SKILLS[s].emoji; }).join('');
+          var skillNames = a.skills.map(function (s) { return App.SKILLS[s].label; }).join(', ');
+          t.innerHTML =
+            '<span class="tile-emoji" aria-hidden="true">' + a.emoji + '</span>' +
+            '<span class="tile-name">' + a.name + '</span>' +
+            '<span class="tile-tag">' + a.tagline + '</span>' +
+            '<span class="tile-meta"><span class="tile-age">' + (later ? 'Age ' + a.min + '+' : 'Ages ' + a.min + '–' + a.max) + '</span>' +
+            '<span class="tile-skills" title="' + skillNames + '" aria-label="' + skillNames + '">' + skills + '</span></span>';
+          grid.appendChild(t);
+        });
+        sectionsEl.appendChild(el);
+      });
+    }
+
+    // Offer "install" so it opens full screen and works offline.
+    (function installTip() {
+      var box = document.getElementById('install');
+      var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+      if (standalone) return;
+      var ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      if (ios) {
+        box.innerHTML = '<span class="emoji" aria-hidden="true">📲</span> To play offline and full screen: tap <b>Share</b>, then <b>Add to Home Screen</b>.';
+        box.hidden = false;
+        return;
+      }
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        box.innerHTML = '<span class="emoji" aria-hidden="true">📲</span> Install the app to play offline and full screen. <button type="button" class="btn" style="background:#2F9BE0;min-height:38px;padding:6px 18px;font-size:15px">Install</button>';
+        box.hidden = false;
+        box.querySelector('button').addEventListener('click', function () {
+          box.hidden = true;
+          e.prompt();
+        });
+      });
+    })();
+
+    renderAges();
+    renderSections();
+  </script>
 </body>
 </html>

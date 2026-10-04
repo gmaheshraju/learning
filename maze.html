@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mazes — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .mz-page { max-width: 900px; margin: 0 auto; }
+    .maze-wrap { display: grid; place-items: center; }
+    .maze {
+      background: var(--card); border-radius: 18px; box-shadow: 0 4px 20px var(--sh);
+      touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+      cursor: pointer; display: block;
+    }
+    .maze .wall { stroke: #5C4B8A; stroke-linecap: round; }
+    .maze .trail { fill: none; stroke: #42A5F5; stroke-linecap: round; stroke-linejoin: round; opacity: .45; }
+    .maze .hint { fill: none; stroke: #F5A623; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 10; opacity: .9; }
+    .maze .tok { font-family: var(--emoji); dominant-baseline: central; text-anchor: middle; }
+    .maze .hero { transition: transform .12s ease-out; }
+    .maze .goal-ring { fill: rgba(126,200,80,.18); }
+    .maze .locked { opacity: .35; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .maze .wall { stroke: #C9B8FF; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">M</em><em style="color:#F5A623">a</em><em style="color:#7EC850">z</em><em style="color:#4DADEA">e</em><em style="color:#B07CD8">s</em></h1>
+      <p class="sub">Find the way through</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="maze"></nav>
+    <main class="mz-page land-split">
+      <div class="act-bar">
+        <div id="level"></div>
+        <button type="button" class="tool-btn" id="hint" aria-label="Show me the way" title="Show me the way">💡</button>
+        <button type="button" class="tool-btn" id="new" aria-label="New maze" title="New maze">🔀</button>
+      </div>
+      <div class="prompt-row">
+        <span class="prompt-text" id="prompt" aria-live="polite"></span>
+        <button type="button" class="say-btn" id="say" aria-label="Hear it again">🔊</button>
+      </div>
+      <div class="maze-wrap" id="wrap"></div>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 3, label: 'Tiny maze', n: 3 },
+      { age: 4, label: 'Small maze', n: 4 },
+      { age: 5, label: 'Medium maze', n: 6 },
+      { age: 6, label: 'Big maze', n: 8 },
+      { age: 7, label: 'Big + stars', n: 9, stars: 3 }
+    ];
+    var THEMES = [
+      ['🐭', '🧀', 'the mouse', 'the cheese'], ['🐰', '🥕', 'the bunny', 'the carrot'], ['🐝', '🌸', 'the bee', 'the flower'],
+      ['🚗', '🏠', 'the car', 'home'], ['🐶', '🦴', 'the puppy', 'the bone'], ['🐵', '🍌', 'the monkey', 'the banana']
+    ];
+    var N = 1, E = 2, S = 4, W = 8;
+    var DIRS = [[0, -1, N, S], [1, 0, E, W], [0, 1, S, N], [-1, 0, W, E]];
+    var U = 100, M = 12;   // cell size and margin in SVG units
+
+    var wrap = document.getElementById('wrap'), promptEl = document.getElementById('prompt');
+    var level = 0, n = 3, cells = [], theme = THEMES[0], pos = [0, 0], path = [], stars = [], svg = null, won = false, themeIdx = -1;
+
+    function say(t, rate) { Speech.speak(t, rate || 0.9); }
+    function idx(x, y) { return y * n + x; }
+
+    // A "perfect" maze (exactly one way between any two squares), carved by a random walk.
+    function generate() {
+      cells = new Array(n * n).fill(0);
+      var seen = new Array(n * n).fill(false), stack = [[0, 0]];
+      seen[0] = true;
+      while (stack.length) {
+        var cur = stack[stack.length - 1];
+        var opts = DIRS.filter(function (d) {
+          var nx = cur[0] + d[0], ny = cur[1] + d[1];
+          return nx >= 0 && ny >= 0 && nx < n && ny < n && !seen[idx(nx, ny)];
+        });
+        if (!opts.length) { stack.pop(); continue; }
+        var d = opts[Math.floor(Math.random() * opts.length)];
+        var nx = cur[0] + d[0], ny = cur[1] + d[1];
+        cells[idx(cur[0], cur[1])] |= d[2];
+        cells[idx(nx, ny)] |= d[3];
+        seen[idx(nx, ny)] = true;
+        stack.push([nx, ny]);
+      }
+    }
+
+    function open(x, y, d) { return (cells[idx(x, y)] & d[2]) !== 0; }
+
+    // Shortest route between two squares, following the open passages.
+    function route(from, to, maxLen) {
+      var prev = {}, q = [from], key = function (p) { return p[0] + ',' + p[1]; };
+      prev[key(from)] = null;
+      while (q.length) {
+        var c = q.shift();
+        if (c[0] === to[0] && c[1] === to[1]) break;
+        DIRS.forEach(function (d) {
+          var nx = c[0] + d[0], ny = c[1] + d[1];
+          if (nx < 0 || ny < 0 || nx >= n || ny >= n || !open(c[0], c[1], d)) return;
+          var k = nx + ',' + ny;
+          if (k in prev) return;
+          prev[k] = c;
+          q.push([nx, ny]);
+        });
+      }
+      if (!(key(to) in prev)) return null;
+      var out = [], p = to;
+      while (p) { out.unshift(p); p = prev[key(p)]; }
+      return maxLen && out.length - 1 > maxLen ? null : out;
+    }
+
+    function newMaze(speak) {
+      var L = LEVELS[level];
+      n = L.n;
+      won = false;
+      themeIdx = (themeIdx + 1) % THEMES.length;
+      theme = THEMES[themeIdx];
+      generate();
+      pos = [0, 0];
+      path = [[0, 0]];
+      stars = [];
+      if (L.stars) {
+        // stars at dead ends, so collecting them means exploring
+        var ends = [];
+        for (var y = 0; y < n; y++) for (var x = 0; x < n; x++) {
+          var c = cells[idx(x, y)], k = (c & 1) + (c >> 1 & 1) + (c >> 2 & 1) + (c >> 3 & 1);
+          if (k === 1 && !(x === 0 && y === 0) && !(x === n - 1 && y === n - 1)) ends.push([x, y]);
+        }
+        stars = App.shuffle(ends).slice(0, L.stars);
+      }
+      draw();
+      var text = 'Help ' + theme[2] + ' find ' + theme[3] + '!' + (stars.length ? ' Collect the stars on the way!' : '');
+      promptEl.textContent = text.charAt(0).toUpperCase() + text.slice(1);
+      if (speak) say(text);
+    }
+
+    function center(p) { return [M + p[0] * U + U / 2, M + p[1] * U + U / 2]; }
+
+    function draw() {
+      var size = n * U + 2 * M, sw = Math.max(7, U * 0.12);
+      var html = '<svg class="maze" viewBox="0 0 ' + size + ' ' + size + '" role="img" aria-label="Maze. Move ' + theme[2] + ' with your finger or the arrow keys.">';
+      var g = center([n - 1, n - 1]);
+      html += '<circle class="goal-ring" cx="' + g[0] + '" cy="' + g[1] + '" r="' + U * 0.42 + '"/>';
+      html += '<polyline class="hint" id="hint-line" points="" stroke-width="' + U * 0.18 + '"/>';
+      html += '<polyline class="trail" id="trail" points="" stroke-width="' + U * 0.3 + '"/>';
+      var walls = '';
+      for (var y = 0; y < n; y++) for (var x = 0; x < n; x++) {
+        var c = cells[idx(x, y)], x0 = M + x * U, y0 = M + y * U;
+        if (!(c & N)) walls += 'M' + x0 + ' ' + y0 + 'h' + U;
+        if (!(c & W)) walls += 'M' + x0 + ' ' + y0 + 'v' + U;
+        if (x === n - 1 && !(c & E)) walls += 'M' + (x0 + U) + ' ' + y0 + 'v' + U;
+        if (y === n - 1 && !(c & S)) walls += 'M' + x0 + ' ' + (y0 + U) + 'h' + U;
+      }
+      html += '<path class="wall" d="' + walls + '" stroke-width="' + sw + '"/>';
+      stars.forEach(function (s, i) {
+        var p = center(s);
+        html += '<text class="tok star-tok" data-i="' + i + '" x="' + p[0] + '" y="' + p[1] + '" font-size="' + U * 0.55 + '">⭐</text>';
+      });
+      html += '<text class="tok' + (stars.length ? ' locked' : '') + '" id="goal" x="' + g[0] + '" y="' + g[1] + '" font-size="' + U * 0.62 + '">' + theme[1] + '</text>';
+      var s0 = center(pos);
+      html += '<g class="hero" id="hero" transform="translate(' + s0[0] + ' ' + s0[1] + ')"><text class="tok" font-size="' + U * 0.66 + '">' + theme[0] + '</text></g>';
+      html += '</svg>';
+      wrap.innerHTML = html;
+      svg = wrap.firstChild;
+      fit();
+      attach();
+      drawTrail();
+    }
+
+    function fit() {
+      if (!svg) return;
+      var padBottom = parseFloat(getComputedStyle(document.querySelector('.gw')).paddingBottom) || 0;
+      var top = wrap.getBoundingClientRect().top + window.scrollY;
+      var px = Math.max(window.innerHeight < 520 && window.innerWidth > window.innerHeight ? 150 : 240, Math.min(wrap.clientWidth, window.innerHeight - top - padBottom - 8, 760));
+      svg.style.width = svg.style.height = px + 'px';
+    }
+
+    function drawTrail() {
+      var pts = path.map(center).map(function (p) { return p.join(','); }).join(' ');
+      svg.querySelector('#trail').setAttribute('points', pts);
+    }
+
+    function step(to) {
+      if (won) return;
+      pos = to;
+      var prev = path[path.length - 2];
+      if (prev && prev[0] === to[0] && prev[1] === to[1]) path.pop(); else path.push(to);
+      var c = center(to);
+      svg.querySelector('#hero').setAttribute('transform', 'translate(' + c[0] + ' ' + c[1] + ')');
+      drawTrail();
+      App.sfx('step');
+      var si = -1;
+      stars.forEach(function (s, i) { if (s && s[0] === to[0] && s[1] === to[1]) si = i; });
+      if (si >= 0) {
+        stars[si] = null;
+        var el = svg.querySelector('.star-tok[data-i="' + si + '"]');
+        if (el) el.remove();
+        App.sfx('snap');
+        var left = stars.filter(Boolean).length;
+        say(left ? 'A star! ' + left + ' more!' : 'All the stars! Now find ' + theme[3] + '!');
+        if (!left) svg.querySelector('#goal').classList.remove('locked');
+      }
+      if (to[0] === n - 1 && to[1] === n - 1) {
+        if (stars.some(Boolean)) { say('Collect all the stars first!'); return; }
+        win();
+      }
+    }
+
+    // Move toward a square: one step if it is next door, or a short way round if the finger jumped ahead.
+    function moveToward(target) {
+      if (target[0] === pos[0] && target[1] === pos[1]) return;
+      var r = route(pos, target, 3);
+      if (!r) return;
+      for (var i = 1; i < r.length && !won; i++) step(r[i]);
+    }
+
+    function cellAt(e) {
+      var r = svg.getBoundingClientRect(), size = n * U + 2 * M;
+      var x = ((e.clientX - r.left) / r.width * size - M) / U, y = ((e.clientY - r.top) / r.height * size - M) / U;
+      return [Math.max(0, Math.min(n - 1, Math.floor(x))), Math.max(0, Math.min(n - 1, Math.floor(y)))];
+    }
+
+    function attach() {
+      var active = null;
+      svg.addEventListener('pointerdown', function (e) {
+        if (active !== null || won) return;
+        active = e.pointerId;
+        try { svg.setPointerCapture(active); } catch (err) { /* ignore */ }
+        e.preventDefault();
+        moveToward(cellAt(e));
+      });
+      svg.addEventListener('pointermove', function (e) { if (e.pointerId === active) moveToward(cellAt(e)); });
+      function end(e) { if (e.pointerId === active) active = null; }
+      svg.addEventListener('pointerup', end);
+      svg.addEventListener('pointercancel', end);
+    }
+
+    document.addEventListener('keydown', function (e) {
+      var k = { ArrowUp: 0, ArrowRight: 1, ArrowDown: 2, ArrowLeft: 3 }[e.key];
+      if (k === undefined || !svg || won) return;
+      e.preventDefault();
+      var d = DIRS[k];
+      if (open(pos[0], pos[1], d)) step([pos[0] + d[0], pos[1] + d[1]]);
+      else App.sfx('tick');
+    });
+
+    function win() {
+      won = true;
+      App.sfx('yay');
+      var r = svg.getBoundingClientRect();
+      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 18, r.width);
+      say('You found the way! Yay!');
+      promptEl.textContent = 'You found the way! 🎉';
+      setTimeout(function () { newMaze(true); }, 2600);
+    }
+
+    var hintTimer = null;
+    document.getElementById('hint').addEventListener('click', function () {
+      if (won || !svg) return;
+      var goal = [n - 1, n - 1];
+      var targets = stars.filter(Boolean).concat([goal]);
+      // the nearest thing still to reach
+      var best = null;
+      targets.forEach(function (t) { var r = route(pos, t); if (r && (!best || r.length < best.length)) best = r; });
+      if (!best) return;
+      var line = svg.querySelector('#hint-line');
+      line.setAttribute('points', best.map(center).map(function (p) { return p.join(','); }).join(' '));
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(function () { line.setAttribute('points', ''); }, 2500);
+      say('Follow the dots!');
+    });
+    document.getElementById('new').addEventListener('click', function () { newMaze(true); });
+    document.getElementById('say').addEventListener('click', function () { say(promptEl.textContent); });
+
+    var lv = App.levelControl(document.getElementById('level'), 'maze', LEVELS, function (l) { level = l; newMaze(true); });
+    level = lv.get();
+    var rt = null;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(fit, 120); });
+    newMaze(true);
+  </script>
+</body>
+</html>

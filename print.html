@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=14">
+  <link rel="stylesheet" href="css/style.css?v=15">
   <style>
     .print-wrap { max-width: 860px; margin: 0 auto; }
     .print-intro { text-align: center; margin-bottom: 14px; animation: slideUp .5s ease-out; }
@@ -66,16 +66,7 @@
       <h1><em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Cards</h1>
       <p class="sub">Print, cut, and play!</p>
     </header>
-    <nav class="nav-links" aria-label="Activities">
-      <a href="index.html" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
-      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
-      <a href="find.html" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
-      <a href="discover.html" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
-      <a href="trace.html" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
-      <a href="stories.html" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
-      <a href="print.html" class="active" aria-current="page" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
-      <a href="worksheet.html" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
-    </nav>
+    <nav class="nav-links" aria-label="Activities" data-page="print"></nav>
 
     <main class="print-wrap">
       <div class="print-intro">
@@ -96,8 +87,8 @@
     </main>
   </div>
 
-  <script src="js/common.js?v=14"></script>
-  <script src="js/data.js?v=14"></script>
+  <script src="js/common.js?v=15"></script>
+  <script src="js/data.js?v=15"></script>
   <script>
     const PRINT_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850','#B07CD8','#FF8A65',
                            '#26A69A','#AB47BC','#EF5350','#42A5F5','#66BB6A','#FFA726',

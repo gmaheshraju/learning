@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Little Coder — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .cd { max-width: 1000px; margin: 0 auto; }
+    .cd-main { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 12px; }
+    .board {
+      --cell: 64px;
+      position: relative; display: grid; gap: 4px; padding: 6px; border-radius: 20px;
+      background: #A5D6A7; box-shadow: 0 4px 18px var(--sh);
+    }
+    .sq {
+      width: var(--cell); height: var(--cell); border-radius: 12px; background: #C8E6C9;
+      display: grid; place-items: center; font-family: var(--emoji); font-size: calc(var(--cell) * .66); line-height: 1;
+    }
+    .sq:nth-child(odd) { background: #DCEDC8; }
+    .sq.tried { box-shadow: inset 0 0 0 3px rgba(66,165,245,.5); }
+    .bunny {
+      position: absolute; left: 6px; top: 6px; width: var(--cell); height: var(--cell);
+      display: grid; place-items: center; font-family: var(--emoji); font-size: calc(var(--cell) * .74); line-height: 1;
+      transition: transform .32s ease-in-out; pointer-events: none; z-index: 2;
+    }
+    .bunny.bump { animation: wiggle .4s ease; }
+
+    .side { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 520px; }
+    .pad { display: grid; grid-template-columns: repeat(3, 66px); grid-template-rows: repeat(2, 66px); gap: 8px; }
+    .arrow-btn {
+      border-radius: 18px; border: 3px solid #7E57C2; background: var(--card); color: #7E57C2;
+      font-size: 34px; font-weight: 900; cursor: pointer; display: grid; place-items: center; line-height: 1;
+      box-shadow: 0 3px 0 #5E35B1; transition: transform .1s, box-shadow .1s;
+    }
+    .arrow-btn:active { transform: translateY(3px); box-shadow: 0 0 0 #5E35B1; }
+    .arrow-btn[data-d="0"] { grid-column: 2; grid-row: 1; }
+    .arrow-btn[data-d="3"] { grid-column: 1; grid-row: 2; }
+    .arrow-btn[data-d="2"] { grid-column: 2; grid-row: 2; }
+    .arrow-btn[data-d="1"] { grid-column: 3; grid-row: 2; }
+
+    .program {
+      display: flex; flex-wrap: nowrap; gap: 6px; justify-content: flex-start; align-items: center;
+      min-height: 64px; width: 100%; padding: 8px; border-radius: 18px; overflow-x: auto; scrollbar-width: none;
+      border: 3px dashed var(--line); background: var(--card);
+    }
+    .program::-webkit-scrollbar { display: none; }
+    .program > * { flex: none; }
+    .controls { display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; }
+    .run-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .run-col[hidden] { display: none; }
+    .block {
+      position: relative; min-width: 48px; height: 48px; padding: 0 8px; border-radius: 12px; border: none;
+      background: #7E57C2; color: #fff; font-size: 26px; font-weight: 900; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 2px;
+      box-shadow: 0 3px 0 #5E35B1; animation: bounceIn .3s ease-out;
+    }
+    .block .times { font-size: 16px; background: rgba(255,255,255,.25); border-radius: 8px; padding: 1px 5px; }
+    .block.now { background: #F5A623; box-shadow: 0 3px 0 #C77E0B; transform: translateY(-3px); }
+    .block.bad { background: #E0506A; box-shadow: 0 3px 0 #A3283E; animation: wiggle .45s ease; }
+    .empty-slot { width: 48px; height: 48px; border-radius: 12px; border: 2px dashed var(--line); }
+    .count { font-size: 14px; font-weight: 800; color: var(--textL); text-align: center; min-height: 18px; margin-top: -6px; }
+
+    @media (min-width: 760px) and (min-aspect-ratio: 5/4), (orientation: landscape) and (max-height: 520px) {
+      .cd-main { grid-template-columns: auto minmax(260px, 420px); align-items: start; justify-content: center; column-gap: 28px; }
+    }
+    @media (orientation: landscape) and (max-height: 520px) {
+      .pad { grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(2, 46px); gap: 6px; }
+      .program { min-height: 54px; padding: 5px; }
+      .side { gap: 8px; }
+      .arrow-btn { font-size: 26px; }
+      .block { height: 40px; min-width: 40px; font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">L</em><em style="color:#F5A623">i</em><em style="color:#7EC850">t</em><em style="color:#4DADEA">t</em><em style="color:#B07CD8">l</em><em style="color:#E85D75">e</em> <em style="color:#F5A623">C</em><em style="color:#7EC850">o</em><em style="color:#4DADEA">d</em><em style="color:#B07CD8">e</em><em style="color:#E85D75">r</em></h1>
+      <p class="sub">Program the bunny to the carrot</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="coder"></nav>
+    <main class="cd land-split">
+      <div class="act-bar">
+        <div id="level"></div>
+        <button type="button" class="tool-btn" id="new" aria-label="New puzzle" title="New puzzle">🔀</button>
+      </div>
+      <div class="prompt-row">
+        <span class="prompt-text" id="prompt" aria-live="polite"></span>
+        <button type="button" class="say-btn" id="say" aria-label="Hear it again">🔊</button>
+      </div>
+      <div class="cd-main">
+        <div class="board" id="board" role="img" aria-label="Garden grid"></div>
+        <div class="side">
+          <div class="program" id="program" aria-label="Your program" hidden></div>
+          <div class="count" id="count"></div>
+          <div class="controls">
+            <div class="pad" id="pad" role="group" aria-label="Arrows">
+              <button type="button" class="arrow-btn" data-d="0" aria-label="Up">↑</button>
+              <button type="button" class="arrow-btn" data-d="3" aria-label="Left">←</button>
+              <button type="button" class="arrow-btn" data-d="2" aria-label="Down">↓</button>
+              <button type="button" class="arrow-btn" data-d="1" aria-label="Right">→</button>
+            </div>
+            <div class="run-col" id="run-row" hidden>
+              <button type="button" class="btn" id="go" style="background:#5DB534"><span class="emoji">▶️</span> Go!</button>
+              <div class="btn-row">
+                <button type="button" class="tool-btn" id="back" aria-label="Remove the last arrow" title="Remove last">⌫</button>
+                <button type="button" class="tool-btn" id="clear" aria-label="Clear the program" title="Clear">🧻</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 4, label: 'Step by step', mode: 'step', n: 4, minDist: 2, trees: 0 },
+      { age: 5, label: 'Plan, then Go', mode: 'plan', n: 5, minDist: 3, trees: 0, slots: 8 },
+      { age: 6, label: 'Around the trees', mode: 'plan', n: 5, minDist: 4, trees: 4, slots: 10 },
+      { age: 7, label: 'Repeat blocks', mode: 'plan', n: 6, minDist: 6, trees: 3, slots: 4, repeats: true }
+    ];
+    var DIRS = [[0, -1, '↑', 'up'], [1, 0, '→', 'right'], [0, 1, '↓', 'down'], [-1, 0, '←', 'left']];
+    var GAP = 4, PAD = 6, MAX_REPEAT = 4;
+
+    var boardEl = document.getElementById('board'), programEl = document.getElementById('program'), promptEl = document.getElementById('prompt'), countEl = document.getElementById('count');
+    var level = 0, n = 4, start = [0, 0], goal = [0, 0], trees = {}, pos = [0, 0], program = [], running = false, solved = false, cell = 60, bunny = null, token = 0;
+
+    function say(t, rate) { Speech.speak(t, rate || 0.9); }
+    function key(p) { return p[0] + ',' + p[1]; }
+    function rand(k) { return Math.floor(Math.random() * k); }
+    function blocked(p) { return p[0] < 0 || p[1] < 0 || p[0] >= n || p[1] >= n || trees[key(p)]; }
+
+    function shortest(from, to) {
+      var prev = {}, q = [from];
+      prev[key(from)] = null;
+      while (q.length) {
+        var c = q.shift();
+        if (c[0] === to[0] && c[1] === to[1]) break;
+        DIRS.forEach(function (d, di) {
+          var nx = [c[0] + d[0], c[1] + d[1]];
+          if (blocked(nx) || key(nx) in prev) return;
+          prev[key(nx)] = { from: c, d: di };
+          q.push(nx);
+        });
+      }
+      if (!(key(to) in prev)) return null;
+      var dirs = [], p = to;
+      while (prev[key(p)]) { dirs.unshift(prev[key(p)].d); p = prev[key(p)].from; }
+      return dirs;
+    }
+
+    // Fewest repeat blocks for a list of moves (runs of the same arrow, at most ×4 each).
+    function blocksFor(dirs) {
+      var out = [];
+      dirs.forEach(function (d) {
+        var last = out[out.length - 1];
+        if (last && last.d === d && last.times < MAX_REPEAT) last.times++;
+        else out.push({ d: d, times: 1 });
+      });
+      return out;
+    }
+
+    function makePuzzle() {
+      var L = LEVELS[level];
+      n = L.n;
+      for (var tries = 0; tries < 400; tries++) {
+        trees = {};
+        start = [rand(n), rand(n)];
+        goal = [rand(n), rand(n)];
+        var dist = Math.abs(start[0] - goal[0]) + Math.abs(start[1] - goal[1]);
+        if (dist < L.minDist || dist > L.minDist + 4) continue;
+        for (var t = 0; t < L.trees; t++) {
+          var c = [rand(n), rand(n)];
+          if (key(c) !== key(start) && key(c) !== key(goal)) trees[key(c)] = true;
+        }
+        var route = shortest(start, goal);
+        if (!route) continue;
+        // with trees, prefer puzzles where they really are in the way (no straight run)
+        if (L.trees && route.length === dist && tries < 300) continue;
+        if (L.mode === 'plan' && !L.repeats && route.length > L.slots) continue;
+        if (L.repeats && blocksFor(route).length > L.slots) continue;
+        return;
+      }
+    }
+
+    function fit() {
+      var wide = window.matchMedia('(min-width: 760px) and (min-aspect-ratio: 5/4), (orientation: landscape) and (max-height: 520px)').matches;
+      var padBottom = parseFloat(getComputedStyle(document.querySelector('.gw')).paddingBottom) || 0;
+      var top = boardEl.getBoundingClientRect().top + window.scrollY;
+      var below = LEVELS[level].mode === 'plan' ? 272 : 170;   // program strip and arrow pad under the board
+      var availH = window.innerHeight - top - padBottom - (wide ? 8 : below);
+      var availW = wide ? Math.min(boardEl.parentElement.clientWidth - 300, 640) : boardEl.parentElement.clientWidth;
+      var size = Math.min(availW, Math.max(availH, window.innerHeight < 520 && window.innerWidth > window.innerHeight ? 150 : 220));
+      cell = Math.floor(Math.max(36, Math.min(84, (size - 2 * PAD - (n - 1) * GAP) / n)));
+      boardEl.style.setProperty('--cell', cell + 'px');
+      placeBunny(pos, true);
+    }
+
+    function render() {
+      boardEl.innerHTML = '';
+      boardEl.style.gridTemplateColumns = 'repeat(' + n + ', var(--cell))';
+      for (var y = 0; y < n; y++) {
+        for (var x = 0; x < n; x++) {
+          var s = document.createElement('div');
+          s.className = 'sq';
+          s.dataset.k = x + ',' + y;
+          if (trees[x + ',' + y]) s.textContent = '🌳';
+          else if (x === goal[0] && y === goal[1]) s.textContent = '🥕';
+          boardEl.appendChild(s);
+        }
+      }
+      bunny = document.createElement('div');
+      bunny.className = 'bunny';
+      bunny.textContent = '🐰';
+      boardEl.appendChild(bunny);
+      fit();
+    }
+
+    function placeBunny(p, instant) {
+      if (!bunny) return;
+      if (instant) bunny.style.transition = 'none';
+      bunny.style.transform = 'translate(' + p[0] * (cell + GAP) + 'px,' + p[1] * (cell + GAP) + 'px)';
+      if (instant) { void bunny.offsetWidth; bunny.style.transition = ''; }
+    }
+
+    function bump() {
+      bunny.classList.remove('bump'); void bunny.offsetWidth; bunny.classList.add('bump');
+      App.sfx('oops');
+    }
+
+    function newPuzzle(speak) {
+      token++;
+      running = false;
+      solved = false;
+      program = [];
+      makePuzzle();
+      pos = start.slice();
+      render();
+      var L = LEVELS[level];
+      programEl.hidden = L.mode !== 'plan';
+      document.getElementById('run-row').hidden = L.mode !== 'plan';
+      renderProgram();
+      var text = L.mode === 'step' ? 'Tap the arrows to take the bunny to the carrot!' :
+        L.repeats ? 'Only ' + L.slots + ' blocks! Tap a block to make it repeat.' :
+        'Plan the way with arrows, then press Go!';
+      promptEl.textContent = text;
+      fit();   // the prompt's height changes how much room the board has
+      if (speak) say(text);
+    }
+
+    function renderProgram() {
+      var L = LEVELS[level];
+      if (L.mode !== 'plan') { countEl.textContent = ''; return; }
+      programEl.innerHTML = '';
+      program.forEach(function (b, i) {
+        var el = document.createElement('button');
+        el.type = 'button';
+        el.className = 'block';
+        el.innerHTML = DIRS[b.d][2] + (L.repeats ? '<span class="times">×' + b.times + '</span>' : '');
+        el.setAttribute('aria-label', DIRS[b.d][3] + (L.repeats ? ' ' + b.times + ' times' : '') + (L.repeats ? '. Tap to change how many times' : ''));
+        el.addEventListener('click', function () {
+          if (running || !L.repeats) return;
+          b.times = b.times % MAX_REPEAT + 1;
+          App.sfx('tick');
+          say(b.times === 1 ? 'Once' : b.times + ' times');
+          renderProgram();
+        });
+        b.el = el;
+        programEl.appendChild(el);
+      });
+      for (var k = program.length; k < L.slots; k++) {
+        var e = document.createElement('span');
+        e.className = 'empty-slot';
+        programEl.appendChild(e);
+      }
+      var steps = program.reduce(function (a, b) { return a + b.times; }, 0);
+      countEl.textContent = program.length ? program.length + ' block' + (program.length > 1 ? 's' : '') + (L.repeats ? ' · ' + steps + ' steps' : '') : '';
+      document.getElementById('go').disabled = !program.length;
+      document.getElementById('back').disabled = !program.length;
+      document.getElementById('clear').disabled = !program.length;
+    }
+
+    function markTried(p) {
+      var s = boardEl.querySelector('[data-k="' + key(p) + '"]');
+      if (s) s.classList.add('tried');
+    }
+
+    function arrow(d) {
+      if (running || solved) return;
+      var L = LEVELS[level];
+      if (L.mode === 'step') {
+        var next = [pos[0] + DIRS[d][0], pos[1] + DIRS[d][1]];
+        if (blocked(next)) { bump(); say(trees[key(next)] ? 'Oops, a tree!' : 'Oops, that is the edge!'); return; }
+        pos = next;
+        placeBunny(pos);
+        markTried(pos);
+        App.sfx('step');
+        if (key(pos) === key(goal)) win(1);
+        return;
+      }
+      if (program.length >= L.slots) { say('No more room! Press Go!'); App.sfx('tick'); return; }
+      program.push({ d: d, times: 1 });
+      App.sfx('pop');
+      say(DIRS[d][3]);
+      // editing the plan starts the bunny from the beginning again
+      pos = start.slice();
+      placeBunny(pos, true);
+      boardEl.querySelectorAll('.tried').forEach(function (s) { s.classList.remove('tried'); });
+      renderProgram();
+    }
+
+    function run() {
+      if (running || !program.length || solved) return;
+      running = true;
+      var my = ++token;
+      pos = start.slice();
+      placeBunny(pos, true);
+      boardEl.querySelectorAll('.tried').forEach(function (s) { s.classList.remove('tried'); });
+      programEl.querySelectorAll('.block').forEach(function (b) { b.classList.remove('now', 'bad'); });
+      var steps = [];
+      program.forEach(function (b, i) { for (var t = 0; t < b.times; t++) steps.push(i); });
+      var k = 0;
+      (function next() {
+        if (my !== token) return;
+        programEl.querySelectorAll('.block').forEach(function (b) { b.classList.remove('now'); });
+        if (k >= steps.length) {
+          running = false;
+          say("Not there yet! Add more arrows, or change one.");
+          return;
+        }
+        var bi = steps[k], d = DIRS[program[bi].d];
+        program[bi].el.classList.add('now');
+        var to = [pos[0] + d[0], pos[1] + d[1]];
+        if (blocked(to)) {
+          running = false;
+          bump();
+          program[bi].el.classList.remove('now');
+          program[bi].el.classList.add('bad');
+          say((trees[key(to)] ? 'Bump! A tree is in the way.' : 'Bump! That is the edge.') + ' Which arrow should change?');
+          return;
+        }
+        pos = to;
+        placeBunny(pos);
+        markTried(pos);
+        App.sfx('step');
+        k++;
+        if (key(pos) === key(goal)) { running = false; setTimeout(function () { win(program.length); }, 350); return; }
+        setTimeout(next, 420);
+      })();
+    }
+
+    function win(blocks) {
+      solved = true;
+      App.sfx('yay');
+      var r = boardEl.getBoundingClientRect();
+      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 16, r.width);
+      var L = LEVELS[level];
+      var msg = 'Yum! The bunny got the carrot!' + (L.mode === 'plan' ? ' You used ' + blocks + ' block' + (blocks > 1 ? 's' : '') + '!' : '');
+      promptEl.textContent = msg + ' 🎉';
+      say(msg);
+      setTimeout(function () { newPuzzle(true); }, 3000);
+    }
+
+    document.getElementById('pad').addEventListener('click', function (e) {
+      var b = e.target.closest('.arrow-btn');
+      if (b) arrow(+b.dataset.d);
+    });
+    document.addEventListener('keydown', function (e) {
+      var d = { ArrowUp: 0, ArrowRight: 1, ArrowDown: 2, ArrowLeft: 3 }[e.key];
+      if (d !== undefined) { e.preventDefault(); arrow(d); }
+      else if (e.key === 'Enter' && LEVELS[level].mode === 'plan' && document.activeElement === document.body) run();
+    });
+    document.getElementById('go').addEventListener('click', run);
+    document.getElementById('back').addEventListener('click', function () {
+      if (running || !program.length) return;
+      program.pop();
+      App.sfx('tick');
+      pos = start.slice(); placeBunny(pos, true);
+      renderProgram();
+    });
+    document.getElementById('clear').addEventListener('click', function () {
+      if (running) return;
+      program = [];
+      pos = start.slice(); placeBunny(pos, true);
+      boardEl.querySelectorAll('.tried').forEach(function (s) { s.classList.remove('tried'); });
+      renderProgram();
+    });
+    document.getElementById('new').addEventListener('click', function () { newPuzzle(true); });
+    document.getElementById('say').addEventListener('click', function () { say(promptEl.textContent.replace('🎉', '')); });
+
+    var lv = App.levelControl(document.getElementById('level'), 'coder', LEVELS, function (l) { level = l; newPuzzle(true); });
+    level = lv.get();
+    var rt = null;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(fit, 120); });
+    newPuzzle(true);
+  </script>
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Music Maker — Heshvitha's Learning World</title>
+  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="css/style.css?v=15">
+  <style>
+    .mu { max-width: 1000px; margin: 0 auto; }
+    .mode-tabs { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 4px; padding: 3px; border-radius: 22px; border: 2px solid var(--line); background: var(--card); }
+    .mode-tab {
+      min-height: 38px; padding: 0 12px; border-radius: 999px; border: none; background: none;
+      font-size: 15px; font-weight: 900; color: var(--textM); cursor: pointer; white-space: nowrap;
+    }
+    .mode-tab[aria-selected="true"] { background: #B07CD8; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+
+    .xylo {
+      display: flex; align-items: center; justify-content: center; gap: clamp(4px, 1.2vw, 12px);
+      height: clamp(200px, 42vh, 380px); padding: 14px 8px; margin: 6px auto 12px; max-width: 900px;
+      background: linear-gradient(#A1887F, #8D6E63); border-radius: 26px; box-shadow: 0 6px 18px var(--sh);
+      touch-action: none; -webkit-user-select: none; user-select: none;
+    }
+    .xbar {
+      flex: 1; max-width: 96px; border: none; border-radius: 16px; cursor: pointer; position: relative;
+      box-shadow: inset 0 -8px 0 rgba(0,0,0,.18), 0 3px 6px rgba(0,0,0,.2);
+      transition: transform .08s, filter .08s; touch-action: none;
+    }
+    .xbar::before, .xbar::after {
+      content: ''; position: absolute; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%;
+      background: rgba(255,255,255,.75); box-shadow: inset 0 1px 2px rgba(0,0,0,.3);
+    }
+    .xbar::before { top: 10%; }
+    .xbar::after { bottom: 10%; }
+    .xbar.hit, .xbar.lit { transform: scale(.94); filter: brightness(1.25); }
+    .xbar.lit { box-shadow: 0 0 0 5px #fff, 0 0 18px 6px rgba(255,255,255,.8); }
+    .xbar .note { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font-size: 15px; font-weight: 900; color: rgba(0,0,0,.45); }
+
+    .pads { display: flex; justify-content: center; gap: clamp(8px, 2vw, 16px); flex-wrap: wrap; }
+    .pad-btn {
+      width: clamp(70px, 19vw, 110px); height: clamp(70px, 19vw, 110px); border-radius: 26px; border: none; cursor: pointer;
+      font-family: var(--emoji); font-size: clamp(34px, 9vw, 52px); color: #fff; box-shadow: inset 0 -6px 0 rgba(0,0,0,.18), 0 3px 10px var(--sh);
+      transition: transform .08s; touch-action: manipulation;
+    }
+    .pad-btn.hit { transform: scale(.9); }
+
+    .grid-wrap { overflow-x: auto; padding: 4px; margin: 0 auto 10px; }
+    .song { display: grid; gap: 4px; margin: 0 auto; width: max-content; }
+    .song button {
+      width: clamp(32px, 9vw, 64px); height: clamp(30px, 7vh, 52px); border-radius: 10px; border: 2px solid var(--line);
+      background: var(--card); cursor: pointer; padding: 0;
+    }
+    .song button.on { border-color: transparent; box-shadow: inset 0 -4px 0 rgba(0,0,0,.18); }
+    .song button.beat { background: var(--sh); }
+    .song button.on.beat { background: #5D4037; }
+    .song .playhead { outline: 3px solid #F5A623; outline-offset: 1px; }
+    .song .row-label { display: grid; place-items: center; font-family: var(--emoji); font-size: 20px; width: 32px; }
+
+    .echo-msg, .dance-msg { text-align: center; font-size: clamp(20px, 3.4vmin, 32px); font-weight: 900; min-height: 1.4em; margin: 4px 0; }
+    .dots { text-align: center; font-family: var(--emoji); font-size: 22px; letter-spacing: 3px; min-height: 30px; }
+    .dance-stage { text-align: center; margin: 10px 0; }
+    .dancer { font-family: var(--emoji); font-size: clamp(110px, 30vmin, 220px); line-height: 1.1; display: inline-block; }
+    .dancer.moving { animation: dance .5s ease-in-out infinite alternate; }
+    @keyframes dance { from { transform: rotate(-10deg) translateY(0); } to { transform: rotate(10deg) translateY(-14px); } }
+    .freeze-flash { animation: bounceIn .4s ease-out; color: #29B6F6; }
+    @media (orientation: landscape) and (max-height: 520px) {
+      .xylo { height: calc(100dvh - 210px); min-height: 140px; }
+      .pads { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="hdr with-sound">
+      <h1><em style="color:#E85D75">M</em><em style="color:#F5A623">u</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">i</em><em style="color:#B07CD8">c</em> <em style="color:#E85D75">M</em><em style="color:#F5A623">a</em><em style="color:#7EC850">k</em><em style="color:#4DADEA">e</em><em style="color:#B07CD8">r</em></h1>
+      <p class="sub">Play, compose, copy and dance</p>
+      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
+    </header>
+    <nav class="nav-links" aria-label="Activities" data-page="music"></nav>
+    <main class="mu">
+      <div class="act-bar">
+        <div class="mode-tabs" role="tablist" aria-label="Music">
+          <button type="button" class="mode-tab" role="tab" data-mode="play" aria-selected="true">🎹 Play</button>
+          <button type="button" class="mode-tab" role="tab" data-mode="compose" aria-selected="false">🎼 Compose</button>
+          <button type="button" class="mode-tab" role="tab" data-mode="echo" aria-selected="false">👂 Copy me</button>
+          <button type="button" class="mode-tab" role="tab" data-mode="dance" aria-selected="false">💃 Freeze dance</button>
+        </div>
+        <div id="level"></div>
+      </div>
+
+      <section id="m-play">
+        <div class="xylo" id="xylo" role="group" aria-label="Xylophone"></div>
+        <div class="pads" id="pads" role="group" aria-label="Drums"></div>
+      </section>
+
+      <section id="m-compose" hidden>
+        <div class="btn-row" style="margin-bottom:10px">
+          <button type="button" class="btn" id="c-play" style="background:#5DB534"><span class="emoji">▶️</span> Play</button>
+          <button type="button" class="tool-btn" id="c-tempo" aria-label="Speed" title="Speed">🐢</button>
+          <button type="button" class="tool-btn" id="c-clear" aria-label="Clear the song" title="Clear">🧻</button>
+        </div>
+        <div class="grid-wrap"><div class="song" id="song" role="grid" aria-label="Song grid"></div></div>
+      </section>
+
+      <section id="m-echo" hidden>
+        <div class="echo-msg" id="echo-msg" aria-live="polite"></div>
+        <div class="dots" id="echo-dots" aria-hidden="true"></div>
+        <div class="xylo" id="echo-xylo" role="group" aria-label="Copy the tune"></div>
+        <div class="btn-row"><button type="button" class="btn" id="echo-again" style="background:#B07CD8"><span class="emoji">👂</span> Listen again</button></div>
+      </section>
+
+      <section id="m-dance" hidden>
+        <div class="dance-msg" id="dance-msg" aria-live="assertive">Dance when the music plays. Freeze when it stops!</div>
+        <div class="dance-stage"><span class="dancer" id="dancer" aria-hidden="true">💃🏽</span></div>
+        <div class="btn-row"><button type="button" class="btn" id="dance-go" style="background:#5DB534"><span class="emoji">🎵</span> Start the music!</button></div>
+      </section>
+    </main>
+  </div>
+  <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+  <script src="js/common.js?v=15"></script>
+  <script>
+    var LEVELS = [
+      { age: 2, label: 'Little musician', echoStart: 2, echoBars: 4 },
+      { age: 4, label: 'Musician', echoStart: 3, echoBars: 6 },
+      { age: 6, label: 'Composer', echoStart: 4, echoBars: 8 }
+    ];
+    // C major from C5 up to C6: any order sounds pleasant
+    var NOTES = [
+      { f: 523.25, n: 'C', c: '#E53935' }, { f: 587.33, n: 'D', c: '#FB8C00' }, { f: 659.25, n: 'E', c: '#FDD835' },
+      { f: 698.46, n: 'F', c: '#43A047' }, { f: 783.99, n: 'G', c: '#00ACC1' }, { f: 880.0, n: 'A', c: '#1E88E5' },
+      { f: 987.77, n: 'B', c: '#5E35B1' }, { f: 1046.5, n: 'C', c: '#8E24AA' }
+    ];
+    var PENTA = [1046.5, 880.0, 783.99, 659.25, 587.33, 523.25];   // song grid rows, high to low
+    var PENTA_COLORS = ['#8E24AA', '#1E88E5', '#00ACC1', '#FDD835', '#FB8C00', '#E53935'];
+
+    // Let the music play even when an iPhone's ring switch is on silent (Safari 17+).
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) { /* not supported */ }
+
+    var level = 0, mode = 'play';
+    function say(t, rate) { Speech.speak(t, rate || 0.9); }
+    function quiet() { return Speech.isMuted(); }
+
+    /* ---------------- sounds ---------------- */
+    var noiseBuf = null;
+    function noise(c) {
+      if (noiseBuf) return noiseBuf;
+      noiseBuf = c.createBuffer(1, c.sampleRate * 0.5, c.sampleRate);
+      var d = noiseBuf.getChannelData(0);
+      for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      return noiseBuf;
+    }
+    function env(c, at, peak, decay) {
+      var g = c.createGain();
+      g.gain.setValueAtTime(0.0001, at);
+      g.gain.exponentialRampToValueAtTime(peak, at + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + decay);
+      g.connect(c.destination);
+      return g;
+    }
+    function mallet(freq, delay) {
+      var c = App.audio();
+      if (!c || quiet()) return;
+      var t = c.currentTime + (delay || 0);
+      [[1, 0.32], [4, 0.05], [2.01, 0.06]].forEach(function (h) {
+        var o = c.createOscillator();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(freq * h[0], t);
+        o.connect(env(c, t, h[1], h[0] === 1 ? 1.3 : 0.35));
+        o.start(t); o.stop(t + 1.4);
+      });
+    }
+    var DRUMS = {
+      drum: function (c, t) {
+        var o = c.createOscillator();
+        o.frequency.setValueAtTime(160, t);
+        o.frequency.exponentialRampToValueAtTime(48, t + 0.18);
+        o.connect(env(c, t, 0.7, 0.35)); o.start(t); o.stop(t + 0.4);
+      },
+      clap: function (c, t) {
+        [0, 0.012, 0.024].forEach(function (d) {
+          var s = c.createBufferSource(); s.buffer = noise(c);
+          var f = c.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1400; f.Q.value = 0.9;
+          s.connect(f); f.connect(env(c, t + d, 0.5, 0.12)); s.start(t + d); s.stop(t + d + 0.15);
+        });
+      },
+      shaker: function (c, t) {
+        var s = c.createBufferSource(); s.buffer = noise(c);
+        var f = c.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 6000;
+        s.connect(f); f.connect(env(c, t, 0.35, 0.09)); s.start(t); s.stop(t + 0.12);
+      },
+      bell: function (c, t) {
+        [[1568, 0.22, 1.6], [2350, 0.08, 0.8], [3920, 0.04, 0.5]].forEach(function (p) {
+          var o = c.createOscillator(); o.frequency.value = p[0];
+          o.connect(env(c, t, p[1], p[2])); o.start(t); o.stop(t + p[2] + 0.05);
+        });
+      }
+    };
+    function hitDrum(name, delay) {
+      var c = App.audio();
+      if (!c || quiet()) return;
+      DRUMS[name](c, c.currentTime + (delay || 0));
+    }
+
+    /* ---------------- xylophone ---------------- */
+    function buildXylo(host, count, onHit) {
+      var notes = count === 8 ? NOTES : count === 6 ? NOTES.slice(0, 6) : [NOTES[0], NOTES[2], NOTES[4], NOTES[7]];
+      // listeners are attached once per xylophone; a rebuild only swaps the bars and callback
+      var st = host._xylo || (host._xylo = wireXylo(host));
+      st.notes = notes;
+      st.onHit = onHit;
+      host.innerHTML = '';
+      notes.forEach(function (nt, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'xbar';
+        b.style.background = nt.c;
+        b.style.height = (100 - i * (36 / Math.max(1, notes.length - 1))) + '%';
+        b.setAttribute('aria-label', 'Note ' + nt.n);
+        b.dataset.i = i;
+        b.innerHTML = '<span class="note" aria-hidden="true">' + nt.n + '</span>';
+        host.appendChild(b);
+      });
+      return { notes: notes, light: function (i) {
+        var bar = host.children[i];
+        bar.classList.add('lit');
+        mallet(notes[i].f);
+        setTimeout(function () { bar.classList.remove('lit'); }, 380);
+      } };
+    }
+
+    // Every finger plays, and sliding across the bars plays each one it touches.
+    function wireXylo(host) {
+      var st = { notes: [], onHit: null }, down = {};
+      function play(bar) {
+        var i = +bar.dataset.i;
+        mallet(st.notes[i].f);
+        bar.classList.add('hit');
+        setTimeout(function () { bar.classList.remove('hit'); }, 140);
+        if (st.onHit) st.onHit(i);
+      }
+      function hit(bar, pid) {
+        if (!bar || down[pid] === bar) return;
+        down[pid] = bar;
+        play(bar);
+      }
+      host.addEventListener('pointerdown', function (e) {
+        var bar = e.target.closest('.xbar');
+        if (!bar) return;
+        e.preventDefault();
+        try { host.releasePointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+        hit(bar, e.pointerId);
+      });
+      host.addEventListener('pointermove', function (e) {
+        if (!(e.pointerId in down)) return;
+        var el = document.elementFromPoint(e.clientX, e.clientY);
+        var bar = el && el.closest && el.closest('.xbar');
+        if (bar && host.contains(bar)) hit(bar, e.pointerId);
+      });
+      function up(e) { delete down[e.pointerId]; }
+      host.addEventListener('pointerup', up);
+      host.addEventListener('pointercancel', up);
+      host.addEventListener('keydown', function (e) {
+        var bar = e.target.closest && e.target.closest('.xbar');
+        if (bar && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); play(bar); }
+      });
+      return st;
+    }
+
+    // Letters on a computer keyboard play the bars too.
+    var KEYS = 'asdfghjk';
+    document.addEventListener('keydown', function (e) {
+      if (mode !== 'play' || e.repeat || e.ctrlKey || e.metaKey) return;
+      var i = KEYS.indexOf(e.key.toLowerCase());
+      if (i < 0) return;
+      var bar = document.getElementById('xylo').children[i];
+      mallet(NOTES[i].f);
+      bar.classList.add('hit');
+      setTimeout(function () { bar.classList.remove('hit'); }, 140);
+    });
+
+    buildXylo(document.getElementById('xylo'), 8);
+    var PADS = [['drum', '🥁', '#E53935'], ['clap', '👏', '#FB8C00'], ['shaker', '🌰', '#43A047'], ['bell', '🔔', '#1E88E5']];
+    var padsEl = document.getElementById('pads');
+    PADS.forEach(function (p) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'pad-btn';
+      b.style.background = p[2];
+      b.textContent = p[1];
+      b.setAttribute('aria-label', p[0]);
+      b.addEventListener('pointerdown', function () {
+        hitDrum(p[0]);
+        b.classList.add('hit');
+        setTimeout(function () { b.classList.remove('hit'); }, 120);
+      });
+      padsEl.appendChild(b);
+    });
+
+    /* ---------------- compose ---------------- */
+    var STEPS = 8, song = [], playing = false, slow = true, stepAt = 0, songTimer = null;
+    var songEl = document.getElementById('song');
+    function buildSong() {
+      song = PENTA.map(function () { return new Array(STEPS).fill(false); });
+      song.push(new Array(STEPS).fill(false));   // drum row
+      songEl.style.gridTemplateColumns = '32px repeat(' + STEPS + ', auto)';
+      songEl.innerHTML = '';
+      song.forEach(function (row, r) {
+        var label = document.createElement('span');
+        label.className = 'row-label';
+        label.textContent = r === PENTA.length ? '🥁' : '';
+        if (r < PENTA.length) { label.style.color = PENTA_COLORS[r]; label.textContent = '●'; }
+        songEl.appendChild(label);
+        row.forEach(function (_, s) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.dataset.r = r; b.dataset.s = s;
+          if (r === PENTA.length) b.classList.add('beat');
+          b.setAttribute('aria-label', (r === PENTA.length ? 'Drum' : 'Note ' + (PENTA.length - r)) + ', beat ' + (s + 1));
+          b.setAttribute('aria-pressed', 'false');
+          songEl.appendChild(b);
+        });
+      });
+    }
+    songEl.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      var r = +b.dataset.r, s = +b.dataset.s;
+      song[r][s] = !song[r][s];
+      b.classList.toggle('on', song[r][s]);
+      b.setAttribute('aria-pressed', String(song[r][s]));
+      b.style.background = song[r][s] && r < PENTA.length ? PENTA_COLORS[r] : '';
+      if (song[r][s]) { if (r < PENTA.length) mallet(PENTA[r]); else hitDrum('drum'); }
+    });
+    function tick() {
+      songEl.querySelectorAll('.playhead').forEach(function (b) { b.classList.remove('playhead'); });
+      song.forEach(function (row, r) {
+        var b = songEl.querySelector('button[data-r="' + r + '"][data-s="' + stepAt + '"]');
+        if (b) b.classList.add('playhead');
+        if (row[stepAt]) { if (r < PENTA.length) mallet(PENTA[r]); else hitDrum('drum'); }
+      });
+      stepAt = (stepAt + 1) % STEPS;
+      songTimer = setTimeout(tick, slow ? 460 : 300);
+    }
+    function setPlaying(on) {
+      playing = on;
+      clearTimeout(songTimer);
+      songEl.querySelectorAll('.playhead').forEach(function (b) { b.classList.remove('playhead'); });
+      document.getElementById('c-play').innerHTML = on ? '<span class="emoji">⏹</span> Stop' : '<span class="emoji">▶️</span> Play';
+      App.keepAwake(on);
+      if (on) { stepAt = 0; tick(); }
+    }
+    document.getElementById('c-play').addEventListener('click', function () {
+      var any = song.some(function (row) { return row.some(Boolean); });
+      if (!playing && !any) { say('Tap some squares to make a song!'); return; }
+      setPlaying(!playing);
+    });
+    document.getElementById('c-tempo').addEventListener('click', function () {
+      slow = !slow;
+      this.textContent = slow ? '🐢' : '🐇';
+      say(slow ? 'Slow' : 'Fast');
+    });
+    document.getElementById('c-clear').addEventListener('click', function () { setPlaying(false); buildSong(); });
+    buildSong();
+
+    /* ---------------- copy me ---------------- */
+    var echoX = null, echoSeq = [], echoAt = 0, echoLen = 2, echoWins = 0, echoBusy = false, echoToken = 0;
+    var echoMsg = document.getElementById('echo-msg'), echoDots = document.getElementById('echo-dots');
+    function echoReset() {
+      var L = LEVELS[level];
+      echoX = buildXylo(document.getElementById('echo-xylo'), L.echoBars, echoTap);
+      echoLen = L.echoStart;
+      echoWins = 0;
+    }
+    function echoNew() {
+      echoSeq = [];
+      for (var i = 0; i < echoLen; i++) echoSeq.push(Math.floor(Math.random() * echoX.notes.length));
+      echoPlay();
+    }
+    function echoPlay() {
+      var my = ++echoToken;
+      echoBusy = true;
+      echoAt = 0;
+      echoMsg.textContent = 'Listen… 👂';
+      echoDots.textContent = '';
+      var i = 0;
+      setTimeout(function step() {
+        if (my !== echoToken) return;
+        if (i >= echoSeq.length) {
+          echoBusy = false;
+          echoMsg.textContent = 'Your turn!';
+          say('Your turn!');
+          return;
+        }
+        echoX.light(echoSeq[i]);
+        i++;
+        setTimeout(step, 600);
+      }, 700);
+    }
+    function echoTap(i) {
+      if (echoBusy) return;
+      if (i === echoSeq[echoAt]) {
+        echoAt++;
+        echoDots.textContent = new Array(echoAt + 1).join('🟢') + new Array(echoSeq.length - echoAt + 1).join('⚪');
+        if (echoAt === echoSeq.length) {
+          echoBusy = true;
+          echoWins++;
+          App.sfx('yay');
+          echoMsg.textContent = 'You copied it! 🎉';
+          say(['You copied it!', 'Great listening!', 'Perfect!'][echoWins % 3]);
+          if (echoWins % 2 === 0 && echoLen < 8) echoLen++;
+          setTimeout(echoNew, 2200);
+        }
+      } else {
+        echoBusy = true;
+        App.sfx('oops');
+        echoMsg.textContent = 'Listen again!';
+        say('Oops! Listen again.');
+        setTimeout(echoPlay, 1300);
+      }
+    }
+    document.getElementById('echo-again').addEventListener('click', function () { if (echoSeq.length) echoPlay(); });
+
+    /* ---------------- freeze dance ---------------- */
+    var danceOn = false, danceTimer = null, beatTimer = null, round = 0, melody = [];
+    var dancer = document.getElementById('dancer'), danceMsg = document.getElementById('dance-msg');
+    function makeMelody() {
+      var scale = [523.25, 587.33, 659.25, 783.99, 880.0, 1046.5], k = 2;
+      melody = [];
+      for (var i = 0; i < 16; i++) {
+        k = Math.max(0, Math.min(scale.length - 1, k + [-1, 0, 1, 1, -1, 2, -2][Math.floor(Math.random() * 7)]));
+        melody.push(i % 4 === 3 && Math.random() < 0.5 ? 0 : scale[k]);
+      }
+    }
+    function startBeat() {
+      var i = 0;
+      clearInterval(beatTimer);
+      beatTimer = setInterval(function () {
+        if (melody[i % 16]) mallet(melody[i % 16]);
+        if (i % 4 === 0) hitDrum('drum');
+        if (i % 4 === 2) hitDrum('clap');
+        if (i % 2 === 1) hitDrum('shaker');
+        i++;
+      }, 230);
+    }
+    function dance() {
+      if (!danceOn) return;
+      round++;
+      if (round > 8) { stopDance(true); return; }
+      makeMelody();
+      startBeat();
+      dancer.textContent = '💃🏽';
+      dancer.classList.add('moving');
+      danceMsg.textContent = 'Dance! 🎶';
+      danceMsg.classList.remove('freeze-flash');
+      danceTimer = setTimeout(freeze, 4500 + Math.random() * 6500);
+    }
+    function freeze() {
+      if (!danceOn) return;
+      clearInterval(beatTimer);
+      dancer.textContent = '🧊';
+      dancer.classList.remove('moving');
+      danceMsg.textContent = 'FREEZE!';
+      danceMsg.classList.add('freeze-flash');
+      say('Freeze!', 1);
+      danceTimer = setTimeout(dance, 3500);
+    }
+    function stopDance(finished) {
+      danceOn = false;
+      clearTimeout(danceTimer);
+      clearInterval(beatTimer);
+      App.keepAwake(false);
+      dancer.classList.remove('moving');
+      dancer.textContent = finished ? '🏆' : '💃🏽';
+      danceMsg.classList.remove('freeze-flash');
+      danceMsg.textContent = finished ? 'Great dancing and freezing!' : 'Dance when the music plays. Freeze when it stops!';
+      if (finished) { App.sfx('yay'); say('Great dancing! You froze like a statue!'); }
+      document.getElementById('dance-go').innerHTML = '<span class="emoji">🎵</span> ' + (finished ? 'Dance again!' : 'Start the music!');
+    }
+    document.getElementById('dance-go').addEventListener('click', function () {
+      if (danceOn) { stopDance(false); return; }
+      danceOn = true;
+      round = 0;
+      App.keepAwake(true);
+      this.innerHTML = '<span class="emoji">⏹</span> Stop';
+      say('Dance! And freeze when the music stops!');
+      setTimeout(dance, 2200);
+    });
+
+    /* ---------------- modes ---------------- */
+    function setMode(m) {
+      if (mode === 'compose' && m !== 'compose') setPlaying(false);
+      if (mode === 'dance' && m !== 'dance') stopDance(false);
+      if (mode === 'echo') echoToken++;
+      mode = m;
+      document.querySelectorAll('.mode-tab').forEach(function (t) { t.setAttribute('aria-selected', String(t.dataset.mode === m)); });
+      ['play', 'compose', 'echo', 'dance'].forEach(function (x) { document.getElementById('m-' + x).hidden = x !== m; });
+      document.getElementById('level').hidden = m !== 'echo';
+      if (m === 'play') say('Tap the bars! Slide your finger across them!');
+      if (m === 'compose') say('Tap the squares, then press play!');
+      if (m === 'echo') { echoReset(); say('Listen, then copy my tune!'); setTimeout(echoNew, 1600); }
+      if (m === 'dance') say('Press start, and dance!');
+    }
+    document.querySelectorAll('.mode-tab').forEach(function (t) {
+      t.addEventListener('click', function () { if (t.dataset.mode !== mode) setMode(t.dataset.mode); });
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { setPlaying(false); stopDance(false); }
+    });
+
+    var lv = App.levelControl(document.getElementById('level'), 'music', LEVELS, function (l) {
+      level = l;
+      if (mode === 'echo') { echoToken++; echoReset(); echoNew(); }
+    });
+    level = lv.get();
+    document.getElementById('level').hidden = true;
+  </script>
+</body>
+</html>

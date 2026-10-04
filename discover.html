@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=14">
+  <link rel="stylesheet" href="css/style.css?v=15">
   <style>
     .dc-wrap { max-width: 640px; margin: 0 auto; }
     .dc-scene { text-align: center; padding: 6px 0; animation: fadeIn .4s ease-out; }
@@ -99,23 +99,14 @@
       <p class="sub">Tap and see what happens!</p>
       <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
     </header>
-    <nav class="nav-links" aria-label="Activities">
-      <a href="index.html" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
-      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
-      <a href="find.html" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
-      <a href="discover.html" class="active" aria-current="page" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
-      <a href="trace.html" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
-      <a href="stories.html" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
-      <a href="print.html" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
-      <a href="worksheet.html" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
-    </nav>
+    <nav class="nav-links" aria-label="Activities" data-page="discover"></nav>
 
     <main class="dc-wrap" id="dc-area"></main>
     <div class="dc-stars-c" id="dc-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/common.js?v=14"></script>
-  <script src="js/telugu.js?v=14"></script>
+  <script src="js/common.js?v=15"></script>
+  <script src="js/telugu.js?v=15"></script>
   <script>
     var SCENES = [
       { start: '\u{1F95A}', end: '\u{1F423}', word: 'CHICK', telugu: '\u{C15}\u{C4A}\u{C21}\u{C3F}\u{C2A}\u{C3F}\u{C32}\u{C4D}\u{C32}', action: 'The egg cracked! A baby chick!', prompt: 'Can you say Cheep Cheep?', color: '#F5A623' },

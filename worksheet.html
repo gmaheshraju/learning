@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=14">
+  <link rel="stylesheet" href="css/style.css?v=15">
   <style>
     .ws-wrap { max-width: 900px; margin: 0 auto; }
     .ws-intro { text-align: center; margin-bottom: 14px; animation: slideUp .5s ease-out; }
@@ -96,16 +96,7 @@
       <h1><em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Worksheets</h1>
       <p class="sub">Print and draw lines to match!</p>
     </header>
-    <nav class="nav-links" aria-label="Activities">
-      <a href="index.html" style="--c:#E85D75"><span class="ni" aria-hidden="true">🧩</span>Match</a>
-      <a href="learn.html" style="--c:#F5A623"><span class="ni" aria-hidden="true">📚</span>Learn</a>
-      <a href="find.html" style="--c:#7EC850"><span class="ni" aria-hidden="true">🔍</span>Find It!</a>
-      <a href="discover.html" style="--c:#4DADEA"><span class="ni" aria-hidden="true">✨</span>Discover</a>
-      <a href="trace.html" style="--c:#B07CD8"><span class="ni" aria-hidden="true">✏️</span>Trace</a>
-      <a href="stories.html" style="--c:#FF8A65"><span class="ni" aria-hidden="true">📖</span>Stories</a>
-      <a href="print.html" style="--c:#26A69A"><span class="ni" aria-hidden="true">🖨️</span>Print</a>
-      <a href="worksheet.html" class="active" aria-current="page" style="--c:#AB47BC"><span class="ni" aria-hidden="true">📝</span>Worksheets</a>
-    </nav>
+    <nav class="nav-links" aria-label="Activities" data-page="worksheet"></nav>
 
     <main class="ws-wrap">
       <div class="ws-intro">
@@ -119,8 +110,8 @@
     </main>
   </div>
 
-  <script src="js/common.js?v=14"></script>
-  <script src="js/data.js?v=14"></script>
+  <script src="js/common.js?v=15"></script>
+  <script src="js/data.js?v=15"></script>
   <script>
     const WS_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850'];
     const WS_BGS = ['#FFF0F2','#FFF7EA','#EBF5FF','#F0FAE8'];
