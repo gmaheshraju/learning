@@ -1,0 +1,5 @@
+.github/**
+.gitignore
+.assetsignore
+wrangler.toml
+CODE-REVIEW.md

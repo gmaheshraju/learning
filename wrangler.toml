@@ -1,0 +1,11 @@
+# Static-asset Worker behind heshvi.curiousengineers.in
+# No `main`: this serves files only, there is no server-side code.
+#
+# html_handling and not_found_handling are deliberately left at their defaults,
+# which is what the Worker already does today:
+#   /learn.html -> 307 /learn, /learn/ -> 307 /learn, unknown path -> empty 404
+name = "learning"
+compatibility_date = "2026-10-10"
+
+[assets]
+directory = "."
