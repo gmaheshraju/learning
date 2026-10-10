@@ -1,6 +1,9 @@
+# wrangler publishes the repo root, and does NOT exclude these on its own.
+.git/**
 .github/**
+.wrangler/**
+.claude/**
 .gitignore
 .assetsignore
 wrangler.toml
 CODE-REVIEW.md
-.wrangler/**
