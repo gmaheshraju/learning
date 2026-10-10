@@ -3,3 +3,4 @@
 .assetsignore
 wrangler.toml
 CODE-REVIEW.md
+.wrangler/**
