@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>For Grown-ups — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <title>What helps at each age · Heshvi</title>
+  <meta name="description" content="Milestones, and what builds creativity and problem solving at each age. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,43 +18,42 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .guide { max-width: 860px; margin: 0 auto; }
-    .g-intro { text-align: center; font-size: 16px; font-weight: 700; color: var(--textM); line-height: 1.55; margin: 0 auto 14px; max-width: 640px; }
-    .g-tabs { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-    .g-tab {
-      min-height: var(--tap); padding: 0 18px; border-radius: 999px; border: 2px solid var(--line);
-      background: var(--card); font-size: 16px; font-weight: 900; color: var(--textM); cursor: pointer;
-    }
-    .g-tab[aria-selected="true"] { background: #F5A623; border-color: #F5A623; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
+    .g-intro { text-align: center; font-size: 17px; font-weight: 700; color: var(--ink-2); line-height: 1.55; margin: 0 auto 16px; max-width: 640px; }
+    .g-tabs { display: flex; width: 100%; max-width: 560px; margin: 0 auto 18px; }
+    .g-tabs .g-tab { flex: 1; padding: 0 8px; }
     .g-band { animation: fadeIn .35s ease-out; }
-    .g-band h2 { font-size: clamp(22px, 3vmin, 32px); font-weight: 900; text-align: center; margin-bottom: 4px; }
-    .g-band .g-lead { text-align: center; font-size: 15px; color: var(--textM); font-weight: 700; margin-bottom: 14px; }
-    .g-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 12px; }
-    .g-card {
-      background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 14px 16px;
-      box-shadow: 0 2px 10px var(--sh);
-    }
-    .g-card h3 { font-size: 17px; font-weight: 900; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .g-band h2 { font-family: var(--display); font-size: clamp(24px, 3.2vmin, 34px); font-weight: 600; text-align: center; margin-bottom: 4px; }
+    .g-band .g-lead { text-align: center; font-size: 16px; color: var(--ink-2); font-weight: 700; margin: 0 auto 16px; max-width: 560px; }
+    .g-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 14px; }
+    .g-card { background: var(--surface); border-radius: var(--r-lg); padding: 16px 18px; box-shadow: var(--shadow-sm); }
+    .g-card h3 { font-family: var(--display); font-size: 19px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
     .g-card h3 .emoji { font-size: 22px; }
     .g-card ul { padding-left: 20px; }
-    .g-card li { font-size: 15px; line-height: 1.5; margin-bottom: 6px; color: var(--text); }
-    .g-card li small { color: var(--textL); font-weight: 700; }
+    .g-card li { font-size: 15.5px; line-height: 1.55; margin-bottom: 7px; color: var(--ink); font-weight: 600; }
+    .g-card li b { font-weight: 900; }
+    .g-card li small { color: var(--ink-3); font-weight: 700; }
     .g-try { display: flex; flex-wrap: wrap; gap: 8px; }
     .g-try a {
-      display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px;
-      border-radius: 999px; border: 2px solid var(--line); background: var(--bg);
-      text-decoration: none; color: var(--text); font-weight: 800; font-size: 14px;
+      display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 5px;
+      border-radius: 999px; background: var(--surface-2); text-decoration: none; color: var(--ink);
+      font-family: var(--display); font-weight: 600; font-size: 15px; transition: transform .15s var(--spring);
     }
-    .g-try a .emoji { font-size: 18px; }
+    .g-try a .g-ic { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--c); flex: none; }
+    .g-try a .g-ic svg { width: 26px; height: 26px; }
+    .g-try a:active { transform: scale(.95); }
     .g-wide { grid-column: 1 / -1; }
     .g-sources { margin-top: 18px; }
     .g-sources li { font-size: 13px; }
     .g-sources a { color: var(--p2ink); }
     @media (hover: hover) and (pointer: fine) {
-      .g-tab:hover, .g-try a:hover { border-color: #F5A623; }
+      .g-try a:hover { transform: translateY(-2px); }
     }
     @media print {
       .g-tabs { display: none; }
@@ -64,16 +63,11 @@
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">F</em><em style="color:#F5A623">o</em><em style="color:#7EC850">r</em> <em style="color:#4DADEA">G</em><em style="color:#B07CD8">r</em><em style="color:#E85D75">o</em><em style="color:#F5A623">w</em><em style="color:#7EC850">n</em><em style="color:#4DADEA">-</em><em style="color:#B07CD8">u</em><em style="color:#E85D75">p</em><em style="color:#F5A623">s</em></h1>
-      <p class="sub">What helps creativity and problem solving at each age</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="guide"></nav>
+    <header class="topbar" data-page="guide"></header>
     <main class="guide">
       <p class="g-intro">Children become creative and good problem solvers through play: trying things, getting stuck, trying another way, and talking about it with you. Here is what tends to help most at each age, and which games in this app match.</p>
 
-      <div class="g-tabs" role="tablist" aria-label="Age">
+      <div class="seg g-tabs" role="tablist" aria-label="Age">
         <button type="button" class="g-tab" role="tab" data-band="b2" aria-selected="true">2–3 years</button>
         <button type="button" class="g-tab" role="tab" data-band="b3" aria-selected="false">3–4 years</button>
         <button type="button" class="g-tab" role="tab" data-band="b4" aria-selected="false">4–5 years</button>
@@ -82,10 +76,10 @@
 
       <section class="g-band" id="b2" role="tabpanel" aria-label="2 to 3 years">
         <h2>2–3 years: little explorer</h2>
-        <p class="g-lead">Everything is cause and effect. Short, repeatable play where she is in charge.</p>
+        <p class="g-lead">Everything is cause and effect. Short, repeatable play where your child is in charge.</p>
         <div class="g-grid">
           <div class="g-card">
-            <h3><span class="emoji">🌱</span> What she is learning</h3>
+            <h3><span class="emoji">🌱</span> What they are learning</h3>
             <ul>
               <li>Pretends with objects, like feeding a block to a doll. <small>(CDC, 30 months)</small></li>
               <li>Solves simple problems, like standing on a stool to reach something. <small>(CDC, 30 months)</small></li>
@@ -96,7 +90,7 @@
           <div class="g-card">
             <h3><span class="emoji">💡</span> What helps most</h3>
             <ul>
-              <li><b>Trying again in a new way.</b> Toddler play that asks her to focus on a goal and try another way when the first try fails builds self-control and flexible thinking. <small>(Harvard Center on the Developing Child)</small></li>
+              <li><b>Trying again in a new way.</b> Toddler play that asks a child to focus on a goal and try another way when the first try fails builds self-control and flexible thinking. <small>(Harvard Center on the Developing Child)</small></li>
               <li><b>Simple puzzles.</b> Puzzle play between ages 2 and 4 predicts better spatial skills at 4½. <small>(Levine et al., 2012)</small></li>
               <li><b>Sorting by one thing</b>, like colour, and <b>mess-free making</b>: scribbling, stamping, colour mixing. The process matters, not the result.</li>
               <li><b>Stop-and-go songs</b> like freeze dance practise self-control. <small>(Harvard)</small></li>
@@ -106,7 +100,7 @@
           <div class="g-card">
             <h3><span class="emoji">🤝</span> Play together</h3>
             <ul>
-              <li>Narrate what she does: "You put the red one in the red basket!"</li>
+              <li>Narrate what they do: "You put the red one in the red basket!"</li>
               <li>Ask "What will you do next?" and "Is there another way?" <small>(Harvard)</small></li>
               <li>Praise trying and effort, not being right.</li>
               <li>Keep it to a few minutes and stop while it is still fun.</li>
@@ -129,10 +123,10 @@
 
       <section class="g-band" id="b3" role="tabpanel" aria-label="3 to 4 years" hidden>
         <h2>3–4 years: storyteller</h2>
-        <p class="g-lead">Pretend play and stories take off. She can start following and switching simple rules.</p>
+        <p class="g-lead">Pretend play and stories take off. Children start following and switching simple rules.</p>
         <div class="g-grid">
           <div class="g-card">
-            <h3><span class="emoji">🌱</span> What she is learning</h3>
+            <h3><span class="emoji">🌱</span> What they are learning</h3>
             <ul>
               <li>Names a few colours and tells what comes next in a well-known story. <small>(CDC, 4 years)</small></li>
               <li>Draws a person with three or more body parts. <small>(CDC, 4 years)</small></li>
@@ -151,10 +145,10 @@
           <div class="g-card">
             <h3><span class="emoji">🤝</span> Play together</h3>
             <ul>
-              <li>Ask about her pictures: "Tell me about it." Write her story down and read it back.</li>
+              <li>Ask about their pictures: "Tell me about it." Write their story down and read it back.</li>
               <li>Plan before playing: "Who will be in your scene? What will happen?" <small>(Harvard's "play plans")</small></li>
               <li>Tell stories in Telugu too; bilingual storytelling is encouraged. <small>(Harvard)</small></li>
-              <li>Let her be the teacher: "Show me how you did it."</li>
+              <li>Let them be the teacher: "Show me how you did it."</li>
             </ul>
           </div>
           <div class="g-card">
@@ -174,14 +168,14 @@
 
       <section class="g-band" id="b4" role="tabpanel" aria-label="4 to 5 years" hidden>
         <h2>4–5 years: planner</h2>
-        <p class="g-lead">She can hold a plan in mind for a few steps, explain her thinking, and fix her own mistakes.</p>
+        <p class="g-lead">Children can hold a plan in mind for a few steps, explain their thinking, and fix their own mistakes.</p>
         <div class="g-grid">
           <div class="g-card">
-            <h3><span class="emoji">🌱</span> What she is learning</h3>
+            <h3><span class="emoji">🌱</span> What they are learning</h3>
             <ul>
               <li>Counts to 10 and names some numbers from 1 to 5. <small>(CDC, 5 years)</small></li>
               <li>Pays attention for 5 to 10 minutes during activities. <small>(CDC, 5 years)</small></li>
-              <li>Writes some letters in her name; uses words like yesterday and tomorrow. <small>(CDC, 5 years)</small></li>
+              <li>Writes some letters in their name; uses words like yesterday and tomorrow. <small>(CDC, 5 years)</small></li>
             </ul>
           </div>
           <div class="g-card">
@@ -191,15 +185,15 @@
               <li><b>Spatial play</b>: bigger puzzles, mirror and symmetry drawing.</li>
               <li><b>Harder patterns</b>: ABC, AABB, finding the missing piece in the middle.</li>
               <li><b>Explaining reasons</b>: "Why doesn't this one belong?" There can be more than one good answer.</li>
-              <li><b>Making up</b> tunes, patterns and pictures of her own.</li>
+              <li><b>Making up</b> tunes, patterns and pictures of their own.</li>
             </ul>
           </div>
           <div class="g-card">
             <h3><span class="emoji">🤝</span> Play together</h3>
             <ul>
-              <li>When she is stuck, ask "What could we try?" before helping.</li>
+              <li>When they are stuck, ask "What could we try?" before helping.</li>
               <li>Treat mistakes as clues: "The bunny bumped. Which arrow should change?"</li>
-              <li>Keep a gallery of her art and talk about it later.</li>
+              <li>Keep a gallery of their art and talk about it later.</li>
             </ul>
           </div>
           <div class="g-card">
@@ -219,12 +213,12 @@
 
       <section class="g-band" id="b5" role="tabpanel" aria-label="5 to 7 years" hidden>
         <h2>5–7 years: inventor</h2>
-        <p class="g-lead">Games with rules, logic puzzles and real coding. She can set her own challenges.</p>
+        <p class="g-lead">Games with rules, logic puzzles and real coding. Children can set their own challenges.</p>
         <div class="g-grid">
           <div class="g-card">
-            <h3><span class="emoji">🌱</span> What she is learning</h3>
+            <h3><span class="emoji">🌱</span> What they are learning</h3>
             <ul>
-              <li>Starts to enjoy games that have rules, and to keep the rules herself. <small>(Harvard, 5–7)</small></li>
+              <li>Starts to enjoy games that have rules, and to keep the rules themselves. <small>(Harvard, 5–7)</small></li>
               <li>Can follow and make plans several moves ahead. <small>(Harvard, 5–7)</small></li>
               <li>Ready for simple programming: ScratchJr was designed for ages 5 to 7. <small>(Bers)</small></li>
             </ul>
@@ -242,7 +236,7 @@
           <div class="g-card">
             <h3><span class="emoji">🤝</span> Play together</h3>
             <ul>
-              <li>Step back: let her choose how hard to make it. <small>(Harvard: reduce the adult role as soon as possible)</small></li>
+              <li>Step back: let them choose how hard to make it. <small>(Harvard: reduce the adult role as soon as possible)</small></li>
               <li>Talk about strategy: "How did you remember where it was?"</li>
               <li>Take turns, and celebrate fixing mistakes as much as winning.</li>
             </ul>
@@ -288,7 +282,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
   <script>
     var tabs = document.querySelectorAll('.g-tab');
     function show(band) {
@@ -309,7 +303,8 @@
         if (!a) return;
         var link = document.createElement('a');
         link.href = a.file;
-        link.innerHTML = '<span class="emoji" aria-hidden="true">' + a.emoji + '</span>' + a.name;
+        link.style.setProperty('--c', a.color);
+        link.innerHTML = '<span class="g-ic" aria-hidden="true">' + a.art + '</span>' + a.name;
         box.appendChild(link);
       });
     });

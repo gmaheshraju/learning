@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Trace Letters — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <title>Trace · Heshvi</title>
+  <meta name="description" content="Letters and numbers. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,8 +18,11 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@700&family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Andika:wght@700&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@700&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@700&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .tr-wrap {
       --size: clamp(240px, min(90vw, 100dvh - 360px), 600px);
@@ -27,31 +30,17 @@
       grid-template-areas: "label" "modes" "canvas" "progress" "controls" "letters";
       justify-items: center; max-width: 1180px; margin: 0 auto;
     }
-    .tr-top { grid-area: label; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 2px 0 6px; animation: slideUp .4s ease-out; }
-    .tr-letter-label { font-size: clamp(18px, 3vmin, 30px); font-weight: 900; color: var(--textM); }
-    .tr-letter-label span { color: var(--p0ink); }
-    .tr-say {
-      flex: none; width: 40px; height: 40px; border-radius: 50%;
-      border: 2px solid var(--line); background: var(--card); cursor: pointer;
-      font-family: var(--emoji); font-size: 18px; display: grid; place-items: center;
-    }
-
-    .tr-mode-toggle { grid-area: modes; display: flex; justify-content: center; gap: 8px; margin: 0 0 8px; }
-    .tr-mode-btn {
-      min-height: 40px; min-width: 64px; padding: 0 16px; border-radius: 999px;
-      border: 2px solid var(--line); background: var(--card);
-      font-size: clamp(15px, 2vmin, 19px); font-weight: 900;
-      cursor: pointer; color: var(--textL); transition: border-color .2s, color .2s, background-color .2s;
-    }
-    .tr-mode-btn.active { border-color: #E85D75; color: var(--p0ink); background: rgba(232,93,117,.1); }
+    .tr-top { grid-area: label; margin-bottom: 8px; }
+    .tr-letter-label span { color: var(--accent); font-size: 1.2em; }
+    .tr-mode-toggle { grid-area: modes; margin: 0 0 10px; }
+    .tr-mode-btn { min-width: 70px; font-size: 18px; }
 
     .tr-canvas-wrap {
       grid-area: canvas;
       position: relative; width: var(--size); height: var(--size);
-      background: var(--card);
-      border: clamp(3px, .6vmin, 6px) solid var(--line);
-      border-radius: clamp(22px, 4vmin, 36px);
-      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      background: #fff;
+      border-radius: clamp(24px, 4vmin, 38px);
+      box-shadow: var(--shadow-md);
       overflow: hidden;
       touch-action: none;
       -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
@@ -65,7 +54,7 @@
       width: min(var(--size), 360px); height: 14px; margin: 12px auto 4px;
       background: var(--line); border-radius: 8px; overflow: hidden;
     }
-    .tr-progress-fill { height: 100%; width: 0%; background: #7EC850; border-radius: 8px; transition: width .25s; }
+    .tr-progress-fill { height: 100%; width: 0%; background: var(--good); border-radius: 8px; transition: width .25s; }
 
     .tr-controls { grid-area: controls; display: flex; justify-content: center; gap: 12px; margin: 8px 0; }
     .tr-controls .btn { font-size: clamp(15px, 2vmin, 20px); }
@@ -79,19 +68,19 @@
     }
     .tr-letter-btn {
       width: var(--tap); height: var(--tap);
-      border: 2px solid var(--line); border-radius: 12px;
-      background: var(--card); font-size: clamp(17px, 2.4vmin, 22px);
-      font-weight: 900; cursor: pointer; color: var(--text);
+      border: 3px solid transparent; border-radius: 14px;
+      background: var(--surface); box-shadow: var(--shadow-sm); font-family: var(--display); font-size: clamp(18px, 2.4vmin, 23px);
+      font-weight: 600; cursor: pointer; color: var(--ink);
       transition: border-color .2s, background-color .2s, color .2s;
       display: flex; align-items: center; justify-content: center;
     }
-    .tr-letter-btn.done { border-color: #7EC850; background: rgba(126,200,80,.16); color: var(--p3ink); }
-    .tr-letter-btn.active { border-color: #E85D75; background: rgba(232,93,117,.12); color: var(--p0ink); }
+    .tr-letter-btn.done { border-color: var(--good); background: var(--ok-bg); color: var(--p3ink); }
+    .tr-letter-btn.active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)); color: var(--ink); }
 
     .tr-stars-c { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
 
     @media (hover: hover) and (pointer: fine) {
-      .tr-letter-btn:hover, .tr-mode-btn:hover { border-color: #F5A623; }
+      .tr-letter-btn:hover { border-color: var(--accent); }
     }
 
     /* Tablets held upright: leave room for the letter strip under the canvas */
@@ -124,20 +113,15 @@
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">T</em><em style="color:#F5A623">r</em><em style="color:#7EC850">a</em><em style="color:#4DADEA">c</em><em style="color:#B07CD8">e</em></h1>
-      <p class="sub">Trace letters with your finger!</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="trace"></nav>
+    <header class="topbar" data-page="trace"></header>
 
     <main class="tr-wrap" id="tr-area">
-      <div class="tr-top">
-        <div class="tr-letter-label" id="tr-label" aria-live="polite">Trace the letter <span id="tr-current">A</span></div>
-        <button type="button" class="tr-say" id="tr-say" aria-label="Hear it again">🔊</button>
+      <div class="prompt-row tr-top">
+        <span class="prompt-text tr-letter-label" id="tr-label" aria-live="polite">Trace the letter <span id="tr-current">A</span></span>
+        <button type="button" class="say-btn" id="tr-say" aria-label="Hear it again"></button>
       </div>
 
-      <div class="tr-mode-toggle" role="group" aria-label="What to trace">
+      <div class="seg tr-mode-toggle" role="group" aria-label="What to trace">
         <button type="button" class="tr-mode-btn active" data-mode="upper" aria-pressed="true">ABC</button>
         <button type="button" class="tr-mode-btn" data-mode="lower" aria-pressed="false">abc</button>
         <button type="button" class="tr-mode-btn" data-mode="num" aria-pressed="false">123</button>
@@ -153,8 +137,8 @@
       </div>
 
       <div class="tr-controls">
-        <button type="button" class="btn" style="background:#E8961A" id="tr-clear">Clear <span class="emoji">🧽</span></button>
-        <button type="button" class="btn" style="background:#5DB534" id="tr-next">Next <span class="emoji">➡️</span></button>
+        <button type="button" class="btn ghost" id="tr-clear" data-icon="erase">Clear</button>
+        <button type="button" class="btn" id="tr-next">Next</button>
       </div>
 
       <div class="tr-letter-nav" id="tr-nav" role="group" aria-label="Pick a letter"></div>
@@ -162,8 +146,9 @@
     <div class="tr-stars-c" id="tr-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/common.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
   <script>
+    document.getElementById('tr-next').insertAdjacentHTML('beforeend', App.icon('next'));
     var SETS = {
       upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
       lower: 'abcdefghijklmnopqrstuvwxyz'.split(''),
@@ -382,6 +367,7 @@
 
       if (pct >= DONE_AT && !completed.has(currentIdx)) {
         completed.add(currentIdx);
+        App.roundResult('great');
         var r = wrap.getBoundingClientRect();
         App.burst(stars, r.left + r.width / 2, r.top + r.height / 2, 12, r.width * .8);
         speak('Great job! ' + (mode === 'num' ? NUM_NAMES[+letters[currentIdx]] : letters[currentIdx]) + '!', 0.85);

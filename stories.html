@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Stories — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <title>Stories · Heshvi</title>
+  <meta name="description" content="One-minute read-alongs. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,11 +18,13 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .st-wrap { max-width: 760px; margin: 0 auto; }
-    .st-heading { text-align: center; font-size: clamp(18px, 2.6vmin, 30px); font-weight: 900; margin: 4px 0 12px; color: var(--textM); }
 
     .st-picker {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(min(170px, 42vw), 1fr));
@@ -30,21 +32,21 @@
     }
     .st-pick-card {
       -webkit-appearance: none; appearance: none;
-      background: var(--card); border: 3px solid var(--line);
-      border-radius: clamp(16px, 2.6vmin, 26px);
+      background: var(--surface); border: 3px solid transparent;
+      border-radius: clamp(22px, 3vmin, 30px);
       padding: clamp(14px, 2.6vmin, 26px) 10px;
       text-align: center; cursor: pointer;
-      transition: transform .15s, border-color .2s;
-      animation: bounceIn .4s ease-out both;
-      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      transition: transform .18s var(--spring), border-color .2s;
+      animation: bounceIn .45s var(--spring) both;
+      box-shadow: var(--shadow-sm), inset 0 -5px 0 rgba(47,34,53,.06);
     }
     .st-pick-card:active { transform: scale(.95); }
     .st-pick-emoji { font-family: var(--emoji); font-size: clamp(40px, 8vmin, 72px); line-height: 1.2; }
-    .st-pick-title { font-size: clamp(15px, 2.1vmin, 21px); font-weight: 900; color: var(--text); margin-top: 6px; line-height: 1.3; }
+    .st-pick-title { font-family: var(--display); font-size: clamp(16px, 2.2vmin, 22px); font-weight: 600; color: var(--ink); margin-top: 6px; line-height: 1.25; }
     .st-pick-telugu { font-size: clamp(13px, 1.8vmin, 17px); font-weight: 600; color: var(--textL); margin-top: 3px; }
 
     .st-title-bar { text-align: center; padding: 2px 10px 0; }
-    .st-title-text { font-size: clamp(19px, 3.2vmin, 32px); font-weight: 900; }
+    .st-title-text { font-family: var(--display); font-size: clamp(20px, 3.3vmin, 34px); font-weight: 600; }
     .st-title-telugu { font-size: clamp(14px, 2.2vmin, 20px); font-weight: 600; color: var(--textL); margin-top: 2px; }
 
     .st-dots { display: flex; justify-content: center; gap: 2px; padding: 4px 0; }
@@ -56,14 +58,13 @@
       content: ''; width: clamp(10px, 1.8vmin, 14px); height: clamp(10px, 1.8vmin, 14px);
       border-radius: 50%; background: var(--line); transition: background .3s, transform .3s;
     }
-    .st-dot.done::before { background: #7EC850; }
-    .st-dot.current::before { background: #F5A623; transform: scale(1.35); }
+    .st-dot.done::before { background: var(--good); }
+    .st-dot.current::before { background: var(--accent); transform: scale(1.35); }
 
     .st-book {
-      background: var(--card);
-      border-radius: clamp(20px, 3.6vmin, 34px);
-      border: 3px solid var(--line);
-      box-shadow: 0 4px 24px rgba(0,0,0,.08);
+      background: var(--surface);
+      border-radius: clamp(24px, 3.8vmin, 36px);
+      box-shadow: var(--shadow-md);
       overflow: hidden; position: relative;
       touch-action: pan-y pinch-zoom;
     }
@@ -79,25 +80,21 @@
       animation: bounceIn .5s ease-out;
     }
     .st-text {
-      font-size: clamp(20px, 3.6vmin, 36px); font-weight: 800; color: var(--text);
-      line-height: 1.6; max-width: 26ch; margin: 0 auto;
+      font-family: var(--display); font-size: clamp(22px, 3.8vmin, 38px); font-weight: 500; color: var(--ink);
+      line-height: 1.5; max-width: 26ch; margin: 0 auto;
     }
     .st-word { border-radius: 6px; padding: 0 2px; transition: color .15s, background-color .15s; }
-    .st-word.st-active { color: var(--p0ink); background: rgba(232,93,117,.14); }
+    .st-word.st-active { color: var(--p0ink); background: color-mix(in srgb, var(--accent) 16%, transparent); }
     .st-page-num { font-size: clamp(12px, 1.8vmin, 15px); color: var(--textL); font-weight: 800; margin-top: 14px; }
 
     .st-controls { display: flex; justify-content: center; align-items: center; gap: clamp(8px, 2vmin, 16px); padding: 14px 0 4px; }
     .st-controls .btn { font-size: clamp(15px, 2vmin, 21px); padding: 10px clamp(16px, 3vmin, 32px); }
 
-    .st-end { text-align: center; padding: 24px 16px; animation: bounceIn .5s ease-out; }
-    .st-end .st-big { font-family: var(--emoji); font-size: clamp(60px, 14vmin, 120px); display: block; animation: float 2s ease-in-out infinite; }
-    .st-end h2 { font-size: clamp(26px, 5vmin, 48px); font-weight: 900; animation: rainbow 2.5s linear infinite; margin: 8px 0; }
-    .st-end p { font-size: clamp(15px, 2.6vmin, 24px); color: var(--textL); font-weight: 700; margin-bottom: 18px; }
 
     .st-stars-c { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
 
     @media (hover: hover) and (pointer: fine) {
-      .st-pick-card:hover { transform: scale(1.04); border-color: #F5A623; }
+      .st-pick-card:hover { transform: translateY(-3px); border-color: var(--accent); }
     }
     @media (max-width: 400px) {
       .st-controls .btn { padding: 10px 14px; }
@@ -116,18 +113,13 @@
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">S</em><em style="color:#F5A623">t</em><em style="color:#7EC850">o</em><em style="color:#4DADEA">r</em><em style="color:#B07CD8">i</em><em style="color:#E85D75">e</em><em style="color:#F5A623">s</em></h1>
-      <p class="sub">One-minute stories with pictures!</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="stories"></nav>
+    <header class="topbar" data-page="stories"></header>
 
     <main class="st-wrap" id="st-area"></main>
     <div class="st-stars-c" id="st-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/common.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
   <script>
     var STORIES = [
       {
@@ -319,7 +311,7 @@
       reading = on;
       var btn = document.getElementById('st-read');
       if (!btn) return;
-      btn.innerHTML = on ? '<span class="emoji">⏹</span> Stop' : '<span class="emoji">🔊</span> Read';
+      btn.innerHTML = on ? App.icon('stop') + 'Stop' : App.icon('volume') + 'Read';
       btn.setAttribute('aria-pressed', String(on));
     }
 
@@ -398,9 +390,9 @@
       var controls = document.createElement('div');
       controls.className = 'st-controls';
       controls.innerHTML =
-        '<button type="button" class="btn" id="st-back" style="background:#9A8587">⬅ Back</button>' +
-        '<button type="button" class="btn" id="st-read" aria-pressed="false" style="background:' + story.color + '"></button>' +
-        '<button type="button" class="btn" id="st-next" style="background:#5DB534">Next ➡</button>';
+        '<button type="button" class="btn ghost" id="st-back">' + App.icon('back') + 'Back</button>' +
+        '<button type="button" class="btn" id="st-read" aria-pressed="false" style="--b:' + story.color + '"></button>' +
+        '<button type="button" class="btn" id="st-next" style="--b:#2FBF71">Next' + App.icon('next') + '</button>';
       area.appendChild(controls);
       document.getElementById('st-back').disabled = currentPage === 0;
       document.getElementById('st-back').addEventListener('click', goBack);
@@ -439,25 +431,15 @@
 
     function showEnd() {
       stopReading();
-      area.innerHTML =
-        '<div class="st-end">' +
-          '<span class="st-big" aria-hidden="true">📖</span>' +
-          '<h2>The End!</h2>' +
-          '<p>What a wonderful story!</p>' +
-          '<div class="btn-stack">' +
-            '<button type="button" class="btn" style="background:' + currentStory.color + '" id="st-again">Read Again <span class="emoji">🔄</span></button>' +
-            '<button type="button" class="btn" style="background:#2F9BE0" id="st-new">More Stories <span class="emoji">📚</span></button>' +
-          '</div>' +
-        '</div>';
-      for (var i = 0; i < 3; i++) {
-        App.burst(stars, Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.5, 8);
-      }
-      speak('The End! What a wonderful story!', 0.8);
-      document.getElementById('st-again').addEventListener('click', function () {
-        currentPage = 0;
-        showPage(true);
+      App.roundResult('great');
+      App.celebrate({
+        title: 'The End!', say: 'The End! What a wonderful story!', stars: 3,
+        text: 'What a wonderful story!',
+        buttons: [
+          { label: 'More stories', icon: 'book', onClick: showPicker },
+          { label: 'Read again', icon: 'again', ghost: true, onClick: function () { currentPage = 0; showPage(true); } }
+        ]
       });
-      document.getElementById('st-new').addEventListener('click', showPicker);
     }
 
     document.addEventListener('keydown', function (e) {

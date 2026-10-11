@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Tap & Discover — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <title>Discover · Heshvi</title>
+  <meta name="description" content="Tap and see what happens. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,8 +18,11 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .dc-wrap { max-width: 640px; margin: 0 auto; }
     .dc-scene { text-align: center; padding: 6px 0; animation: fadeIn .4s ease-out; }
@@ -28,13 +31,13 @@
       -webkit-appearance: none; appearance: none;
       width: clamp(190px, 46vmin, 400px); height: clamp(190px, 46vmin, 400px);
       margin: 8px auto; padding: 0;
-      background: var(--card);
-      border: clamp(4px, .8vmin, 8px) solid var(--line);
-      border-radius: clamp(26px, 5vmin, 48px);
+      background: var(--surface);
+      border: clamp(4px, .8vmin, 8px) solid transparent;
+      border-radius: clamp(28px, 5vmin, 52px);
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(0,0,0,.08);
-      transition: transform .15s, border-color .3s;
+      box-shadow: var(--shadow-md), inset 0 -8px 0 rgba(47,34,53,.06);
+      transition: transform .18s var(--spring), border-color .3s;
       user-select: none; -webkit-user-select: none;
       position: relative; overflow: hidden;
     }
@@ -48,33 +51,31 @@
     .dc-emoji.dc-pop { animation: bounceIn .5s ease-out; }
 
     .dc-hint {
-      font-size: clamp(16px, 2.8vmin, 26px); color: var(--textL); font-weight: 800;
-      margin: 6px 0 4px; animation: float 2s ease-in-out infinite;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--display); font-size: clamp(18px, 3vmin, 28px); color: var(--ink-2); font-weight: 600;
+      margin: 8px 0 4px; animation: float 2s ease-in-out infinite;
     }
+    .dc-hint svg { width: 40px; height: 40px; }
     .dc-hint.dc-hidden { visibility: hidden; }
 
     .dc-result { animation: fadeIn .4s ease-out; margin-top: 6px; }
-    .dc-result-word { font-size: clamp(30px, 6.4vmin, 60px); font-weight: 900; letter-spacing: 2px; margin-bottom: 2px; }
+    .dc-result-word { font-family: var(--display); font-size: clamp(32px, 6.8vmin, 64px); font-weight: 700; letter-spacing: 2px; margin-bottom: 2px; }
     .dc-result-phonics { font-size: clamp(15px, 2.8vmin, 26px); font-weight: 800; color: var(--p1ink); letter-spacing: 3px; margin-bottom: 2px; }
     .dc-result-telugu { font-size: clamp(18px, 3.4vmin, 30px); font-weight: 700; color: var(--textL); margin-bottom: 8px; }
     .dc-result-action {
       font-size: clamp(16px, 2.8vmin, 26px); font-weight: 700; color: var(--textM);
-      background: var(--sh); border-radius: 14px; padding: 8px 16px; line-height: 1.5;
+      background: var(--surface); box-shadow: var(--shadow-sm); border-radius: 16px; padding: 8px 16px; line-height: 1.5;
       max-width: 420px; margin: 0 auto 6px;
     }
-    .dc-result-prompt { font-size: clamp(15px, 2.6vmin, 24px); font-weight: 900; color: var(--p3ink); margin: 6px 0 12px; }
+    .dc-result-prompt { font-family: var(--display); font-size: clamp(17px, 2.8vmin, 26px); font-weight: 600; color: var(--p3ink); margin: 6px 0 12px; }
 
     .dc-dots { display: flex; justify-content: center; gap: 8px; margin: 6px 0; }
     .dc-dot { width: clamp(10px, 1.8vmin, 14px); height: clamp(10px, 1.8vmin, 14px); border-radius: 50%; background: var(--line); transition: background .3s, transform .3s; }
-    .dc-dot.done { background: #7EC850; }
-    .dc-dot.current { background: #F5A623; transform: scale(1.3); }
+    .dc-dot.done { background: var(--good); }
+    .dc-dot.current { background: var(--accent); transform: scale(1.3); }
 
     .dc-stars-c { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
 
-    .dc-end { text-align: center; padding: 24px 16px; animation: bounceIn .5s ease-out; }
-    .dc-end .dc-big { font-family: var(--emoji); font-size: clamp(64px, 16vmin, 130px); display: block; animation: float 2s ease-in-out infinite; }
-    .dc-end h2 { font-size: clamp(24px, 5vmin, 48px); font-weight: 900; animation: rainbow 2.5s linear infinite; margin: 10px 0; }
-    .dc-end p { font-size: clamp(15px, 2.6vmin, 24px); color: var(--textL); font-weight: 700; margin-bottom: 18px; }
 
     @keyframes dc-grow {
       0% { transform: scale(.3); opacity: 0; }
@@ -94,19 +95,14 @@
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">T</em><em style="color:#F5A623">a</em><em style="color:#7EC850">p</em> <em style="color:#4DADEA">&amp;</em> <em style="color:#B07CD8">D</em><em style="color:#E85D75">i</em><em style="color:#F5A623">s</em><em style="color:#7EC850">c</em><em style="color:#4DADEA">o</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">e</em><em style="color:#F5A623">r</em></h1>
-      <p class="sub">Tap and see what happens!</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="discover"></nav>
+    <header class="topbar" data-page="discover"></header>
 
     <main class="dc-wrap" id="dc-area"></main>
     <div class="dc-stars-c" id="dc-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/common.js?v=15"></script>
-  <script src="js/telugu.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
+  <script src="js/telugu.js?v=17"></script>
   <script>
     var SCENES = [
       { start: '\u{1F95A}', end: '\u{1F423}', word: 'CHICK', telugu: '\u{C15}\u{C4A}\u{C21}\u{C3F}\u{C2A}\u{C3F}\u{C32}\u{C4D}\u{C32}', action: 'The egg cracked! A baby chick!', prompt: 'Can you say Cheep Cheep?', color: '#F5A623' },
@@ -168,7 +164,7 @@
         '<div class="dc-dots" aria-hidden="true">' + dots + '</div>' +
         '<div class="dc-scene">' +
           '<button type="button" class="dc-card" id="dc-card" aria-label="Tap to see what happens"><span class="dc-emoji emoji" id="dc-emoji"></span></button>' +
-          '<div class="dc-hint" id="dc-hint">\u{1F449} Tap me!</div>' +
+          '<div class="dc-hint" id="dc-hint">' + App.MASCOT + 'Tap me!</div>' +
           '<div id="dc-result" aria-live="polite"></div>' +
         '</div>';
       card = document.getElementById('dc-card');
@@ -215,7 +211,7 @@
         result.className = 'dc-result';
         result.innerHTML = '';
         [['dc-result-word', item.word], ['dc-result-phonics', phonics], ['dc-result-telugu', item.telugu],
-         ['dc-result-action', item.action], ['dc-result-prompt', '\u{1F3A4} ' + item.prompt]].forEach(function (p) {
+         ['dc-result-action', item.action], ['dc-result-prompt', item.prompt]].forEach(function (p) {
           var el = document.createElement('div');
           el.className = p[0];
           el.textContent = p[1];
@@ -226,8 +222,8 @@
         var next = document.createElement('button');
         next.type = 'button';
         next.className = 'btn';
-        next.style.background = '#2F9BE0';
-        next.textContent = current < items.length - 1 ? 'Next →' : 'Done ⭐';
+        next.style.setProperty('--b', '#3FB2FF');
+        next.innerHTML = current < items.length - 1 ? 'Next' + App.icon('next') : App.icon('star') + 'Done';
         next.addEventListener('click', function () { if (my === step) { Speech.stop(); nextInSet(); } });
         result.appendChild(next);
 
@@ -259,19 +255,15 @@
 
     function showSetComplete() {
       step++;
-      area.innerHTML =
-        '<div class="dc-end">' +
-          '<span class="dc-big" aria-hidden="true">\u{1F31F}</span>' +
-          '<h2>Amazing Explorer!</h2>' +
-          '<p>You discovered so many things!</p>' +
-          '<div class="btn-stack">' +
-            '<button type="button" class="btn" style="background:#5DB534" id="dc-more">More Discoveries <span class="emoji">\u{1F50D}</span></button>' +
-            '<button type="button" class="btn" style="background:#2F9BE0" id="dc-restart">Start Over <span class="emoji">\u{1F504}</span></button>' +
-          '</div>' +
-        '</div>';
-      speak('Amazing explorer! You discovered so many things!', 0.85);
-      document.getElementById('dc-more').addEventListener('click', showSet);
-      document.getElementById('dc-restart').addEventListener('click', init);
+      App.roundResult('great');
+      App.celebrate({
+        title: 'Amazing explorer!', say: 'Amazing explorer! You discovered so many things!', stars: 3,
+        text: 'You discovered so many things!',
+        buttons: [
+          { label: 'More', icon: 'next', onClick: showSet },
+          { label: 'Start over', icon: 'again', ghost: true, onClick: init }
+        ]
+      });
     }
 
     init();

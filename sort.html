@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Sort It — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <title>Sort It · Heshvi</title>
+  <meta name="description" content="Colour, shape, size — then switch. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,8 +18,11 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .so { max-width: 1100px; margin: 0 auto; }
     .so-area { position: relative; width: 100%; touch-action: none; -webkit-user-select: none; user-select: none; }
@@ -31,7 +34,7 @@
       padding: 8px 6px 6px; transition: transform .15s, box-shadow .2s, background-color .2s;
       box-shadow: inset 0 -16px 0 rgba(0,0,0,.04), 0 3px 12px var(--sh);
     }
-    .basket.hot { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(245,166,35,.35); }
+    .basket.hot { transform: scale(1.05); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent); }
     .basket.nope { animation: wiggle .45s ease; }
     .b-label { display: flex; align-items: center; justify-content: center; height: 46px; gap: 4px; }
     .b-label svg { width: 40px; height: 40px; }
@@ -52,23 +55,15 @@
 
     .rule-banner {
       display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 999px;
-      background: #F5A623; color: #fff; font-weight: 900; font-size: clamp(15px, 2.2vmin, 22px);
+      background: var(--accent); color: #fff; font-weight: 600; font-family: var(--display); font-size: clamp(15px, 2.2vmin, 22px);
       text-shadow: 0 1px 2px rgba(0,0,0,.2); animation: bounceIn .5s ease-out;
     }
   </style>
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">S</em><em style="color:#F5A623">o</em><em style="color:#7EC850">r</em><em style="color:#4DADEA">t</em> <em style="color:#B07CD8">I</em><em style="color:#E85D75">t</em></h1>
-      <p class="sub">Put each one where it belongs</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="sort"></nav>
+    <header class="topbar" data-page="sort"></header>
     <main class="so land-split">
-      <div class="act-bar">
-        <div id="level"></div>
-      </div>
       <div class="prompt-row">
         <span class="prompt-text" id="prompt" aria-live="polite"></span>
         <button type="button" class="say-btn" id="say" aria-label="Hear it again">🔊</button>
@@ -80,8 +75,8 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=15"></script>
-  <script src="js/shapes.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
+  <script src="js/shapes.js?v=17"></script>
   <script>
     var LEVELS = [
       { age: 2, label: 'Colours', kind: 'color', n: 6, baskets: 2 },
@@ -231,9 +226,11 @@
     }
 
     /* ----- drawing a round ----- */
+    var mistakes = 0;
     function startRound(speak) {
       busy = false;
       picked = null;
+      mistakes = 0;
       makeRound();
       area.querySelectorAll('.thing').forEach(function (el) { el.remove(); });
       basketsEl.innerHTML = '';
@@ -349,6 +346,7 @@
         else if (level === 2 && rule === 'shape') say(cap(S[it.shape].name) + '!');
         afterSort();
       } else {
+        mistakes++;
         App.sfx('oops');
         b.el.classList.remove('nope');
         void b.el.offsetWidth;
@@ -386,13 +384,14 @@
 
     function roundDone() {
       busy = true;
-      App.sfx('yay');
-      var r = basketsEl.getBoundingClientRect();
-      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top, 16, r.width * 0.8);
-      setPrompt('All sorted! <span class="emoji">🎉</span>', false);
-      say(['All sorted! Great sorting!', 'You did it!', 'Wonderful sorting!'][round % 3]);
-      round++;
-      setTimeout(function () { startRound(true); }, 2600);
+      setPrompt('All sorted!', false);
+      var r = App.roundResult(mistakes === 0 ? 'great' : mistakes <= 2 ? 'ok' : 'hard');
+      if (r.changed) { level = r.level; round = 0; } else round++;
+      var w = App.roundWords(r, ['All sorted!', 'You did it!', 'Super sorting!'][round % 3]);
+      App.celebrate({
+        title: w.title, say: w.say, stars: 3, auto: r.changed === 'up' ? 4500 : 3200,
+        buttons: [{ label: 'Next', icon: 'next', onClick: function () { startRound(true); } }]
+      });
     }
 
     document.getElementById('say').addEventListener('click', function () { say(promptEl.textContent); });

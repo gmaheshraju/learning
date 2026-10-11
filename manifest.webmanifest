@@ -1,20 +1,35 @@
 {
   "id": "./",
-  "name": "Heshvitha's Learning World",
+  "name": "Heshvi · Play & Learn",
   "short_name": "Heshvi",
-  "description": "Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.",
+  "description": "Calm, playful learning for ages 2 to 7: art, music, puzzles, patterns, mazes, coding, words and stories, with Telugu hints. No ads, no sign-up, works offline.",
   "lang": "en",
+  "dir": "ltr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "any",
-  "background_color": "#FFFBF5",
-  "theme_color": "#FFFBF5",
-  "categories": ["education", "kids"],
+  "background_color": "#FFF7EE",
+  "theme_color": "#FFF7EE",
+  "categories": ["education", "kids", "games"],
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
     { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Art Studio", "short_name": "Art", "url": "art.html", "icons": [{ "src": "icons/shortcut-art.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Puzzles", "url": "puzzle.html", "icons": [{ "src": "icons/shortcut-puzzle.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Music Maker", "short_name": "Music", "url": "music.html", "icons": [{ "src": "icons/shortcut-music.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Stories", "url": "stories.html", "icons": [{ "src": "icons/shortcut-stories.png", "sizes": "192x192", "type": "image/png" }] }
+  ],
+  "screenshots": [
+    { "src": "icons/screen-welcome.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Welcome to Heshvi" },
+    { "src": "icons/screen-home.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Games picked for your child's age" },
+    { "src": "icons/screen-patterns.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Patterns: what comes next?" },
+    { "src": "icons/screen-coder.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Little Coder: plan the way" },
+    { "src": "icons/screen-wide.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "Heshvi on a tablet or computer" }
   ]
 }

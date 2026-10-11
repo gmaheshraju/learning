@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Story Scenes — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <title>Story Scenes · Heshvi</title>
+  <meta name="description" content="Build a picture, tell its story. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,22 +18,25 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .sc { max-width: 1200px; margin: 0 auto; }
     .bg-pick { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 4px 8px; max-width: 100%; margin: 0 auto 4px; }
     .bg-pick::-webkit-scrollbar { display: none; }
     .bg-btn {
       flex: none; width: 70px; height: 50px; padding: 0; border-radius: 12px; overflow: hidden;
-      border: 3px solid var(--line); cursor: pointer; background: var(--card);
+      border: 3px solid var(--surface); cursor: pointer; background: var(--surface); box-shadow: var(--shadow-sm);
     }
     .bg-btn canvas { width: 100%; height: 100%; display: block; }
-    .bg-btn[aria-pressed="true"] { border-color: #4DADEA; box-shadow: 0 0 0 3px rgba(77,173,234,.3); }
+    .bg-btn[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
 
     .stage-wrap { display: grid; place-items: center; }
     .stage {
-      position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 4px 22px rgba(0,0,0,.14);
+      position: relative; overflow: hidden; border-radius: 22px; box-shadow: var(--shadow-md);
       touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
     }
     .stage canvas.bgc { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -42,7 +45,7 @@
       font-family: var(--emoji); cursor: grab; white-space: nowrap;
       filter: drop-shadow(0 2px 2px rgba(0,0,0,.18));
     }
-    .sticker.sel { outline: 3px dashed #4DADEA; outline-offset: 4px; border-radius: 10px; }
+    .sticker.sel { outline: 3px dashed var(--accent); outline-offset: 4px; border-radius: 10px; }
     .sticker.dragging { cursor: grabbing; filter: drop-shadow(0 8px 10px rgba(0,0,0,.3)); }
     .sticker.bubble {
       font-family: var(--font); font-weight: 900; color: #3D2C2E; background: #fff; border-radius: 18px;
@@ -61,7 +64,7 @@
     .tray-tabs > :first-child { margin-left: auto; }
     .tray-tabs > :last-child { margin-right: auto; }
     .bar-sep { width: 2px; height: 30px; background: var(--line); border-radius: 2px; margin: 0 2px; }
-    .stickers { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 6px; border-radius: 18px; background: var(--card); border: 2px solid var(--line); }
+    .stickers { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 6px; border-radius: 20px; background: var(--surface); box-shadow: var(--shadow-sm); }
     .stickers::-webkit-scrollbar { display: none; }
     .stickers button {
       flex: none; width: 54px; height: 54px; border-radius: 14px; border: none; background: none; cursor: pointer;
@@ -69,23 +72,17 @@
     }
     .stickers button:active { transform: scale(.88); }
     .story-line {
-      text-align: center; font-size: clamp(17px, 2.6vmin, 24px); font-weight: 800; color: var(--text);
+      text-align: center; font-family: var(--display); font-size: clamp(18px, 2.7vmin, 25px); font-weight: 600; color: var(--ink);
       min-height: 1.5em; margin: 4px auto; max-width: 700px;
     }
     .words-row { display: flex; gap: 8px; justify-content: center; margin: 6px 0; }
     .words-row input {
       font: inherit; font-size: 17px; font-weight: 700; padding: 8px 14px; border-radius: 999px; min-height: 44px;
-      border: 2px solid var(--line); background: var(--card); color: var(--text); width: min(320px, 60vw);
+      border: 2px solid var(--line); background: var(--surface); color: var(--ink); width: min(320px, 60vw);
     }
-    .toast {
-      position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%);
-      padding: 10px 20px; border-radius: 999px; background: #3D2C2E; color: #fff; font-weight: 900; z-index: 200;
-      animation: slideUp .3s ease-out; pointer-events: none;
-    }
-    .toast a { color: #FFD54F; pointer-events: auto; }
     @media (hover: hover) and (pointer: fine) {
-      .stickers button:hover { background: var(--tint); }
-      .bg-btn:hover { border-color: #4DADEA; }
+      .stickers button:hover { background: var(--surface-2); }
+      .bg-btn:hover { border-color: var(--accent); }
     }
     @media (max-width: 400px) {
       .sel-bar .tool-btn { width: 40px; height: 40px; font-size: 18px; }
@@ -108,34 +105,28 @@
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">S</em><em style="color:#F5A623">t</em><em style="color:#7EC850">o</em><em style="color:#4DADEA">r</em><em style="color:#B07CD8">y</em> <em style="color:#E85D75">S</em><em style="color:#F5A623">c</em><em style="color:#7EC850">e</em><em style="color:#4DADEA">n</em><em style="color:#B07CD8">e</em><em style="color:#E85D75">s</em></h1>
-      <p class="sub">Build a picture, then tell its story</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="scenes"></nav>
+    <header class="topbar" data-page="scenes"></header>
     <main class="sc">
       <div class="act-bar">
-        <div id="level"></div>
-        <button type="button" class="tool-btn" id="tell" aria-label="Tell me a story question" title="Story question">🎤</button>
-        <button type="button" class="tool-btn" id="words" aria-label="Add words" title="Add words" hidden>💬</button>
+        <button type="button" class="tool-btn" id="tell" data-icon="bulb" aria-label="Ask me a story question" title="Story question"></button>
+        <button type="button" class="tool-btn" id="words" data-icon="chat" aria-label="Add words" title="Add words" hidden></button>
       </div>
       <div class="bg-pick" id="bg-pick" role="group" aria-label="Pick a place"></div>
       <div class="story-line" id="story-line" aria-live="polite"></div>
       <div class="stage-wrap"><div class="stage" id="stage" aria-label="Your scene"><canvas class="bgc" id="bgc"></canvas></div></div>
       <div class="words-row" id="words-row" hidden>
         <input type="text" id="words-in" maxlength="40" placeholder="What do they say?" aria-label="Words for the speech bubble">
-        <button type="button" class="btn" id="words-add" style="background:#4DADEA;min-height:44px;padding:6px 18px">Add</button>
+        <button type="button" class="btn small" id="words-add" style="--b:var(--accent)">Add</button>
       </div>
       <div class="sel-bar" id="sel-bar">
         <span class="who" id="who" aria-hidden="true"></span>
-        <button type="button" class="tool-btn" id="smaller" aria-label="Smaller" title="Smaller">➖</button>
-        <button type="button" class="tool-btn" id="bigger" aria-label="Bigger" title="Bigger">➕</button>
-        <button type="button" class="tool-btn" id="flip" aria-label="Flip" title="Flip">↔️</button>
-        <button type="button" class="tool-btn" id="del" aria-label="Remove" title="Remove">🗑️</button>
+        <button type="button" class="tool-btn" id="smaller" data-icon="smaller" aria-label="Smaller" title="Smaller"></button>
+        <button type="button" class="tool-btn" id="bigger" data-icon="bigger" aria-label="Bigger" title="Bigger"></button>
+        <button type="button" class="tool-btn" id="flip" data-icon="flip" aria-label="Flip" title="Flip"></button>
+        <button type="button" class="tool-btn" id="del" data-icon="trash" aria-label="Remove" title="Remove"></button>
         <span class="bar-sep" aria-hidden="true"></span>
-        <button type="button" class="tool-btn" id="save" aria-label="Save to My art" title="Save">💾</button>
-        <button type="button" class="tool-btn" id="fresh" aria-label="New scene" title="New scene">🧻</button>
+        <button type="button" class="tool-btn" id="save" data-icon="heart" aria-label="Keep it in My art" title="Keep it"></button>
+        <button type="button" class="tool-btn" id="fresh" data-icon="again" aria-label="New scene" title="New scene"></button>
       </div>
       <div class="trays">
         <div class="tray-tabs" id="tray-tabs" role="tablist" aria-label="Stickers"></div>
@@ -145,7 +136,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
   <script>
     var LEVELS = [
       { age: 2, label: 'Little storyteller' },
@@ -227,16 +218,7 @@
     var level = 0, bg = BGS[0], tray = TRAYS[0], items = [], sel = null, W = 0, H = 0, aspect = 0.75, promptIdx = 0;
 
     function say(t, rate) { Speech.speak(t, rate || 0.9); }
-    function toast(html) {
-      var old = document.querySelector('.toast');
-      if (old) old.remove();
-      var t = document.createElement('div');
-      t.className = 'toast';
-      t.setAttribute('role', 'status');
-      t.innerHTML = html;
-      document.body.appendChild(t);
-      setTimeout(function () { t.remove(); }, 3200);
-    }
+    function toast(html) { App.toast(html, 3600); }
 
     function chooseAspect() {
       var portrait = window.innerHeight > window.innerWidth && window.innerWidth < 700;
@@ -443,7 +425,8 @@
       if (item) {
         App.sfx('yay');
         say('Saved! What a story!');
-        toast('Saved! See it in <a href="art.html#gallery">My art</a> or make a <a href="puzzle.html?pic=' + item.id + '">puzzle</a>');
+        App.confetti(30);
+        toast('Kept! See it in <a href="art.html#gallery">My art</a> or make a <a href="puzzle.html?pic=' + item.id + '">puzzle</a>');
       } else toast('Could not save: this device is out of space');
     });
 

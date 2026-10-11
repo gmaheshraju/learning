@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Memory Cards — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <title>Memory · Heshvi</title>
+  <meta name="description" content="Flip, remember, match. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,18 +18,22 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .mm { max-width: 900px; margin: 0 auto; }
     .turns { display: flex; justify-content: center; gap: 10px; margin: 0 0 10px; }
     .player {
       display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px;
-      border: 3px solid var(--line); background: var(--card); font-weight: 900; font-size: 16px; color: var(--textM);
-      transition: border-color .2s, transform .2s;
+      border: 3px solid transparent; background: var(--surface); box-shadow: var(--shadow-sm);
+      font-family: var(--display); font-weight: 600; font-size: 17px; color: var(--ink-2);
+      transition: border-color .2s, transform .2s var(--spring);
     }
     .player .emoji { font-size: 22px; }
-    .player.now { border-color: #26A69A; color: var(--text); transform: scale(1.06); }
+    .player.now { border-color: var(--accent); color: var(--ink); transform: scale(1.06); }
     .player b { font-size: 18px; }
 
     .board { display: grid; gap: clamp(8px, 1.6vmin, 14px); justify-content: center; margin: 0 auto; perspective: 900px; }
@@ -40,37 +44,33 @@
     .mcard.up { transform: rotateY(180deg); }
     .mcard .face {
       position: absolute; inset: 0; border-radius: clamp(14px, 2vmin, 22px); display: grid; place-items: center;
-      backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: 0 3px 12px var(--sh);
+      backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: var(--shadow-sm), inset 0 -5px 0 rgba(0,0,0,.08);
     }
     .mcard .back {
-      background: linear-gradient(135deg, #26A69A, #4DADEA);
-      border: 4px solid rgba(255,255,255,.6);
+      background:
+        radial-gradient(circle at 50% 45%, rgba(255,255,255,.28) 0 32%, transparent 33%),
+        linear-gradient(150deg, color-mix(in srgb, var(--accent) 70%, #fff), var(--accent));
+      border: 4px solid rgba(255,255,255,.7);
     }
-    .mcard .back::after { content: '🦋'; font-family: var(--emoji); font-size: calc(var(--h) * .34); opacity: .9; }
+    .mcard .back svg { width: 62%; height: 62%; }
     .mcard .front {
-      background: var(--card); border: 4px solid var(--line); transform: rotateY(180deg);
+      background: var(--surface); border: 4px solid var(--line); transform: rotateY(180deg);
       font-family: var(--emoji); font-size: calc(var(--h) * .5); line-height: 1;
     }
     .mcard .front .icon-svg { width: 1em; height: 1em; }
-    .mcard.matched .front { border-color: #7EC850; background: var(--ok-bg); animation: celebrate .5s ease; }
+    .mcard.matched .front { border-color: var(--good); background: var(--ok-bg); animation: celebrate .5s ease; }
     .mcard.matched { cursor: default; }
-    .moves { text-align: center; font-weight: 800; color: var(--textL); margin-top: 10px; font-size: 15px; }
+    .moves { text-align: center; font-weight: 800; color: var(--ink-3); margin-top: 10px; font-size: 15px; min-height: 20px; }
     @media (prefers-reduced-motion: reduce) { .mcard { transition: none; } }
   </style>
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">M</em><em style="color:#F5A623">e</em><em style="color:#7EC850">m</em><em style="color:#4DADEA">o</em><em style="color:#B07CD8">r</em><em style="color:#E85D75">y</em> <em style="color:#F5A623">C</em><em style="color:#7EC850">a</em><em style="color:#4DADEA">r</em><em style="color:#B07CD8">d</em><em style="color:#E85D75">s</em></h1>
-      <p class="sub">Flip two cards. Find the pairs!</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="memory"></nav>
+    <header class="topbar" data-page="memory"></header>
     <main class="mm">
       <div class="act-bar">
-        <div id="level"></div>
-        <button type="button" class="tool-btn" id="two" aria-pressed="false" aria-label="Take turns with a grown-up" title="Take turns">👫</button>
-        <button type="button" class="tool-btn" id="again" aria-label="New game" title="New game">🔀</button>
+        <button type="button" class="tool-btn" id="two" data-icon="people" aria-pressed="false" aria-label="Take turns with a grown-up" title="Take turns"></button>
+        <button type="button" class="tool-btn" id="again" data-icon="shuffle" aria-label="New game" title="New game"></button>
       </div>
       <div class="turns" id="turns" hidden>
         <span class="player" id="p0"><span class="emoji" aria-hidden="true">👧</span> Me <b id="s0">0</b></span>
@@ -83,8 +83,8 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=15"></script>
-  <script src="js/data.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
+  <script src="js/data.js?v=17"></script>
   <script>
     var LEVELS = [
       { age: 3, label: '2 pairs + peek', pairs: 2, peek: 2600 },
@@ -131,7 +131,7 @@
         b.type = 'button';
         b.className = 'mcard';
         b.setAttribute('aria-label', 'Card ' + (c.i + 1) + ', face down');
-        b.innerHTML = '<span class="face back" aria-hidden="true"></span><span class="face front" aria-hidden="true"></span>';
+        b.innerHTML = '<span class="face back" aria-hidden="true">' + App.MASCOT + '</span><span class="face front" aria-hidden="true"></span>';
         renderIcon(b.querySelector('.front'), c.item);
         b.addEventListener('click', function () { flip(c); });
         c.el = b;
@@ -142,7 +142,7 @@
       movesEl.textContent = '';
       if (L.peek) {
         lock = true;
-        setPrompt('Look carefully… <span class="emoji">👀</span>');
+        setPrompt('Look carefully\u2026');
         cards.forEach(function (c) { c.el.classList.add('up'); });
         say('Look carefully, and remember!');
         setTimeout(function () {
@@ -201,15 +201,23 @@
     }
 
     function win() {
-      var r = board.getBoundingClientRect();
-      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 18, r.width);
-      App.sfx('yay');
-      var msg = 'You found them all!';
-      if (two) msg = scores[0] > scores[1] ? 'You win! Great memory!' : scores[0] < scores[1] ? 'Grown-up wins this time! Play again?' : "It's a tie! Great memory, both of you!";
-      setPrompt(msg + ' <span class="emoji">🎉</span>');
-      say(msg);
-      movesEl.innerHTML = moves + ' tries · <button type="button" class="btn" id="again2" style="background:#26A69A;min-height:40px;padding:6px 18px;font-size:15px;margin-left:8px">Play again</button>';
-      document.getElementById('again2').addEventListener('click', newGame);
+      var title = 'You found them all!', words = title, r = null;
+      if (two) {
+        title = scores[0] > scores[1] ? 'You win!' : scores[0] < scores[1] ? 'Grown-up wins!' : 'It\u2019s a tie!';
+        words = scores[0] > scores[1] ? 'You win! Great memory!' : scores[0] < scores[1] ? 'Grown-up wins this time! Play again?' : "It's a tie! Great memory, both of you!";
+      } else {
+        // a perfect game takes one try per pair; a few extra is still great
+        var L = LEVELS[level], extra = moves - L.pairs;
+        r = App.roundResult(extra <= L.pairs ? 'great' : extra <= L.pairs * 2 ? 'ok' : 'hard');
+        level = r.level;
+        var w = App.roundWords(r, title);
+        title = w.title; words = w.say;
+      }
+      setPrompt(title);
+      App.celebrate({
+        title: title, say: words, stars: 3, text: moves + ' tries',
+        buttons: [{ label: 'Play again', icon: 'again', onClick: newGame }]
+      });
     }
 
     document.getElementById('again').addEventListener('click', newGame);

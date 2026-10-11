@@ -12,6 +12,7 @@ let currentItems = [];
 let gameMode = 'easy';
 let roundTimer = null;
 let wrongTimer = null;
+let wrongs = 0;
 
 const CHEERS = ['Awesome!', 'Great job!', 'Well done!', 'You got it!', 'Brilliant!', 'Super!', 'Wow!', 'Amazing!'];
 
@@ -114,6 +115,11 @@ function showCategoryPicker() {
   bar.hidden = true;
   play.innerHTML = '';
 
+  const title = document.createElement('h2');
+  title.className = 'pick-title';
+  title.textContent = 'Pick a topic';
+  play.appendChild(title);
+
   const grid = document.createElement('div');
   grid.className = 'cat-grid';
 
@@ -138,10 +144,10 @@ function showDifficultyPicker(cat) {
       <h2>${cat.name}</h2>
       <p>Pick a difficulty</p>
       <div class="btn-stack">
-        <button type="button" class="btn diff-btn" id="btn-easy" style="background:#5DB534"><span class="emoji">🖼️</span> Easy — Match Pictures</button>
-        <button type="button" class="btn diff-btn" id="btn-hard" style="background:#E0506A"><span class="emoji">🔤</span> Hard — Match Words</button>
+        <button type="button" class="btn diff-btn" id="btn-easy" style="--b:#2FBF71">${App.icon('image')}Easy: match pictures</button>
+        <button type="button" class="btn diff-btn" id="btn-hard" style="--b:#FF7E5F">${App.icon('book')}Harder: match words</button>
       </div>
-      <button type="button" class="back-link" id="btn-back">← All topics</button>
+      <button type="button" class="back-link" id="btn-back">${App.icon('back')}All topics</button>
     </div>`;
   speak(cat.name, 0.85);
 
@@ -172,6 +178,7 @@ function renderRound() {
   matched.clear();
   selected = null;
   locked = false;
+  wrongs = 0;
   colorMap = {};
   roundItems.forEach((a, i) => { colorMap[a.id] = i; });
 
@@ -272,6 +279,7 @@ function handleTap(type, name, el) {
 
     if (matched.size === ROUND_SIZE) {
       locked = true;
+      App.roundResult(wrongs === 0 ? 'great' : wrongs <= 2 ? 'ok' : 'hard');
       roundTimer = setTimeout(() => {
         roundTimer = null;
         if (currentRound < TOTAL_ROUNDS) showRoundComplete();
@@ -280,6 +288,7 @@ function handleTap(type, name, el) {
     }
   } else {
     locked = true;
+    wrongs++;
     [first, el].forEach(c => { c.classList.remove('wrong'); void c.offsetWidth; c.classList.add('wrong'); });
     wrongTimer = setTimeout(() => {
       wrongTimer = null;
@@ -319,42 +328,31 @@ function showCuriosity(item) {
 
 function showRoundComplete() {
   const catName = currentCategory.name;
-  play.innerHTML = `
-    <div class="modal">
-      <span class="big" aria-hidden="true">\u{1F389}</span>
-      <h2>Brilliant!</h2>
-      <p>You matched all ${ROUND_SIZE} ${catName.toLowerCase()}!</p>
-      <button type="button" class="btn" style="background:#5DB534" id="nb">More ${catName} →</button>
-    </div>`;
-  speak('Brilliant! You matched them all!', 0.9);
-  const nb = document.getElementById('nb');
-  nb.focus({ preventScroll: true });
-  nb.addEventListener('click', () => {
-    currentRound++;
-    document.getElementById('rn').textContent = currentRound;
-    renderRound();
+  App.celebrate({
+    title: 'Brilliant!', say: 'Brilliant! You matched them all!', stars: 3,
+    text: 'You matched all ' + ROUND_SIZE + ' ' + catName.toLowerCase() + '!',
+    buttons: [{ label: 'More ' + catName.toLowerCase(), icon: 'next', onClick: () => {
+      currentRound++;
+      document.getElementById('rn').textContent = currentRound;
+      renderRound();
+    } }]
   });
 }
 
 function showGameComplete() {
-  play.innerHTML = `
-    <div class="modal">
-      <span class="big" aria-hidden="true">\u{1F3C6}</span>
-      <h2>Superstar!</h2>
-      <p>You matched ${score} in ${TOTAL_ROUNDS} rounds!</p>
-      <div class="btn-stack">
-        <button type="button" class="btn" style="background:#5DB534" id="rb">Play Again <span class="emoji">\u{1F504}</span></button>
-        <button type="button" class="btn" style="background:#E8961A" id="nb">Pick New Topic <span class="emoji">\u{1F3AF}</span></button>
-      </div>
-    </div>`;
-  speak('Superstar! You did it!', 0.9);
-  document.getElementById('nb').addEventListener('click', showCategoryPicker);
-  document.getElementById('rb').addEventListener('click', () => {
-    currentRound = 1;
-    score = 0;
-    document.getElementById('sc').textContent = 0;
-    document.getElementById('rn').textContent = 1;
-    renderRound();
+  App.celebrate({
+    title: 'Superstar!', say: 'Superstar! You did it!', stars: 3,
+    text: 'You matched ' + score + ' in ' + TOTAL_ROUNDS + ' rounds!',
+    buttons: [
+      { label: 'Play again', icon: 'again', onClick: () => {
+        currentRound = 1;
+        score = 0;
+        document.getElementById('sc').textContent = 0;
+        document.getElementById('rn').textContent = 1;
+        renderRound();
+      } },
+      { label: 'New topic', icon: 'shuffle', ghost: true, onClick: showCategoryPicker }
+    ]
   });
 }
 

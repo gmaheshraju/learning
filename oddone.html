@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Odd One Out — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <title>Odd One Out · Heshvi</title>
+  <meta name="description" content="Which one doesn’t belong?. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,8 +18,11 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .oo { max-width: 760px; margin: 0 auto; }
     .oo-grid {
@@ -28,24 +31,24 @@
     }
     .oo-card {
       aspect-ratio: 1; border-radius: clamp(18px, 3vmin, 30px); padding: 0;
-      border: 4px solid var(--line); background: var(--card); cursor: pointer; container-type: inline-size;
-      display: grid; place-items: center; box-shadow: 0 3px 14px var(--sh);
+      border: 4px solid transparent; background: var(--surface); cursor: pointer; container-type: inline-size;
+      display: grid; place-items: center; box-shadow: var(--shadow-sm), inset 0 -6px 0 rgba(47,34,53,.06);
       font-family: var(--emoji); line-height: 1;
-      animation: bounceIn .4s ease-out both; transition: transform .15s, border-color .2s, opacity .3s;
+      animation: bounceIn .4s var(--spring) both; transition: transform .15s var(--spring), border-color .2s, opacity .3s;
     }
     /* sized from the card's own width (container units must live on a child) */
     .oo-in { width: 100%; height: 100%; display: grid; place-items: center; font-size: 54px; font-size: 56cqi; }
     .oo-in svg { width: 70%; height: 70%; }
-    .oo-in .num { font-family: var(--font); font-weight: 900; color: var(--text); font-size: 48cqi; }
+    .oo-in .num { font-family: var(--display); font-weight: 600; color: var(--ink); font-size: 48cqi; }
     .oo-card:active { transform: scale(.94); }
-    .oo-card.nope { animation: wiggle .45s ease; border-color: #ffb3c0; }
-    .oo-card.odd { border-color: #EF6C8A; box-shadow: 0 0 0 6px rgba(239,108,138,.25); transform: scale(1.05); }
-    .oo-card.same { border-color: #7EC850; opacity: .75; }
+    .oo-card.nope { animation: wiggle .45s ease; border-color: #FFB3C0; }
+    .oo-card.odd { border-color: var(--accent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 25%, transparent); transform: scale(1.05); }
+    .oo-card.same { border-color: var(--good); opacity: .7; }
     .reason {
-      text-align: center; font-size: clamp(17px, 2.8vmin, 26px); font-weight: 800; color: var(--text);
+      text-align: center; font-family: var(--display); font-size: clamp(18px, 2.8vmin, 26px); font-weight: 600; color: var(--ink);
       min-height: 2.6em; max-width: 620px; margin: 0 auto 8px; animation: fadeIn .3s ease-out;
     }
-    @media (hover: hover) and (pointer: fine) { .oo-card:hover { border-color: #EF6C8A; } }
+    @media (hover: hover) and (pointer: fine) { .oo-card:hover { border-color: var(--accent); } }
     @media (orientation: landscape) and (max-height: 520px) {
       .oo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: min(640px, calc((100dvh - 236px) * 4 + 30px)); }
       .reason { min-height: 0; font-size: 16px; }
@@ -54,16 +57,10 @@
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">O</em><em style="color:#F5A623">d</em><em style="color:#7EC850">d</em> <em style="color:#4DADEA">O</em><em style="color:#B07CD8">n</em><em style="color:#E85D75">e</em> <em style="color:#F5A623">O</em><em style="color:#7EC850">u</em><em style="color:#4DADEA">t</em></h1>
-      <p class="sub">Which one doesn&#x27;t belong? Why?</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="oddone"></nav>
+    <header class="topbar" data-page="oddone"></header>
     <main class="oo land-split">
       <div class="act-bar">
-        <div id="level"></div>
-        <button type="button" class="tool-btn" id="skip" aria-label="Another one" title="Another one">🔀</button>
+        <button type="button" class="tool-btn" id="skip" data-icon="shuffle" aria-label="Another one" title="Another one"></button>
       </div>
       <div class="prompt-row">
         <span class="prompt-text" id="prompt" aria-live="polite">Which one doesn't belong?</span>
@@ -76,9 +73,9 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=15"></script>
-  <script src="js/data.js?v=15"></script>
-  <script src="js/shapes.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
+  <script src="js/data.js?v=17"></script>
+  <script src="js/shapes.js?v=17"></script>
   <script>
     var LEVELS = [
       { age: 3, label: 'Animal, food or car?' },
@@ -215,31 +212,44 @@
         return;
       }
       busy = true;
-      var my = token;
-      App.sfx('yay');
+      var my = token, asked = level;
+      App.sfx('snap');
       q.cards.forEach(function (c) { c.el.classList.add(c.odd ? 'odd' : 'same'); });
       var r = el.getBoundingClientRect();
       App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 10, r.width * 1.5);
-      if (level === 0) { reveal(my); return; }
+      var result = App.roundResult(wrongs === 0 ? 'great' : wrongs === 1 ? 'ok' : 'hard');
+      level = result.level;
+      levelUp = result.changed === 'up';
+      if (asked === 0) { reveal(my, true); return; }
       // Ask why first: explaining is the real thinking. A grown-up can talk it through.
-      promptEl.textContent = 'Yes! Why doesn’t it belong? 🤔';
+      promptEl.textContent = 'Yes! Why doesn\u2019t it belong?';
       say("Yes! Why doesn't it belong?");
-      actions.innerHTML = '<button type="button" class="btn" id="why" style="background:#EF6C8A">Show why</button>';
-      document.getElementById('why').addEventListener('click', function () { reveal(my); });
+      actions.innerHTML = '<button type="button" class="btn" id="why">' + App.icon('bulb') + 'Show why</button>';
+      document.getElementById('why').addEventListener('click', function () { reveal(my, false); });
     }
 
-    function reveal(my) {
+    var levelUp = false;
+    function next(my) {
+      if (my !== token) return;
+      Speech.stop();
+      if (!levelUp) { newQuestion(); return; }
+      levelUp = false;
+      var w = App.roundWords({ changed: 'up' });
+      App.celebrate({ title: w.title, say: w.say, stars: 3, auto: 4500, buttons: [{ label: 'Next', icon: 'next', onClick: newQuestion }] });
+    }
+
+    function reveal(my, auto) {
       if (my !== token) return;
       promptEl.textContent = 'Well spotted!';
       reasonEl.textContent = q.why;
-      actions.innerHTML = '<button type="button" class="btn" id="next" style="background:#5DB534">Next →</button>';
-      document.getElementById('next').addEventListener('click', function () { Speech.stop(); newQuestion(); });
+      actions.innerHTML = '<button type="button" class="btn" id="next">Next' + App.icon('next') + '</button>';
+      document.getElementById('next').addEventListener('click', function () { next(my); });
       say(q.why, 0.86, function () {
-        if (level === 0) setTimeout(function () { if (my === token) newQuestion(); }, 2200);
+        if (auto) setTimeout(function () { next(my); }, 2200);
       });
     }
 
-    document.getElementById('say').addEventListener('click', function () { say(promptEl.textContent.replace('🤔', '')); });
+    document.getElementById('say').addEventListener('click', function () { say(promptEl.textContent); });
     document.getElementById('skip').addEventListener('click', function () { Speech.stop(); newQuestion(); });
 
     var lv = App.levelControl(document.getElementById('level'), 'oddone', LEVELS, function (l) { level = l; newQuestion(); });

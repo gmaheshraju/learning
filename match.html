@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <title>Match · Heshvi</title>
+  <meta name="description" content="Pair pictures and words. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,18 +18,16 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
 </head>
 <body>
   <div class="gw" id="game">
     <div class="stars-c" id="stars"></div>
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Match</h1>
-      <p class="sub">Pick a topic and match the same color!</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="match"></nav>
+    <header class="topbar" data-page="match"></header>
     <div class="bar" id="bar" hidden>
       <button type="button" class="cat-tag" id="cat-label" aria-label="Change topic"></button>
       <div class="it" aria-label="Score"><span class="emoji" aria-hidden="true">⭐</span> <span id="sc">0</span></div>
@@ -38,8 +36,8 @@
     <main id="play"></main>
   </div>
 
-  <script src="js/common.js?v=15"></script>
-  <script src="js/data.js?v=15"></script>
-  <script src="js/game.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
+  <script src="js/data.js?v=17"></script>
+  <script src="js/game.js?v=17"></script>
 </body>
 </html>

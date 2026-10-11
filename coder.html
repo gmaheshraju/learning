@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Little Coder — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <title>Little Coder · Heshvi</title>
+  <meta name="description" content="Program the bunny to the carrot. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,22 +18,25 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .cd { max-width: 1000px; margin: 0 auto; }
     .cd-main { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 12px; }
     .board {
       --cell: 64px;
       position: relative; display: grid; gap: 4px; padding: 6px; border-radius: 20px;
-      background: #A5D6A7; box-shadow: 0 4px 18px var(--sh);
+      background: #A5D6A7; box-shadow: var(--shadow-md), inset 0 -5px 0 rgba(0,0,0,.08);
     }
     .sq {
       width: var(--cell); height: var(--cell); border-radius: 12px; background: #C8E6C9;
       display: grid; place-items: center; font-family: var(--emoji); font-size: calc(var(--cell) * .66); line-height: 1;
     }
     .sq:nth-child(odd) { background: #DCEDC8; }
-    .sq.tried { box-shadow: inset 0 0 0 3px rgba(66,165,245,.5); }
+    .sq.tried { box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--accent) 55%, transparent); }
     .bunny {
       position: absolute; left: 6px; top: 6px; width: var(--cell); height: var(--cell);
       display: grid; place-items: center; font-family: var(--emoji); font-size: calc(var(--cell) * .74); line-height: 1;
@@ -44,11 +47,13 @@
     .side { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 520px; }
     .pad { display: grid; grid-template-columns: repeat(3, 66px); grid-template-rows: repeat(2, 66px); gap: 8px; }
     .arrow-btn {
-      border-radius: 18px; border: 3px solid #7E57C2; background: var(--card); color: #7E57C2;
-      font-size: 34px; font-weight: 900; cursor: pointer; display: grid; place-items: center; line-height: 1;
-      box-shadow: 0 3px 0 #5E35B1; transition: transform .1s, box-shadow .1s;
+      border-radius: 20px; border: none; background: var(--accent); color: #fff; cursor: pointer;
+      display: grid; place-items: center; line-height: 1;
+      box-shadow: inset 0 -5px 0 rgba(0,0,0,.2), var(--shadow-sm); transition: transform .12s var(--spring);
     }
-    .arrow-btn:active { transform: translateY(3px); box-shadow: 0 0 0 #5E35B1; }
+    .arrow-btn .ico { width: 34px; height: 34px; stroke-width: 3.2; }
+    .arrow-btn:active { transform: translateY(3px) scale(.95); }
+    .ico.d0 { transform: rotate(-90deg); } .ico.d2 { transform: rotate(90deg); } .ico.d3 { transform: rotate(180deg); }
     .arrow-btn[data-d="0"] { grid-column: 2; grid-row: 1; }
     .arrow-btn[data-d="3"] { grid-column: 1; grid-row: 2; }
     .arrow-btn[data-d="2"] { grid-column: 2; grid-row: 2; }
@@ -57,7 +62,7 @@
     .program {
       display: flex; flex-wrap: nowrap; gap: 6px; justify-content: flex-start; align-items: center;
       min-height: 64px; width: 100%; padding: 8px; border-radius: 18px; overflow-x: auto; scrollbar-width: none;
-      border: 3px dashed var(--line); background: var(--card);
+      border: 3px dashed color-mix(in srgb, var(--ink-3) 40%, transparent); background: var(--surface);
     }
     .program::-webkit-scrollbar { display: none; }
     .program > * { flex: none; }
@@ -65,41 +70,40 @@
     .run-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
     .run-col[hidden] { display: none; }
     .block {
-      position: relative; min-width: 48px; height: 48px; padding: 0 8px; border-radius: 12px; border: none;
-      background: #7E57C2; color: #fff; font-size: 26px; font-weight: 900; cursor: pointer;
+      position: relative; min-width: 48px; height: 48px; padding: 0 8px; border-radius: 14px; border: none;
+      background: var(--accent); color: #fff; font-family: var(--display); font-size: 22px; font-weight: 600; cursor: pointer;
       display: inline-flex; align-items: center; justify-content: center; gap: 2px;
-      box-shadow: 0 3px 0 #5E35B1; animation: bounceIn .3s ease-out;
+      box-shadow: inset 0 -4px 0 rgba(0,0,0,.2); animation: bounceIn .3s var(--spring);
     }
+    .block .ico { width: 26px; height: 26px; stroke-width: 3.2; }
     .block .times { font-size: 16px; background: rgba(255,255,255,.25); border-radius: 8px; padding: 1px 5px; }
-    .block.now { background: #F5A623; box-shadow: 0 3px 0 #C77E0B; transform: translateY(-3px); }
-    .block.bad { background: #E0506A; box-shadow: 0 3px 0 #A3283E; animation: wiggle .45s ease; }
-    .empty-slot { width: 48px; height: 48px; border-radius: 12px; border: 2px dashed var(--line); }
-    .count { font-size: 14px; font-weight: 800; color: var(--textL); text-align: center; min-height: 18px; margin-top: -6px; }
+    .block.now { background: #FF9F43; transform: translateY(-3px); }
+    .block.bad { background: #E5484D; animation: wiggle .45s ease; }
+    .empty-slot { width: 48px; height: 48px; border-radius: 14px; border: 2px dashed color-mix(in srgb, var(--ink-3) 40%, transparent); }
+    .count { font-size: 14px; font-weight: 800; color: var(--ink-3); text-align: center; min-height: 18px; margin-top: -6px; }
 
     @media (min-width: 760px) and (min-aspect-ratio: 5/4), (orientation: landscape) and (max-height: 520px) {
       .cd-main { grid-template-columns: auto minmax(260px, 420px); align-items: start; justify-content: center; column-gap: 28px; }
+    }
+    @media (min-width: 700px) and (min-height: 820px) {
+      .pad { grid-template-columns: repeat(3, 84px); grid-template-rows: repeat(2, 84px); gap: 10px; }
+      .arrow-btn .ico { width: 42px; height: 42px; }
     }
     @media (orientation: landscape) and (max-height: 520px) {
       .pad { grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(2, 46px); gap: 6px; }
       .program { min-height: 54px; padding: 5px; }
       .side { gap: 8px; }
-      .arrow-btn { font-size: 26px; }
+      .arrow-btn .ico { width: 26px; height: 26px; }
       .block { height: 40px; min-width: 40px; font-size: 22px; }
     }
   </style>
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">L</em><em style="color:#F5A623">i</em><em style="color:#7EC850">t</em><em style="color:#4DADEA">t</em><em style="color:#B07CD8">l</em><em style="color:#E85D75">e</em> <em style="color:#F5A623">C</em><em style="color:#7EC850">o</em><em style="color:#4DADEA">d</em><em style="color:#B07CD8">e</em><em style="color:#E85D75">r</em></h1>
-      <p class="sub">Program the bunny to the carrot</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="coder"></nav>
+    <header class="topbar" data-page="coder"></header>
     <main class="cd land-split">
       <div class="act-bar">
-        <div id="level"></div>
-        <button type="button" class="tool-btn" id="new" aria-label="New puzzle" title="New puzzle">🔀</button>
+        <button type="button" class="tool-btn" id="new" data-icon="shuffle" aria-label="New puzzle" title="New puzzle"></button>
       </div>
       <div class="prompt-row">
         <span class="prompt-text" id="prompt" aria-live="polite"></span>
@@ -112,16 +116,16 @@
           <div class="count" id="count"></div>
           <div class="controls">
             <div class="pad" id="pad" role="group" aria-label="Arrows">
-              <button type="button" class="arrow-btn" data-d="0" aria-label="Up">↑</button>
-              <button type="button" class="arrow-btn" data-d="3" aria-label="Left">←</button>
-              <button type="button" class="arrow-btn" data-d="2" aria-label="Down">↓</button>
-              <button type="button" class="arrow-btn" data-d="1" aria-label="Right">→</button>
+              <button type="button" class="arrow-btn" data-d="0" aria-label="Up"></button>
+              <button type="button" class="arrow-btn" data-d="3" aria-label="Left"></button>
+              <button type="button" class="arrow-btn" data-d="2" aria-label="Down"></button>
+              <button type="button" class="arrow-btn" data-d="1" aria-label="Right"></button>
             </div>
             <div class="run-col" id="run-row" hidden>
-              <button type="button" class="btn" id="go" style="background:#5DB534"><span class="emoji">▶️</span> Go!</button>
+              <button type="button" class="btn" id="go" data-icon="play">Go!</button>
               <div class="btn-row">
-                <button type="button" class="tool-btn" id="back" aria-label="Remove the last arrow" title="Remove last">⌫</button>
-                <button type="button" class="tool-btn" id="clear" aria-label="Clear the program" title="Clear">🧻</button>
+                <button type="button" class="tool-btn" id="back" data-icon="erase" aria-label="Remove the last arrow" title="Remove last"></button>
+                <button type="button" class="tool-btn" id="clear" data-icon="trash" aria-label="Clear the program" title="Clear"></button>
               </div>
             </div>
           </div>
@@ -131,7 +135,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
   <script>
     var LEVELS = [
       { age: 4, label: 'Step by step', mode: 'step', n: 4, minDist: 2, trees: 0 },
@@ -211,7 +215,7 @@
       var availH = window.innerHeight - top - padBottom - (wide ? 8 : below);
       var availW = wide ? Math.min(boardEl.parentElement.clientWidth - 300, 640) : boardEl.parentElement.clientWidth;
       var size = Math.min(availW, Math.max(availH, window.innerHeight < 520 && window.innerWidth > window.innerHeight ? 150 : 220));
-      cell = Math.floor(Math.max(36, Math.min(84, (size - 2 * PAD - (n - 1) * GAP) / n)));
+      cell = Math.floor(Math.max(36, Math.min(124, (size - 2 * PAD - (n - 1) * GAP) / n)));
       boardEl.style.setProperty('--cell', cell + 'px');
       placeBunny(pos, true);
     }
@@ -253,6 +257,7 @@
       running = false;
       solved = false;
       program = [];
+      fails = 0;
       makePuzzle();
       pos = start.slice();
       render();
@@ -276,7 +281,7 @@
         var el = document.createElement('button');
         el.type = 'button';
         el.className = 'block';
-        el.innerHTML = DIRS[b.d][2] + (L.repeats ? '<span class="times">×' + b.times + '</span>' : '');
+        el.innerHTML = App.icon('next', 'd' + b.d) + (L.repeats ? '<span class="times">×' + b.times + '</span>' : '');
         el.setAttribute('aria-label', DIRS[b.d][3] + (L.repeats ? ' ' + b.times + ' times' : '') + (L.repeats ? '. Tap to change how many times' : ''));
         el.addEventListener('click', function () {
           if (running || !L.repeats) return;
@@ -310,7 +315,7 @@
       var L = LEVELS[level];
       if (L.mode === 'step') {
         var next = [pos[0] + DIRS[d][0], pos[1] + DIRS[d][1]];
-        if (blocked(next)) { bump(); say(trees[key(next)] ? 'Oops, a tree!' : 'Oops, that is the edge!'); return; }
+        if (blocked(next)) { bump(); fails++; say(trees[key(next)] ? 'Oops, a tree!' : 'Oops, that is the edge!'); return; }
         pos = next;
         placeBunny(pos);
         markTried(pos);
@@ -345,6 +350,7 @@
         programEl.querySelectorAll('.block').forEach(function (b) { b.classList.remove('now'); });
         if (k >= steps.length) {
           running = false;
+          fails++;
           say("Not there yet! Add more arrows, or change one.");
           return;
         }
@@ -353,6 +359,7 @@
         var to = [pos[0] + d[0], pos[1] + d[1]];
         if (blocked(to)) {
           running = false;
+          fails++;
           bump();
           program[bi].el.classList.remove('now');
           program[bi].el.classList.add('bad');
@@ -369,16 +376,21 @@
       })();
     }
 
+    var fails = 0;
     function win(blocks) {
       solved = true;
-      App.sfx('yay');
-      var r = boardEl.getBoundingClientRect();
-      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 16, r.width);
       var L = LEVELS[level];
       var msg = 'Yum! The bunny got the carrot!' + (L.mode === 'plan' ? ' You used ' + blocks + ' block' + (blocks > 1 ? 's' : '') + '!' : '');
-      promptEl.textContent = msg + ' 🎉';
-      say(msg);
-      setTimeout(function () { newPuzzle(true); }, 3000);
+      promptEl.textContent = msg;
+      // debugging is part of coding: one bump is still a good round
+      var r = App.roundResult(fails === 0 ? 'great' : fails <= 1 ? 'ok' : 'hard');
+      level = r.level;
+      var w = App.roundWords(r, 'Yum! Got the carrot!', msg);
+      setTimeout(function () {
+        App.celebrate({ title: w.title, say: w.say, stars: 3, auto: r.changed === 'up' ? 4500 : 3600,
+          text: L.mode === 'plan' && r.changed !== 'up' ? blocks + ' block' + (blocks > 1 ? 's' : '') : '',
+          buttons: [{ label: 'Next', icon: 'next', onClick: function () { newPuzzle(true); } }] });
+      }, 300);
     }
 
     document.getElementById('pad').addEventListener('click', function (e) {
@@ -406,7 +418,8 @@
       renderProgram();
     });
     document.getElementById('new').addEventListener('click', function () { newPuzzle(true); });
-    document.getElementById('say').addEventListener('click', function () { say(promptEl.textContent.replace('🎉', '')); });
+    document.getElementById('say').addEventListener('click', function () { say(promptEl.textContent); });
+    document.querySelectorAll('.arrow-btn').forEach(function (b) { b.innerHTML = App.icon('next', 'd' + b.getAttribute('data-d')); });
 
     var lv = App.levelControl(document.getElementById('level'), 'coder', LEVELS, function (l) { level = l; newPuzzle(true); });
     level = lv.get();

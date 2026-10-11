@@ -2,9 +2,9 @@
    shows up straight away) and served from the cache when there is no network,
    so the games keep working in the car or on a plane. Bump VERSION to drop
    old caches. */
-var VERSION = 'heshvi-v3';
+var VERSION = 'heshvi-v4';
 var CORE = [
-  './', 'index.html', 'guide.html',
+  './', 'index.html', 'parents.html', 'guide.html',
   'art.html', 'scenes.html', 'music.html',
   'puzzle.html', 'sort.html', 'patterns.html', 'memory.html', 'order.html', 'oddone.html', 'maze.html', 'coder.html',
   'match.html', 'learn.html', 'find.html', 'discover.html', 'trace.html', 'stories.html', 'print.html', 'worksheet.html',

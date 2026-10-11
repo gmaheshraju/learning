@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>For Grown-ups · Heshvi</title>
+  <meta name="description" content="Settings, ideas, printables and privacy for Heshvi, calm playful learning for ages 2 to 7.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
+  <style>
+    .pa { max-width: 640px; margin: 0 auto; }
+    .pa.locked { visibility: hidden; }
+    .p-label { display: block; margin: 0 2px 8px; font-size: 15px; font-weight: 900; color: var(--ink-2); }
+    .p-ages { display: flex; width: 100%; margin-bottom: 6px; }
+    .p-ages button { flex: 1; padding: 0; font-size: 18px; }
+    .row-line > span small { display: block; font-size: 14px; font-weight: 700; color: var(--ink-3); line-height: 1.35; }
+    .p-btns { display: grid; gap: 10px; }
+    .p-btns .btn { width: 100%; }
+    .p-done { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--good); font-size: 17px; }
+    .p-ver { text-align: center; font-size: 13px; font-weight: 800; color: var(--ink-3); margin: 6px 0 10px; }
+    .p-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+    .p-sum div { background: var(--surface-2); border-radius: 16px; padding: 10px 8px; text-align: center; }
+    .p-sum b { display: block; font-family: var(--display); font-weight: 600; font-size: 22px; color: var(--ink); line-height: 1.1; }
+    .p-sum small { font-size: 13px; font-weight: 800; color: var(--ink-3); }
+    .p-game { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+    .p-game:first-child { border-top: none; }
+    .p-game .lr-art { width: 42px; height: 42px; flex: none; border-radius: 14px; display: grid; place-items: center; background: var(--c); box-shadow: inset 0 -3px 0 rgba(0,0,0,.12); }
+    .p-game .lr-art svg { width: 31px; height: 31px; }
+    .p-game b { display: block; font-size: 16px; font-weight: 900; color: var(--ink); }
+    .p-game small { display: block; font-size: 14px; font-weight: 700; color: var(--ink-3); line-height: 1.35; }
+    .p-game .up { display: inline-flex; align-items: center; gap: 3px; margin-top: 3px; padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--good) 16%, transparent); color: var(--good); font-size: 12px; font-weight: 900; }
+    .p-game .up .ico { width: 13px; height: 13px; stroke-width: 3; transform: rotate(-90deg); }
+    .p-game .n { margin-left: auto; text-align: right; font-size: 13px; font-weight: 800; color: var(--ink-3); white-space: nowrap; }
+    .p-game .n b { font-family: var(--display); font-weight: 600; font-size: 18px; }
+    .p-empty { font-size: 15px; font-weight: 700; color: var(--ink-3); padding: 4px 0 6px; }
+    .p-thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; margin: 4px 0 12px; }
+    .p-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 14px; background: #fff; box-shadow: var(--shadow-sm); }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="topbar" data-page="parents"></header>
+    <main class="pa locked" id="pa">
+
+      <section class="panel" aria-labelledby="h-prog">
+        <h2 id="h-prog"><span data-ico="sparkle"></span>Progress</h2>
+        <div class="p-sum" id="p-sum"></div>
+        <div id="p-games"></div>
+        <div class="row-line" style="margin-top:6px;border-top:1px solid var(--line);padding-top:10px">
+          <span>Smart levels<small>Games step up when rounds get easy and back down if they get hard. Worked out on this device.</small></span>
+          <button type="button" class="switch" role="switch" id="p-smart" aria-label="Smart levels"></button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-child">
+        <h2 id="h-child"><span data-ico="people"></span>Your child</h2>
+        <label class="p-label" for="p-name">First name</label>
+        <input class="field" id="p-name" type="text" maxlength="24" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="done" placeholder="Used to say hello" style="margin-bottom:16px">
+        <span class="p-label" id="p-age-l">Age</span>
+        <div class="seg p-ages" id="p-age" role="radiogroup" aria-labelledby="p-age-l"></div>
+        <div class="row-line" style="margin-top:8px">
+          <span>Show games for every age<small>When off, the home screen only shows games that suit this age.</small></span>
+          <button type="button" class="switch" role="switch" id="p-all" aria-label="Show games for every age"></button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-sound">
+        <h2 id="h-sound"><span data-ico="volume"></span>Sound</h2>
+        <div class="row-line">
+          <span>Voice and sounds</span>
+          <button type="button" class="switch" role="switch" data-sound-switch aria-label="Voice and sounds"></button>
+        </div>
+        <div class="sheet-sub">Voice speed</div>
+        <div class="seg" id="p-rate" role="radiogroup" aria-label="Voice speed" style="display:flex;width:100%"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-ideas">
+        <h2 id="h-ideas"><span data-ico="book"></span>Ideas and printables</h2>
+        <div id="p-links"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-art" id="p-art" hidden>
+        <h2 id="h-art"><span data-ico="image"></span>Saved pictures</h2>
+        <div class="p-thumbs" id="p-thumbs"></div>
+        <a class="btn ghost small" href="art.html" style="width:100%">Open them in Art Studio</a>
+      </section>
+
+      <section class="panel" aria-labelledby="h-app">
+        <h2 id="h-app"><span data-ico="install"></span>Get the app</h2>
+        <div id="p-install"></div>
+        <button type="button" class="btn ghost" id="p-share" style="width:100%;margin-top:12px" hidden></button>
+      </section>
+
+      <section class="panel" aria-labelledby="h-priv">
+        <h2 id="h-priv"><span data-ico="lock"></span>Privacy</h2>
+        <p>No ads, no accounts, no analytics and nothing to buy. Your child&rsquo;s name, age, settings, progress and pictures are kept only in this browser, on this device.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="h-about">
+        <h2 id="h-about"><span data-ico="heart"></span>About Heshvi</h2>
+        <p>Made with love for Heshvitha, and shared for every little learner. The games follow what research says helps at each age: open-ended play, puzzles, patterns, planning ahead, and lots of talking together. English words come with Telugu hints.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="h-reset">
+        <h2 id="h-reset"><span data-ico="again"></span>Start over</h2>
+        <div class="p-btns">
+          <button type="button" class="btn ghost" id="p-welcome">Show the welcome again</button>
+          <button type="button" class="btn ghost" id="p-reset" style="color:#E5484D">Reset everything&hellip;</button>
+        </div>
+      </section>
+
+      <p class="p-ver">Heshvi &middot; version 4</p>
+    </main>
+  </div>
+
+  <script src="js/common.js?v=17"></script>
+  <script>
+    var store = {
+      get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+      set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private mode */ } }
+    };
+    var pa = document.getElementById('pa');
+    pa.querySelectorAll('[data-ico]').forEach(function (s) { s.outerHTML = App.icon(s.getAttribute('data-ico')); });
+
+    function unlock() { pa.classList.remove('locked'); }
+    if (App.grownRecently()) unlock();
+    else App.parentGate(unlock, function () { location.replace('index.html'); });
+
+    /* Child */
+    var nameEl = document.getElementById('p-name');
+    nameEl.value = App.getName();
+    nameEl.addEventListener('change', function () { App.setName(nameEl.value.replace(/\s+/g, ' ')); App.toast('Saved'); });
+    nameEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') nameEl.blur(); });
+
+    var ageEl = document.getElementById('p-age');
+    function renderAges() {
+      var age = App.getAge();
+      ageEl.innerHTML = [2, 3, 4, 5, 6, 7].map(function (a) {
+        return '<button type="button" role="radio" data-age="' + a + '" aria-checked="' + (a === age) + '" aria-label="' +
+          (a === 7 ? '7 or older' : a + ' years old') + '">' + (a === 7 ? '7+' : a) + '</button>';
+      }).join('');
+    }
+    ageEl.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-age]');
+      if (!b) return;
+      App.setAge(+b.getAttribute('data-age'));
+      renderAges();
+      App.toast('Games now start at the level for age ' + b.textContent);
+    });
+    renderAges();
+
+    var allEl = document.getElementById('p-all');
+    function syncAll() { allEl.setAttribute('aria-checked', String(store.get('heshvi-showall') === '1')); }
+    allEl.addEventListener('click', function () {
+      store.set('heshvi-showall', store.get('heshvi-showall') === '1' ? '0' : '1');
+      syncAll();
+    });
+    syncAll();
+
+    /* Progress */
+    function mins(sec) {
+      var m = Math.round(sec / 60);
+      if (m < 60) return m + ' min';
+      return Math.floor(m / 60) + ' h ' + (m % 60 ? (m % 60) + ' min' : '');
+    }
+    function ago(t) {
+      var d = Math.floor((Date.now() - t) / 86400000);
+      return d <= 0 ? 'today' : d === 1 ? 'yesterday' : d + ' days ago';
+    }
+    function renderProgress() {
+      var time = App.playTime(), today = App.dayKey(), week = [];
+      for (var i = 0; i < 7; i++) week.push(App.dayKey(new Date(Date.now() - i * 86400000)));
+      var todaySec = 0, weekSec = 0, perGame = {};
+      week.forEach(function (d) {
+        Object.keys(time[d] || {}).forEach(function (id) {
+          var s = time[d][id];
+          weekSec += s;
+          if (d === today) todaySec += s;
+          perGame[id] = (perGame[id] || 0) + s;
+        });
+      });
+      var rows = [], weekRounds = 0;
+      App.ACTIVITIES.forEach(function (a) {
+        if (a.section === 'grown') return;
+        var st = App.stats(a.id), r = 0;
+        week.forEach(function (d) { r += (st.days && st.days[d]) || 0; });
+        weekRounds += r;
+        if (!r && !perGame[a.id]) return;
+        var lastMove = (st.moves || []).slice(-1)[0];
+        var up = lastMove && lastMove.dir === 'up' && Date.now() - lastMove.at < 7 * 86400000 ? lastMove : null;
+        rows.push({ a: a, st: st, rounds: r, sec: perGame[a.id] || 0, up: up, last: Math.max(st.last || 0, perGame[a.id] ? 1 : 0) });
+      });
+      rows.sort(function (x, y) { return (y.sec + y.rounds * 30) - (x.sec + x.rounds * 30); });
+      document.getElementById('p-sum').innerHTML =
+        '<div><b>' + mins(todaySec) + '</b><small>today</small></div>' +
+        '<div><b>' + mins(weekSec) + '</b><small>this week</small></div>' +
+        '<div><b>' + weekRounds + '</b><small>' + (weekRounds === 1 ? 'round' : 'rounds') + ' played</small></div>';
+      document.getElementById('p-games').innerHTML = rows.length ? rows.map(function (x) {
+        var lvl = x.st.label ? 'Level ' + (x.st.level + 1) + ' of ' + x.st.levels + ' \u00B7 ' + x.st.label : (x.sec ? mins(x.sec) + ' this week' : '');
+        return '<div class="p-game" style="--c:' + x.a.color + '"><span class="lr-art">' + x.a.art + '</span><span><b>' + x.a.name + '</b>' +
+          (lvl ? '<small>' + lvl + '</small>' : '') +
+          (x.up ? '<span class="up">' + App.icon('next') + 'Moved up ' + ago(x.up.at) + '</span>' : '') + '</span>' +
+          (x.rounds ? '<span class="n"><b>' + x.rounds + '</b><br>' + (x.rounds === 1 ? 'round' : 'rounds') + '</span>' : '') + '</div>';
+      }).join('') : '<p class="p-empty">Nothing played this week yet. Progress shows up here as games are played.</p>';
+    }
+    renderProgress();
+    var smartEl = document.getElementById('p-smart');
+    function syncSmart() { smartEl.setAttribute('aria-checked', String(App.smartOn())); }
+    smartEl.addEventListener('click', function () {
+      store.set('heshvi-smart', App.smartOn() ? '0' : '1');
+      syncSmart();
+    });
+    syncSmart();
+
+    /* Sound */
+    document.querySelector('[data-sound-switch]').addEventListener('click', function () { Speech.setMuted(!Speech.isMuted()); });
+    document.querySelector('[data-sound-switch]').setAttribute('aria-checked', String(!Speech.isMuted()));
+    var rateEl = document.getElementById('p-rate');
+    function renderRate() {
+      rateEl.innerHTML = ['slow', 'normal', 'fast'].map(function (r) {
+        return '<button type="button" role="radio" data-rate="' + r + '" aria-checked="' + (Speech.getRate() === r) + '" style="flex:1">' +
+          { slow: 'Slower', normal: 'Normal', fast: 'Faster' }[r] + '</button>';
+      }).join('');
+    }
+    rateEl.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-rate]');
+      if (!b) return;
+      Speech.setRate(b.getAttribute('data-rate'));
+      renderRate();
+      Speech.speak('This is how I sound.', 0.9);
+    });
+    renderRate();
+
+    /* Ideas and printables */
+    document.getElementById('p-links').innerHTML = [
+      ['guide', 'guide.html', '#FF6FA9', 'What helps at each age', 'Milestones, and how to play together'],
+      ['print', 'print.html', '#26A69A', 'Print cards', 'Cut-out picture and word cards for the table'],
+      ['worksheet', 'worksheet.html', '#AB47BC', 'Worksheets', 'Draw-a-line matching sheets to print']
+    ].map(function (l) {
+      return '<a class="link-row" href="' + l[1] + '" style="--c:' + l[2] + '"><span class="lr-art">' + App.art(l[0]) + '</span>' +
+        '<span><b>' + l[3] + '</b><small>' + l[4] + '</small></span>' + App.icon('back') + '</a>';
+    }).join('');
+
+    /* Saved pictures */
+    var pics = App.gallery.list();
+    if (pics.length) {
+      document.getElementById('p-art').hidden = false;
+      document.getElementById('p-thumbs').innerHTML = pics.slice(0, 8).map(function (g) {
+        return '<img alt="A saved picture" src="' + g.src + '">';
+      }).join('');
+    }
+
+    /* Get the app */
+    function renderInstall() {
+      var box = document.getElementById('p-install');
+      if (App.isStandalone()) {
+        box.innerHTML = '<p class="p-done">' + App.icon('check') + 'Installed. You are using the app.</p>';
+      } else if (App.canInstall()) {
+        box.innerHTML = '<p style="margin-bottom:12px">Add Heshvi to your home screen. It opens full screen and works with no internet.</p>' +
+          '<button type="button" class="btn" style="--b:#3FB2FF;width:100%">' + App.icon('install') + 'Install Heshvi</button>';
+        box.querySelector('button').addEventListener('click', function () { App.promptInstall(); });
+      } else if (App.platform() === 'ios') {
+        box.innerHTML = '<p style="margin-bottom:10px">Add Heshvi to your home screen. It opens full screen and works with no internet.</p>' +
+          '<ol class="steps"><li>Open this page in <b>Safari</b>.</li><li>Tap <b>Share</b> ' + App.icon('share') + '</li><li>Choose <b>Add to Home Screen</b>.</li></ol>';
+      } else if (App.platform() === 'android') {
+        box.innerHTML = '<p style="margin-bottom:10px">Add Heshvi to your home screen. It opens full screen and works with no internet.</p>' +
+          '<ol class="steps"><li>Open the browser menu <b>&#8942;</b></li><li>Choose <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>';
+      } else {
+        box.innerHTML = '<p>Heshvi works best on a phone or tablet. On a computer, use the install button in the address bar, or just bookmark this page.</p>';
+      }
+    }
+    document.addEventListener('heshvi:installable', renderInstall);
+    document.addEventListener('heshvi:installed', renderInstall);
+    renderInstall();
+
+    var share = document.getElementById('p-share');
+    if (navigator.share) {
+      share.hidden = false;
+      share.innerHTML = App.icon('share') + 'Share with another parent';
+      share.addEventListener('click', function () {
+        navigator.share({
+          title: 'Heshvi · Play & Learn',
+          text: 'Calm, playful learning games for ages 2 to 7. No ads, no sign-up, works offline.',
+          url: location.origin + '/'
+        }).catch(function () {});
+      });
+    }
+
+    /* Start over */
+    document.getElementById('p-welcome').addEventListener('click', function () {
+      store.set('heshvi-onboarded', '0');
+      location.href = 'index.html';
+    });
+    document.getElementById('p-reset').addEventListener('click', function () {
+      var s = App.sheet({
+        title: 'Reset everything?', kicker: 'Start over',
+        body: '<div class="sheet-sec"><p>This removes the name, age, settings, game levels and saved pictures from this device. It can’t be undone.</p></div>' +
+          '<div class="p-btns" style="padding-top:6px"><button type="button" class="btn danger" id="r-yes">Reset everything</button>' +
+          '<button type="button" class="btn ghost" id="r-no">Keep everything</button></div>'
+      });
+      s.el.querySelector('#r-no').addEventListener('click', s.close);
+      s.el.querySelector('#r-yes').addEventListener('click', function () {
+        try {
+          Object.keys(localStorage).forEach(function (k) { if (k.indexOf('heshvi-') === 0) localStorage.removeItem(k); });
+        } catch (e) { /* ignore */ }
+        location.href = 'index.html';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Jigsaw — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <title>Puzzles · Heshvi</title>
+  <meta name="description" content="From 2 pieces to 16. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,19 +18,22 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .pz { max-width: 1280px; margin: 0 auto; }
     .pics { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 4px 8px; margin: 0 auto 6px; max-width: 100%; }
     .pics::-webkit-scrollbar { display: none; }
     .pic-btn {
-      flex: none; width: 66px; height: 50px; padding: 0; border-radius: 12px; overflow: hidden;
-      border: 3px solid var(--line); background: var(--card); cursor: pointer;
+      flex: none; width: 66px; height: 50px; padding: 0; border-radius: 14px; overflow: hidden;
+      border: 3px solid var(--surface); background: var(--surface); cursor: pointer; box-shadow: var(--shadow-sm);
     }
     .pic-btn canvas, .pic-btn img { width: 100%; height: 100%; display: block; object-fit: cover; }
-    .pic-btn[aria-pressed="true"] { border-color: #F5A623; box-shadow: 0 0 0 3px rgba(245,166,35,.3); }
-    .pics .pic-label { flex: none; align-self: center; font-size: 12px; font-weight: 900; color: var(--textL); text-transform: uppercase; letter-spacing: 1px; padding: 0 2px 0 6px; }
+    .pic-btn[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
+    .pics .pic-label { flex: none; align-self: center; font-size: 12px; font-weight: 900; color: var(--ink-3); text-transform: uppercase; letter-spacing: 1px; padding: 0 2px 0 6px; }
 
     .pz-area { position: relative; width: 100%; touch-action: none; -webkit-user-select: none; user-select: none; }
     .pz-board {
@@ -42,29 +45,27 @@
     .piece { position: absolute; left: 0; top: 0; filter: drop-shadow(0 3px 4px rgba(0,0,0,.28)); will-change: transform; }
     .piece.placed { filter: none; pointer-events: none; transition: opacity .6s .2s; }
     .piece.gone { opacity: 0; }
-    .piece.picked { filter: drop-shadow(0 0 6px #F5A623) drop-shadow(0 0 3px #F5A623); }
+    .piece.picked { filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 3px var(--accent)); }
     .piece.dragging { filter: drop-shadow(0 10px 12px rgba(0,0,0,.35)); }
     .pz-win {
       position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
       padding-bottom: 12px; pointer-events: none;
     }
-    .pz-win .btn-row { pointer-events: auto; animation: bounceIn .5s ease-out; }
-    .pz-win h2 { font-size: clamp(26px, 5vmin, 48px); font-weight: 900; animation: rainbow 2.5s linear infinite; text-shadow: 0 2px 0 var(--bg); }
+    .pz-win .btn-row { pointer-events: auto; animation: bounceIn .5s var(--spring); }
+    .pz-yay { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; animation: bounceIn .5s var(--spring); }
+    .pz-yay span { width: 64px; height: 64px; animation: bob 1.6s ease-in-out infinite; }
+    .pz-yay span svg { width: 100%; height: 100%; }
+    .pz-yay b { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 5vmin, 40px); color: var(--accent); }
+    @media (orientation: landscape) and (max-height: 520px) { .pz-yay { display: none; } }
   </style>
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">J</em><em style="color:#F5A623">i</em><em style="color:#7EC850">g</em><em style="color:#4DADEA">s</em><em style="color:#B07CD8">a</em><em style="color:#E85D75">w</em></h1>
-      <p class="sub">Drag the pieces into the picture</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="puzzle"></nav>
+    <header class="topbar" data-page="puzzle"></header>
     <main class="pz land-split">
       <div class="act-bar">
-        <div id="level"></div>
-        <button type="button" class="tool-btn" id="hint" aria-pressed="true" aria-label="Helper picture" title="Helper picture">👁️</button>
-        <button type="button" class="tool-btn" id="mix" aria-label="Mix up the pieces again" title="Mix again">🔀</button>
+        <button type="button" class="tool-btn" id="hint" data-icon="eye" aria-pressed="true" aria-label="Helper picture" title="Helper picture"></button>
+        <button type="button" class="tool-btn" id="mix" data-icon="shuffle" aria-label="Mix up the pieces again" title="Mix again"></button>
       </div>
       <div class="pics" id="pics" role="group" aria-label="Pick a picture"></div>
       <div class="pz-area" id="area" aria-label="Puzzle"></div>
@@ -72,7 +73,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
   <script>
     var LEVELS = [
       { age: 2, label: '2 pieces', cols: 2, rows: 1 },
@@ -284,7 +285,7 @@
         }
         attachDrag(p);
       });
-      if (done) showWin(true);
+      if (done) showWin(wonUp);
     }
 
     function scatter() {
@@ -301,9 +302,11 @@
       });
     }
 
+    var misses = 0, wonUp = false;
     function newPuzzle(quiet) {
       var L = LEVELS[level];
       done = false;
+      misses = 0;
       picked = null;
       var vH = [], vV = [];
       for (var r = 0; r < L.rows; r++) {
@@ -369,6 +372,7 @@
           if (!moved) { pick(p); return; }
           var tg = target(p);
           if (Math.hypot(p.x - tg.x, p.y - tg.y) <= snapTolerance()) { place(p); return; }
+          misses++;
           p.fx = p.x / layout.W; p.fy = p.y / layout.H;
           if (picked === p) pick(p);
         }
@@ -387,6 +391,7 @@
       setPos(p, pos.x, pos.y);
       p.fx = p.x / layout.W; p.fy = p.y / layout.H;
       App.sfx('tick');
+      misses++;
       if (level <= 1) say('Not there. Try another spot!');
     }
 
@@ -396,20 +401,25 @@
       drawBoard();
       // fade the pieces so the finished picture shows without seams
       pieces.forEach(function (p) { p.el.classList.add('gone'); });
-      var r = area.querySelector('.pz-board').getBoundingClientRect();
-      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 16, r.width);
+      App.confetti(50);
       App.sfx('yay');
-      say('You did it! ' + (source.scene ? capital(source.scene.name.replace('the ', 'The ')) + '!' : 'Your picture!'));
-      showWin(false);
+      var n = pieces.length;
+      var r = App.roundResult(misses <= Math.max(1, n / 4) ? 'great' : misses <= n ? 'ok' : 'hard');
+      if (r.changed) { level = r.level; setHint(level <= 2); }
+      if (r.changed === 'up') say(App.roundWords(r).say);
+      else say('You did it! ' + (source.scene ? capital(source.scene.name.replace('the ', 'The ')) + '!' : 'Your picture!'));
+      wonUp = r.changed === 'up';
+      showWin(wonUp);
     }
     function capital(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
-    function showWin() {
+    function showWin(levelUp) {
       var old = area.querySelector('.pz-win');
       if (old) old.remove();
       var w = document.createElement('div');
       w.className = 'pz-win';
-      w.innerHTML = '<div class="btn-row"><button type="button" class="btn" id="next-pic" style="background:#5DB534">Next picture →</button>' +
-        '<button type="button" class="btn" id="again" style="background:#E8961A">Again <span class="emoji">🔀</span></button></div>';
+      w.innerHTML = '<div class="pz-yay"><span>' + App.MASCOT + '</span><b>' + (levelUp ? 'Level up!' : 'You did it!') + '</b></div>' +
+        '<div class="btn-row"><button type="button" class="btn" id="next-pic">Next picture' + App.icon('next') + '</button>' +
+        '<button type="button" class="btn ghost" id="again">' + App.icon('shuffle') + 'Again</button></div>';
       area.appendChild(w);
       document.getElementById('next-pic').addEventListener('click', nextPicture);
       document.getElementById('again').addEventListener('click', function () { newPuzzle(); });

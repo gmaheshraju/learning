@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Art Studio — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <title>Art Studio · Heshvi</title>
+  <meta name="description" content=". Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,17 +18,14 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .art { max-width: 1280px; margin: 0 auto; }
-    .mode-tabs { display: inline-flex; gap: 4px; padding: 3px; border-radius: 999px; border: 2px solid var(--line); background: var(--card); }
-    .mode-tab {
-      min-height: 38px; padding: 0 14px; border-radius: 999px; border: none; background: none;
-      font-size: 15px; font-weight: 900; color: var(--textM); cursor: pointer; white-space: nowrap;
-    }
     .mode-tab .emoji { font-size: 17px; }
-    .mode-tab[aria-selected="true"] { background: #E85D75; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.2); }
 
     /* ----- paint ----- */
     .studio {
@@ -45,19 +42,20 @@
 
     .paper-wrap {
       grid-area: paper; position: relative; width: 100%;
-      height: clamp(240px, 100dvh - 478px, 1400px);
+      height: clamp(240px, 100dvh - 384px, 1400px);
       display: grid; place-items: center;
     }
     #paper, .cbook svg {
-      background: #fff; border-radius: 18px; box-shadow: 0 4px 22px rgba(0,0,0,.12);
+      background: #fff; border-radius: 22px; box-shadow: var(--shadow-md);
       touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
     }
     #paper { cursor: crosshair; }
     .idea {
       position: absolute; left: 50%; top: 10px; transform: translateX(-50%);
       max-width: calc(100% - 24px); padding: 8px 16px; border-radius: 16px;
-      background: rgba(255,255,255,.95); color: #3D2C2E; box-shadow: 0 4px 14px rgba(0,0,0,.15);
-      font-size: clamp(15px, 2.2vmin, 22px); font-weight: 900; text-align: center; pointer-events: none;
+      background: rgba(255,255,255,.96); color: #2F2235; box-shadow: var(--shadow-md);
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--display); font-size: clamp(16px, 2.3vmin, 22px); font-weight: 600; text-align: left; pointer-events: none;
       animation: fadeIn .3s ease-out;
     }
 
@@ -73,15 +71,15 @@
 
     .stamp-tray {
       grid-area: tools; display: flex; gap: 6px; max-width: 100%; overflow-x: auto; scrollbar-width: none;
-      padding: 6px; border-radius: 18px; background: var(--card); border: 2px solid var(--line);
-      margin-top: 52px; z-index: 5; box-shadow: 0 4px 14px var(--sh);
+      padding: 6px; border-radius: 20px; background: var(--surface);
+      margin-top: 52px; z-index: 5; box-shadow: var(--shadow-md);
     }
     .stamp-tray::-webkit-scrollbar { display: none; }
     .stamp-tray button {
       flex: none; width: 46px; height: 46px; border-radius: 12px; border: 2px solid transparent;
       background: none; font-family: var(--emoji); font-size: 28px; cursor: pointer; line-height: 1;
     }
-    .stamp-tray button[aria-checked="true"] { border-color: #F5A623; background: var(--tint); }
+    .stamp-tray button[aria-checked="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
 
     /* ----- colour in ----- */
     .cmode { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; justify-items: center; }
@@ -92,9 +90,9 @@
       flex: none; width: 64px; height: 64px; padding: 4px; border-radius: 14px;
       border: 2px solid var(--line); background: #fff; cursor: pointer;
     }
-    .page-pick button[aria-pressed="true"] { border-color: #E85D75; box-shadow: 0 0 0 3px rgba(232,93,117,.25); }
+    .page-pick button[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
     .page-pick svg { width: 100%; height: 100%; pointer-events: none; }
-    .cbook { width: 100%; height: clamp(240px, 100dvh - 470px, 1100px); display: grid; place-items: center; }
+    .cbook { width: 100%; height: clamp(240px, 100dvh - 398px, 1100px); display: grid; place-items: center; }
     .cbook svg { width: auto; height: 100%; max-width: 100%; aspect-ratio: 1; }
     .cbook .r { cursor: pointer; transition: fill .15s; }
     .cbook .r, .page-pick .r { stroke: #2B2730; stroke-width: 5; stroke-linejoin: round; }
@@ -104,24 +102,19 @@
     .gal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 42vw), 1fr)); gap: 12px; }
     .gal-item {
       position: relative; aspect-ratio: 1; border-radius: 18px; overflow: hidden; padding: 0;
-      border: 3px solid var(--line); background: #fff; cursor: pointer; box-shadow: 0 2px 10px var(--sh);
+      border: 3px solid var(--surface); background: #fff; cursor: pointer; box-shadow: var(--shadow-sm);
     }
     .gal-item img { width: 100%; height: 100%; object-fit: contain; display: block; }
     .gal-item .kind { position: absolute; left: 6px; top: 6px; font-family: var(--emoji); font-size: 18px; background: rgba(255,255,255,.9); border-radius: 50%; width: 30px; height: 30px; display: grid; place-items: center; }
-    .gal-empty { text-align: center; padding: 40px 16px; font-size: 18px; font-weight: 800; color: var(--textM); }
-    .gal-empty .emoji { font-size: 64px; display: block; margin-bottom: 10px; }
+    .gal-empty { text-align: center; padding: 30px 16px; font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--ink-2); max-width: 420px; margin: 0 auto; }
+    .gal-empty .bug { width: 110px; height: 110px; margin: 0 auto 12px; animation: bob 2.4s ease-in-out infinite; }
+    .gal-empty .bug svg { width: 100%; height: 100%; }
     .gal-view { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-    .gal-view img { max-width: 100%; max-height: calc(100dvh - 300px); border-radius: 18px; background: #fff; box-shadow: 0 4px 22px rgba(0,0,0,.14); }
-
-    .toast {
-      position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%);
-      padding: 10px 20px; border-radius: 999px; background: #3D2C2E; color: #fff;
-      font-weight: 900; font-size: 16px; z-index: 200; animation: slideUp .3s ease-out; pointer-events: none;
-    }
+    .gal-view img { max-width: 100%; max-height: calc(100dvh - 260px); border-radius: 22px; background: #fff; box-shadow: var(--shadow-md); }
 
     @media (hover: hover) and (pointer: fine) {
       .swatch:hover { transform: scale(1.08); }
-      .page-pick button:hover, .gal-item:hover { border-color: #F5A623; }
+      .page-pick button:hover, .gal-item:hover { border-color: var(--accent); }
     }
 
     /* Wide screens and phones held sideways: tools left, paper middle, colours right */
@@ -129,14 +122,14 @@
       .studio { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "tools paper side"; align-items: start; }
       .tools { flex-direction: column; overflow: visible; padding: 0; }
       .tools .sep { width: 30px; height: 2px; }
-      .paper-wrap { height: calc(100dvh - 252px); min-height: 240px; }
+      .paper-wrap { height: calc(100dvh - 196px); min-height: 240px; }
       .side { max-width: 112px; }
       .colors { display: grid; grid-template-columns: repeat(2, 42px); }
       .actions { display: grid; grid-template-columns: repeat(2, var(--tap)); }
       .stamp-tray { grid-area: paper; align-self: start; margin-top: 0; flex-wrap: wrap; max-width: 330px; justify-self: start; }
       .cmode { grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; }
-      .page-pick { flex-direction: column; overflow-y: auto; max-height: calc(100dvh - 252px); padding: 2px; }
-      .cbook { height: calc(100dvh - 252px); min-height: 240px; }
+      .page-pick { flex-direction: column; overflow-y: auto; max-height: calc(100dvh - 196px); padding: 2px; }
+      .cbook { height: calc(100dvh - 196px); min-height: 240px; }
     }
     @media (orientation: landscape) and (max-height: 520px) {
       .tools { display: grid; grid-template-columns: repeat(2, 38px); gap: 4px; align-content: start; }
@@ -146,20 +139,15 @@
       .side { max-width: none; }
       .colors { grid-template-columns: repeat(3, 32px); gap: 6px; }
       .actions { grid-template-columns: repeat(4, 38px); gap: 6px; }
-      .paper-wrap, .cbook { height: calc(100dvh - 176px); }
-      .page-pick { max-height: calc(100dvh - 140px); }
+      .paper-wrap, .cbook { height: calc(100dvh - 128px); }
+      .page-pick { max-height: calc(100dvh - 120px); }
       .page-pick button { width: 52px; height: 52px; }
     }
   </style>
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">A</em><em style="color:#F5A623">r</em><em style="color:#7EC850">t</em> <em style="color:#4DADEA">S</em><em style="color:#B07CD8">t</em><em style="color:#E85D75">u</em><em style="color:#F5A623">d</em><em style="color:#7EC850">i</em><em style="color:#4DADEA">o</em></h1>
-      <p class="sub">Paint, stamp and colour in</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="art"></nav>
+    <header class="topbar" data-page="art"></header>
     <main class="art">
       <div class="act-bar">
         <div class="mode-tabs" role="tablist" aria-label="Studio">
@@ -167,7 +155,6 @@
           <button type="button" class="mode-tab" role="tab" data-mode="color" aria-selected="false"><span class="emoji" aria-hidden="true">🖍️</span> Colour in</button>
           <button type="button" class="mode-tab" role="tab" data-mode="gallery" aria-selected="false"><span class="emoji" aria-hidden="true">🖼️</span> My art</button>
         </div>
-        <div id="level"></div>
       </div>
 
       <section class="studio" id="mode-paint" role="tabpanel" aria-label="Paint">
@@ -180,10 +167,10 @@
         <div class="side">
           <div class="colors" id="colors" role="radiogroup" aria-label="Colours"></div>
           <div class="actions">
-            <button type="button" class="tool-btn" id="undo" aria-label="Undo" title="Undo">↩️</button>
-            <button type="button" class="tool-btn" id="clear" aria-label="New paper" title="New paper">🧻</button>
-            <button type="button" class="tool-btn" id="idea-btn" aria-label="Give me an idea" title="Give me an idea">💡</button>
-            <button type="button" class="tool-btn" id="save" aria-label="Save to My art" title="Save to My art">💾</button>
+            <button type="button" class="tool-btn" id="undo" data-icon="undo" aria-label="Undo" title="Undo"></button>
+            <button type="button" class="tool-btn" id="clear" data-icon="trash" aria-label="New paper" title="New paper"></button>
+            <button type="button" class="tool-btn" id="idea-btn" data-icon="bulb" aria-label="Give me an idea" title="Give me an idea"></button>
+            <button type="button" class="tool-btn" id="save" data-icon="heart" aria-label="Keep it in My art" title="Keep it in My art"></button>
           </div>
         </div>
       </section>
@@ -194,9 +181,9 @@
         <div class="side">
           <div class="colors" id="colors2" role="radiogroup" aria-label="Colours"></div>
           <div class="actions">
-            <button type="button" class="tool-btn" id="c-undo" aria-label="Undo" title="Undo">↩️</button>
-            <button type="button" class="tool-btn" id="c-clear" aria-label="Start again" title="Start again">🧻</button>
-            <button type="button" class="tool-btn" id="c-save" aria-label="Save to My art" title="Save to My art">💾</button>
+            <button type="button" class="tool-btn" id="c-undo" data-icon="undo" aria-label="Undo" title="Undo"></button>
+            <button type="button" class="tool-btn" id="c-clear" data-icon="trash" aria-label="Start again" title="Start again"></button>
+            <button type="button" class="tool-btn" id="c-save" data-icon="heart" aria-label="Keep it in My art" title="Keep it in My art"></button>
           </div>
         </div>
       </section>
@@ -209,7 +196,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
   <script>
     var LEVELS = [
       { age: 2, label: 'Simple tools' },
@@ -245,16 +232,7 @@
     var EMOJI_FONT = getComputedStyle(document.documentElement).getPropertyValue('--emoji').trim() || 'sans-serif';
 
     function say(text, rate) { Speech.speak(text, rate || 0.9); }
-    function toast(text) {
-      var old = document.querySelector('.toast');
-      if (old) old.remove();
-      var t = document.createElement('div');
-      t.className = 'toast';
-      t.setAttribute('role', 'status');
-      t.textContent = text;
-      document.body.appendChild(t);
-      setTimeout(function () { t.remove(); }, 2200);
-    }
+    function toast(text) { App.toast(text); }
 
     /* ================= Paint ================= */
     var cv = document.getElementById('paper');
@@ -480,7 +458,7 @@
     document.getElementById('save').addEventListener('click', function () {
       if (!visibleOps().length) { say('Draw something first!'); return; }
       var item = App.gallery.add('art', App.snapshot(cv, 900));
-      if (item) { App.sfx('yay'); say('Saved! Lovely picture!'); toast('Saved to My art 🖼️'); }
+      if (item) { App.sfx('yay'); say('Saved! Lovely picture!'); App.confetti(30); toast('Kept in My art'); }
       else toast('Could not save: this device is out of space');
     });
 
@@ -489,7 +467,8 @@
     document.getElementById('idea-btn').addEventListener('click', function () {
       var list = IDEAS[level].filter(function (s) { return s !== lastIdea; });
       lastIdea = list[Math.floor(Math.random() * list.length)];
-      ideaEl.textContent = '💡 ' + lastIdea;
+      ideaEl.innerHTML = App.icon('bulb');
+      ideaEl.appendChild(document.createTextNode(lastIdea));
       ideaEl.hidden = false;
       clearTimeout(ideaTimer);
       ideaTimer = setTimeout(hideIdea, 9000);
@@ -749,7 +728,7 @@
         g.fillRect(0, 0, 800, 800);
         g.drawImage(img, 0, 0, 800, 800);
         var item = App.gallery.add('art', App.snapshot(c, 800));
-        if (item) { App.sfx('yay'); say('Saved! Beautiful colours!'); toast('Saved to My art 🖼️'); }
+        if (item) { App.sfx('yay'); say('Saved! Beautiful colours!'); App.confetti(30); toast('Kept in My art'); }
         else toast('Could not save: this device is out of space');
       };
       img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
@@ -763,7 +742,7 @@
       galGrid.hidden = false;
       var list = App.gallery.list();
       if (!list.length) {
-        galGrid.innerHTML = '<div class="gal-empty" style="grid-column:1/-1"><span class="emoji">🖼️</span>Nothing here yet. Paint or colour something and tap 💾 to keep it!</div>';
+        galGrid.innerHTML = '<div class="gal-empty" style="grid-column:1/-1"><div class="bug">' + App.MASCOT + '</div>Nothing here yet. Paint or colour something, then tap the heart to keep it!</div>';
         return;
       }
       galGrid.innerHTML = list.map(function (g) {
@@ -782,10 +761,10 @@
       galGrid.hidden = true;
       galView.hidden = false;
       galView.innerHTML = '<img alt="Saved picture" src="' + g.src + '"><div class="btn-row">' +
-        '<button type="button" class="btn" id="gv-back" style="background:#9A8587">← Back</button>' +
-        '<a class="btn" href="puzzle.html?pic=' + g.id + '" style="background:#E8961A"><span class="emoji">🧩</span> Make a puzzle</a>' +
-        '<button type="button" class="btn" id="gv-save" style="background:#2F9BE0"><span class="emoji">📲</span> Save</button>' +
-        '<button type="button" class="btn" id="gv-del" style="background:#E0506A"><span class="emoji">🗑️</span> Delete</button></div>';
+        '<button type="button" class="btn ghost" id="gv-back">' + App.icon('back') + 'Back</button>' +
+        '<a class="btn" href="puzzle.html?pic=' + g.id + '" style="--b:#FF9F43">' + App.art('puzzle').replace('<svg', '<svg class="ico" style="width:28px;height:28px;stroke:none"') + 'Make a puzzle</a>' +
+        '<button type="button" class="btn" id="gv-save" style="--b:#3FB2FF">' + App.icon('share') + 'Save</button>' +
+        '<button type="button" class="btn ghost" id="gv-del" style="color:#E5484D">' + App.icon('trash') + 'Delete</button></div>';
       document.getElementById('gv-back').addEventListener('click', renderGallery);
       document.getElementById('gv-save').addEventListener('click', function () { App.saveImage(g.src, 'heshvi-' + g.id + '.jpg'); });
       var del = document.getElementById('gv-del'), armed = false;
@@ -807,7 +786,6 @@
       document.getElementById('mode-paint').hidden = m !== 'paint';
       document.getElementById('mode-color').hidden = m !== 'color';
       document.getElementById('mode-gallery').hidden = m !== 'gallery';
-      levelHost.hidden = m !== 'paint';
       closeTray();
       if (m === 'paint') { fitPaper(); if (!quiet) say('Pick a colour and draw!'); }
       if (m === 'color') { renderPagePick(); renderPage(); if (!quiet) say('Pick a colour, then tap to fill!'); }

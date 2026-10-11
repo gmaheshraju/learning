@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Mazes — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <title>Mazes · Heshvi</title>
+  <meta name="description" content="Find the way through. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,22 +18,25 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .mz-page { max-width: 900px; margin: 0 auto; }
     .maze-wrap { display: grid; place-items: center; }
     .maze {
-      background: var(--card); border-radius: 18px; box-shadow: 0 4px 20px var(--sh);
+      background: var(--surface); border-radius: 22px; box-shadow: var(--shadow-md);
       touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
       cursor: pointer; display: block;
     }
-    .maze .wall { stroke: #5C4B8A; stroke-linecap: round; }
-    .maze .trail { fill: none; stroke: #42A5F5; stroke-linecap: round; stroke-linejoin: round; opacity: .45; }
-    .maze .hint { fill: none; stroke: #F5A623; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 10; opacity: .9; }
+    .maze .wall { stroke: #4A3F7A; stroke-linecap: round; }
+    .maze .trail { fill: none; stroke: var(--accent); stroke-linecap: round; stroke-linejoin: round; opacity: .4; }
+    .maze .hint { fill: none; stroke: #FF9F43; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 10; opacity: .95; }
     .maze .tok { font-family: var(--emoji); dominant-baseline: central; text-anchor: middle; }
     .maze .hero { transition: transform .12s ease-out; }
-    .maze .goal-ring { fill: rgba(126,200,80,.18); }
+    .maze .goal-ring { fill: color-mix(in srgb, var(--good) 20%, transparent); }
     .maze .locked { opacity: .35; }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) .maze .wall { stroke: #C9B8FF; }
@@ -42,17 +45,11 @@
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">M</em><em style="color:#F5A623">a</em><em style="color:#7EC850">z</em><em style="color:#4DADEA">e</em><em style="color:#B07CD8">s</em></h1>
-      <p class="sub">Find the way through</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="maze"></nav>
+    <header class="topbar" data-page="maze"></header>
     <main class="mz-page land-split">
       <div class="act-bar">
-        <div id="level"></div>
-        <button type="button" class="tool-btn" id="hint" aria-label="Show me the way" title="Show me the way">💡</button>
-        <button type="button" class="tool-btn" id="new" aria-label="New maze" title="New maze">🔀</button>
+        <button type="button" class="tool-btn" id="hint" data-icon="bulb" aria-label="Show me the way" title="Show me the way"></button>
+        <button type="button" class="tool-btn" id="new" data-icon="shuffle" aria-label="New maze" title="New maze"></button>
       </div>
       <div class="prompt-row">
         <span class="prompt-text" id="prompt" aria-live="polite"></span>
@@ -63,7 +60,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
   <script>
     var LEVELS = [
       { age: 3, label: 'Tiny maze', n: 3 },
@@ -135,6 +132,7 @@
       var L = LEVELS[level];
       n = L.n;
       won = false;
+      hints = 0; backs = 0;
       themeIdx = (themeIdx + 1) % THEMES.length;
       theme = THEMES[themeIdx];
       generate();
@@ -206,7 +204,7 @@
       if (won) return;
       pos = to;
       var prev = path[path.length - 2];
-      if (prev && prev[0] === to[0] && prev[1] === to[1]) path.pop(); else path.push(to);
+      if (prev && prev[0] === to[0] && prev[1] === to[1]) { path.pop(); backs++; } else path.push(to);
       var c = center(to);
       svg.querySelector('#hero').setAttribute('transform', 'translate(' + c[0] + ' ' + c[1] + ')');
       drawTrail();
@@ -266,14 +264,18 @@
       else App.sfx('tick');
     });
 
+    var hints = 0, backs = 0;
     function win() {
       won = true;
-      App.sfx('yay');
-      var r = svg.getBoundingClientRect();
-      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 18, r.width);
-      say('You found the way! Yay!');
-      promptEl.textContent = 'You found the way! 🎉';
-      setTimeout(function () { newMaze(true); }, 2600);
+      promptEl.textContent = 'You found the way!';
+      // trying another way after a dead end is fine; needing the dotted line a lot is "hard"
+      var r = App.roundResult(hints === 0 && backs <= n * 2 ? 'great' : hints <= 1 ? 'ok' : 'hard');
+      level = r.level;
+      var w = App.roundWords(r, 'You found the way!');
+      setTimeout(function () {
+        App.celebrate({ title: w.title, say: w.say, stars: 3, auto: r.changed === 'up' ? 4500 : 3200,
+          buttons: [{ label: 'New maze', icon: 'next', onClick: function () { newMaze(true); } }] });
+      }, 350);
     }
 
     var hintTimer = null;
@@ -285,6 +287,7 @@
       var best = null;
       targets.forEach(function (t) { var r = route(pos, t); if (r && (!best || r.length < best.length)) best = r; });
       if (!best) return;
+      hints++;
       var line = svg.querySelector('#hint-line');
       line.setAttribute('points', best.map(center).map(function (p) { return p.join(','); }).join(' '));
       clearTimeout(hintTimer);

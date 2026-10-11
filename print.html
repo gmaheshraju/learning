@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Print Cards — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: match, listen, discover, trace and read along, with Telugu hints.">
+  <title>Print Cards · Heshvi</title>
+  <meta name="description" content="Cut-out picture and word cards. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,12 +18,15 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .print-wrap { max-width: 860px; margin: 0 auto; }
     .print-intro { text-align: center; margin-bottom: 14px; animation: slideUp .5s ease-out; }
-    .print-intro p { font-size: clamp(14px, 1.8vmin, 17px); color: var(--textL); font-weight: 600; line-height: 1.5; margin-bottom: 10px; }
+    .print-intro p { font-size: 16px; color: var(--ink-2); font-weight: 700; line-height: 1.5; margin-bottom: 12px; }
 
     .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
     .pcard {
@@ -50,9 +53,8 @@
     }
 
     @media print {
-      .print-intro, .hdr .sub, .cat-pills { display: none !important; }
+      .print-intro, .cat-pills { display: none !important; }
       .gw { padding: 8px; max-width: none; }
-      .hdr { margin-bottom: 8px; }
       .card-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
       .pcard { box-shadow: none; border-width: 2px; break-inside: avoid; }
       .cut-line { opacity: .5; }
@@ -62,17 +64,13 @@
 </head>
 <body>
   <div class="gw">
-    <header class="hdr">
-      <h1><em style="color:#E85D75">H</em><em style="color:#F5A623">e</em><em style="color:#7EC850">s</em><em style="color:#4DADEA">h</em><em style="color:#B07CD8">v</em><em style="color:#E85D75">i</em><em style="color:#F5A623">t</em><em style="color:#7EC850">h</em><em style="color:#4DADEA">a</em>'s Cards</h1>
-      <p class="sub">Print, cut, and play!</p>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="print"></nav>
+    <header class="topbar" data-page="print"></header>
 
     <main class="print-wrap">
       <div class="print-intro">
         <p>Pick a topic, print in colour, and cut out the cards!<br>
         Match the picture cards to the word cards on the table.</p>
-        <button type="button" class="btn" style="background:#2F9BE0" onclick="window.print()"><span class="emoji">🖨️</span> Print This Page</button>
+        <button type="button" class="btn" style="--b:#26A69A" data-icon="printer" onclick="window.print()">Print this page</button>
       </div>
 
       <div class="cat-pills" id="cat-pills"></div>
@@ -87,8 +85,8 @@
     </main>
   </div>
 
-  <script src="js/common.js?v=15"></script>
-  <script src="js/data.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
+  <script src="js/data.js?v=17"></script>
   <script>
     const PRINT_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850','#B07CD8','#FF8A65',
                            '#26A69A','#AB47BC','#EF5350','#42A5F5','#66BB6A','#FFA726',

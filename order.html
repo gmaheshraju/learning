@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>What Happens Next — Heshvitha's Learning World</title>
-  <meta name="description" content="Playful learning for little ones: create, solve puzzles, match, listen, trace and read along, with Telugu hints.">
+  <title>First &amp; Next · Heshvi</title>
+  <meta name="description" content="Put the pictures in order. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FFFBF5" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1E1A2A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Heshvi">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -18,8 +18,11 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=17">
   <style>
     .od { max-width: 980px; margin: 0 auto; }
     .slots { display: flex; justify-content: center; gap: clamp(6px, 2vw, 16px); margin: 6px auto 8px; }
@@ -30,32 +33,33 @@
       width: var(--s); display: flex; flex-direction: column; align-items: center; gap: 6px;
     }
     .slot-box {
-      width: var(--s); height: var(--s); border-radius: 22px; border: 3px dashed var(--line);
-      background: var(--card); display: grid; place-items: center; position: relative;
+      width: var(--s); height: var(--s); border-radius: 24px; border: 3px dashed color-mix(in srgb, var(--ink-3) 45%, transparent);
+      background: var(--surface); display: grid; place-items: center; position: relative;
       font-family: var(--emoji); font-size: calc(var(--s) * .62); line-height: 1; cursor: pointer;
       transition: border-color .2s, transform .2s, background-color .2s;
     }
-    .slot-box.next { border-color: #AB47BC; background: rgba(171,71,188,.07); }
-    .slot-box.full { border-style: solid; border-color: #AB47BC; box-shadow: 0 3px 12px var(--sh); }
-    .slot-box.good { border-color: #7EC850; background: var(--ok-bg); }
-    .slot-box.nope { animation: wiggle .45s ease; border-color: #ffb3c0; }
+    .slot-box.next { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, var(--surface)); animation: glow 1.6s ease-in-out infinite; --pc: color-mix(in srgb, var(--accent) 30%, transparent); }
+    .slot-box.full { border-style: solid; border-color: var(--accent); box-shadow: var(--shadow-sm); animation: none; }
+    .slot-box.good { border-color: var(--good); background: var(--ok-bg); }
+    .slot-box.nope { animation: wiggle .45s ease; border-color: #FFB3C0; }
     .slot-box.lit { transform: translateY(-8px) scale(1.06); }
     .slot-box.pop { animation: bounceIn .4s ease-out; }
-    .slot-word { font-size: clamp(13px, 2.2vmin, 18px); font-weight: 900; color: var(--textL); text-transform: uppercase; letter-spacing: 1px; }
-    .arrow { align-self: center; font-size: 22px; color: var(--textL); margin-top: -26px; flex: none; }
+    .slot-word { font-family: var(--display); font-size: clamp(14px, 2.2vmin, 19px); font-weight: 600; color: var(--ink-3); }
+    .arrow { align-self: center; color: var(--ink-3); margin-top: -26px; flex: none; }
+    .arrow .ico { width: 20px; height: 20px; stroke-width: 3; }
 
     .tray { display: flex; justify-content: center; flex-wrap: wrap; gap: clamp(10px, 3vw, 20px); margin: 18px auto 10px; min-height: 100px; }
     .ocard {
       width: clamp(80px, 22vw, 130px); height: clamp(80px, 22vw, 130px); border-radius: 22px; padding: 0;
-      border: 3px solid var(--line); background: var(--card); cursor: pointer;
+      border: 3px solid transparent; background: var(--surface); cursor: pointer;
       font-family: var(--emoji); font-size: clamp(48px, 13vw, 80px); line-height: 1;
-      box-shadow: 0 3px 12px var(--sh); animation: bounceIn .4s ease-out both; transition: transform .12s;
+      box-shadow: var(--shadow-sm), inset 0 -5px 0 rgba(47,34,53,.06); animation: bounceIn .4s var(--spring) both; transition: transform .15s var(--spring);
     }
     .ocard:active { transform: scale(.92); }
-    .ocard.nope { animation: wiggle .45s ease; border-color: #ffb3c0; }
+    .ocard.nope { animation: wiggle .45s ease; border-color: #FFB3C0; }
     .ocard.used { visibility: hidden; }
-    .caption { text-align: center; font-size: clamp(16px, 2.6vmin, 24px); font-weight: 800; color: var(--textM); min-height: 1.6em; margin-top: 6px; }
-    @media (hover: hover) and (pointer: fine) { .ocard:hover { border-color: #AB47BC; } }
+    .caption { text-align: center; font-family: var(--display); font-size: clamp(18px, 2.8vmin, 26px); font-weight: 600; color: var(--ink); min-height: 1.6em; margin-top: 6px; }
+    @media (hover: hover) and (pointer: fine) { .ocard:hover { border-color: var(--accent); } }
     @media (orientation: landscape) and (max-height: 520px) {
       .od { display: grid; grid-template-columns: auto auto; justify-content: center; align-items: center; column-gap: 28px; }
       .od > .act-bar { grid-column: 1; margin: 0; }
@@ -71,16 +75,10 @@
 </head>
 <body>
   <div class="gw">
-    <header class="hdr with-sound">
-      <h1><em style="color:#E85D75">W</em><em style="color:#F5A623">h</em><em style="color:#7EC850">a</em><em style="color:#4DADEA">t</em> <em style="color:#B07CD8">H</em><em style="color:#E85D75">a</em><em style="color:#F5A623">p</em><em style="color:#7EC850">p</em><em style="color:#4DADEA">e</em><em style="color:#B07CD8">n</em><em style="color:#E85D75">s</em> <em style="color:#F5A623">N</em><em style="color:#7EC850">e</em><em style="color:#4DADEA">x</em><em style="color:#B07CD8">t</em></h1>
-      <p class="sub">Put the pictures in order</p>
-      <button type="button" class="sound-btn" aria-pressed="true" aria-label="Sound is on">🔊</button>
-    </header>
-    <nav class="nav-links" aria-label="Activities" data-page="order"></nav>
+    <header class="topbar" data-page="order"></header>
     <main class="od">
       <div class="act-bar">
-        <div id="level"></div>
-        <button type="button" class="tool-btn" id="skip" aria-label="Another story" title="Another one">🔀</button>
+        <button type="button" class="tool-btn" id="skip" data-icon="shuffle" aria-label="Another story" title="Another one"></button>
       </div>
       <div class="prompt-row">
         <span class="prompt-text" id="prompt" aria-live="polite"></span>
@@ -88,13 +86,13 @@
       </div>
       <div class="slots" id="slots"></div>
       <div class="tray" id="tray" role="group" aria-label="Pictures"></div>
-      <div class="btn-row" id="check-row" hidden><button type="button" class="btn" id="check" style="background:#AB47BC">✓ Check my order</button></div>
+      <div class="btn-row" id="check-row" hidden><button type="button" class="btn" id="check" data-icon="check">Check my order</button></div>
       <div class="caption" id="caption" aria-live="polite"></div>
     </main>
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=15"></script>
+  <script src="js/common.js?v=17"></script>
   <script>
     var LEVELS = [
       { age: 3, label: 'What comes first?', steps: 2, given: 0, checkAtEnd: false },
@@ -128,7 +126,7 @@
     var WORDS = { 2: ['First', 'Then'], 3: ['First', 'Next', 'Last'], 4: ['First', 'Then', 'Next', 'Last'] };
 
     var slotsEl = document.getElementById('slots'), trayEl = document.getElementById('tray'), promptEl = document.getElementById('prompt'), captionEl = document.getElementById('caption');
-    var level = 0, story = null, filled = [], cards = [], busy = false, token = 0, lastIdx = -1;
+    var level = 0, story = null, filled = [], cards = [], busy = false, token = 0, lastIdx = -1, wrongs = 0;
 
     function say(t, rate, cb) { Speech.speak(t, rate || 0.88, cb); }
     function setPrompt(t) { promptEl.textContent = t; }
@@ -137,6 +135,7 @@
       var L = LEVELS[level];
       token++;
       busy = false;
+      wrongs = 0;
       var pool = L.steps === 4 ? FOUR : THREE;
       var idx;
       do { idx = Math.floor(Math.random() * pool.length); } while (pool.length > 1 && idx === lastIdx);
@@ -169,7 +168,8 @@
           var arr = document.createElement('span');
           arr.className = 'arrow';
           arr.setAttribute('aria-hidden', 'true');
-          arr.textContent = '›';
+          arr.innerHTML = App.icon('back');
+          arr.firstChild.style.transform = 'rotate(180deg)';
           slotsEl.appendChild(arr);
         }
         var s = document.createElement('div');
@@ -204,6 +204,7 @@
       if (i < 0) return;
       if (!L.checkAtEnd && c.at !== i) {
         btn.classList.remove('nope'); void btn.offsetWidth; btn.classList.add('nope');
+        wrongs++;
         App.sfx('oops');
         say(i === 0 ? 'Hmm. What happens first?' : 'Not yet! What happens before that?');
         return;
@@ -240,6 +241,7 @@
       var wrong = [];
       filled.forEach(function (c, i) { if (c.at === i) c.locked = true; else wrong.push(i); });
       if (!wrong.length) { render(); done(); return; }
+      wrongs++;
       App.sfx('oops');
       var boxes = slotsEl.querySelectorAll('.slot-box');
       wrong.forEach(function (i) { boxes[i].classList.add('nope'); });
@@ -258,8 +260,9 @@
       busy = true;
       var my = token;
       App.sfx('yay');
-      var r = slotsEl.getBoundingClientRect();
-      App.burst(document.getElementById('fx'), r.left + r.width / 2, r.top + r.height / 2, 14, r.width);
+      App.confetti(36);
+      var result = App.roundResult(wrongs === 0 ? 'great' : wrongs === 1 ? 'ok' : 'hard');
+      level = result.level;
       setPrompt('You did it! Here is the story:');
       var boxes = slotsEl.querySelectorAll('.slot-box');
       var i = 0;
@@ -268,7 +271,11 @@
         boxes.forEach(function (b) { b.classList.remove('lit'); });
         if (i >= story.length) {
           captionEl.textContent = '';
-          setTimeout(function () { if (my === token) newStory(); }, 1200);
+          if (result.changed === 'up') {
+            var w = App.roundWords(result);
+            App.celebrate({ title: w.title, say: w.say, stars: 3, auto: 4500,
+              buttons: [{ label: 'Next', icon: 'next', onClick: function () { if (my === token) newStory(); } }] });
+          } else setTimeout(function () { if (my === token) newStory(); }, 1200);
           return;
         }
         boxes[i].classList.add('lit');
