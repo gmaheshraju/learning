@@ -60,7 +60,7 @@ const CATEGORIES = [
       { id: 'APPLE', name: 'APPLE', icon: '\u{1F34E}', fact: 'Apples can be red, green, or yellow!', q: 'What color apple do you like best?', chain: 'There are over 7,500 types of apples in the world!' },
       { id: 'BANANA', name: 'BANANA', icon: '\u{1F34C}', fact: 'Bananas grow in big bunches on tall plants!', q: 'Can you peel a banana yourself?', chain: 'Bananas are curved because they grow towards the sun!' },
       { id: 'ORANGE_FRUIT', name: 'ORANGE', icon: '\u{1F34A}', fact: 'Oranges are full of juice inside!', q: 'Can you squeeze your hands like an orange?', chain: 'The color orange was named after the fruit!' },
-      { id: 'GRAPES', name: 'GRAPES', icon: '\u{1F347}', fact: 'Grapes grow on long vines in the sunshine!', q: 'Can you pick pretend grapes above you?', chain: 'It takes about 75 grapes to make one glass of juice!' },
+      { id: 'GRAPES', name: 'GRAPES', many: true, icon: '\u{1F347}', fact: 'Grapes grow on long vines in the sunshine!', q: 'Can you pick pretend grapes above you?', chain: 'It takes about 75 grapes to make one glass of juice!' },
       { id: 'WATERMELON', name: 'WATERMELON', icon: '\u{1F349}', fact: 'Watermelons are mostly water inside!', q: 'Is watermelon bigger than your head?', chain: 'The biggest watermelon ever weighed as much as a person!' },
       { id: 'STRAWBERRY', name: 'STRAWBERRY', icon: '\u{1F353}', fact: 'Strawberries have tiny seeds on the outside!', q: 'Can you count dots on a strawberry?', chain: 'One strawberry has about 200 tiny seeds on its skin!' },
       { id: 'MANGO', name: 'MANGO', icon: '\u{1F96D}', fact: 'Mangoes are sweet and come from warm places!', q: 'Can you find something yellow and orange?', chain: 'Mango is the most eaten fruit in the whole world!' },
@@ -135,7 +135,7 @@ const CATEGORIES = [
   {
     id: 'bodyparts', name: 'Body Parts', emoji: '\u{1F9D2}',
     items: [
-      { id: 'EYES', name: 'EYES', icon: '\u{1F440}', fact: 'Your eyes blink about 15 times every minute!', q: 'How many times can you blink in 10 seconds?', chain: 'Your eyes can see over 10 million different colors!' },
+      { id: 'EYES', name: 'EYES', many: true, icon: '\u{1F440}', fact: 'Your eyes blink about 15 times every minute!', q: 'How many times can you blink in 10 seconds?', chain: 'Your eyes can see over 10 million different colors!' },
       { id: 'NOSE', name: 'NOSE', icon: '\u{1F443}', fact: 'Your nose can smell over 1 trillion smells!', q: 'Sniff something! What do you smell?', chain: 'Your nose and ears never stop growing your whole life!' },
       { id: 'HAND', name: 'HAND', icon: '\u{270B}', fact: 'You have 5 fingers on each hand!', q: 'Count your fingers! How many total?', chain: 'Your fingerprints are unique — nobody else has the same ones!' },
       { id: 'EAR', name: 'EAR', icon: '\u{1F442}', fact: 'Your ears help you hear sounds all around!', q: 'Cup your ears — can you hear better?', chain: 'Your ears also help you balance so you do not fall!' },
@@ -149,10 +149,10 @@ const CATEGORIES = [
     id: 'clothes', name: 'Clothes', emoji: '\u{1F455}',
     items: [
       { id: 'SHIRT', name: 'SHIRT', icon: '\u{1F455}', fact: 'Shirts cover your body and keep you warm!', q: 'What color is your shirt today?', chain: 'The first shirts were made from animal skins!' },
-      { id: 'PANTS', name: 'PANTS', icon: '\u{1F456}', fact: 'Pants have two legs — one for each of yours!', q: 'Are you wearing pants or shorts today?', chain: 'Jeans were invented for gold miners to wear!' },
-      { id: 'SHOES', name: 'SHOES', icon: '\u{1F45F}', fact: 'Shoes protect your feet when you walk!', q: 'Can you tie your shoes by yourself?', chain: 'The oldest shoes ever found are 5,500 years old!' },
+      { id: 'PANTS', name: 'PANTS', many: true, icon: '\u{1F456}', fact: 'Pants have two legs — one for each of yours!', q: 'Are you wearing pants or shorts today?', chain: 'Jeans were invented for gold miners to wear!' },
+      { id: 'SHOES', name: 'SHOES', many: true, icon: '\u{1F45F}', fact: 'Shoes protect your feet when you walk!', q: 'Can you tie your shoes by yourself?', chain: 'The oldest shoes ever found are 5,500 years old!' },
       { id: 'HAT', name: 'HAT', icon: '\u{1F9E2}', fact: 'Hats keep the sun off your head!', q: 'Put something on your head like a hat!', chain: 'Chefs wear tall white hats called toques!' },
-      { id: 'SOCKS', name: 'SOCKS', icon: '\u{1F9E6}', fact: 'Socks keep your feet warm and cozy!', q: 'What color are your socks today?', chain: 'The first socks were made from animal hair!' },
+      { id: 'SOCKS', name: 'SOCKS', many: true, icon: '\u{1F9E6}', fact: 'Socks keep your feet warm and cozy!', q: 'What color are your socks today?', chain: 'The first socks were made from animal hair!' },
       { id: 'DRESS', name: 'DRESS', icon: '\u{1F457}', fact: 'Dresses are pretty and come in many colors!', q: 'Spin around like wearing a flowing dress!', chain: 'The longest dress ever had a tail 8 kilometers long!' },
       { id: 'JACKET', name: 'JACKET', icon: '\u{1F9E5}', fact: 'Jackets keep you warm when it is cold outside!', q: 'Pretend to zip up a jacket! Zzzzzip!', chain: 'Astronaut space suits are the most special jackets ever!' },
       { id: 'SCARF', name: 'SCARF', icon: '\u{1F9E3}', fact: 'Scarves wrap around your neck to stay warm!', q: 'Wrap something around your neck like a scarf!', chain: 'The longest scarf ever made was longer than 50 school buses!' }
@@ -182,6 +182,32 @@ const CATEGORIES = [
       { id: 'DIAMOND', name: 'DIAMOND', icon: '\u{1F537}', fact: 'A diamond is a square turned on its side!', q: 'Tilt your head — does a square become a diamond?', chain: 'Real diamonds are the hardest thing on Earth!' },
       { id: 'RECTANGLE', name: 'RECTANGLE', icon: '', svg: 'RECTANGLE', fact: 'A rectangle has two long sides and two short sides!', q: 'Find something shaped like a rectangle!', chain: 'Your door, your book, and your phone are all rectangles!' },
       { id: 'OVAL', name: 'OVAL', icon: '\u{1F95A}', fact: 'An oval is like a stretched circle — like an egg!', q: 'Draw an oval in the air!', chain: 'A rugby ball and a mirror can be oval shaped!' }
+    ]
+  },
+  {
+    id: 'feelings', name: 'Feelings', emoji: '\u{1F60A}',
+    items: [
+      { id: 'HAPPY', name: 'HAPPY', icon: '\u{1F604}', fact: 'When we feel happy, we smile and want to jump!', q: 'Show me your happiest face!', chain: 'A smile is catching. When you smile at someone, they often smile back!' },
+      { id: 'SAD', name: 'SAD', icon: '\u{1F622}', fact: 'Everyone feels sad sometimes. It is okay to cry.', q: 'What helps you feel better when you are sad?', chain: 'A big hug can help a sad friend feel a little better.' },
+      { id: 'ANGRY', name: 'ANGRY', icon: '\u{1F620}', fact: 'When we are angry, our face gets hot and our hands get tight.', q: 'Can you take a big slow breath, like blowing a candle?', chain: 'Slow breaths help angry feelings get smaller.' },
+      { id: 'SCARED', name: 'SCARED', icon: '\u{1F628}', fact: 'Feeling scared is okay. A grown-up can help us feel safe.', q: 'What makes you feel safe?', chain: 'Even brave grown-ups feel scared sometimes!' },
+      { id: 'SURPRISED', name: 'SURPRISED', icon: '\u{1F632}', fact: 'When we are surprised, our eyes go big and our mouth opens!', q: 'Show me your surprised face!', chain: 'A birthday surprise can make you jump with joy!' },
+      { id: 'SLEEPY', name: 'SLEEPY', icon: '\u{1F634}', fact: 'When we are sleepy, we yawn and our eyes feel heavy.', q: 'Can you do a big sleepy yawn?', chain: 'Sleep helps your body grow and your brain remember things!' },
+      { id: 'SILLY', name: 'SILLY', icon: '\u{1F92A}', fact: 'Being silly is fun! Silly faces make everyone laugh.', q: 'Make your silliest face!', chain: 'Laughing together makes friends feel close.' },
+      { id: 'LOVED', name: 'LOVED', icon: '\u{1F970}', fact: 'We feel loved when someone hugs us and cares for us.', q: 'Who do you love to hug?', chain: 'Saying I love you makes two people feel happy!' }
+    ]
+  },
+  {
+    id: 'weather', name: 'Weather & Sky', emoji: '\u{1F326}\u{FE0F}',
+    items: [
+      { id: 'SUN', name: 'SUN', icon: '\u2600\uFE0F', fact: 'The sun is a giant star that gives us light and keeps us warm!', q: 'Is it sunny outside today?', chain: 'The sun is so big that a million Earths could fit inside it!' },
+      { id: 'RAIN', name: 'RAIN', icon: '\u{1F327}\u{FE0F}', fact: 'Rain falls from clouds and helps plants grow!', q: 'Can you make the sound of rain with your fingers?', chain: 'The rain goes back up to the sky and makes new clouds!' },
+      { id: 'CLOUD', name: 'CLOUD', icon: '\u2601\uFE0F', fact: 'Clouds are made of tiny drops of water floating in the sky!', q: 'What shape can you see in the clouds?', chain: 'Dark grey clouds are full of water and ready to rain!' },
+      { id: 'RAINBOW', name: 'RAINBOW', icon: '\u{1F308}', fact: 'A rainbow comes when the sun shines through the rain!', q: 'How many colours can you name in a rainbow?', chain: 'A rainbow has seven colours: red, orange, yellow, green, blue, indigo and violet!' },
+      { id: 'SNOW', name: 'SNOW', icon: '\u2744\uFE0F', fact: 'Snow is frozen rain that falls soft and white!', q: 'Can you pretend to build a snowman?', chain: 'Every snowflake has six sides, and no two look the same!' },
+      { id: 'WIND', name: 'WIND', icon: '\u{1F32C}\u{FE0F}', fact: 'Wind is moving air. We cannot see it, but we can feel it!', q: 'Can you blow like the wind?', chain: 'Wind makes kites fly and turns big windmills!' },
+      { id: 'MOON', name: 'MOON', icon: '\u{1F319}', fact: 'The moon shines at night and changes shape every night!', q: 'Can you find the moon tonight?', chain: 'People have walked on the moon and left footprints there!' },
+      { id: 'LIGHTNING', name: 'LIGHTNING', icon: '\u26A1', fact: 'Lightning is a giant spark in a storm, and thunder is its loud boom!', q: 'Can you count from the flash to the boom?', chain: 'Lightning is hotter than the sun! That is why we stay inside in a storm.' }
     ]
   }
 ];

@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .fi-wrap { max-width: 760px; margin: 0 auto; }
     .fi-wrap .prompt-row { animation: slideUp .4s ease-out; margin-top: 8px; }
@@ -65,6 +65,11 @@
       max-width: 520px; margin: 0 auto;
     }
     .fi-learn-emoji { font-size: clamp(64px, 16vmin, 150px); line-height: 1; }
+    .fi-known {
+      display: inline-flex; align-items: center; gap: 6px; justify-self: start; margin: 0 auto 4px; padding: 5px 14px 5px 10px;
+      border-radius: 999px; background: #FFF3C4; color: #8A5A00; font-weight: 900; font-size: 15px; animation: bounceIn .5s var(--spring) both;
+    }
+    .fi-known .ico { width: 18px; height: 18px; color: #F5A623; }
     .fi-learn-word { font-family: var(--display); font-size: clamp(36px, 8vmin, 76px); font-weight: 700; margin: 8px 0 2px; color: var(--accent); letter-spacing: 2px; word-break: break-word; }
     .fi-learn-phonics { font-size: clamp(16px, 3.2vmin, 28px); font-weight: 800; color: var(--p1ink); letter-spacing: 3px; margin-bottom: 4px; }
     .fi-learn-telugu { font-size: clamp(19px, 3.8vmin, 32px); font-weight: 700; color: var(--textL); margin-bottom: 10px; }
@@ -97,9 +102,9 @@
     <div class="fi-stars-c" id="fi-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/common.js?v=17"></script>
-  <script src="js/data.js?v=17"></script>
-  <script src="js/telugu.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
+  <script src="js/data.js?v=20"></script>
+  <script src="js/telugu.js?v=20"></script>
   <script>
     const ROUNDS = 6;
     const CHOICES = 4;
@@ -117,14 +122,18 @@
     let usedIds = new Set();
     let usedTargets = new Set();
     let misses = 0;
+    let missedThis = false;   // a wrong tap on this question
+    let newlyKnown = [];      // words that became "known" this game
     let step = 0;   // bumps on every screen change so stale timers/callbacks drop out
 
     function speak(text, rate, onEnd) { Speech.speak(text, rate || 0.8, onEnd); }
-    function askQuestion() { speak('Where is the ' + target.name + '?', 0.75); }
+    function whereIs(it) { return 'Where ' + (it.many ? 'are' : 'is') + ' the '; }
+    function askQuestion() { speak(whereIs(target) + target.name + '?', 0.75); }
 
     function resetGame() {
       round = 0;
       misses = 0;
+      newlyKnown = [];
       usedIds.clear();
       usedTargets.clear();
     }
@@ -142,7 +151,7 @@
         btn.type = 'button';
         btn.className = 'cat-btn';
         btn.style.animationDelay = (i * 0.05) + 's';
-        btn.innerHTML = '<span class="cat-emoji" aria-hidden="true">' + cat.emoji + '</span><span class="cat-name">' + cat.name + '</span>';
+        btn.innerHTML = '<span class="cat-emoji" aria-hidden="true">' + cat.emoji + '</span><span class="cat-name">' + cat.name + '</span>' + App.knownBadge(cat.items);
         btn.addEventListener('click', () => { currentCat = cat; resetGame(); startRound(); });
         grid.appendChild(btn);
       });
@@ -151,19 +160,19 @@
 
     function pickItems() {
       const items = currentCat.items;
-      let available = items.filter(it => !usedIds.has(it.id));
-      if (available.length < CHOICES) {
-        usedIds.clear();
-        available = items.slice();
-      }
-      const picked = App.shuffle(available).slice(0, CHOICES);
-      picked.forEach(it => usedIds.add(it.id));
-
-      // never ask for the same thing twice in one game
-      const fresh = picked.filter(it => !usedTargets.has(it.id));
-      const pool = fresh.length ? fresh : picked;
-      target = pool[Math.floor(Math.random() * pool.length)];
+      // ask for words that are due or shaky more often, never the same one twice in a game
+      const fresh = items.filter(it => !usedTargets.has(it.id));
+      target = App.pickWords(fresh.length ? fresh : items, 1)[0];
       usedTargets.add(target.id);
+      missedThis = false;
+
+      let others = items.filter(it => it.id !== target.id && !usedIds.has(it.id));
+      if (others.length < CHOICES - 1) {
+        usedIds.clear();
+        others = items.filter(it => it.id !== target.id);
+      }
+      const picked = App.shuffle(others).slice(0, CHOICES - 1).concat(target);
+      picked.forEach(it => usedIds.add(it.id));
       return App.shuffle(picked);
     }
 
@@ -189,7 +198,7 @@
       const prompt = document.createElement('div');
       prompt.className = 'prompt-row';
       prompt.innerHTML =
-        '<span class="prompt-text">Where is the <span class="fi-highlight"></span>?</span>' +
+        '<span class="prompt-text">' + whereIs(target) + '<span class="fi-highlight"></span>?</span>' +
         '<button type="button" class="say-btn" aria-label="Hear the question again"></button>';
       prompt.querySelector('.fi-highlight').textContent = target.name;
       prompt.querySelector('.say-btn').addEventListener('click', askQuestion);
@@ -233,6 +242,7 @@
 
       if (item.id === target.id) {
         card.classList.add('fi-correct');
+        if (App.wordResult(target.id, !missedThis)) newlyKnown.push(target);
         const rect = card.getBoundingClientRect();
         App.burst(stars, rect.left + rect.width / 2, rect.top + rect.height / 2, 12);
         const dot = area.querySelectorAll('.fi-dot')[round];
@@ -242,6 +252,7 @@
         speak(cheer + ' ' + item.name + '!', 0.85, () => { if (my === step) showLearnMoment(item); });
       } else {
         misses++;
+        missedThis = true;
         card.classList.remove('fi-wrong');
         void card.offsetWidth;
         card.classList.add('fi-wrong');
@@ -276,6 +287,12 @@
       emoji.className = 'fi-learn-emoji';
       renderIcon(emoji, item);
       learn.appendChild(emoji);
+      if (newlyKnown.indexOf(item) !== -1) {
+        const badge = document.createElement('div');
+        badge.className = 'fi-known';
+        badge.innerHTML = App.icon('star') + 'You know this word now!';
+        learn.appendChild(badge);
+      }
       [['fi-learn-word', item.name], ['fi-learn-phonics', phonics], ['fi-learn-telugu', telugu], ['fi-learn-sentence', sentence]]
         .forEach(([cls, text]) => {
           if (!text) return;
@@ -298,7 +315,10 @@
       let speakText = item.name + '. ' + phonics.replace(/·/g, ',') + '. ' + item.name + '.';
       if (sentence) speakText += ' ' + sentence;
       speak(speakText, 0.7, () => {
-        setTimeout(() => { if (my === step) nextRound(); }, 1500);
+        if (my !== step) return;
+        const after = () => setTimeout(() => { if (my === step) nextRound(); }, 1500);
+        if (telugu) Speech.speak(telugu, 0.8, () => { if (my === step) after(); }, { lang: 'te' });
+        else after();
       });
     }
 
@@ -306,8 +326,10 @@
       step++;
       App.roundResult(misses <= 1 ? 'great' : misses <= 3 ? 'ok' : 'hard');
       App.celebrate({
-        title: 'Superstar!', say: 'Superstar! You found them all!', stars: 3,
-        text: 'You found ' + ROUNDS + ' ' + currentCat.name.toLowerCase() + '!',
+        title: 'Superstar!', stars: 3,
+        say: 'Superstar! You found them all!' + (newlyKnown.length ? ' And you know new words now!' : ''),
+        text: 'You found ' + ROUNDS + ' ' + currentCat.name.toLowerCase() + '!' +
+          (newlyKnown.length ? ' New words you know: ' + newlyKnown.map(it => it.name).join(', ') + '.' : ''),
         buttons: [
           { label: 'Play again', icon: 'again', onClick: () => { resetGame(); startRound(); } },
           { label: 'New topic', icon: 'shuffle', ghost: true, onClick: showCategoryPicker }

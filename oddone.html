@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .oo { max-width: 760px; margin: 0 auto; }
     .oo-grid {
@@ -73,9 +73,9 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=17"></script>
-  <script src="js/data.js?v=17"></script>
-  <script src="js/shapes.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
+  <script src="js/data.js?v=20"></script>
+  <script src="js/shapes.js?v=20"></script>
   <script>
     var LEVELS = [
       { age: 3, label: 'Animal, food or car?' },
@@ -104,8 +104,15 @@
       { many: 'things with wheels', in: [['🚗', 'car'], ['🚲', 'bike'], ['🚌', 'bus'], ['🛴', 'scooter'], ['🚂', 'train']], out: [['⛵', 'boat'], ['🛶', 'canoe'], ['🚀', 'rocket']], why: 'The {odd} has no wheels. The others do!' },
       { many: 'things we wear', in: [['👕', 'shirt'], ['👖', 'pants'], ['🧦', 'socks'], ['🧢', 'cap'], ['👗', 'dress']], out: [['🍎', 'apple'], ['🚗', 'car'], ['🐶', 'dog']], why: 'We cannot wear a {odd}!' },
       { many: 'things that make music', in: [['🎸', 'guitar'], ['🥁', 'drum'], ['🎹', 'piano'], ['🎺', 'trumpet'], ['🎻', 'violin']], out: [['🍌', 'banana'], ['⚽', 'ball'], ['🧦', 'sock']], why: 'The {odd} does not make music!' },
-      { many: 'round things', in: [['⚽', 'football'], ['🏀', 'basketball'], ['🌕', 'moon'], ['🍊', 'orange']], out: [['📦', 'box'], ['📚', 'books'], ['🧱', 'brick']], why: 'The {odd} is not round. The others are!' },
-      { many: 'things we see at night', in: [['🌙', 'moon'], ['⭐', 'star'], ['🦉', 'owl'], ['🌃', 'night sky']], out: [['☀️', 'sun'], ['🌈', 'rainbow']], why: 'We see the {odd} in the daytime!' }
+      { many: 'round things', in: [['⚽', 'football'], ['🏀', 'basketball'], ['🌕', 'moon'], ['🍊', 'orange']], out: [['📦', 'box'], ['📕', 'book'], ['🧱', 'brick']], why: 'The {odd} is not round. The others are!' },
+      { many: 'things we see at night', in: [['🌙', 'moon'], ['⭐', 'star'], ['🦉', 'owl'], ['🌃', 'night sky']], out: [['☀️', 'sun'], ['🌈', 'rainbow']], why: 'We see the {odd} in the daytime!' },
+      { many: 'things that grow', in: [['🌳', 'tree'], ['🌻', 'sunflower'], ['🌱', 'little plant'], ['🌵', 'cactus'], ['🌷', 'tulip']], out: [['🪨', 'rock'], ['🧸', 'teddy'], ['⚽', 'ball']], why: 'The {odd} does not grow. The others are plants that grow!' },
+      { many: 'things in the kitchen', in: [['🍳', 'frying pan'], ['🥄', 'spoon'], ['🍽️', 'plate'], ['🥣', 'bowl']], out: [['🛏️', 'bed'], ['🚲', 'bike'], ['🌳', 'tree']], why: 'We do not keep a {odd} in the kitchen!' },
+      { many: 'things that keep us clean', in: [['🧼', 'soap'], ['🛁', 'bathtub'], ['🧽', 'sponge'], ['🚿', 'shower']], out: [['🍫', 'chocolate'], ['🎈', 'balloon'], ['🦁', 'lion']], why: 'The {odd} does not help us get clean!' },
+      { many: 'green things', in: [['🐸', 'frog'], ['🥦', 'broccoli'], ['🍀', 'clover'], ['🥒', 'cucumber'], ['🌳', 'tree']], out: [['🍓', 'strawberry'], ['🍌', 'banana'], ['🚒', 'fire engine']], why: 'The {odd} is not green. The others are green!' },
+      { many: 'yellow things', in: [['🍌', 'banana'], ['🌻', 'sunflower'], ['🐥', 'chick'], ['🌽', 'corn']], out: [['🍆', 'brinjal'], ['🐳', 'whale'], ['🥦', 'broccoli']], why: 'The {odd} is not yellow. The others are yellow!' },
+      { many: 'things to draw with', in: [['✏️', 'pencil'], ['🖍️', 'crayon'], ['🖊️', 'pen'], ['🖌️', 'paintbrush']], out: [['🍕', 'pizza'], ['🧦', 'sock'], ['🐟', 'fish']], why: 'You cannot draw with a {odd}!' },
+      { many: 'things that go fast', in: [['🚀', 'rocket'], ['🏎️', 'racing car'], ['✈️', 'plane'], ['🐆', 'cheetah']], out: [['🐌', 'snail'], ['🐢', 'turtle']], why: 'The {odd} is very slow. The others go fast!' }
     ];
     var HARD = [
       { many: 'animals with four legs', in: [['🐶', 'dog'], ['🐱', 'cat'], ['🐘', 'elephant'], ['🦒', 'giraffe'], ['🐄', 'cow'], ['🐴', 'horse']], out: [['🐔', 'hen'], ['🦆', 'duck'], ['🐧', 'penguin']], why: 'The {odd} has two legs. The others have four!' },
@@ -115,7 +122,12 @@
       { many: 'things that give light', in: [['☀️', 'sun'], ['💡', 'light bulb'], ['🕯️', 'candle'], ['🔦', 'torch']], out: [['🌳', 'tree'], ['🧸', 'teddy'], ['🍎', 'apple']], why: 'The {odd} does not give light!' },
       { many: 'things we eat with', in: [['🥄', 'spoon'], ['🍴', 'fork'], ['🥢', 'chopsticks']], out: [['✏️', 'pencil'], ['🔑', 'key']], why: 'We do not eat with a {odd}!' },
       { many: 'even numbers', nums: true, in: [['2', 'two'], ['4', 'four'], ['6', 'six'], ['8', 'eight'], ['10', 'ten']], out: [['3', 'three'], ['5', 'five'], ['7', 'seven'], ['9', 'nine']], why: '{odd} is odd. The others can be shared into two equal groups!' },
-      { many: 'baby animals', in: [['🐣', 'chick'], ['🐥', 'baby chick'], ['🐤', 'little chick']], out: [['🐔', 'hen']], why: 'The {odd} is a grown-up. The others are babies!' }
+      { many: 'baby animals', in: [['🐣', 'chick'], ['🐥', 'baby chick'], ['🐤', 'little chick']], out: [['🐔', 'hen']], why: 'The {odd} is a grown-up. The others are babies!' },
+      { many: 'animals that hatch from eggs', in: [['🐔', 'hen'], ['🐢', 'turtle'], ['🐍', 'snake'], ['🦆', 'duck'], ['🐊', 'crocodile']], out: [['🐶', 'dog'], ['🐄', 'cow'], ['🐵', 'monkey']], why: 'A baby {odd} does not hatch from an egg. The others do!' },
+      { many: 'things that need electricity', in: [['💡', 'light bulb'], ['📺', 'TV'], ['📱', 'phone'], ['💻', 'computer']], out: [['🕯️', 'candle'], ['📕', 'book'], ['🪁', 'kite']], why: 'A {odd} does not need electricity. The others do!' },
+      { many: 'animals with stripes', in: [['🦓', 'zebra'], ['🐯', 'tiger'], ['🐝', 'bee']], out: [['🐘', 'elephant'], ['🐷', 'pig'], ['🐸', 'frog']], why: 'The {odd} has no stripes. The others are stripy!' },
+      { many: 'animals awake at night', in: [['🦉', 'owl'], ['🦇', 'bat'], ['🐺', 'wolf']], out: [['🐝', 'bee'], ['🦋', 'butterfly'], ['🐓', 'rooster']], why: 'The {odd} sleeps at night. The others are awake at night!' },
+      { many: 'things with numbers on them', in: [['🕐', 'clock'], ['📱', 'phone'], ['🎲', 'dice'], ['📅', 'calendar']], out: [['🍎', 'apple'], ['🌳', 'tree'], ['🧸', 'teddy']], why: 'The {odd} has no numbers on it. The others do!' }
     ];
     var C = Shapes.COLORS, S = Shapes.SHAPES;
     var COLOR_KEYS = ['red', 'blue', 'yellow', 'green', 'purple'];
@@ -137,7 +149,7 @@
       var odd = { item: pick(B.items) };
       odd.name = odd.item.name.toLowerCase();
       var g = GROUPS[pr[0]];
-      return { key: pr.join(), same: same, odd: odd, group: g.many, why: 'The ' + odd.name + ' is not ' + g.one + '. The others are all ' + g.many + '!' };
+      return { key: pr.join(), same: same, odd: odd, group: g.many, why: 'The ' + odd.name + (odd.item.many ? ' are not ' + g.many : ' is not ' + g.one) + '. The others are all ' + g.many + '!' };
     }
     function fromShapes() {
       if (Math.random() < 0.5) {
@@ -212,6 +224,7 @@
         return;
       }
       busy = true;
+      rightCount++;
       var my = token, asked = level;
       App.sfx('snap');
       q.cards.forEach(function (c) { c.el.classList.add(c.odd ? 'odd' : 'same'); });
@@ -228,11 +241,15 @@
       document.getElementById('why').addEventListener('click', function () { reveal(my, false); });
     }
 
-    var levelUp = false;
+    var levelUp = false, rightCount = 0;
     function next(my) {
       if (my !== token) return;
       Speech.stop();
-      if (!levelUp) { newQuestion(); return; }
+      if (!levelUp && rightCount % 3) { newQuestion(); return; }
+      if (!levelUp) {   // every third one: a sticker
+        App.celebrate({ title: 'Great thinking!', say: 'Great thinking!', stars: 3, auto: 4000, buttons: [{ label: 'Next', icon: 'next', onClick: newQuestion }] });
+        return;
+      }
       levelUp = false;
       var w = App.roundWords({ changed: 'up' });
       App.celebrate({ title: w.title, say: w.say, stars: 3, auto: 4500, buttons: [{ label: 'Next', icon: 'next', onClick: newQuestion }] });

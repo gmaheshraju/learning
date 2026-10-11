@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .pt { max-width: 980px; margin: 0 auto; }
 
@@ -120,8 +120,8 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=17"></script>
-  <script src="js/shapes.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
+  <script src="js/shapes.js?v=20"></script>
   <script>
     var LEVELS = [
       { age: 2, label: 'Red, blue, red…', cores: ['AB'], options: 2 },
@@ -275,11 +275,12 @@
     function playStrip(el, cells, done) {
       var my = ++playId;
       var nodes = el.querySelectorAll('.cell');
+      var count = Math.min(nodes.length, cells.length);   // her own row can be shorter than its empty boxes
       var i = 0;
       (function step() {
         if (my !== playId) return;
         if (i > 0) nodes[i - 1].classList.remove('lit');
-        if (i >= nodes.length) { if (done) done(); return; }
+        if (i >= count) { if (done) done(); return; }
         nodes[i].classList.add('lit');
         if (!nodes[i].classList.contains('gap') || nodes[i].classList.contains('filled')) App.tone(cells[i].note, 0, 0.28, 'triangle', 0.16);
         else App.sfx('tick');
@@ -434,7 +435,7 @@
       if (!mine.length) return;
       playStrip(mstrip, mine, function () {
         var p = period(mine);
-        if (p > 1) say("That's a pattern! It goes " + mine.slice(0, p).map(function (c) { return c.tok.name; }).join(', ') + '!');
+        if (p > 1) say("That's a pattern! It goes\u2026 " + mine.slice(0, p).map(function (c) { return c.tok.name; }).join(', ') + '!');
         else if (p === 1) say('All the same! Can you make it change?');
         else if (mine.length < 4) say('Add some more!');
         else say('Lovely! Can you make it repeat?');

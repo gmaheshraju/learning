@@ -23,13 +23,15 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .pa { max-width: 640px; margin: 0 auto; }
     .pa.locked { visibility: hidden; }
     .p-label { display: block; margin: 0 2px 8px; font-size: 15px; font-weight: 900; color: var(--ink-2); }
     .p-ages { display: flex; width: 100%; margin-bottom: 6px; }
     .p-ages button { flex: 1; padding: 0; font-size: 18px; }
+    #p-break, #p-rate { flex-wrap: nowrap; }
+    #p-break button, #p-rate button { padding: 0 6px; min-width: 0; }
     .row-line > span small { display: block; font-size: 14px; font-weight: 700; color: var(--ink-3); line-height: 1.35; }
     .p-btns { display: grid; gap: 10px; }
     .p-btns .btn { width: 100%; }
@@ -50,6 +52,20 @@
     .p-game .n { margin-left: auto; text-align: right; font-size: 13px; font-weight: 800; color: var(--ink-3); white-space: nowrap; }
     .p-game .n b { font-family: var(--display); font-weight: 600; font-size: 18px; }
     .p-empty { font-size: 15px; font-weight: 700; color: var(--ink-3); padding: 4px 0 6px; }
+    .p-hint { margin: -4px 2px 10px; font-size: 14px; font-weight: 700; color: var(--ink-3); line-height: 1.4; }
+    .p-talk { display: flex; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+    .p-talk:first-child { border-top: none; padding-top: 4px; }
+    .p-talk .lr-art { width: 42px; height: 42px; flex: none; border-radius: 14px; display: grid; place-items: center; background: var(--c); box-shadow: inset 0 -3px 0 rgba(0,0,0,.12); font-family: var(--emoji); font-size: 24px; }
+    .p-talk .lr-art svg { width: 31px; height: 31px; }
+    .p-talk small { display: block; font-size: 13px; font-weight: 900; color: var(--ink-3); text-transform: uppercase; letter-spacing: .4px; }
+    .p-talk q { display: block; margin-top: 2px; font-family: var(--display); font-weight: 600; font-size: 19px; line-height: 1.3; color: var(--ink); quotes: '\201C' '\201D'; }
+    .p-words-h { margin: 14px 2px 8px; font-size: 15px; font-weight: 900; color: var(--ink-2); }
+    .p-words-h small { font-weight: 700; color: var(--ink-3); }
+    .p-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .p-word { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 6px; border-radius: 999px; background: var(--surface-2); font-size: 15px; font-weight: 800; color: var(--ink); }
+    .p-word .e { width: 26px; height: 26px; display: grid; place-items: center; font-family: var(--emoji); font-size: 19px; line-height: 1; }
+    .p-word .e svg { width: 24px; height: 24px; }
+    .p-word.tricky { background: #FFE9D6; }
     .p-thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; margin: 4px 0 12px; }
     .p-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 14px; background: #fff; box-shadow: var(--shadow-sm); }
   </style>
@@ -59,6 +75,12 @@
     <header class="topbar" data-page="parents"></header>
     <main class="pa locked" id="pa">
 
+      <section class="panel" aria-labelledby="h-talk">
+        <h2 id="h-talk"><span data-ico="heart"></span>Talk about it</h2>
+        <p class="p-hint">Questions to ask about what your child just played. Talking it through is where much of the learning happens.</p>
+        <div id="p-talk"></div>
+      </section>
+
       <section class="panel" aria-labelledby="h-prog">
         <h2 id="h-prog"><span data-ico="sparkle"></span>Progress</h2>
         <div class="p-sum" id="p-sum"></div>
@@ -67,6 +89,11 @@
           <span>Smart levels<small>Games step up when rounds get easy and back down if they get hard. Worked out on this device.</small></span>
           <button type="button" class="switch" role="switch" id="p-smart" aria-label="Smart levels"></button>
         </div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-words">
+        <h2 id="h-words"><span data-ico="book"></span>Words</h2>
+        <div id="p-words"></div>
       </section>
 
       <section class="panel" aria-labelledby="h-child">
@@ -89,6 +116,21 @@
         </div>
         <div class="sheet-sub">Voice speed</div>
         <div class="seg" id="p-rate" role="radiogroup" aria-label="Voice speed" style="display:flex;width:100%"></div>
+        <div class="row-line" style="margin-top:10px;border-top:1px solid var(--line);padding-top:10px">
+          <span>Bujji&rsquo;s voice offline<small id="p-voice-note">Saves every recording on this phone (about 17 MB), for trips without internet.</small></span>
+          <button type="button" class="btn small" id="p-voice-dl" style="--b:#8C6CFF">Save</button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-time">
+        <h2 id="h-time"><span data-ico="heart"></span>Healthy play</h2>
+        <div class="sheet-sub" style="margin-top:0">Break reminder</div>
+        <div class="seg" id="p-break" role="radiogroup" aria-label="Break reminder" style="display:flex;width:100%"></div>
+        <p style="margin:8px 2px 4px;font-size:14px;color:var(--ink-3)">After this much play, Bujji gets sleepy and suggests a break. Keeping on needs a grown-up.</p>
+        <div class="row-line" style="margin-top:8px;border-top:1px solid var(--line);padding-top:8px">
+          <span>Say Telugu words aloud<small id="p-te-note">Uses this phone&rsquo;s Telugu voice.</small></span>
+          <button type="button" class="switch" role="switch" id="p-te" aria-label="Say Telugu words aloud"></button>
+        </div>
       </section>
 
       <section class="panel" aria-labelledby="h-ideas">
@@ -116,6 +158,7 @@
       <section class="panel" aria-labelledby="h-about">
         <h2 id="h-about"><span data-ico="heart"></span>About Heshvi</h2>
         <p>Made with love for Heshvitha, and shared for every little learner. The games follow what research says helps at each age: open-ended play, puzzles, patterns, planning ahead, and lots of talking together. English words come with Telugu hints.</p>
+        <p style="margin-top:8px;font-size:14px;color:var(--ink-3)">Bujji&rsquo;s voice was recorded with Kokoro, an open voice model (Apache&nbsp;2.0). Stickers, progress and settings never leave this phone.</p>
       </section>
 
       <section class="panel" aria-labelledby="h-reset">
@@ -130,7 +173,8 @@
     </main>
   </div>
 
-  <script src="js/common.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
+  <script src="js/data.js?v=20"></script>
   <script>
     var store = {
       get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -221,6 +265,81 @@
       }).join('') : '<p class="p-empty">Nothing played this week yet. Progress shows up here as games are played.</p>';
     }
     renderProgress();
+
+    /* Words: picture words tested in Find It and Match, in Leitner boxes (see js/common.js) */
+    var WORD = {};
+    CATEGORIES.forEach(function (c) { c.items.forEach(function (it) { WORD[it.id] = it; }); });
+    function wordName(it) { return it.name.charAt(0) + it.name.slice(1).toLowerCase(); }
+    function wordChip(id, cls) {
+      var it = WORD[id];
+      if (!it) return '';
+      var pic = it.svg && ICON_SVG[it.svg] ? ICON_SVG[it.svg] : it.icon;
+      return '<span class="p-word' + (cls ? ' ' + cls : '') + '"><span class="e" aria-hidden="true">' + pic + '</span>' + wordName(it) + '</span>';
+    }
+    function wordLists() {
+      var w = App.words(), out = { known: [], learning: [], tricky: [] };
+      Object.keys(w).filter(function (id) { return WORD[id]; }).forEach(function (id) {
+        var lv = App.wordLevel(w[id]);
+        if (out[lv]) out[lv].push(id);
+      });
+      out.tricky.sort(function (a, b) { return (w[b].missAt || 0) - (w[a].missAt || 0); });
+      out.known.sort(function (a, b) { return (w[b].last || 0) - (w[a].last || 0); });
+      return out;
+    }
+    function renderWords() {
+      var l = wordLists(), el = document.getElementById('p-words');
+      if (!l.known.length && !l.learning.length && !l.tricky.length) {
+        el.innerHTML = '<p class="p-empty">Words show up here as your child plays Learn Words, Find It and Match (words). A word counts as known after right answers on three different days.</p>';
+        return;
+      }
+      el.innerHTML =
+        '<div class="p-sum"><div><b>' + l.known.length + '</b><small>known</small></div>' +
+        '<div><b>' + l.learning.length + '</b><small>learning</small></div>' +
+        '<div><b>' + l.tricky.length + '</b><small>tricky</small></div></div>' +
+        (l.tricky.length ? '<p class="p-words-h">Practise together <small>· point them out at home, or say them in Telugu</small></p>' +
+          '<div class="p-chips">' + l.tricky.slice(0, 12).map(function (id) { return wordChip(id, 'tricky'); }).join('') + '</div>' : '') +
+        (l.known.length ? '<p class="p-words-h">Knows <small>· right on three different days</small></p>' +
+          '<div class="p-chips">' + l.known.map(function (id) { return wordChip(id); }).join('') + '</div>' : '') +
+        '<p class="p-hint" style="margin:12px 2px 0">Find It and Match bring back tricky and due words more often, a little like flash cards that know what to show next.</p>';
+    }
+    renderWords();
+
+    /* Talk about it: questions about what was played in the last two days */
+    function renderTalk() {
+      var time = App.playTime(), today = App.dayKey(), yday = App.dayKey(new Date(Date.now() - 86400000));
+      var dayNo = Math.floor(Date.now() / 86400000), cards = [];
+      var recent = App.ACTIVITIES.filter(function (a) { return a.talk.length; }).map(function (a) {
+        var st = App.stats(a.id), when = st.last && Date.now() - st.last < 2 * 86400000 ? st.last : 0;
+        if (!when && time[today] && time[today][a.id]) when = Date.now() - 3600000;
+        if (!when && time[yday] && time[yday][a.id]) when = Date.now() - 86400000;
+        return { a: a, when: when };
+      }).filter(function (x) { return x.when; }).sort(function (x, y) { return y.when - x.when; });
+
+      var story = null;
+      try { story = JSON.parse(store.get('heshvi-last-story') || 'null'); } catch (e) { story = null; }
+      if (story && story.ask && Date.now() - story.at < 3 * 86400000) {
+        cards.push({ c: '#FF6FA9', art: App.activity('stories').art, head: 'After \u201C' + story.title + '\u201D', q: story.ask });
+      }
+      recent.forEach(function (x, i) {
+        if (cards.length >= 3 || (story && x.a.id === 'stories' && cards.length)) return;
+        cards.push({ c: x.a.color, art: x.a.art, head: 'After ' + x.a.name + ' \u00B7 ' + ago(x.when), q: x.a.talk[(dayNo + i) % x.a.talk.length] });
+      });
+      var tricky = wordLists().tricky[0];
+      if (tricky && cards.length < 4) {
+        cards.push({ c: '#FFA94D', art: WORD[tricky].svg && ICON_SVG[WORD[tricky].svg] ? ICON_SVG[WORD[tricky].svg] : WORD[tricky].icon,
+          head: 'A tricky word', q: 'Can you find a ' + wordName(WORD[tricky]).toLowerCase() + ' near us? What sound does it start with?' });
+      }
+      if (!cards.length) {
+        var WONDER = ['Why do you think the sky is blue?', 'What do you think birds dream about?', 'If you could be any animal, which would you be? Why?',
+          'Where do you think the rain comes from?', 'What would you build with a giant box?'];
+        cards.push({ c: '#8C6CFF', art: App.MASCOT, head: 'A wonder question', q: WONDER[dayNo % WONDER.length] });
+      }
+      document.getElementById('p-talk').innerHTML = cards.map(function (x) {
+        return '<div class="p-talk" style="--c:' + x.c + '"><span class="lr-art" aria-hidden="true">' + x.art + '</span><span><small>' + x.head + '</small><q>' + x.q + '</q></span></div>';
+      }).join('');
+    }
+    renderTalk();
+
     var smartEl = document.getElementById('p-smart');
     function syncSmart() { smartEl.setAttribute('aria-checked', String(App.smartOn())); }
     smartEl.addEventListener('click', function () {
@@ -247,6 +366,61 @@
       Speech.speak('This is how I sound.', 0.9);
     });
     renderRate();
+
+    /* Bujji's voice for offline */
+    var vBtn = document.getElementById('p-voice-dl'), vNote = document.getElementById('p-voice-note');
+    function voiceSaved() { return store.get('heshvi-voice-offline'); }
+    if (voiceSaved()) { vBtn.hidden = true; vNote.textContent = 'Saved on this phone. Bujji talks even without internet.'; }
+    vBtn.addEventListener('click', function () {
+      vBtn.disabled = true;
+      fetch('voice/manifest.json').then(function (r) { return r.json(); }).then(function (m) {
+        var ids = Object.keys(m.clips).map(function (k) { return m.clips[k][0]; });
+        var done = 0, failed = 0, i = 0;
+        function worker() {
+          if (i >= ids.length) return Promise.resolve();
+          var id = ids[i++];
+          return fetch('voice/' + id + '.aac').then(function (r) { if (!r.ok) failed++; }, function () { failed++; })
+            .then(function () { done++; if (done % 25 === 0 || done === ids.length) vNote.textContent = 'Saving\u2026 ' + done + ' of ' + ids.length; return worker(); });
+        }
+        return Promise.all([worker(), worker(), worker(), worker(), worker(), worker()]).then(function () {
+          if (failed) { vNote.textContent = 'Some recordings could not be saved. Try again on Wi-Fi.'; vBtn.disabled = false; return; }
+          store.set('heshvi-voice-offline', m.voice + ':' + ids.length);
+          vBtn.hidden = true;
+          vNote.textContent = 'Saved on this phone. Bujji talks even without internet.';
+        });
+      }).catch(function () { vNote.textContent = 'Could not reach the internet. Try again later.'; vBtn.disabled = false; });
+    });
+
+    /* Healthy play */
+    var breakEl = document.getElementById('p-break');
+    function renderBreak() {
+      var cur = store.get('heshvi-break') || '0';
+      breakEl.innerHTML = [['0', 'Off'], ['15', '15 min'], ['30', '30 min'], ['45', '45 min']].map(function (o) {
+        return '<button type="button" role="radio" data-m="' + o[0] + '" aria-checked="' + (cur === o[0]) + '" style="flex:1">' + o[1] + '</button>';
+      }).join('');
+    }
+    breakEl.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-m]');
+      if (!b) return;
+      store.set('heshvi-break', b.getAttribute('data-m'));
+      try { sessionStorage.setItem('heshvi-session', '0'); } catch (err) { /* ignore */ }
+      renderBreak();
+    });
+    renderBreak();
+    var teEl = document.getElementById('p-te');
+    function syncTe() {
+      var has = Speech.hasTelugu();
+      teEl.disabled = !has;
+      teEl.setAttribute('aria-checked', String(has && store.get('heshvi-telugu') !== '0'));
+      document.getElementById('p-te-note').textContent = has ? 'Uses this phone\u2019s Telugu voice.' : 'This phone has no Telugu voice, so Telugu words are shown, not spoken.';
+    }
+    teEl.addEventListener('click', function () {
+      store.set('heshvi-telugu', store.get('heshvi-telugu') === '0' ? '1' : '0');
+      syncTe();
+      if (store.get('heshvi-telugu') !== '0') Speech.speak('\u0C2C\u0C3E\u0C17\u0C3E \u0C1A\u0C47\u0C36\u0C3E\u0C35\u0C4D', 0.85, null, { lang: 'te' });
+    });
+    syncTe();
+    if (window.speechSynthesis && speechSynthesis.addEventListener) speechSynthesis.addEventListener('voiceschanged', syncTe);
 
     /* Ideas and printables */
     document.getElementById('p-links').innerHTML = [
@@ -278,7 +452,7 @@
         box.querySelector('button').addEventListener('click', function () { App.promptInstall(); });
       } else if (App.platform() === 'ios') {
         box.innerHTML = '<p style="margin-bottom:10px">Add Heshvi to your home screen. It opens full screen and works with no internet.</p>' +
-          '<ol class="steps"><li>Open this page in <b>Safari</b>.</li><li>Tap <b>Share</b> ' + App.icon('share') + '</li><li>Choose <b>Add to Home Screen</b>.</li></ol>';
+          '<ol class="steps"><li>Open this page in <b>Safari</b>.</li><li>Tap <b>Share</b> ' + App.icon('share') + ' (on newer iPhones it is inside the <b>&bull;&bull;&bull;</b> menu).</li><li>Choose <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol>';
       } else if (App.platform() === 'android') {
         box.innerHTML = '<p style="margin-bottom:10px">Add Heshvi to your home screen. It opens full screen and works with no internet.</p>' +
           '<ol class="steps"><li>Open the browser menu <b>&#8942;</b></li><li>Choose <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>';

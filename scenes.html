@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .sc { max-width: 1200px; margin: 0 auto; }
     .bg-pick { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 4px 8px; max-width: 100%; margin: 0 auto 4px; }
@@ -136,7 +136,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
   <script>
     var LEVELS = [
       { age: 2, label: 'Little storyteller' },
@@ -219,6 +219,7 @@
 
     function say(t, rate) { Speech.speak(t, rate || 0.9); }
     function toast(html) { App.toast(html, 3600); }
+    var stickerGiven = false;   // the first scene kept on each visit earns a sticker
 
     function chooseAspect() {
       var portrait = window.innerHeight > window.innerWidth && window.innerWidth < 700;
@@ -426,7 +427,8 @@
         App.sfx('yay');
         say('Saved! What a story!');
         App.confetti(30);
-        toast('Kept! See it in <a href="art.html#gallery">My art</a> or make a <a href="puzzle.html?pic=' + item.id + '">puzzle</a>');
+        var gift = stickerGiven ? '' : (stickerGiven = true, ' New sticker ' + App.earnSticker().sticker + '!');
+        toast('Kept!' + gift + ' See it in <a href="art.html#gallery">My art</a> or make a <a href="puzzle.html?pic=' + item.id + '">puzzle</a>');
       } else toast('Could not save: this device is out of space');
     });
 

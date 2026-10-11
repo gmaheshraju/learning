@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>My Stickers · Heshvi</title>
+  <meta name="description" content="Every game won earns a sticker. Calm, playful learning for ages 2 to 7. No ads, no sign-up, works offline.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFF7EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15122A" media="(prefers-color-scheme: dark)">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Heshvi">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- fonts load without blocking the first paint (a slow network must never mean a blank screen) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
+  <link rel="stylesheet" href="css/style.css?v=20">
+  <style>
+    .sb { max-width: 900px; margin: 0 auto; }
+    .sb-pages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0 auto 10px; max-width: 560px; }
+    .sb-pages .chip { min-height: 46px; font-size: 16px; justify-content: center; padding: 0 8px; }
+    .sb-pages .chip .emoji { font-size: 22px; }
+    @media (max-width: 420px) {
+      .sb-pages .chip { flex-direction: column; gap: 2px; min-height: 60px; font-size: 14px; border-radius: 18px; }
+    }
+
+    .board {
+      position: relative; width: 100%; aspect-ratio: 4 / 3; max-height: calc(100dvh - 330px); margin: 0 auto;
+      border-radius: 26px; overflow: hidden; box-shadow: var(--shadow-md), inset 0 0 0 4px rgba(255,255,255,.6);
+      touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+    }
+    .board.garden {
+      background:
+        radial-gradient(circle at 84% 18%, #FFE27A 0 6%, rgba(255,226,122,.35) 6.5% 10%, transparent 10.5%),
+        radial-gradient(ellipse 18% 7% at 22% 20%, #fff 0 60%, transparent 62%),
+        radial-gradient(ellipse 12% 5% at 30% 16%, #fff 0 60%, transparent 62%),
+        radial-gradient(ellipse 80% 40% at 25% 100%, #7CCB62 0 70%, transparent 71%),
+        radial-gradient(ellipse 80% 45% at 85% 100%, #92D670 0 70%, transparent 71%),
+        linear-gradient(#A9DCFF, #E3F4FF 62%, #A7E08A 62%);
+    }
+    .board.sea {
+      background:
+        radial-gradient(circle at 20% 70%, rgba(255,255,255,.35) 0 1.4%, transparent 1.6%),
+        radial-gradient(circle at 24% 58%, rgba(255,255,255,.3) 0 1%, transparent 1.2%),
+        radial-gradient(circle at 78% 48%, rgba(255,255,255,.3) 0 1.2%, transparent 1.4%),
+        radial-gradient(ellipse 70% 18% at 50% 100%, #F2D68C 0 70%, transparent 71%),
+        linear-gradient(#9BE3FF 0 18%, #4FB8F2 18%, #1F78CF);
+    }
+    .board.space {
+      background:
+        radial-gradient(circle at 12% 22%, #fff 0 .4%, transparent .6%), radial-gradient(circle at 34% 12%, #fff 0 .3%, transparent .5%),
+        radial-gradient(circle at 58% 30%, #fff 0 .4%, transparent .6%), radial-gradient(circle at 82% 14%, #fff 0 .3%, transparent .5%),
+        radial-gradient(circle at 70% 64%, #fff 0 .3%, transparent .5%), radial-gradient(circle at 20% 76%, #fff 0 .4%, transparent .6%),
+        radial-gradient(circle at 90% 82%, #fff 0 .3%, transparent .5%), radial-gradient(circle at 46% 86%, #fff 0 .3%, transparent .5%),
+        radial-gradient(circle at 78% 30%, #FFB86B 0 7%, #F28C38 7.5% 8.5%, transparent 9%),
+        linear-gradient(160deg, #2A1F5C, #120C2E);
+    }
+    .board.farm {
+      background:
+        radial-gradient(circle at 14% 16%, #FFE27A 0 6%, transparent 6.5%),
+        repeating-linear-gradient(90deg, transparent 0 9%, #C98C55 9% 10%),
+        linear-gradient(#BFE6FF 0 55%, transparent 55%),
+        repeating-linear-gradient(0deg, #D8A86F 0 3%, #C99559 3% 6%) 0 62% / 100% 40% no-repeat,
+        linear-gradient(#BFE6FF 0 55%, #E7C27E 55% 61%, #9DD36F 61%);
+    }
+    .placed {
+      position: absolute; transform: translate(-50%, -50%) rotate(var(--r, 0deg)); font-family: var(--emoji); line-height: 1;
+      cursor: grab; filter: drop-shadow(0 3px 0 rgba(255,255,255,.9)) drop-shadow(0 4px 6px rgba(0,0,0,.25));
+      touch-action: none; transition: transform .2s var(--spring);
+    }
+    .placed.pop { animation: stickerIn .5s var(--spring); }
+    .placed.dragging { cursor: grabbing; transform: translate(-50%, -50%) rotate(var(--r, 0deg)) scale(1.18); z-index: 20; transition: none; }
+    .placed.leaving { opacity: .4; }
+
+    .tray-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 12px 4px 6px; }
+    .tray-head b { font-family: var(--display); font-weight: 600; font-size: 18px; }
+    .count { font-size: 14px; font-weight: 800; color: var(--ink-3); }
+    .meter { height: 10px; border-radius: 6px; background: var(--line); overflow: hidden; margin: 0 4px 10px; }
+    .meter i { display: block; height: 100%; border-radius: 6px; background: linear-gradient(90deg, #FF6FA9, #FFC93C, #2FBF71); }
+    .tray {
+      display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 8px; border-radius: 22px;
+      background: var(--surface); box-shadow: var(--shadow-sm); -webkit-overflow-scrolling: touch;
+    }
+    .tray::-webkit-scrollbar { display: none; }
+    .tray button {
+      flex: none; width: 60px; height: 60px; border-radius: 18px; border: none; background: var(--surface-2); cursor: pointer;
+      font-family: var(--emoji); font-size: 36px; line-height: 1; display: grid; place-items: center; position: relative;
+      transition: transform .15s var(--spring);
+    }
+    .tray button:active { transform: scale(.88); }
+    .tray button.locked { filter: grayscale(1) brightness(.4) opacity(.25); cursor: default; }
+    .tray button.fresh::after {
+      content: ''; position: absolute; top: 4px; right: 4px; width: 12px; height: 12px; border-radius: 50%; background: #FF6B6B;
+      box-shadow: 0 0 0 2px var(--surface);
+    }
+    .empty { text-align: center; padding: 18px 16px 6px; }
+    .empty .bug { width: 110px; height: 110px; margin: 0 auto 8px; animation: bob 2.4s ease-in-out infinite; }
+    .empty .bug svg { width: 100%; height: 100%; }
+    .empty p { font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--ink-2); margin-bottom: 14px; }
+    @media (orientation: landscape) and (max-height: 520px) {
+      .sb { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 0 14px; align-items: start; }
+      .sb > * { grid-column: 2; }
+      .sb > .board { grid-column: 1; grid-row: 1 / span 6; max-height: calc(100dvh - 90px); }
+      .tray { flex-wrap: wrap; max-height: calc(100dvh - 210px); overflow-y: auto; }
+      .tray button { width: 48px; height: 48px; font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gw">
+    <header class="topbar" data-page="stickers"></header>
+    <main class="sb" id="sb">
+      <div class="prompt-row">
+        <span class="prompt-text" id="prompt">Tap a sticker to put it on the page!</span>
+        <button type="button" class="say-btn" id="say" aria-label="Hear it again"></button>
+      </div>
+      <div class="sb-pages" id="pages" role="tablist" aria-label="Sticker pages"></div>
+      <div class="board garden" id="board" role="img" aria-label="Sticker page"></div>
+      <div class="tray-head"><b>My stickers</b><span class="count" id="count"></span></div>
+      <div class="meter" aria-hidden="true"><i id="meter"></i></div>
+      <div class="tray" id="tray" role="group" aria-label="Tap a sticker to add it"></div>
+    </main>
+  </div>
+
+  <script src="js/common.js?v=20"></script>
+  <script>
+    var PAGES = [
+      { id: 'garden', name: 'Garden', emoji: '\u{1F337}' },
+      { id: 'sea', name: 'Sea', emoji: '\u{1F420}' },
+      { id: 'space', name: 'Space', emoji: '\u{1F680}' },
+      { id: 'farm', name: 'Farm', emoji: '\u{1F69C}' }
+    ];
+    var board = document.getElementById('board'), tray = document.getElementById('tray');
+    var book = App.stickerBook();
+    var page = book.page || 'garden';
+    var seen = book.seenList || [];
+
+    function say(t) { Speech.speak(t, 0.9); }
+    function save() { App.saveStickers(book); }
+
+    function renderPages() {
+      document.getElementById('pages').innerHTML = PAGES.map(function (p) {
+        return '<button type="button" class="chip' + (p.id === page ? ' on' : '') + '" role="tab" aria-selected="' + (p.id === page) + '" data-page="' + p.id + '">' +
+          '<span class="emoji" aria-hidden="true">' + p.emoji + '</span>' + p.name + '</button>';
+      }).join('');
+    }
+    document.getElementById('pages').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-page]');
+      if (!b) return;
+      page = b.getAttribute('data-page');
+      book.page = page;
+      save();
+      renderPages();
+      renderBoard();
+      App.sfx('pop');
+    });
+
+    function placedList() { return (book.pages[page] = book.pages[page] || []); }
+
+    function renderBoard() {
+      board.className = 'board ' + page;
+      board.innerHTML = '';
+      placedList().forEach(function (p, i) { addPlaced(p, false); });
+    }
+    function sizeFor(p) { return Math.round(board.clientWidth * (p.s || 0.13)); }
+    function addPlaced(p, pop) {
+      var el = document.createElement('span');
+      el.className = 'placed' + (pop ? ' pop' : '');
+      el.textContent = p.e;
+      el.style.left = (p.x * 100) + '%';
+      el.style.top = (p.y * 100) + '%';
+      el.style.fontSize = sizeFor(p) + 'px';
+      el.style.setProperty('--r', (p.r || 0) + 'deg');
+      board.appendChild(el);
+      var ox = 0, oy = 0;
+      App.drag(el, {
+        start: function () { ox = p.x; oy = p.y; el.classList.add('dragging'); App.sfx('tick'); },
+        move: function (x, y) {
+          var r = board.getBoundingClientRect();
+          p.x = (x - r.left) / r.width; p.y = (y - r.top) / r.height;
+          el.style.left = (p.x * 100) + '%';
+          el.style.top = (p.y * 100) + '%';
+          el.classList.toggle('leaving', p.y > 1.04 || p.y < -0.04 || p.x < -0.04 || p.x > 1.04);
+        },
+        end: function (x, y, moved) {
+          el.classList.remove('dragging');
+          if (!moved) {   // a tap makes it bigger, then small again
+            p.s = (p.s || 0.13) >= 0.2 ? 0.1 : (p.s || 0.13) + 0.04;
+            el.style.fontSize = sizeFor(p) + 'px';
+            App.sfx('pop');
+            save();
+            return;
+          }
+          if (el.classList.contains('leaving')) {   // dragged off the page: back in the tray
+            var list = placedList();
+            list.splice(list.indexOf(p), 1);
+            el.remove();
+            App.sfx('tick');
+          } else {
+            p.x = Math.max(0.04, Math.min(0.96, p.x));
+            p.y = Math.max(0.05, Math.min(0.95, p.y));
+            el.style.left = (p.x * 100) + '%';
+            el.style.top = (p.y * 100) + '%';
+            App.sfx('snap');
+          }
+          save();
+        }
+      });
+    }
+
+    function renderTray() {
+      var own = book.own, have = App.STICKERS.filter(function (e) { return own[e]; });
+      var total = App.STICKERS.length;
+      document.getElementById('count').textContent = have.length + ' of ' + total;
+      document.getElementById('meter').style.width = Math.round(have.length / total * 100) + '%';
+      if (!have.length) {
+        tray.innerHTML = '';
+        var empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.innerHTML = '<div class="bug">' + App.MASCOT + '</div><p>Play games to win stickers!</p>' +
+          '<a class="btn" href="index.html">' + App.icon('play') + 'Let’s play</a>';
+        board.replaceWith(empty);
+        tray.hidden = true;
+        document.getElementById('pages').hidden = true;
+        document.getElementById('prompt').textContent = 'Play games to win stickers!';
+        return;
+      }
+      // the ones she has first (newest marked), then grey ones still to win
+      tray.innerHTML = have.map(function (e) {
+        return '<button type="button" data-e="' + e + '" class="' + (seen.indexOf(e) === -1 ? 'fresh' : '') + '" aria-label="Sticker">' + e + '</button>';
+      }).join('') + App.STICKERS.filter(function (e) { return !own[e]; }).map(function (e) {
+        return '<button type="button" class="locked" disabled aria-label="Sticker still to win">' + e + '</button>';
+      }).join('');
+    }
+    tray.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-e]');
+      if (!b) return;
+      var p = { e: b.getAttribute('data-e'), x: 0.18 + Math.random() * 0.64, y: 0.2 + Math.random() * 0.6, s: 0.13, r: Math.round(Math.random() * 24 - 12) };
+      placedList().push(p);
+      addPlaced(p, true);
+      b.classList.remove('fresh');
+      if (seen.indexOf(p.e) === -1) seen.push(p.e);
+      book.seenList = seen;
+      save();
+      App.sfx('snap');
+    });
+
+    document.getElementById('say').addEventListener('click', function () { say(document.getElementById('prompt').textContent); });
+
+    book.unseen = 0;
+    save();
+    renderPages();
+    renderBoard();
+    renderTray();
+    var rt = null;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(renderBoard, 150); });
+    say(Object.keys(book.own).length ? 'Your sticker book! Tap a sticker to put it on the page.' : 'Play games to win stickers!');
+  </script>
+</body>
+</html>

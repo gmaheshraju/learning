@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .st-wrap { max-width: 760px; margin: 0 auto; }
 
@@ -119,11 +119,12 @@
     <div class="st-stars-c" id="st-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/common.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
   <script>
     var STORIES = [
       {
         title: 'The Hungry Caterpillar',
+        ask: 'What would you eat if you were very, very hungry?',
         emoji: '🐛🦋',
         telugu: 'ఆకలి గొంగళి పురుగు',
         color: '#7EC850',
@@ -137,6 +138,7 @@
       },
       {
         title: 'The Lost Baby Duck',
+        ask: 'How do you think Mama Duck felt when she found him?',
         emoji: '🐥🦆',
         telugu: 'తప్పిపోయిన బాతు పిల్ల',
         color: '#F5A623',
@@ -150,6 +152,7 @@
       },
       {
         title: 'The Little Star',
+        ask: 'What makes you happy when you feel sad?',
         emoji: '⭐🌙',
         telugu: 'చిన్న నక్షత్రం',
         color: '#B07CD8',
@@ -163,6 +166,7 @@
       },
       {
         title: 'The Sharing Bunny',
+        ask: 'What could you share with a friend today?',
         emoji: '🐰🥕',
         telugu: 'పంచుకునే కుందేలు',
         color: '#E85D75',
@@ -176,6 +180,7 @@
       },
       {
         title: 'The Rainy Day',
+        ask: 'What do you like to do on a rainy day?',
         emoji: '🌧️☂️',
         telugu: 'వర్షపు రోజు',
         color: '#4DADEA',
@@ -189,6 +194,7 @@
       },
       {
         title: 'The Sleepy Bear',
+        ask: 'Why do you think Bear slept all winter?',
         emoji: '🐻😴',
         telugu: 'నిద్రపోతున్న ఎలుగుబంటి',
         color: '#F5A623',
@@ -202,6 +208,7 @@
       },
       {
         title: 'Baby Elephant Bath',
+        ask: 'How do you get clean after playing in the mud?',
         emoji: '🐘🚿',
         telugu: 'ఏనుగు పిల్ల స్నానం',
         color: '#4DADEA',
@@ -215,6 +222,7 @@
       },
       {
         title: 'The Magic Seed',
+        ask: 'What do you think a seed needs to grow?',
         emoji: '🌱🌻',
         telugu: 'మాయా విత్తనం',
         color: '#7EC850',
@@ -224,6 +232,118 @@
           { scene: '🌱😊', text: 'Look! A little green plant is growing!' },
           { scene: '🌿🌼', text: 'It grew bigger and bigger with pretty leaves!' },
           { scene: '🌻🦋👧😊', text: 'It became a big sunflower! Even butterflies came to visit!' }
+        ]
+      },
+      {
+        title: 'Bujji Finds a Rainbow',
+        ask: 'Which colour of the rainbow do you like best?',
+        emoji: '🦋🌈',
+        telugu: 'బుజ్జి మరియు ఇంద్రధనుస్సు',
+        color: '#3FB2FF',
+        pages: [
+          { scene: '🦋🍃🌧️', text: 'It was raining. Bujji the butterfly waited under a big leaf.' },
+          { scene: '🌧️⛅☀️', text: 'Then the sun came out to play.' },
+          { scene: '🌈😮', text: 'Look! A rainbow! Red, orange, yellow, green and blue!' },
+          { scene: '🦋🌈✨', text: 'Bujji flew up high to say hello to every colour.' },
+          { scene: '🦋🌸😊', text: 'Then she rested on a flower, happy and warm.' }
+        ]
+      },
+      {
+        title: 'The Mango Tree',
+        ask: 'What fruit would you like to grow?',
+        emoji: '🥭🌳',
+        telugu: 'మామిడి చెట్టు',
+        color: '#FF9F43',
+        pages: [
+          { scene: '👴🌰', text: 'Grandpa planted a tiny mango seed.' },
+          { scene: '🌱💧☀️', text: 'Every day it drank water and sunshine.' },
+          { scene: '🌳🐦', text: 'The little plant grew into a big tree. Birds came to sing!' },
+          { scene: '🌳🥭🥭🥭', text: 'One summer, the tree was full of sweet mangoes.' },
+          { scene: '👴👧🥭😋', text: 'Grandpa and Meena shared the mangoes. Yummy!' }
+        ]
+      },
+      {
+        title: 'Diwali Lights',
+        ask: 'What is your favourite part of Diwali?',
+        emoji: '🪔✨',
+        telugu: 'దీపావళి దీపాలు',
+        color: '#F7B500',
+        pages: [
+          { scene: '🌙🏠', text: 'It was a dark, dark night.' },
+          { scene: '👧🪔', text: 'We lit little lamps, one by one.' },
+          { scene: '🏠🪔🪔🪔', text: 'Our home sparkled with light!' },
+          { scene: '🎆✨🎇', text: 'Fireworks painted the sky with colours.' },
+          { scene: '👨‍👩‍👧🍬😊', text: 'We shared sweets and big hugs. Happy Diwali!' }
+        ]
+      },
+      {
+        title: 'The Thirsty Crow',
+        ask: 'Why did the water come up when he dropped the pebbles?',
+        emoji: '🐦🏺',
+        telugu: 'తెలివైన కాకి',
+        color: '#4A78FF',
+        pages: [
+          { scene: '🐦☀️🥵', text: 'On a hot day, a crow was very thirsty.' },
+          { scene: '🏺💧', text: 'He found a pot with a little water at the bottom.' },
+          { scene: '🐦🤔', text: 'His beak could not reach the water. He thought and thought.' },
+          { scene: '🐦🪨🏺', text: 'He dropped pebbles in, one by one. The water came up and up!' },
+          { scene: '🐦💧😊', text: 'He drank the water. What a clever crow! What would you do?' }
+        ]
+      },
+      {
+        title: 'Good Night, Moon',
+        ask: 'Who do you say good night to?',
+        emoji: '🌙⭐',
+        telugu: 'శుభరాత్రి చందమామ',
+        color: '#8C6CFF',
+        pages: [
+          { scene: '🌅👋', text: 'The sun said goodbye and went to sleep.' },
+          { scene: '🌙⭐✨', text: 'The moon came up and the stars began to twinkle.' },
+          { scene: '🦉🌳', text: 'The owl said hoo hoo. Good night, owl!' },
+          { scene: '🐶🛏️😴', text: 'The puppy curled up in his cosy bed.' },
+          { scene: '👧😴🌙', text: 'And now you close your eyes too. Good night!' }
+        ]
+      },
+      {
+        title: 'The Kind Elephant',
+        ask: 'How can you help someone today?',
+        emoji: '🐘🐜',
+        telugu: 'దయగల ఏనుగు',
+        color: '#1EC8A5',
+        pages: [
+          { scene: '🐘🌳', text: 'A big elephant was walking in the forest.' },
+          { scene: '🐜😢', text: 'She heard a tiny ant crying.' },
+          { scene: '🐜🍃🌊', text: 'The ant was stuck on a leaf in the river!' },
+          { scene: '🐘🍃🐜', text: 'The elephant gently lifted the leaf with her trunk.' },
+          { scene: '🐘🐜❤️', text: 'The ant was safe. Big or small, we help each other!' }
+        ]
+      },
+      {
+        title: 'Where Is My Ball?',
+        ask: 'Where do you think the puppy found the ball?',
+        emoji: '⚽🔍',
+        telugu: 'నా బంతి ఎక్కడ?',
+        color: '#FF6B6B',
+        pages: [
+          { scene: '👦⚽😊', text: 'Ravi loves his round ball.' },
+          { scene: '👦❓', text: 'Oh no! Where is the ball?' },
+          { scene: '🛏️👀', text: 'Is it under the bed? No!' },
+          { scene: '📦👀', text: 'Is it in the box? No!' },
+          { scene: '🐶⚽😄', text: 'The puppy has it! Found it! Where do you hide things?' }
+        ]
+      },
+      {
+        title: 'Monsoon Puddles',
+        ask: 'What sounds does the rain make?',
+        emoji: '☔🐸',
+        telugu: 'వానలో ఆట',
+        color: '#2FBF71',
+        pages: [
+          { scene: '☁️☁️', text: 'Big grey clouds filled the sky.' },
+          { scene: '🌧️☔', text: 'Pitter patter! The rain began.' },
+          { scene: '👧☔💦', text: 'Meena put on her boots and jumped in a puddle. Splash!' },
+          { scene: '🐸💦', text: 'A frog jumped too. Ribbit! Ribbit!' },
+          { scene: '🌈😊', text: 'After the rain, a rainbow smiled at them.' }
         ]
       }
     ];
@@ -432,9 +552,11 @@
     function showEnd() {
       stopReading();
       App.roundResult('great');
+      // something to wonder about together; the Parents area shows it too
+      try { localStorage.setItem('heshvi-last-story', JSON.stringify({ title: currentStory.title, ask: currentStory.ask, at: Date.now() })); } catch (e) { /* private mode */ }
       App.celebrate({
-        title: 'The End!', say: 'The End! What a wonderful story!', stars: 3,
-        text: 'What a wonderful story!',
+        title: 'The End!', say: 'The End! What a wonderful story!', ask: currentStory.ask, stars: 3,
+        text: currentStory.ask,
         buttons: [
           { label: 'More stories', icon: 'book', onClick: showPicker },
           { label: 'Read again', icon: 'again', ghost: true, onClick: function () { currentPage = 0; showPage(true); } }

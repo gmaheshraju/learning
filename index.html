@@ -43,7 +43,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .home { max-width: 1040px; margin: 0 auto; }
 
@@ -63,6 +63,75 @@
       color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     .hello p { margin-top: 3px; font-size: clamp(15px, 2.1vmin, 19px); font-weight: 800; color: var(--ink-3); }
+
+    /* Sticker book card */
+    .stk-card {
+      display: flex; align-items: center; gap: 14px; margin: 0 0 22px; padding: 12px 16px 12px 12px;
+      border-radius: 26px; text-decoration: none; color: var(--ink); -webkit-touch-callout: none;
+      background: linear-gradient(135deg, color-mix(in srgb, #FF6FA9 16%, var(--surface)), var(--surface) 60%);
+      background-color: var(--surface); box-shadow: var(--shadow-sm), inset 0 -4px 0 rgba(47,34,53,.05);
+      transition: transform .18s var(--spring); animation: bounceIn .5s var(--spring) both;
+    }
+    .stk-card:active { transform: scale(.97); }
+    .stk-art { width: 62px; height: 62px; flex: none; border-radius: 20px; display: grid; place-items: center; background: #FF6FA9; box-shadow: inset 0 -4px 0 rgba(0,0,0,.12); }
+    .stk-art svg { width: 48px; height: 48px; }
+    .stk-text { flex: 1; min-width: 0; }
+    .stk-text b { display: block; font-family: var(--display); font-weight: 600; font-size: 20px; }
+    .stk-text small { display: block; font-size: 14px; font-weight: 800; color: var(--ink-3); }
+    .stk-peek { display: flex; flex: none; font-family: var(--emoji); font-size: 28px; line-height: 1; }
+    .stk-peek span { margin-left: -8px; filter: drop-shadow(0 2px 0 var(--surface)); }
+    .stk-new { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: #FF6B6B; color: #fff; font-size: 12px; font-weight: 900; vertical-align: 2px; }
+    @media (max-width: 380px) { .stk-peek span:nth-child(n+4) { display: none; } .stk-peek { font-size: 24px; } .stk-text b { font-size: 18px; } }
+
+    /* Today's adventure: one game to make, one to solve, one for words */
+    .adv {
+      margin: 0 0 14px; padding: 12px 12px 14px; border-radius: 26px;
+      background: linear-gradient(135deg, color-mix(in srgb, #FFC93C 24%, var(--surface)), var(--surface) 70%);
+      background-color: var(--surface); box-shadow: var(--shadow-sm), inset 0 -4px 0 rgba(47,34,53,.05);
+      animation: bounceIn .5s var(--spring) both;
+    }
+    .adv-head {
+      display: flex; align-items: center; gap: 12px; width: 100%; margin: 0 0 10px; padding: 0 4px 0 0;
+      border: none; background: none; font: inherit; color: var(--ink); text-align: left; cursor: pointer;
+    }
+    .adv-ring { position: relative; width: 56px; height: 56px; flex: none; }
+    .adv-ring > svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+    .adv-ring circle { fill: none; stroke-width: 5; stroke-linecap: round; }
+    .adv-ring .track { stroke: color-mix(in srgb, #F5A623 22%, transparent); }
+    .adv-ring .fill { stroke: #F5A623; transition: stroke-dashoffset .8s var(--spring); }
+    .adv-bug { position: absolute; inset: 8px; }
+    .adv-bug svg { width: 100%; height: 100%; }
+    .adv-head b { display: block; font-family: var(--display); font-weight: 600; font-size: 20px; line-height: 1.15; }
+    .adv-head small { display: block; font-size: 14px; font-weight: 800; color: var(--ink-3); }
+    .adv-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .adv-step {
+      --c: var(--accent); position: relative; display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 0;
+      padding: 10px 6px 10px; border-radius: 20px; background: var(--surface); color: var(--ink); text-decoration: none;
+      box-shadow: var(--shadow-sm); -webkit-touch-callout: none; transition: transform .18s var(--spring);
+    }
+    .adv-step:active { transform: scale(.94); }
+    .adv-kind { font-size: 12px; font-weight: 900; letter-spacing: .6px; text-transform: uppercase; color: var(--c); }
+    .adv-ic {
+      position: relative; width: 58px; height: 58px; border-radius: 30%; display: grid; place-items: center; background-color: var(--c);
+      background-image: linear-gradient(155deg, color-mix(in srgb, var(--c) 62%, #fff) 0%, var(--c) 60%);
+      box-shadow: inset 0 -5px 0 rgba(0,0,0,.12), inset 0 2px 0 rgba(255,255,255,.35);
+    }
+    .adv-ic svg { width: 76%; height: 76%; }
+    .adv-step b { max-width: 100%; font-family: var(--display); font-weight: 600; font-size: 15px; line-height: 1.15; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .adv-tick {
+      position: absolute; top: -8px; right: -10px; width: 28px; height: 28px; border-radius: 50%; display: none; place-items: center;
+      background: var(--good); color: #fff; box-shadow: 0 0 0 3px var(--surface), 0 2px 0 3px rgba(0,0,0,.08);
+    }
+    .adv-tick .ico { width: 17px; height: 17px; stroke-width: 3.4; }
+    .adv-step.done .adv-tick { display: grid; }
+    .adv-step.done .adv-ic svg { opacity: .6; }
+    .adv-step.stamp .adv-tick { animation: stamp .6s var(--spring) .35s both; }
+    .adv.all { background-image: linear-gradient(135deg, color-mix(in srgb, #FFC93C 45%, var(--surface)), color-mix(in srgb, #FFC93C 12%, var(--surface)) 70%); }
+    @keyframes stamp { 0% { transform: scale(2.4) rotate(-20deg); opacity: 0; } 60% { transform: scale(.9) rotate(4deg); opacity: 1; } 100% { transform: none; } }
+    @media (min-width: 700px) {
+      .adv { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(0, 2fr); align-items: center; gap: 14px; padding: 14px; }
+      .adv-head { margin: 0; }
+    }
 
     .home-foot {
       display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 18px;
@@ -151,7 +220,7 @@
 
   <div class="welcome" id="welcome" hidden></div>
 
-  <script src="js/common.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
   <script>
     var store = {
       get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -175,10 +244,99 @@
       return name ? 'Hi, ' + name + '!' : 'Hi there!';
     }
 
+    function renderStickers() {
+      var book = App.stickerBook(), have = App.STICKERS.filter(function (e) { return book.own[e]; });
+      var card = document.createElement('a');
+      card.className = 'stk-card';
+      card.href = 'stickers.html';
+      card.innerHTML = '<span class="stk-art">' + App.art('stickers') + '</span><span class="stk-text"><b>My stickers' +
+        (book.unseen ? '<span class="stk-new">' + book.unseen + ' new</span>' : '') + '</b><small>' +
+        (have.length ? have.length + ' of ' + App.STICKERS.length + ' collected' : 'Win games to collect stickers!') + '</small></span>' +
+        '<span class="stk-peek" aria-hidden="true">' + have.slice(-4).reverse().map(function (e) { return '<span>' + e + '</span>'; }).join('') + '</span>';
+      card.addEventListener('click', function () { App.sfx('pop'); });
+      shelves.appendChild(card);
+    }
+
+    /* ---------- Today's adventure ----------
+       Three games a day, one from each shelf, different every day. A game counts
+       once a round is finished today, or after a minute of free play. Finishing
+       all three earns a party and a sticker. */
+    var ADV_KEY = 'heshvi-adventure';
+    var ADV_KINDS = [['create', 'Make'], ['think', 'Solve'], ['words', 'Learn']];
+    function adventure() {
+      var day = App.dayKey(), a = null;
+      try { a = JSON.parse(store.get(ADV_KEY) || 'null'); } catch (e) { a = null; }
+      if (a && a.day === day && a.picks && a.picks.every(App.activity)) return a;
+      var age = App.getAge(), dayNo = Math.floor(Date.now() / 86400000);
+      var picks = ADV_KINDS.map(function (k, i) {
+        var list = App.ACTIVITIES.filter(function (x) { return x.section === k[0] && suits(x, age); });
+        return list.length ? list[(dayNo * 7 + i * 3) % list.length].id : null;
+      }).filter(Boolean);
+      a = { day: day, picks: picks, seenIds: [], prize: false };
+      store.set(ADV_KEY, JSON.stringify(a));
+      return a;
+    }
+    function advDone(id) {
+      var day = App.dayKey(), st = App.stats(id), secs = ((App.playTime()[day] || {})[id]) || 0;
+      return ((st.days || {})[day] || 0) > 0 || secs >= (App.activity(id).section === 'think' ? 120 : 60);
+    }
+    function renderAdventure() {
+      var a = adventure(), done = a.picks.map(advDone), n = done.filter(Boolean).length, total = a.picks.length;
+      if (!total) return;
+      var seen = a.seenIds || [];
+      var fresh = a.picks.filter(function (id, i) { return done[i] && seen.indexOf(id) === -1; });   // done since the last visit
+      var box = document.createElement('section');
+      box.className = 'adv' + (n === total ? ' all' : '');
+      box.setAttribute('aria-label', 'Today\u2019s adventure');
+      var C = 2 * Math.PI * 24;
+      box.innerHTML = '<button type="button" class="adv-head"><span class="adv-ring"><svg viewBox="0 0 56 56" aria-hidden="true">' +
+        '<circle class="track" cx="28" cy="28" r="24"/><circle class="fill" cx="28" cy="28" r="24" stroke-dasharray="' + C + '" stroke-dashoffset="' + C + '"/></svg>' +
+        '<span class="adv-bug">' + App.MASCOT + '</span></span><span><b>Today\u2019s adventure</b><small>' +
+        (n === total ? 'All done! See you tomorrow' : n + ' of ' + total + ' done') + '</small></span></button><div class="adv-steps"></div>';
+      var steps = box.querySelector('.adv-steps');
+      a.picks.forEach(function (id, i) {
+        var act = App.activity(id), kind = ADV_KINDS.filter(function (k) { return k[0] === act.section; })[0];
+        var t = document.createElement('a');
+        t.className = 'adv-step' + (done[i] ? ' done' : '') + (fresh.indexOf(id) !== -1 ? ' stamp' : '');
+        t.href = act.file;
+        t.style.setProperty('--c', act.color);
+        t.setAttribute('aria-label', kind[1] + ': ' + act.name + (done[i] ? ', done' : ''));
+        t.innerHTML = '<span class="adv-kind">' + kind[1] + '</span><span class="adv-ic">' + act.art +
+          '<span class="adv-tick" aria-hidden="true">' + App.icon('check') + '</span></span><b>' + act.short + '</b>';
+        t.addEventListener('click', function () { App.sfx('pop'); });
+        steps.appendChild(t);
+      });
+      box.querySelector('.adv-head').addEventListener('click', function () {
+        App.bujji('happy');
+        App.sfx('pop');
+        Speech.speak(n === total ? 'You finished today\u2019s adventure! See you tomorrow!' :
+          n ? 'Keep going! ' + ['', 'Two more to go!', 'One more to go!'][n] : 'Today\u2019s adventure! Make something, solve something, and learn something new!', 0.9);
+      });
+      shelves.appendChild(box);
+      // fill the ring after the card is in, so it sweeps round
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        box.querySelector('.fill').setAttribute('stroke-dashoffset', String(C * (1 - n / total)));
+      }); });
+      if (fresh.length) { a.seenIds = seen.concat(fresh); setTimeout(function () { App.sfx('yay'); }, 450); }
+      if (n === total && !a.prize) {
+        a.prize = true;
+        setTimeout(function () {
+          App.celebrate({
+            title: 'Adventure done!', stars: 3, say: 'You finished today\u2019s adventure! You made, you solved and you learned!',
+            text: 'Come back tomorrow for a new adventure.',
+            buttons: [{ label: 'Yay!', icon: 'star', onClick: function () { render(); } }]
+          });
+        }, 1100);
+      }
+      store.set(ADV_KEY, JSON.stringify(a));
+    }
+
     function render() {
       var age = App.getAge();
       document.getElementById('hello').textContent = greeting();
       shelves.innerHTML = '';
+      renderAdventure();
+      renderStickers();
       var n = 0;
       App.SECTIONS.forEach(function (sec) {
         var items = App.ACTIVITIES.filter(function (a) { return a.section === sec.id && suits(a, age); });
@@ -203,13 +361,17 @@
       });
     }
 
-    var HELLOS = ['Let’s play!', 'Pick a game!', 'I love colours!', 'You can do it!', 'What shall we make today?'];
+    var HELLOS = ['I am Bujji! Let\u2019s play!', 'Pick a game!', 'I love colours!', 'You can do it!', 'What shall we make today?', 'Hee hee! That tickles!',
+      // wonder questions to talk about together
+      'Why do you think the sky is blue?', 'Where do you think the rain comes from?', 'How many colours can you see around you?',
+      'What is your favourite animal? Why?', 'Can you find something round near you?', 'What do you think birds dream about?'];
     bug.addEventListener('click', function () {
       bug.classList.remove('hi');
       void bug.offsetWidth;
       bug.classList.add('hi');
       App.sfx('pop');
       var name = App.getName();
+      App.bujji('giggle');
       Speech.speak((name ? 'Hi ' + name + '! ' : 'Hi! ') + HELLOS[Math.floor(Math.random() * HELLOS.length)], 0.9);
     });
 
@@ -217,7 +379,7 @@
     function installSheet() {
       var ios = App.platform() === 'ios';
       var steps = ios
-        ? '<ol class="steps"><li>Open this page in <b>Safari</b>.</li><li>Tap <b>Share</b> ' + App.icon('share') + '</li><li>Choose <b>Add to Home Screen</b>.</li></ol>'
+        ? '<ol class="steps"><li>Open this page in <b>Safari</b>.</li><li>Tap <b>Share</b> ' + App.icon('share') + ' (on newer iPhones it is inside the <b>\u2022\u2022\u2022</b> menu).</li><li>Choose <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol>'
         : '<ol class="steps"><li>Open the browser menu <b>⋮</b></li><li>Choose <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>';
       App.sheet({
         title: 'Add Heshvi to your home screen', kicker: 'Get the app',
@@ -262,7 +424,11 @@
           '</ul>' +
           '<button type="button" class="btn" id="wl-go" style="--b:#FF6B6B">Let’s begin ' + App.icon('next') + '</button>' +
         '</div>';
-      document.getElementById('wl-go').addEventListener('click', function () { App.sfx('pop'); stepWho(); });
+      document.getElementById('wl-go').addEventListener('click', function () {
+        App.sfx('pop');
+        stepWho();
+        Speech.speak('Hi! I am Bujji! Who is playing today?', 0.9);
+      });
     }
     function point(color, ic, title, text, delay) {
       return '<li style="animation-delay:' + delay + 's"><span class="dot" style="background:' + color + '">' + App.icon(ic) + '</span>' +

@@ -23,6 +23,12 @@
 @keyframes ringFill { from { stroke-dashoffset: 151 } to { stroke-dashoffset: 0 } }
 @keyframes sheetUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
 @keyframes fadeBg { from { opacity: 0 } to { opacity: 1 } }
+@keyframes bujjiHop { 0%, 100% { transform: translateY(0) rotate(0) } 30% { transform: translateY(-14px) rotate(-8deg) scale(1.1) } 60% { transform: translateY(0) rotate(6deg) } 80% { transform: translateY(-4px) } }
+@keyframes bujjiTilt { 0%, 100% { transform: rotate(0) } 30% { transform: rotate(-16deg) } 70% { transform: rotate(10deg) } }
+@keyframes bujjiWave { 0%, 100% { transform: rotate(0) } 20%, 60% { transform: rotate(-14deg) } 40%, 80% { transform: rotate(14deg) } }
+@keyframes bujjiGiggle { 0%, 100% { transform: scale(1) rotate(0) } 20% { transform: scale(1.15, .9) rotate(-6deg) } 40% { transform: scale(.95, 1.1) rotate(6deg) } 60% { transform: scale(1.1, .92) rotate(-4deg) } 80% { transform: scale(1) rotate(3deg) } }
+@keyframes bujjiDance { 0%, 100% { transform: rotate(0) translateY(0) } 25% { transform: rotate(-12deg) translateY(-8px) scale(1.06) } 50% { transform: rotate(0) translateY(0) } 75% { transform: rotate(12deg) translateY(-8px) scale(1.06) } }
+@keyframes stickerIn { 0% { transform: scale(0) rotate(-40deg); opacity: 0 } 60% { transform: scale(1.25) rotate(10deg); opacity: 1 } 100% { transform: scale(1) rotate(-6deg) } }
 
 /* ---------- Tokens ---------- */
 :root {
@@ -189,7 +195,13 @@ a { color: inherit; }
   display: flex; align-items: center; justify-content: center; gap: 8px;
   margin: 2px auto 12px; max-width: 760px; text-align: left;
 }
-.coach-bug { width: 46px; height: 46px; flex: none; animation: bob 2.6s ease-in-out infinite; }
+.coach-bug { width: 46px; height: 46px; flex: none; animation: bob 2.6s ease-in-out infinite; cursor: pointer; }
+/* Bujji's moods (set for about a second by App.bujji) */
+.coach-bug.happy, .hello-bug.happy svg { animation: bujjiHop .7s var(--spring); }
+.coach-bug.hmm, .hello-bug.hmm svg { animation: bujjiTilt .7s ease; }
+.coach-bug.wave, .hello-bug.wave svg { animation: bujjiWave 1s ease; }
+.coach-bug.giggle, .hello-bug.giggle svg { animation: bujjiGiggle .8s ease; }
+.coach-bug.happy .bf-wings, .coach-bug.giggle .bf-wings, .hello-bug.happy .bf-wings { animation-duration: .25s !important; }
 .coach-bug svg { width: 100%; height: 100%; }
 .coach-bubble {
   position: relative; display: flex; align-items: center; gap: 6px; flex: 0 1 auto; min-width: 0;
@@ -290,6 +302,10 @@ a { color: inherit; }
   background: var(--surface-2);
 }
 .cat-name { font-family: var(--display); font-size: clamp(17px, 2.2vmin, 22px); font-weight: 600; color: var(--ink); }
+/* Words known in a topic: one star per word, filled when known */
+.cat-known { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; max-width: 132px; margin-top: -2px; }
+.cat-known i { width: 11px; height: 11px; border-radius: 50%; background: var(--line); }
+.cat-known i.on { background: #F5A623; box-shadow: 0 0 0 2px #FFF3C4; }
 
 .back-link {
   display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px;
@@ -343,6 +359,7 @@ a { color: inherit; }
 }
 .switch[aria-checked="true"] { background: var(--good); }
 .switch[aria-checked="true"]::after { transform: translateX(24px); }
+.switch:disabled { opacity: .4; cursor: default; }
 /* Difficulty list in the grown-ups sheet */
 .lv-list { display: grid; gap: 6px; }
 .lv-list button {
@@ -442,7 +459,19 @@ a { color: inherit; }
   background: var(--surface); border-radius: 32px; box-shadow: var(--shadow-lg);
   animation: bounceIn .5s var(--spring);
 }
-.party-bug { width: 96px; height: 96px; margin: -74px auto 6px; animation: bob 1.6s ease-in-out infinite; }
+.party-bug { width: 96px; height: 96px; margin: -74px auto 6px; animation: bujjiDance 1.3s ease-in-out infinite; }
+.party-bug .bf-wings { animation-duration: .5s !important; }
+.party-sticker { display: inline-flex; align-items: center; gap: 10px; margin: -6px auto 16px; padding: 8px 16px 8px 10px; border-radius: 999px; background: var(--surface-2); }
+.party-sticker .emoji { font-size: 40px; display: inline-block; animation: stickerIn .7s var(--spring) .5s both; filter: drop-shadow(0 2px 0 #fff) drop-shadow(0 0 2px #fff); }
+.party-sticker b { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--ink); }
+
+/* Break reminder */
+.break { position: fixed; inset: 0; z-index: 420; display: grid; place-items: center; padding: 20px; background: color-mix(in srgb, #241B3A 82%, transparent); background-color: rgba(36,27,58,.86); animation: fadeBg .4s ease-out; }
+.break-card { width: min(420px, 100%); text-align: center; padding: 26px 22px 22px; border-radius: 32px; background: var(--surface); box-shadow: var(--shadow-lg); animation: popIn .4s ease-out; }
+.break-bug { width: 120px; height: 120px; margin: 0 auto 6px; animation: float 3s ease-in-out infinite; }
+.break-bug svg { width: 100%; height: 100%; }
+.break-card h2 { font-family: var(--display); font-weight: 700; font-size: 30px; color: #8C6CFF; }
+.break-card p { margin: 8px 0 20px; font-size: 17px; font-weight: 800; color: var(--ink-2); line-height: 1.45; }
 .party-card h2 { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 6vmin, 40px); color: var(--accent); line-height: 1.1; }
 .party-card p { margin: 8px 0 18px; font-size: 17px; font-weight: 800; color: var(--ink-2); }
 .party-stars { display: flex; justify-content: center; gap: 4px; margin: 8px 0 -4px; color: #FFC229; }

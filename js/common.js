@@ -57,6 +57,74 @@
             us.filter(function (v) { return v.localService; })[0] || us[0] || en[0];
   }
 
+  // Names the English voices get wrong: shown one way, said another.
+  var SAY_AS = { Bujji: 'Boojee', Heshvi: 'Heshvee' };
+  function sayable(text) {
+    return String(text).replace(/\b(Bujji|Heshvi)\b/g, function (w) { return SAY_AS[w]; });
+  }
+
+  // Telugu words are spoken only on phones that have a Telugu voice (most Android, some iPhones).
+  var TE_KEY = 'heshvi-telugu';
+  function teluguVoice() {
+    if (!canSpeak) return null;
+    return (synth.getVoices() || []).filter(function (v) { return /^te([-_]|$)/i.test(v.lang); })[0] || null;
+  }
+
+  /* Bujji's recorded voice: every line the app says is recorded once (see
+     tools/voice). A line with a recording plays it; anything else falls back to
+     the phone's own voice. These two helpers match tools/voice/text.mjs. */
+  function clipKey(t) {
+    return String(t).toLowerCase()
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/[^a-z0-9' ]+/g, ' ')
+      .replace(/(^|\s)'+|'+(\s|$)/g, ' ')
+      .replace(/\s+/g, ' ').trim();
+  }
+  function clipUnits(text) {
+    var s = String(text).replace(/[\u{1F000}-\u{1FAFF}\u2600-\u27BF\uFE0F\u200D]/gu, ' ').replace(/\s+/g, ' ').trim();
+    return (s.match(/[^.!?\u2026]+[.!?\u2026]*/g) || []).map(function (x) { return x.trim(); }).filter(function (x) { return /[A-Za-z0-9]/.test(x); });
+  }
+  var clipMap = null, clipLoad = null, clipAudio = null;
+  function loadClips() {
+    if (!clipLoad) {
+      clipLoad = (window.fetch ? fetch('voice/manifest.json').then(function (r) { return r.ok ? r.json() : null; }) : Promise.resolve(null))
+        .then(function (m) { clipMap = (m && m.clips) || {}; }, function () { clipMap = {}; });
+    }
+    return clipLoad;
+  }
+  // [{ id, ms, from }] for each recorded piece of the text, or null if any piece is missing.
+  function clipPlan(text) {
+    if (!clipMap) return null;
+    var units = clipUnits(text), plan = [], at = 0, name = clipKey(store.get('heshvi-name') || '');
+    if (!units.length) return null;
+    for (var i = 0; i < units.length; i++) {
+      var u = units[i], k = clipKey(u), from = String(text).indexOf(u, at);
+      if (from >= 0) at = from + u.length;
+      if (clipMap[k]) { plan.push({ c: clipMap[k], from: from, text: u }); continue; }
+      if (u.indexOf(',') !== -1) {   // a list: "red, blue, red."
+        var parts = u.split(/,\s*/), ok = parts.every(function (p) { return !clipKey(p) || clipMap[clipKey(p)]; });
+        if (ok) { parts.forEach(function (p) { if (clipKey(p)) plan.push({ c: clipMap[clipKey(p)], from: -1, text: p }); }); continue; }
+      }
+      if (name && (' ' + k + ' ').indexOf(' ' + name + ' ') !== -1) {   // a name we have no recording of: leave it out
+        var rest = clipKey((' ' + k + ' ').replace(' ' + name + ' ', ' '));
+        if (!rest) continue;
+        if (clipMap[rest]) { plan.push({ c: clipMap[rest], from: -1, text: u }); continue; }
+      }
+      return null;
+    }
+    return plan;
+  }
+  var SILENT_WAV = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+  function clipPlayer() {
+    if (!clipAudio && window.Audio) { clipAudio = new Audio(); clipAudio.preload = 'auto'; }
+    return clipAudio;
+  }
+  function stopClips() {
+    if (!clipAudio) return;
+    clipAudio.onended = clipAudio.onerror = null;
+    try { clipAudio.pause(); } catch (e) { /* ignore */ }
+  }
+
   function estimateMs(text, rate) {
     return Math.max(900, Math.round(String(text).length * 75 / (rate || 0.8)) + 400);
   }
@@ -76,6 +144,7 @@
     job = null;
     queued = null;
     if (j) { j.done = true; clearTimers(j); }
+    stopClips();
     if (canSpeak && (synth.speaking || synth.pending)) {
       try { synth.cancel(); } catch (e) { /* ignore */ }
       lastCancel = Date.now();
@@ -92,6 +161,7 @@
     var t0 = Date.now();
     var my = { done: false, timers: [] };
     job = my;
+    function viaSystem() { systemSpeak(text, rate, onEnd, opts, my, finish, spoken, est, t0); }
 
     function finish(failed) {
       if (my.done || job !== my) return;
@@ -104,7 +174,69 @@
       }, wait));
     }
 
-    if (muted || !canSpeak) { finish(true); return; }
+    if (muted) { finish(true); return; }
+    var te = opts.lang === 'te';
+    if (!te && clipMap === null) {   // the list of recordings is still loading: try again when it is here
+      my.done = true;
+      loadClips().then(function () { if (job === my) { job = null; speak(text, rate, onEnd, opts); } });
+      return;
+    }
+    var plan = te ? null : clipPlan(text);
+    if (plan && clipPlayer()) {
+      var mul = Math.max(0.7, Math.min(1.3, (RATES[store.get(RATE_KEY)] || 1) * Math.max(0.85, Math.min(1.1, rate / 0.85))));
+      est = plan.reduce(function (a, p) { return a + p.c[1] / mul + 160; }, 300);
+      if (!hasBeenTapped()) {
+        if (!onEnd) queued = { text: text, rate: rate };
+        finish(true);
+        return;
+      }
+      var idx = 0, a = clipAudio;
+      var next = function () {
+        if (my.done || job !== my) return;
+        if (idx >= plan.length) { finish(false); return; }
+        var p = plan[idx++];
+        a.onended = function () { if (job === my) my.timers.push(setTimeout(next, idx < plan.length ? 60 : 0)); };
+        a.onerror = function () { if (job === my) { stopClips(); viaSystem(); } };   // e.g. offline and not cached yet
+        a.src = 'voice/' + p.c[0] + '.aac';
+        a.defaultPlaybackRate = a.playbackRate = mul;
+        a.preservesPitch = a.webkitPreservesPitch = true;
+        var pr = a.play();
+        if (pr && pr.catch) pr.catch(function () { if (job === my) { stopClips(); viaSystem(); } });
+        if (idx === 1 && opts.onStart) opts.onStart();
+        if (opts.onBoundary && p.from >= 0) {   // word highlighting, timed through the recording
+          var re = /\S+/g, w, len = p.text.length || 1;
+          while ((w = re.exec(p.text))) {
+            (function (ci, t) {
+              my.timers.push(setTimeout(function () { if (job === my) opts.onBoundary({ charIndex: ci, name: 'word' }); }, t));
+            })(p.from + w.index, (w.index / len) * p.c[1] / mul);
+          }
+        }
+      };
+      next();
+      return;
+    }
+    if (!te && clipMap && Object.keys(clipMap).length) noteMiss(text);
+    viaSystem();
+  }
+
+  // Lines said in the phone's voice because they have no recording yet (kept for whoever records the next batch).
+  function noteMiss(text) {
+    try {
+      var list = JSON.parse(store.get('heshvi-voice-miss') || '[]');
+      if (list.indexOf(text) === -1) { list.push(String(text).slice(0, 200)); store.set('heshvi-voice-miss', JSON.stringify(list.slice(-80))); }
+    } catch (e) { /* ignore */ }
+  }
+
+  // The phone's own voice (also used for Telugu words).
+  function systemSpeak(text, rate, onEnd, opts, my, finish, spoken, est, t0) {
+    var te = opts.lang === 'te';
+    if (!canSpeak) { finish(true); return; }
+    if (te && (store.get(TE_KEY) === '0' || !teluguVoice())) {   // nothing to say it with: move straight on
+      my.done = true;
+      if (job === my) job = null;
+      if (onEnd) setTimeout(onEnd, 0);
+      return;
+    }
     if (!voice) pickVoice();
 
     if (!hasBeenTapped()) {
@@ -114,12 +246,13 @@
       return;
     }
 
-    var u = new window.SpeechSynthesisUtterance(text);
+    var u = new window.SpeechSynthesisUtterance(te ? text : sayable(text));
     my.u = u;   // Chrome drops events of an utterance nothing references any more
     u.rate = spoken;
     u.pitch = opts.pitch || 1.15;
-    u.lang = (voice && voice.lang) || 'en-US';
-    if (voice) u.voice = voice;
+    var useVoice = te ? teluguVoice() : voice;
+    u.lang = (useVoice && useVoice.lang) || 'en-US';
+    if (useVoice) u.voice = useVoice;
     var started = false;
     if (opts.onBoundary) u.onboundary = function (e) { if (job === my) opts.onBoundary(e); };
     u.onstart = function () {
@@ -180,11 +313,18 @@
     ['touchend', 'click', 'keydown'].forEach(function (ev) {
       window.removeEventListener(ev, unlock, true);
     });
-    if (!canSpeak || muted) return;
+    // iPhones let a sound element play by itself only after it has played once inside a tap
+    var a = clipPlayer();
+    if (a && !job) {
+      a.src = SILENT_WAV;
+      var pr = a.play();
+      if (pr && pr.catch) pr.catch(function () { /* ignore */ });
+    }
+    if (muted) return;
     var q = queued;
     queued = null;
     if (q) { speak(q.text, q.rate); return; }
-    if (synth.speaking || synth.pending) return;
+    if (!canSpeak || synth.speaking || synth.pending) return;
     primeEngine();
   }
 
@@ -207,9 +347,9 @@
     }
     // called from the toggle's tap, so this also unlocks speech if it was muted at the first tap
     // (without cutting off a sequence that is mid-way through, e.g. Learn's auto play)
-    if (!muted && canSpeak) {
-      unlocked = true;
-      if (job) primeEngine(); else speak('Sound on!', 0.9);
+    if (!muted) {
+      if (!unlocked) unlock();
+      if (job) { if (canSpeak) primeEngine(); } else speak('Sound on!', 0.9);
     }
     syncSoundButtons();
   }
@@ -227,25 +367,30 @@
     for (var j = 0; j < sw.length; j++) sw[j].setAttribute('aria-checked', String(!muted));
   }
 
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) { /* older browsers */ }
+
+  loadClips();
+  ['touchend', 'click', 'keydown'].forEach(function (ev) {
+    window.addEventListener(ev, unlock, { capture: true, passive: true });
+  });
+  // Leaving mid-sentence can wedge the engine (iOS); start clean on return.
+  document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); });
+  window.addEventListener('pagehide', stop);
   if (canSpeak) {
     pickVoice();
     if (synth.addEventListener) synth.addEventListener('voiceschanged', pickVoice);
     else synth.onvoiceschanged = pickVoice;
-    ['touchend', 'click', 'keydown'].forEach(function (ev) {
-      window.addEventListener(ev, unlock, { capture: true, passive: true });
-    });
-    // Leaving the tab mid-sentence can wedge the engine (iOS); start clean on return.
-    document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); });
-    window.addEventListener('pagehide', stop);
   }
 
   window.Speech = {
-    available: canSpeak,
+    available: canSpeak || !!window.Audio,
+    clips: function () { return clipMap; },
     speak: speak,
     stop: stop,
     isMuted: function () { return muted; },
     setMuted: setMuted,
     estimateMs: estimateMs,
+    hasTelugu: function () { return !!teluguVoice(); },
     getRate: function () { return RATES[store.get(RATE_KEY)] ? store.get(RATE_KEY) : 'normal'; },
     setRate: function (r) { store.set(RATE_KEY, r); }
   };
@@ -377,6 +522,9 @@
     worksheet: '<rect x="22" y="12" width="52" height="70" rx="10" fill="#fff"/><g stroke="#AB47BC" stroke-width="4" stroke-linecap="round" opacity=".55"><path d="M33 30h10M53 30h10M33 46h10M53 46h10M33 62h10M53 62h10"/></g>' +
       '<path d="M43 30l10 16M43 46l10 16" stroke="#FF6B6B" stroke-width="3" stroke-dasharray="1 5" stroke-linecap="round"/>',
     guide: '<path d="M48 80S18 62 18 40a15 15 0 0 1 30-6 15 15 0 0 1 30 6c0 22-30 40-30 40z" fill="#fff"/><path d="M38 44l7 7 13-14" stroke="#FF6FA9" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    stickers: '<rect x="16" y="14" width="64" height="70" rx="12" fill="#fff"/><rect x="16" y="14" width="12" height="70" rx="6" fill="#FFD3E6"/>' +
+      '<circle cx="45" cy="40" r="10" fill="#FFC93C" transform="rotate(-8 45 40)"/><circle cx="66" cy="38" r="8" fill="#3FB2FF"/><circle cx="50" cy="64" r="9" fill="#2FBF71"/>' +
+      '<path d="M66 56l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="#FF6FA9"/>',
     parents: '<circle cx="36" cy="30" r="11" fill="#fff"/><path d="M16 72a20 20 0 0 1 40 0z" fill="#fff"/><circle cx="64" cy="40" r="9" fill="#FFC93C"/><path d="M48 76a16 16 0 0 1 32 0z" fill="#FFC93C"/>'
   };
   function art(id) {
@@ -561,7 +709,31 @@
       tagline: 'Draw lines to match',
       note: 'Printable matching sheets: easy (pictures) on the front, hard (words) on the back.' }
   ];
-  ACTIVITIES.forEach(function (a) { a.file = a.id + '.html'; a.art = art(a.id); a.short = a.name; });
+  // Conversation starters for after a game, shown in the Parents area ("Talk about it").
+  var TALK = {
+    art: ['Tell me about your picture.', 'Which colour did you use most? Why that one?', 'If your picture could talk, what would it say?'],
+    scenes: ['Who was in your scene? What were they doing?', 'What happens next in your story?', 'Can you tell me your story again, in Telugu?'],
+    music: ['Can you sing me the tune you made?', 'Was your music fast or slow? Happy or sleepy?', 'Let’s clap a pattern. Can you copy me?'],
+    puzzle: ['Which piece was the trickiest? How did you find where it goes?', 'Where did the corner pieces go?'],
+    sort: ['Let’s sort your toys: by colour first, then by size!', 'What could we sort in the kitchen?'],
+    patterns: ['Can you find a pattern on your clothes or in this room?', 'Clap, stomp, clap, stomp… what comes next?'],
+    memory: ['How did you remember where the match was?', 'I’ll hide three things. Can you tell me which one is missing?'],
+    order: ['What did you do first today? And then?', 'Tell me how we make a sandwich, step by step.'],
+    oddone: ['Which one didn’t belong? Why not?', 'Can you think of another reason it could be the odd one out?'],
+    maze: ['When you got stuck, what did you do?', 'Can you draw a maze for me to solve?'],
+    coder: ['How did you get the bunny to the carrot?', 'Give me steps to walk to the door: forward, turn, forward…'],
+    match: ['Which word was the trickiest to match?', 'Can you find something at home that starts with the same sound?'],
+    learn: ['Which new word did you learn? Can we find one at home?', 'Can you say that word in Telugu?'],
+    find: ['Can you point to something in this room that was in the game?', 'I spy something… can you find it?'],
+    discover: ['What made you laugh? Can you act it out for me?', 'What do you think happens if we try it for real?'],
+    stories: ['What happened at the end of the story?', 'What would you do if you were in the story?'],
+    trace: ['Can you draw that letter in the air with your finger?', 'What words start with that letter?']
+  };
+  ACTIVITIES.forEach(function (a) { a.file = a.id + '.html'; a.art = art(a.id); a.short = a.name; a.talk = TALK[a.id] || []; });
+  // Kid pages that are not games.
+  var KID_PAGES = {
+    stickers: { name: 'My Stickers', color: '#FF6FA9', note: 'Every finished round earns a sticker, new ones first. Stickers can be placed on four pages, moved, made bigger with a tap, or dragged off the page.' }
+  };
   // Pages for grown-ups: they go back to the Parents page, not Home.
   var GROWN_PAGES = {
     parents: { name: 'For Grown-ups', color: '#8C6CFF', back: 'index.html', backLabel: 'Home' },
@@ -679,13 +851,68 @@
     return { title: title, say: say || title };
   }
 
+  /* ---------------- Words she knows ----------------
+     Each picture word moves through five boxes (a Leitner box). A right answer
+     on a day the word is due moves it up a box; a miss moves it down two. Box 3
+     and up counts as known, so a word is "known" only after right answers on
+     three different days. Due, shaky and new words come up more often. */
+  var WORDS_KEY = 'heshvi-words';
+  var WORD_GAPS = [0, 1, 2, 4, 8];   // days until a word in each box is due again
+  function dayNum() { var d = new Date(); return Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 86400000); }
+  function words() { return readJSON(WORDS_KEY, {}); }
+  function wordRecord(w, id) { return w[id] || (w[id] = { b: 0, due: dayNum() }); }
+  // Seen on a Learn Words card: not a test, but it puts the word up for one.
+  function wordSeen(id) {
+    var w = words(), r = wordRecord(w, id);
+    r.seen = (r.seen || 0) + 1;
+    r.last = Date.now();
+    store.set(WORDS_KEY, JSON.stringify(w));
+  }
+  // A test of the word in Find It or Match. Returns true when it just became known.
+  function wordResult(id, right) {
+    var w = words(), today = dayNum(), r = wordRecord(w, id), was = r.b;
+    if (right) {
+      r.ok = (r.ok || 0) + 1;
+      if (r.due <= today && r.b < WORD_GAPS.length - 1) { r.b++; r.due = today + WORD_GAPS[r.b]; }
+    } else {
+      r.miss = (r.miss || 0) + 1;
+      r.missAt = Date.now();
+      r.b = Math.max(0, r.b - 2);
+      r.due = today;
+    }
+    r.last = Date.now();
+    store.set(WORDS_KEY, JSON.stringify(w));
+    return was < 3 && r.b >= 3;
+  }
+  // A row of dots under a topic, gold for each word she knows (nothing until she knows one).
+  function knownBadge(items) {
+    var w = words(), known = items.filter(function (it) { return w[it.id] && w[it.id].b >= 3; }).length;
+    if (!known) return '';
+    return '<span class="cat-known" role="img" aria-label="' + known + ' of ' + items.length + ' words known">' +
+      items.map(function (it, i) { return '<i' + (i < known ? ' class="on"' : '') + '></i>'; }).join('') + '</span>';
+  }
+  function wordLevel(r) { return !r ? 'new' : r.b >= 3 ? 'known' : r.miss && r.b <= 1 ? 'tricky' : 'learning'; }
+  // n of the items, favouring words that are due, shaky or new (weighted sampling, no repeats).
+  function pickWords(items, n) {
+    var w = words(), today = dayNum();
+    return items.map(function (it) {
+      var r = w[it.id], wt = !r ? 3 : r.due <= today ? (r.b <= 1 ? 6 : 4) : r.b >= 3 ? 0.6 : 1.5;
+      return { it: it, k: Math.pow(Math.random(), 1 / wt) };
+    }).sort(function (a, b) { return b.k - a.k; }).slice(0, n).map(function (x) { return x.it; });
+  }
+
   // Minutes of play per day, for the Parents area (counted only while someone is tapping).
   var lastInput = 0;
   ['pointerdown', 'keydown'].forEach(function (ev) {
     window.addEventListener(ev, function () { lastInput = Date.now(); }, { capture: true, passive: true });
   });
   setInterval(function () {
-    if (!kidPage || document.hidden || Date.now() - lastInput > 90000) return;
+    if (!kidPage || document.hidden) return;
+    var idle = Date.now() - lastInput;
+    if (idle > 25000 && idle < 40000) bujji('wave');   // "still there?"
+    if (idle > 90000) return;
+    sessionSecs(15);
+    checkBreak();
     var t = readJSON(TIME_KEY, {}), day = dayKey();
     t[day] = t[day] || {};
     t[day][kidPage] = (t[day][kidPage] || 0) + 15;
@@ -863,9 +1090,9 @@
     var bar = document.querySelector('.topbar[data-page]');
     if (!bar) return;
     var id = bar.getAttribute('data-page');
-    var act = activity(id), grown = GROWN_PAGES[id];
-    var meta = grown || act || { name: document.title, color: '#FF6B6B' };
-    var kid = act && !grown;
+    var act = activity(id), grown = GROWN_PAGES[id], extra = KID_PAGES[id];
+    var meta = grown || act || extra || { name: document.title, color: '#FF6B6B' };
+    var kid = (act && !grown) || !!extra;
     if (kid) kidPage = id;
     document.documentElement.style.setProperty('--accent', meta.color);
     var back = grown ? grown.back : 'index.html';
@@ -878,7 +1105,7 @@
       '<div class="tb-actions">' + (kid ? '<button type="button" class="sound-btn"></button>' +
         '<button type="button" class="ib grown-btn" aria-label="For grown-ups (press and hold)">' + icon('grown') + '</button>' : '') + '</div>';
     var gb = bar.querySelector('.grown-btn');
-    if (gb) holdButton(gb, function () { grownSheet(act); });
+    if (gb) holdButton(gb, function () { grownSheet(act || extra); });
     // Came here from that page? Step back instead of piling up history, so the
     // phone's own back gesture behaves like an app's.
     bar.querySelector('a.ib').addEventListener('click', function (e) {
@@ -908,6 +1135,7 @@
         if (say) bubble.appendChild(say);
       }
       row.insertAdjacentHTML('afterbegin', '<span class="coach-bug" aria-hidden="true">' + MASCOT + '</span>');
+      row.querySelector('.coach-bug').addEventListener('click', giggle);
       if (say) {
         say.innerHTML = icon('volume');
         bubble.style.cursor = 'pointer';
@@ -926,17 +1154,106 @@
     }
   }
 
+  /* ---------------- Bujji the butterfly ----------------
+     Hops on a right answer, tilts on a wrong one, giggles when tapped, waves
+     when nobody has touched the screen for a while. */
+  var BUJJI = 'Bujji';
+  var BUJJI_LINES = ['Hee hee! That tickles!', 'Hi! I am Bujji!', 'You are doing great!', 'I love playing with you!', 'Let us try together!', 'Wow! Look at you go!'];
+  var MASCOT_SLEEPY = MASCOT
+    .replace('<circle cx="47.4" cy="31" r="1.5" fill="#fff"/><circle cx="52.6" cy="31" r="1.5" fill="#fff"/>',
+      '<path d="M45.8 31.2q1.6 1.3 3.2 0M51 31.2q1.6 1.3 3.2 0" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/>' +
+      '<text x="62" y="18" font-size="9" font-weight="700" fill="#8C6CFF" font-family="Fredoka, sans-serif">z</text><text x="69" y="10" font-size="12" font-weight="700" fill="#8C6CFF" font-family="Fredoka, sans-serif">z</text>')
+    .replace('animation:flap 1.6s', 'animation:flap 4s');
+  function bujji(mood) {
+    document.querySelectorAll('.coach-bug, .hello-bug').forEach(function (b) {
+      b.classList.remove('happy', 'hmm', 'wave', 'giggle');
+      void b.offsetWidth;
+      b.classList.add(mood);
+      clearTimeout(b._mood);
+      b._mood = setTimeout(function () { b.classList.remove(mood); }, 1100);
+    });
+  }
+  function giggle() {
+    sfx('giggle');
+    bujji('giggle');
+    speak(BUJJI_LINES[Math.floor(Math.random() * BUJJI_LINES.length)], 0.95);
+  }
+
+  /* ---------------- Sticker book ----------------
+     Every finished round earns a sticker (new ones first, so the book fills up). */
+  var STICKERS = ['\u{1F98B}', '\u{1F436}', '\u{1F431}', '\u{1F430}', '\u{1F98A}', '\u{1F43B}', '\u{1F43C}', '\u{1F428}', '\u{1F42F}', '\u{1F981}',
+    '\u{1F42E}', '\u{1F437}', '\u{1F438}', '\u{1F435}', '\u{1F984}', '\u{1F414}', '\u{1F427}', '\u{1F41E}', '\u{1F422}', '\u{1F419}',
+    '\u{1F433}', '\u{1F42C}', '\u{1F995}', '\u{1F992}', '\u{1F418}', '\u{1F989}', '\u{1F41D}', '\u{1F420}', '\u{1F34E}', '\u{1F34C}',
+    '\u{1F353}', '\u{1F349}', '\u{1F347}', '\u{1F9C1}', '\u{1F366}', '\u{1F36A}', '\u{1F955}', '\u{1F33D}', '\u{1F697}', '\u{1F682}',
+    '✈️', '\u{1F680}', '⛵', '\u{1F692}', '\u{1F388}', '\u{1F381}', '⚽', '\u{1FA81}', '\u{1F9F8}', '\u{1F308}',
+    '⭐', '\u{1F319}', '☀️', '\u{1F338}', '\u{1F33B}', '\u{1F344}', '\u{1F333}', '❄️', '\u{1F3F0}', '\u{1F451}'];
+  var STICKER_KEY = 'heshvi-stickers';
+  function stickerBook() {
+    var b = readJSON(STICKER_KEY, {});
+    b.own = b.own || {};
+    b.pages = b.pages || {};
+    return b;
+  }
+  function saveStickers(b) { store.set(STICKER_KEY, JSON.stringify(b)); }
+  function earnSticker() {
+    var b = stickerBook();
+    var fresh = STICKERS.filter(function (x) { return !b.own[x]; });
+    var pool = fresh.length ? fresh : STICKERS;
+    var pick = pool[Math.floor(Math.random() * pool.length)];
+    b.own[pick] = (b.own[pick] || 0) + 1;
+    b.unseen = (b.unseen || 0) + 1;
+    b.last = pick;
+    saveStickers(b);
+    return { sticker: pick, isNew: fresh.length > 0, count: Object.keys(b.own).length };
+  }
+
+  /* ---------------- Gentle break reminder (set by a grown-up) ---------------- */
+  var BREAK_KEY = 'heshvi-break';
+  function sessionSecs(add) {
+    var n = 0;
+    try {
+      n = +sessionStorage.getItem('heshvi-session') || 0;
+      if (add !== undefined) { n = add === 0 ? 0 : n + add; sessionStorage.setItem('heshvi-session', String(n)); }
+    } catch (e) { /* private mode */ }
+    return n;
+  }
+  function checkBreak() {
+    var limit = +store.get(BREAK_KEY) || 0;
+    if (!limit || !kidPage || document.querySelector('.break')) return;
+    if (sessionSecs() < limit * 60) return;
+    Speech.stop();
+    closeSheet();
+    var p = document.querySelector('.party');
+    if (p) p.remove();
+    var el = document.createElement('div');
+    el.className = 'break';
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-modal', 'true');
+    el.setAttribute('aria-label', 'Time for a break');
+    el.innerHTML = '<div class="break-card"><div class="break-bug">' + MASCOT_SLEEPY + '</div>' +
+      '<h2>' + BUJJI + ' is sleepy!</h2><p>Time for a little break. Let’s stretch, drink some water and play outside!</p>' +
+      '<button type="button" class="btn ghost small" id="break-more">' + icon('lock') + 'Grown-ups: keep playing</button></div>';
+    document.body.appendChild(el);
+    speak('Bujji is sleepy! Time for a little break. Let’s stretch, drink some water and play outside!', 0.85);
+    el.querySelector('#break-more').addEventListener('click', function () {
+      parentGate(function () { sessionSecs(0); el.remove(); });
+    });
+  }
+
   /* ---------------- Celebration ---------------- */
   function celebrate(opts) {
     opts = opts || {};
     var old = document.querySelector('.party');
     if (old) old.remove();
+    var won = opts.sticker === false ? null : earnSticker();
+    var stickerHTML = won ? '<div class="party-sticker"><span class="emoji" aria-hidden="true">' + won.sticker + '</span><b>' +
+      (won.isNew ? 'New sticker!' : 'A sticker for you!') + '</b></div>' : '';
     var el = document.createElement('div');
     el.className = 'party';
     el.innerHTML = '<div class="party-bg"></div><div class="party-card" role="dialog" aria-modal="true" aria-label="' + (opts.title || 'Well done') + '">' +
       '<div class="party-bug">' + MASCOT + '</div><h2>' + (opts.title || 'Well done!') + '</h2>' +
       (opts.stars ? '<div class="party-stars" aria-hidden="true">' + new Array(opts.stars + 1).join(icon('star')) + '</div>' : '') +
-      (opts.text ? '<p>' + opts.text + '</p>' : '<p></p>') + '<div class="btn-row"></div></div>';
+      (opts.text ? '<p>' + opts.text + '</p>' : '<p></p>') + stickerHTML + '<div class="btn-row"></div></div>';
     var row = el.querySelector('.btn-row');
     var buttons = opts.buttons || [{ label: 'Play again', icon: 'again' }];
     var timer = null, open = true;
@@ -958,7 +1275,8 @@
     document.body.appendChild(el);
     confetti(opts.auto ? 40 : 60);
     sfx('yay');   // with a happy buzz on Android
-    if (opts.say) speak(opts.say, 0.9);
+    // a question to wonder about goes last, after the sticker news
+    if (opts.say) speak(opts.say + (won ? ' You got a sticker!' : '') + (opts.ask ? ' ' + opts.ask : ''), 0.9);
     // rounds in a row: carry on by itself after a moment
     if (opts.auto) timer = setTimeout(function () { choose(buttons[0]); }, opts.auto);
     return close;
@@ -1054,12 +1372,15 @@
     yay: [[523, 0, 0.14, 'triangle'], [659, 0.11, 0.14, 'triangle'], [784, 0.22, 0.14, 'triangle'], [1047, 0.33, 0.28, 'triangle']],
     oops: [[392, 0, 0.12, 'sine', 0.12], [330, 0.12, 0.18, 'sine', 0.12]],
     tick: [[1200, 0, 0.03, 'square', 0.04]],
-    step: [[600, 0, 0.06, 'sine', 0.1]]
+    step: [[600, 0, 0.06, 'sine', 0.1]],
+    giggle: [[880, 0, 0.07, 'sine', 0.12], [1047, 0.08, 0.07, 'sine', 0.12], [1319, 0.16, 0.09, 'sine', 0.12], [1175, 0.27, 0.12, 'sine', 0.1]]
   };
   var HAPTIC = { pop: 'light', tick: 'light', step: 'light', snap: 'success', yay: 'success', oops: 'error' };
   function sfx(name) {
     var notes = SFX[name];
     if (!notes) return;
+    if (name === 'snap' || name === 'yay') bujji('happy');
+    else if (name === 'oops') bujji('hmm');
     haptic(HAPTIC[name]);
     for (var i = 0; i < notes.length; i++) tone(notes[i][0], notes[i][1], notes[i][2], notes[i][3], notes[i][4]);
   }
@@ -1168,6 +1489,12 @@
     levelControl: levelControl,
     roundResult: roundResult,
     roundWords: roundWords,
+    words: words,
+    wordSeen: wordSeen,
+    wordResult: wordResult,
+    wordLevel: wordLevel,
+    knownBadge: knownBadge,
+    pickWords: pickWords,
     stats: stats,
     playTime: function () { return readJSON(TIME_KEY, {}); },
     dayKey: dayKey,
@@ -1179,6 +1506,13 @@
     grownRecently: grownRecently,
     celebrate: celebrate,
     coach: coachRow,
+    bujji: bujji,
+    BUJJI: BUJJI,
+    MASCOT_SLEEPY: MASCOT_SLEEPY,
+    STICKERS: STICKERS,
+    stickerBook: stickerBook,
+    saveStickers: saveStickers,
+    earnSticker: earnSticker,
     toast: toast,
     drag: drag,
     dropTarget: dropTarget,
@@ -1210,6 +1544,7 @@
 
   function ready() {
     renderTopbar();
+    setTimeout(checkBreak, 400);
     // <button data-icon="undo"> gets its drawn icon
     document.querySelectorAll('[data-icon]').forEach(function (el) {
       el.insertAdjacentHTML('afterbegin', icon(el.getAttribute('data-icon')));

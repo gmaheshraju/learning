@@ -2,14 +2,14 @@
    shows up straight away) and served from the cache when there is no network,
    so the games keep working in the car or on a plane. Bump VERSION to drop
    old caches. */
-var VERSION = 'heshvi-v4';
+var VERSION = 'heshvi-v7';
 var CORE = [
-  './', 'index.html', 'parents.html', 'guide.html',
+  './', 'index.html', 'parents.html', 'stickers.html', 'guide.html',
   'art.html', 'scenes.html', 'music.html',
   'puzzle.html', 'sort.html', 'patterns.html', 'memory.html', 'order.html', 'oddone.html', 'maze.html', 'coder.html',
   'match.html', 'learn.html', 'find.html', 'discover.html', 'trace.html', 'stories.html', 'print.html', 'worksheet.html',
   'css/style.css', 'js/common.js', 'js/data.js', 'js/telugu.js', 'js/game.js', 'js/shapes.js',
-  'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/apple-touch-icon.png'
+  'voice/manifest.json', 'manifest.webmanifest', 'icons/icon.svg', 'icons/icon-192.png', 'icons/apple-touch-icon.png'
 ];
 var NETWORK_TIMEOUT_MS = 4000;
 
@@ -85,7 +85,7 @@ function networkFirst(event) {
   });
 }
 
-// Google Fonts files never change for a given URL.
+// Google Fonts files and voice recordings never change for a given URL.
 function cacheFirst(event) {
   var req = event.request;
   return caches.match(req).then(function (hit) {
@@ -100,11 +100,41 @@ function cacheFirst(event) {
   });
 }
 
+// Audio players (Safari especially) ask for byte ranges and will not play a plain
+// 200 reply to one, so answer ranges from the whole cached file.
+function voiceClip(event) {
+  var req = event.request, url = req.url.split('#')[0];
+  return caches.open(VERSION).then(function (cache) {
+    return cache.match(url).then(function (hit) {
+      if (hit) return hit;
+      return fetch(url).then(function (res) {
+        if (res.ok) event.waitUntil(cache.put(url, res.clone()));
+        return res;
+      });
+    });
+  }).then(function (res) {
+    var range = req.headers.get('range');
+    if (!range || !res.ok) return res;
+    return res.arrayBuffer().then(function (buf) {
+      var m = /bytes=(\d*)-(\d*)/.exec(range) || [];
+      var size = buf.byteLength, start = m[1] ? +m[1] : 0, end = m[2] ? Math.min(+m[2], size - 1) : size - 1;
+      if (start >= size) return new Response(null, { status: 416, headers: { 'Content-Range': 'bytes */' + size } });
+      return new Response(buf.slice(start, end + 1), {
+        status: 206,
+        headers: { 'Content-Type': 'audio/aac', 'Content-Length': String(end - start + 1), 'Content-Range': 'bytes ' + start + '-' + end + '/' + size, 'Accept-Ranges': 'bytes' }
+      });
+    });
+  });
+}
+
 self.addEventListener('fetch', function (event) {
   var req = event.request;
   if (req.method !== 'GET') return;
   var url = new URL(req.url);
-  if (url.origin === self.location.origin) {
+  if (url.origin === self.location.origin && /\/voice\/[0-9a-f]+\.aac$/.test(url.pathname)) {
+    // recordings never change (a new voice gets new file names): cache first, so they play at once and offline
+    event.respondWith(voiceClip(event));
+  } else if (url.origin === self.location.origin) {
     event.respondWith(networkFirst(event));
   } else if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
     event.respondWith(cacheFirst(event));

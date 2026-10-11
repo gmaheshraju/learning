@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .dc-wrap { max-width: 640px; margin: 0 auto; }
     .dc-scene { text-align: center; padding: 6px 0; animation: fadeIn .4s ease-out; }
@@ -101,8 +101,8 @@
     <div class="dc-stars-c" id="dc-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/common.js?v=17"></script>
-  <script src="js/telugu.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
+  <script src="js/telugu.js?v=20"></script>
   <script>
     var SCENES = [
       { start: '\u{1F95A}', end: '\u{1F423}', word: 'CHICK', telugu: '\u{C15}\u{C4A}\u{C21}\u{C3F}\u{C2A}\u{C3F}\u{C32}\u{C4D}\u{C32}', action: 'The egg cracked! A baby chick!', prompt: 'Can you say Cheep Cheep?', color: '#F5A623' },
@@ -120,7 +120,15 @@
       { start: '\u{1F953}', end: '\u{1F373}', word: 'COOK', telugu: '\u{C35}\u{C02}\u{C1F}', action: 'Sizzle! We are cooking breakfast!', prompt: 'What do you eat for breakfast?', color: '#F5A623' },
       { start: '\u{1F3A8}', end: '\u{1F5BC}\u{FE0F}', word: 'PAINTING', telugu: '\u{C1A}\u{C3F}\u{C24}\u{C4D}\u{C30}\u{C02}', action: 'Beautiful! You made a painting!', prompt: 'What colors do you see?', color: '#B07CD8' },
       { start: '\u{1F41B}', end: '\u{1F98B}', word: 'BUTTERFLY', telugu: TELUGU.BUTTERFLY || '\u{C38}\u{C40}\u{C24}\u{C3E}\u{C15}\u{C4B}\u{C15}\u{C1A}\u{C3F}\u{C32}\u{C41}\u{C15}', action: 'Magic! The caterpillar became a butterfly!', prompt: 'Can you fly like a butterfly?', color: '#7EC850' },
-      { start: '\u{1F33E}', end: '\u{1F35E}', word: 'BREAD', telugu: '\u{C30}\u{C4A}\u{C1F}\u{C4D}\u{C1F}\u{C46}', action: 'We baked bread from wheat!', prompt: 'Yum! Do you like bread?', color: '#F5A623' },
+      { start: '\u{1F33E}', end: '\u{1F35E}', word: 'BREAD', telugu: '\u{C30}\u{C4A}\u{C1F}\u{C4D}\u{C1F}\u{C46}', action: 'We baked bread from wheat!', prompt: 'Yum! Do you like bread?', color: '#F5A623' },,
+      { start: '🌑', end: '🌕', word: 'MOON', telugu: 'చంద్రుడు', action: 'The moon grew round and bright!', prompt: 'Can you make a big round circle with your arms?', color: '#8C6CFF' },
+      { start: '🧊', end: '💧', word: 'ICE', telugu: 'మంచుగడ్డ', action: 'The sun was warm, and the ice melted into water!', prompt: 'What else melts when it gets warm?', color: '#3FB2FF' },
+      { start: '🎈', end: '💥', word: 'BALLOON', telugu: 'బెలూన్', action: 'The balloon got bigger and bigger... and went POP!', prompt: 'Can you jump and say pop?', color: '#FF6B6B' },
+      { start: '🌰', end: '🌳', word: 'TREE', telugu: 'చెట్టు', action: 'A tiny seed grew into a big, tall tree!', prompt: 'Can you grow up tall like a tree?', color: '#2FBF71' },
+      { start: '🌑', end: '💡', word: 'LIGHT', telugu: 'వెలుగు', action: 'Click! The light is on, and now we can see!', prompt: 'Can you find a light switch in your room?', color: '#F7B500' },
+      { start: '🎁', end: '🧸', word: 'GIFT', telugu: 'బహుమతి', action: 'We opened the box. A teddy bear!', prompt: 'What would you like to find in a gift box?', color: '#FF6FA9' },
+      { start: '🔔', end: '🎶', word: 'BELL', telugu: 'గంట', action: 'Ding dong! The bell is ringing a song!', prompt: 'Can you sing ding dong like a bell?', color: '#FF9F43' },
+      { start: '🌬️', end: '🪁', word: 'KITE', telugu: 'గాలిపటం', action: 'Whoosh! The wind lifted the kite up high!', prompt: 'Can you blow like the wind?', color: '#1EC8A5' }
     ];
 
     var PER_SET = 4;
@@ -232,7 +240,10 @@
 
         var speakText = item.action + ' ' + item.word + '. ' + phonics.replace(/·/g, ',') + '. ' + item.prompt;
         speak(speakText, 0.75, function () {
-          setTimeout(function () { if (my === step) nextInSet(); }, AUTO_NEXT_MS);
+          if (my !== step) return;
+          var after = function () { setTimeout(function () { if (my === step) nextInSet(); }, AUTO_NEXT_MS); };
+          if (item.telugu) Speech.speak(item.telugu, 0.8, function () { if (my === step) after(); }, { lang: 'te' });
+          else after();
         });
       }, 400);
     }

@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .learn-wrap { max-width: 760px; margin: 0 auto; }
 
@@ -38,6 +38,11 @@
       touch-action: pan-y pinch-zoom;
       user-select: none; -webkit-user-select: none;
     }
+    .lc-known {
+      position: absolute; top: 14px; right: 14px; display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 12px 4px 8px; border-radius: 999px; background: #FFF3C4; color: #8A5A00; font-weight: 900; font-size: 14px;
+    }
+    .lc-known .ico { width: 17px; height: 17px; color: #F5A623; }
     .lc-body { display: flex; flex-direction: column; align-items: center; width: 100%; }
 
     .lc-emoji { font-size: clamp(88px, 22vmin, 180px); animation: float 2.5s ease-in-out infinite; margin-bottom: 4px; }
@@ -112,9 +117,9 @@
     </main>
   </div>
 
-  <script src="js/common.js?v=17"></script>
-  <script src="js/data.js?v=17"></script>
-  <script src="js/telugu.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
+  <script src="js/data.js?v=20"></script>
+  <script src="js/telugu.js?v=20"></script>
   <script>
     // Deeper than the pastel palette so the big word stays readable on a white card.
     const ACCENT_COLORS = ['#E0506A','#E8961A','#2F9BE0','#5DB534','#A066D3','#F4774E','#1F9488','#A13DB8'];
@@ -232,6 +237,13 @@
       });
       body.querySelector('.lc-counter').textContent = (currentIdx + 1) + ' / ' + items.length;
 
+      if (App.wordLevel(App.words()[item.id]) === 'known') {
+        const known = document.createElement('div');
+        known.className = 'lc-known';
+        known.innerHTML = App.icon('star') + 'You know this!';
+        card.appendChild(known);
+      }
+      App.wordSeen(item.id);
       card.appendChild(media);
       card.appendChild(body);
       area.appendChild(card);
@@ -271,7 +283,11 @@
       speak(item.name, 0.65, () => {
         if (my !== seq) return;
         later(my, 400, () => speakPhonics(my, item.name, () => {
-          later(my, 500, () => playSentences(my, item, sentencesFor(item), 0));
+          // then the Telugu word, on phones that can say it
+          const te = TELUGU[item.id];
+          const next = () => later(my, 500, () => playSentences(my, item, sentencesFor(item), 0));
+          if (te) later(my, 300, () => Speech.speak(te, 0.8, () => { if (my === seq) next(); }, { lang: 'te' }));
+          else next();
         }));
       });
     }
@@ -319,7 +335,7 @@
         btn.type = 'button';
         btn.className = 'cat-btn';
         btn.style.animationDelay = (i * 0.05) + 's';
-        btn.innerHTML = '<span class="cat-emoji" aria-hidden="true">' + cat.emoji + '</span><span class="cat-name">' + cat.name + '</span>';
+        btn.innerHTML = '<span class="cat-emoji" aria-hidden="true">' + cat.emoji + '</span><span class="cat-name">' + cat.name + '</span>' + App.knownBadge(cat.items);
         btn.addEventListener('click', () => startTopic(cat));
         grid.appendChild(btn);
       });

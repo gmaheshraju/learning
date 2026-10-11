@@ -4,6 +4,7 @@ let currentRound = 1;
 let score = 0;
 let selected = null;
 let matched = new Set();
+let missedWords = new Set();   // words in a wrong pair this round
 let roundItems = [];
 let locked = false;
 let colorMap = {};
@@ -170,12 +171,13 @@ function startCategory(cat) {
 
 function renderRound() {
   clearTimers();
-  roundItems = App.shuffle(currentItems).slice(0, ROUND_SIZE);
+  roundItems = App.shuffle(App.pickWords(currentItems, ROUND_SIZE));   // due and shaky words come up more
   // never line the two columns up in the same order — that would give the game away
   let shuffledWords;
   do { shuffledWords = App.shuffle(roundItems); }
   while (shuffledWords.every((w, i) => w === roundItems[i]));
   matched.clear();
+  missedWords.clear();
   selected = null;
   locked = false;
   wrongs = 0;
@@ -271,6 +273,8 @@ function handleTap(type, name, el) {
 
     [first, el].forEach(c => { c.classList.add('done'); c.disabled = true; });
     matched.add(name);
+    // Pictures to words is a reading test; pictures to pictures is not.
+    if (gameMode === 'hard') App.wordResult(name, !missedWords.has(name));
     score++;
     document.getElementById('sc').textContent = score;
 
@@ -289,6 +293,8 @@ function handleTap(type, name, el) {
   } else {
     locked = true;
     wrongs++;
+    missedWords.add(name);
+    missedWords.add(first.dataset.name);
     [first, el].forEach(c => { c.classList.remove('wrong'); void c.offsetWidth; c.classList.add('wrong'); });
     wrongTimer = setTimeout(() => {
       wrongTimer = null;

@@ -7,3 +7,5 @@
 .assetsignore
 wrangler.toml
 CODE-REVIEW.md
+tools/**
+voice-samples/**

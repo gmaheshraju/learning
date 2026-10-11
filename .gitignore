@@ -1,3 +1,5 @@
 .DS_Store
 .claude
 .wrangler/
+voice-samples/
+tools/voice/missed.json

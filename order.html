@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .od { max-width: 980px; margin: 0 auto; }
     .slots { display: flex; justify-content: center; gap: clamp(6px, 2vw, 16px); margin: 6px auto 8px; }
@@ -92,7 +92,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
   <script>
     var LEVELS = [
       { age: 3, label: 'What comes first?', steps: 2, given: 0, checkAtEnd: false },
@@ -110,7 +110,10 @@
       [['🥚', 'tiny egg', 'First there is a tiny egg on a leaf.'], ['🐛', 'caterpillar', 'Then a caterpillar comes out.'], ['🦋', 'butterfly', 'Last, it becomes a butterfly.']],
       [['🌅', 'morning', 'First the sun comes up.'], ['☀️', 'daytime', 'Then it is daytime.'], ['🌙', 'night', 'Last, it is night time.']],
       [['🥚', 'egg', 'First we take an egg.'], ['🍳', 'cooking', 'Then we cook it in a pan.'], ['🍽️', 'plate', 'Last, we eat it from a plate.']],
-      [['❄️', 'snow', 'First the snow falls.'], ['⛄', 'snowman', 'Then we build a snowman.'], ['💧', 'water', 'Last, the sun melts it into water.']]
+      [['❄️', 'snow', 'First the snow falls.'], ['⛄', 'snowman', 'Then we build a snowman.'], ['💧', 'water', 'Last, the sun melts it into water.']],
+      [['🪥', 'toothbrush', 'First we put paste on the brush.'], ['😁', 'brushing', 'Then we brush our teeth.'], ['✨', 'sparkly teeth', 'Last, our teeth are clean and shiny!']],
+      [['🥛', 'milk', 'First we pour the milk.'], ['🥣', 'cereal', 'Then we add the cereal.'], ['😋', 'yummy', 'Last, we eat our breakfast. Yum!']],
+      [['🧊', 'ice', 'First there is a cold ice cube.'], ['☀️', 'sun', 'Then the sun shines on it.'], ['💧', 'water', 'Last, it melts into water.']]
     ];
     var FOUR = [
       [['🥚', 'egg', 'First there is an egg.'], ['🐣', 'hatching', 'Then it cracks and hatches.'], ['🐥', 'chick', 'Next, a fluffy chick.'], ['🐔', 'hen', 'Last, it grows into a hen.']],
@@ -120,7 +123,10 @@
       [['🌅', 'sunrise', 'First the sun rises.'], ['☀️', 'daytime', 'Then it is daytime.'], ['🌇', 'sunset', 'Next, the sun sets.'], ['🌙', 'night', 'Last, it is night.']],
       [['🍞', 'bread', 'First we take some bread.'], ['🧈', 'butter', 'Then we spread butter.'], ['🥪', 'sandwich', 'Next, we make a sandwich.'], ['😋', 'yummy', 'Last, we eat it. Yum!']],
       [['✏️', 'write', 'First we write a letter.'], ['✉️', 'envelope', 'Then we put it in an envelope.'], ['📮', 'post box', 'Next, we post it.'], ['📬', 'mailbox', 'Last, it arrives in the mailbox.']],
-      [['☀️', 'sun', 'First the sun warms the sea.'], ['☁️', 'clouds', 'Then clouds form in the sky.'], ['🌧️', 'rain', 'Next, it rains.'], ['🌊', 'sea', 'Last, the rain flows back to the sea.']]
+      [['☀️', 'sun', 'First the sun warms the sea.'], ['☁️', 'clouds', 'Then clouds form in the sky.'], ['🌧️', 'rain', 'Next, it rains.'], ['🌊', 'sea', 'Last, the rain flows back to the sea.']],
+      [['🌧️', 'rain', 'First the rain falls.'], ['🌱', 'sprouts', 'Then little plants come up.'], ['🌸', 'flowers', 'Next, the flowers bloom.'], ['🐝', 'bee', 'Last, the bees visit the flowers.']],
+      [['🛒', 'shopping', 'First we buy flour and milk.'], ['🥣', 'mixing', 'Then we mix it all together.'], ['♨️', 'baking', 'Next, we bake it until it is warm.'], ['🎂', 'cake', 'Last, we have a birthday cake!']],
+      [['⏰', 'alarm', 'First the alarm rings.'], ['🪥', 'teeth', 'Then we brush our teeth.'], ['🥣', 'breakfast', 'Next, we eat breakfast.'], ['🎒', 'school bag', 'Last, we go to school.']]
     ];
     var DECOYS = [['🚗', 'car'], ['🎈', 'balloon'], ['🐟', 'fish'], ['🍦', 'ice cream'], ['⚽', 'ball'], ['🎸', 'guitar'], ['🧸', 'teddy bear']];
     var WORDS = { 2: ['First', 'Then'], 3: ['First', 'Next', 'Last'], 4: ['First', 'Then', 'Next', 'Last'] };
@@ -275,7 +281,8 @@
             var w = App.roundWords(result);
             App.celebrate({ title: w.title, say: w.say, stars: 3, auto: 4500,
               buttons: [{ label: 'Next', icon: 'next', onClick: function () { if (my === token) newStory(); } }] });
-          } else setTimeout(function () { if (my === token) newStory(); }, 1200);
+          } else App.celebrate({ title: 'What a story!', say: 'What a story!', stars: 3, auto: 3500,
+            buttons: [{ label: 'Next', icon: 'next', onClick: function () { if (my === token) newStory(); } }] });
           return;
         }
         boxes[i].classList.add('lit');

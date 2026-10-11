@@ -1,0 +1,9590 @@
+[
+ {
+  "key": "0",
+  "text": "0"
+ },
+ {
+  "key": "1",
+  "text": "1"
+ },
+ {
+  "key": "1 more",
+  "text": "1 more!"
+ },
+ {
+  "key": "10",
+  "text": "10"
+ },
+ {
+  "key": "11",
+  "text": "11"
+ },
+ {
+  "key": "12",
+  "text": "12"
+ },
+ {
+  "key": "12 pieces",
+  "text": "12 pieces"
+ },
+ {
+  "key": "13",
+  "text": "13"
+ },
+ {
+  "key": "14",
+  "text": "14"
+ },
+ {
+  "key": "15",
+  "text": "15"
+ },
+ {
+  "key": "16",
+  "text": "16"
+ },
+ {
+  "key": "16 pieces",
+  "text": "16 pieces"
+ },
+ {
+  "key": "17",
+  "text": "17"
+ },
+ {
+  "key": "18",
+  "text": "18"
+ },
+ {
+  "key": "19",
+  "text": "19"
+ },
+ {
+  "key": "2",
+  "text": "2"
+ },
+ {
+  "key": "2 more",
+  "text": "2 more!"
+ },
+ {
+  "key": "2 pairs peek",
+  "text": "2 pairs + peek"
+ },
+ {
+  "key": "2 pieces",
+  "text": "2 pieces"
+ },
+ {
+  "key": "2 times",
+  "text": "2 times"
+ },
+ {
+  "key": "20",
+  "text": "20"
+ },
+ {
+  "key": "25",
+  "text": "25!"
+ },
+ {
+  "key": "3",
+  "text": "3"
+ },
+ {
+  "key": "3 2 1",
+  "text": "3, 2, 1!"
+ },
+ {
+  "key": "3 2 1 jump up",
+  "text": "3, 2, 1 — Jump up!"
+ },
+ {
+  "key": "3 more",
+  "text": "3 more!"
+ },
+ {
+  "key": "3 pairs peek",
+  "text": "3 pairs + peek"
+ },
+ {
+  "key": "3 pictures",
+  "text": "3 pictures"
+ },
+ {
+  "key": "3 pictures one given",
+  "text": "3 pictures, one given"
+ },
+ {
+  "key": "3 times",
+  "text": "3 times"
+ },
+ {
+  "key": "30",
+  "text": "30!"
+ },
+ {
+  "key": "4",
+  "text": "4"
+ },
+ {
+  "key": "4 more",
+  "text": "4 more!"
+ },
+ {
+  "key": "4 one odd one",
+  "text": "4 + one odd one"
+ },
+ {
+  "key": "4 pairs",
+  "text": "4 pairs"
+ },
+ {
+  "key": "4 pictures",
+  "text": "4 pictures"
+ },
+ {
+  "key": "4 pieces",
+  "text": "4 pieces"
+ },
+ {
+  "key": "4 times",
+  "text": "4 times"
+ },
+ {
+  "key": "40",
+  "text": "40!"
+ },
+ {
+  "key": "4s ease out forwards",
+  "text": "4s ease-out forwards"
+ },
+ {
+  "key": "5",
+  "text": "5"
+ },
+ {
+  "key": "5 more",
+  "text": "5 more!"
+ },
+ {
+  "key": "5 times",
+  "text": "5 times"
+ },
+ {
+  "key": "50",
+  "text": "50!"
+ },
+ {
+  "key": "6",
+  "text": "6"
+ },
+ {
+  "key": "6 more",
+  "text": "6 more!"
+ },
+ {
+  "key": "6 pairs",
+  "text": "6 pairs"
+ },
+ {
+  "key": "6 pieces",
+  "text": "6 pieces"
+ },
+ {
+  "key": "6 times",
+  "text": "6 times"
+ },
+ {
+  "key": "7",
+  "text": "7"
+ },
+ {
+  "key": "7 or older",
+  "text": "7 or older"
+ },
+ {
+  "key": "8",
+  "text": "8"
+ },
+ {
+  "key": "8 pairs",
+  "text": "8 pairs"
+ },
+ {
+  "key": "9",
+  "text": "9"
+ },
+ {
+  "key": "9 pieces",
+  "text": "9 pieces"
+ },
+ {
+  "key": "a",
+  "text": "A"
+ },
+ {
+  "key": "a baby chick",
+  "text": "A baby chick!"
+ },
+ {
+  "key": "a baby cow does not hatch from an egg",
+  "text": "A baby cow does not hatch from an egg."
+ },
+ {
+  "key": "a baby dog does not hatch from an egg",
+  "text": "A baby dog does not hatch from an egg."
+ },
+ {
+  "key": "a baby monkey does not hatch from an egg",
+  "text": "A baby monkey does not hatch from an egg."
+ },
+ {
+  "key": "a bicycle has two wheels bi means two",
+  "text": "A bicycle has two wheels — bi means two!"
+ },
+ {
+  "key": "a big elephant was walking in the forest",
+  "text": "A big elephant was walking in the forest."
+ },
+ {
+  "key": "a big hug can help a sad friend feel a little better",
+  "text": "A big hug can help a sad friend feel a little better."
+ },
+ {
+  "key": "a birthday surprise can make you jump with joy",
+  "text": "A birthday surprise can make you jump with joy!"
+ },
+ {
+  "key": "a book does not need electricity",
+  "text": "A book does not need electricity."
+ },
+ {
+  "key": "a candle does not need electricity",
+  "text": "A candle does not need electricity."
+ },
+ {
+  "key": "a caterpillar makes a hard case called a chrysalis then comes out a butterfly",
+  "text": "A caterpillar makes a hard case called a chrysalis, then comes out a butterfly!"
+ },
+ {
+  "key": "a chessboard is made of 64 tiny squares",
+  "text": "A chessboard is made of 64 tiny squares!"
+ },
+ {
+  "key": "a circle is perfectly round with no corners",
+  "text": "A circle is perfectly round with no corners!"
+ },
+ {
+  "key": "a circle is round like a ball",
+  "text": "A circle is round like a ball"
+ },
+ {
+  "key": "a diamond has four pointy sides",
+  "text": "A diamond has four pointy sides"
+ },
+ {
+  "key": "a diamond is a square turned on its side",
+  "text": "A diamond is a square turned on its side!"
+ },
+ {
+  "key": "a dice has six sides with dots",
+  "text": "A dice has six sides with dots!"
+ },
+ {
+  "key": "a door looks like a rectangle",
+  "text": "A door looks like a rectangle"
+ },
+ {
+  "key": "a fork has pointy teeth",
+  "text": "A fork has pointy teeth"
+ },
+ {
+  "key": "a frog jumped too",
+  "text": "A frog jumped too."
+ },
+ {
+  "key": "a fruit",
+  "text": "a fruit"
+ },
+ {
+  "key": "a grown up can help us feel safe",
+  "text": "A grown-up can help us feel safe."
+ },
+ {
+  "key": "a heart means love",
+  "text": "A heart means love"
+ },
+ {
+  "key": "a heart shape means love and caring",
+  "text": "A heart shape means love and caring!"
+ },
+ {
+  "key": "a hug helps when we are sad",
+  "text": "A hug helps when we are sad"
+ },
+ {
+  "key": "a kitchen thing",
+  "text": "a kitchen thing"
+ },
+ {
+  "key": "a kite does not need electricity",
+  "text": "A kite does not need electricity."
+ },
+ {
+  "key": "a little green plant is growing",
+  "text": "A little green plant is growing!"
+ },
+ {
+  "key": "a little star lived high up in the sky",
+  "text": "A little star lived high up in the sky."
+ },
+ {
+  "key": "a new scene",
+  "text": "A new scene!"
+ },
+ {
+  "key": "a pair",
+  "text": "A pair!"
+ },
+ {
+  "key": "a part of the body",
+  "text": "a part of the body"
+ },
+ {
+  "key": "a rainbow",
+  "text": "A rainbow!"
+ },
+ {
+  "key": "a rainbow comes when the sun shines through the rain",
+  "text": "A rainbow comes when the sun shines through the rain!"
+ },
+ {
+  "key": "a rainbow has many colours",
+  "text": "A rainbow has many colours"
+ },
+ {
+  "key": "a rainbow has seven beautiful colors",
+  "text": "A rainbow has seven beautiful colors!"
+ },
+ {
+  "key": "a rainbow has seven colours red orange yellow green blue indigo and violet",
+  "text": "A rainbow has seven colours: red, orange, yellow, green, blue, indigo and violet!"
+ },
+ {
+  "key": "a rectangle has two long sides and two short sides",
+  "text": "A rectangle has two long sides and two short sides!"
+ },
+ {
+  "key": "a rectangle is like a long square",
+  "text": "A rectangle is like a long square"
+ },
+ {
+  "key": "a roof looks like a triangle",
+  "text": "A roof looks like a triangle"
+ },
+ {
+  "key": "a rugby ball and a mirror can be oval shaped",
+  "text": "A rugby ball and a mirror can be oval shaped!"
+ },
+ {
+  "key": "a smile is catching",
+  "text": "A smile is catching."
+ },
+ {
+  "key": "a square has four equal sides",
+  "text": "A square has four equal sides!"
+ },
+ {
+  "key": "a square has four equal sides and four corners",
+  "text": "A square has four equal sides and four corners!"
+ },
+ {
+  "key": "a star",
+  "text": "A star!"
+ },
+ {
+  "key": "a starfish has five arms",
+  "text": "A starfish has five arms!"
+ },
+ {
+  "key": "a teddy bear",
+  "text": "A teddy bear!"
+ },
+ {
+  "key": "a tiny caterpillar was very hungry",
+  "text": "A tiny caterpillar was very hungry."
+ },
+ {
+  "key": "a tiny seed grew into a big tall tree",
+  "text": "A tiny seed grew into a big, tall tree!"
+ },
+ {
+  "key": "a traffic light has three colors red yellow green",
+  "text": "A traffic light has three colors: red, yellow, green!"
+ },
+ {
+  "key": "a tree is in the way",
+  "text": "A tree is in the way."
+ },
+ {
+  "key": "a triangle has three sides",
+  "text": "A triangle has three sides"
+ },
+ {
+  "key": "a triangle has three sides and three corners",
+  "text": "A triangle has three sides and three corners!"
+ },
+ {
+  "key": "a vegetable",
+  "text": "a vegetable"
+ },
+ {
+  "key": "a window looks like a square",
+  "text": "A window looks like a square"
+ },
+ {
+  "key": "aab",
+  "text": "AAB"
+ },
+ {
+  "key": "aabb",
+  "text": "AABB"
+ },
+ {
+  "key": "aabbc",
+  "text": "AABBC"
+ },
+ {
+  "key": "aabc",
+  "text": "AABC"
+ },
+ {
+  "key": "aag",
+  "text": "Aag"
+ },
+ {
+  "key": "ab",
+  "text": "AB"
+ },
+ {
+  "key": "ab aab abb",
+  "text": "AB · AAB · ABB"
+ },
+ {
+  "key": "abac",
+  "text": "ABAC"
+ },
+ {
+  "key": "abb",
+  "text": "ABB"
+ },
+ {
+  "key": "abbc",
+  "text": "ABBC"
+ },
+ {
+  "key": "abc",
+  "text": "ABC"
+ },
+ {
+  "key": "abc gaps",
+  "text": "ABC · gaps"
+ },
+ {
+  "key": "abcd",
+  "text": "ABCD"
+ },
+ {
+  "key": "add heshvi to your home screen",
+  "text": "Add Heshvi to your home screen"
+ },
+ {
+  "key": "add more arrows or change one",
+  "text": "Add more arrows, or change one."
+ },
+ {
+  "key": "add some more",
+  "text": "Add some more!"
+ },
+ {
+  "key": "add someone to your picture first",
+  "text": "Add someone to your picture first!"
+ },
+ {
+  "key": "add something to your scene first",
+  "text": "Add something to your scene first!"
+ },
+ {
+  "key": "adventure done",
+  "text": "Adventure done!"
+ },
+ {
+  "key": "after the rain a rainbow smiled at them",
+  "text": "After the rain, a rainbow smiled at them."
+ },
+ {
+  "key": "alarm",
+  "text": "alarm"
+ },
+ {
+  "key": "all done",
+  "text": "All done!"
+ },
+ {
+  "key": "all sorted",
+  "text": "All sorted!"
+ },
+ {
+  "key": "all the same",
+  "text": "All the same!"
+ },
+ {
+  "key": "all the stars",
+  "text": "All the stars!"
+ },
+ {
+  "key": "all tools",
+  "text": "All tools"
+ },
+ {
+  "key": "almost",
+  "text": "Almost!"
+ },
+ {
+  "key": "amazing",
+  "text": "Amazing!"
+ },
+ {
+  "key": "amazing explorer",
+  "text": "Amazing explorer!"
+ },
+ {
+  "key": "an animal",
+  "text": "an animal"
+ },
+ {
+  "key": "an egg is oval shaped",
+  "text": "An egg is oval shaped"
+ },
+ {
+  "key": "an octopus has eight long arms",
+  "text": "An octopus has eight long arms!"
+ },
+ {
+  "key": "an oval is like a stretched circle",
+  "text": "An oval is like a stretched circle"
+ },
+ {
+  "key": "an oval is like a stretched circle like an egg",
+  "text": "An oval is like a stretched circle — like an egg!"
+ },
+ {
+  "key": "and freeze when the music stops",
+  "text": "And freeze when the music stops!"
+ },
+ {
+  "key": "and last",
+  "text": "And last?"
+ },
+ {
+  "key": "and now you close your eyes too",
+  "text": "And now you close your eyes too."
+ },
+ {
+  "key": "and the next one",
+  "text": "And the next one?"
+ },
+ {
+  "key": "and went pop",
+  "text": "and went POP!"
+ },
+ {
+  "key": "and you know new words now",
+  "text": "And you know new words now!"
+ },
+ {
+  "key": "angry",
+  "text": "ANGRY"
+ },
+ {
+  "key": "angry feelings get smaller",
+  "text": "Angry feelings get smaller"
+ },
+ {
+  "key": "animal food or car",
+  "text": "Animal, food or car?"
+ },
+ {
+  "key": "animals",
+  "text": "animals"
+ },
+ {
+  "key": "animals awake at night",
+  "text": "animals awake at night"
+ },
+ {
+  "key": "animals food and things that go",
+  "text": "Animals, food, and things that go!"
+ },
+ {
+  "key": "animals that hatch from eggs",
+  "text": "animals that hatch from eggs"
+ },
+ {
+  "key": "animals with four legs",
+  "text": "animals with four legs"
+ },
+ {
+  "key": "animals with stripes",
+  "text": "animals with stripes"
+ },
+ {
+  "key": "ant",
+  "text": "ant"
+ },
+ {
+  "key": "anu planted a tiny seed in the ground",
+  "text": "Anu planted a tiny seed in the ground."
+ },
+ {
+  "key": "anu wanted to go outside and play",
+  "text": "Anu wanted to go outside and play."
+ },
+ {
+  "key": "apple",
+  "text": "apple"
+ },
+ {
+  "key": "apple pie",
+  "text": "apple pie"
+ },
+ {
+  "key": "apples are red",
+  "text": "Apples are red"
+ },
+ {
+  "key": "apples are red and sweet",
+  "text": "Apples are red and sweet"
+ },
+ {
+  "key": "apples can be red green or yellow",
+  "text": "Apples can be red, green, or yellow!"
+ },
+ {
+  "key": "are the clouds white and fluffy today",
+  "text": "Are the clouds white and fluffy today?"
+ },
+ {
+  "key": "are you wearing pants or shorts today",
+  "text": "Are you wearing pants or shorts today?"
+ },
+ {
+  "key": "around the trees",
+  "text": "Around the trees"
+ },
+ {
+  "key": "arrowleft",
+  "text": "ArrowLeft"
+ },
+ {
+  "key": "arrowright",
+  "text": "ArrowRight"
+ },
+ {
+  "key": "art music puzzles patterns mazes coding and stories",
+  "text": "Art, music, puzzles, patterns, mazes, coding and stories."
+ },
+ {
+  "key": "astronaut space suits are the most special jackets ever",
+  "text": "Astronaut space suits are the most special jackets ever!"
+ },
+ {
+  "key": "astronauts float inside rockets in space",
+  "text": "Astronauts float inside rockets in space!"
+ },
+ {
+  "key": "auto play",
+  "text": "Auto play"
+ },
+ {
+  "key": "awesome",
+  "text": "Awesome!"
+ },
+ {
+  "key": "b",
+  "text": "B"
+ },
+ {
+  "key": "baby",
+  "text": "baby"
+ },
+ {
+  "key": "baby animals",
+  "text": "baby animals"
+ },
+ {
+  "key": "baby chick",
+  "text": "baby chick"
+ },
+ {
+  "key": "baby elephant bath",
+  "text": "Baby Elephant Bath"
+ },
+ {
+  "key": "baby elephant played in the mud all day",
+  "text": "Baby Elephant played in the mud all day!"
+ },
+ {
+  "key": "baby elephant was getting clean",
+  "text": "Baby Elephant was getting clean!"
+ },
+ {
+  "key": "baby elephants suck their trunk like babies suck their thumb",
+  "text": "Baby elephants suck their trunk like babies suck their thumb!"
+ },
+ {
+  "key": "baking",
+  "text": "baking"
+ },
+ {
+  "key": "ball",
+  "text": "ball"
+ },
+ {
+  "key": "balloon",
+  "text": "BALLOON"
+ },
+ {
+  "key": "banana",
+  "text": "banana"
+ },
+ {
+  "key": "bananas are curved because they grow towards the sun",
+  "text": "Bananas are curved because they grow towards the sun!"
+ },
+ {
+  "key": "bananas are yellow",
+  "text": "Bananas are yellow"
+ },
+ {
+  "key": "bananas are yellow too",
+  "text": "Bananas are yellow too"
+ },
+ {
+  "key": "bananas grow in big bunches on tall plants",
+  "text": "Bananas grow in big bunches on tall plants!"
+ },
+ {
+  "key": "basketball",
+  "text": "basketball"
+ },
+ {
+  "key": "bat",
+  "text": "bat"
+ },
+ {
+  "key": "bathtub",
+  "text": "bathtub"
+ },
+ {
+  "key": "be careful the pan is hot",
+  "text": "Be careful, the pan is hot!"
+ },
+ {
+  "key": "bear closed his eyes",
+  "text": "Bear closed his eyes."
+ },
+ {
+  "key": "bear was very sleepy",
+  "text": "Bear was very sleepy."
+ },
+ {
+  "key": "bear woke up in spring",
+  "text": "Bear woke up in spring!"
+ },
+ {
+  "key": "bears are brown",
+  "text": "Bears are brown"
+ },
+ {
+  "key": "beautiful",
+  "text": "Beautiful!"
+ },
+ {
+  "key": "beautiful colours",
+  "text": "Beautiful colours!"
+ },
+ {
+  "key": "bed",
+  "text": "bed"
+ },
+ {
+  "key": "beds are soft and cozy for sleeping",
+  "text": "Beds are soft and cozy for sleeping!"
+ },
+ {
+  "key": "bee",
+  "text": "bee"
+ },
+ {
+  "key": "beep beep",
+  "text": "BEEP BEEP!"
+ },
+ {
+  "key": "beep beep says the car",
+  "text": "Beep beep says the car"
+ },
+ {
+  "key": "before lamps people used candles and fire",
+  "text": "Before lamps, people used candles and fire!"
+ },
+ {
+  "key": "being silly is fun",
+  "text": "Being silly is fun!"
+ },
+ {
+  "key": "bell",
+  "text": "BELL"
+ },
+ {
+  "key": "big",
+  "text": "Big"
+ },
+ {
+  "key": "big buttons and every game talks",
+  "text": "Big buttons, and every game talks."
+ },
+ {
+  "key": "big grey clouds filled the sky",
+  "text": "Big grey clouds filled the sky."
+ },
+ {
+  "key": "big maze",
+  "text": "Big maze"
+ },
+ {
+  "key": "big ones and small ones",
+  "text": "Big ones and small ones!"
+ },
+ {
+  "key": "big or small we help each other",
+  "text": "Big or small, we help each other!"
+ },
+ {
+  "key": "big stars",
+  "text": "Big + stars"
+ },
+ {
+  "key": "bike",
+  "text": "bike"
+ },
+ {
+  "key": "bikes have two wheels you pedal to go",
+  "text": "Bikes have two wheels — you pedal to go!"
+ },
+ {
+  "key": "bird",
+  "text": "bird"
+ },
+ {
+  "key": "birds are the only animals with feathers",
+  "text": "Birds are the only animals with feathers!"
+ },
+ {
+  "key": "birds came to sing",
+  "text": "Birds came to sing!"
+ },
+ {
+  "key": "birds can fly high",
+  "text": "Birds can fly high!"
+ },
+ {
+  "key": "birds sing beautiful songs",
+  "text": "Birds sing beautiful songs"
+ },
+ {
+  "key": "blink your eyes",
+  "text": "Blink your eyes!"
+ },
+ {
+  "key": "blossom",
+  "text": "blossom"
+ },
+ {
+  "key": "blow the candles",
+  "text": "Blow the candles!"
+ },
+ {
+  "key": "blue",
+  "text": "Blue"
+ },
+ {
+  "key": "blue circle",
+  "text": "Blue circle!"
+ },
+ {
+  "key": "blue heart",
+  "text": "Blue heart!"
+ },
+ {
+  "key": "blue is the color of the sky and ocean",
+  "text": "Blue is the color of the sky and ocean!"
+ },
+ {
+  "key": "blue is the world's most popular favorite color",
+  "text": "Blue is the world's most popular favorite color!"
+ },
+ {
+  "key": "blue square",
+  "text": "Blue square!"
+ },
+ {
+  "key": "blue star",
+  "text": "Blue star!"
+ },
+ {
+  "key": "blue triangle",
+  "text": "Blue triangle!"
+ },
+ {
+  "key": "boat",
+  "text": "boat"
+ },
+ {
+  "key": "boats float on water",
+  "text": "Boats float on water"
+ },
+ {
+  "key": "boats float on water and sail with wind",
+  "text": "Boats float on water and sail with wind!"
+ },
+ {
+  "key": "boats take us across the river",
+  "text": "Boats take us across the river"
+ },
+ {
+  "key": "body parts",
+  "text": "Body Parts"
+ },
+ {
+  "key": "book",
+  "text": "book"
+ },
+ {
+  "key": "bowl",
+  "text": "bowl"
+ },
+ {
+  "key": "bowls hold soup cereal and yummy things",
+  "text": "Bowls hold soup, cereal, and yummy things!"
+ },
+ {
+  "key": "box",
+  "text": "box"
+ },
+ {
+  "key": "boy",
+  "text": "Boy!"
+ },
+ {
+  "key": "bread",
+  "text": "BREAD"
+ },
+ {
+  "key": "breakfast",
+  "text": "breakfast"
+ },
+ {
+  "key": "brick",
+  "text": "brick"
+ },
+ {
+  "key": "bricks",
+  "text": "bricks"
+ },
+ {
+  "key": "brilliant",
+  "text": "Brilliant!"
+ },
+ {
+  "key": "brinjal",
+  "text": "brinjal"
+ },
+ {
+  "key": "broccoli",
+  "text": "broccoli"
+ },
+ {
+  "key": "broccoli has more vitamin c than an orange",
+  "text": "Broccoli has more vitamin C than an orange!"
+ },
+ {
+  "key": "broccoli is very healthy",
+  "text": "Broccoli is very healthy"
+ },
+ {
+  "key": "broccoli looks like a little tree",
+  "text": "Broccoli looks like a little tree"
+ },
+ {
+  "key": "broccoli looks like a tiny tree you can eat",
+  "text": "Broccoli looks like a tiny tree you can eat!"
+ },
+ {
+  "key": "brown",
+  "text": "Brown"
+ },
+ {
+  "key": "brown is the color of chocolate and trees",
+  "text": "Brown is the color of chocolate and trees!"
+ },
+ {
+  "key": "brown mud everywhere",
+  "text": "Brown mud everywhere!"
+ },
+ {
+  "key": "brush your teeth every day",
+  "text": "Brush your teeth every day"
+ },
+ {
+  "key": "brushing",
+  "text": "brushing"
+ },
+ {
+  "key": "building",
+  "text": "building"
+ },
+ {
+  "key": "bujji finds a rainbow",
+  "text": "Bujji Finds a Rainbow"
+ },
+ {
+  "key": "bujji flew up high to say hello to every colour",
+  "text": "Bujji flew up high to say hello to every colour."
+ },
+ {
+  "key": "bujji is sleepy",
+  "text": "Bujji is sleepy!"
+ },
+ {
+  "key": "bujji the butterfly waited under a big leaf",
+  "text": "Bujji the butterfly waited under a big leaf."
+ },
+ {
+  "key": "bump",
+  "text": "Bump!"
+ },
+ {
+  "key": "bunny found three yummy carrots",
+  "text": "Bunny found three yummy carrots!"
+ },
+ {
+  "key": "bunny had one carrot left for himself",
+  "text": "Bunny had one carrot left for himself."
+ },
+ {
+  "key": "bus",
+  "text": "bus"
+ },
+ {
+  "key": "buses are big and carry many people",
+  "text": "Buses are big and carry many people!"
+ },
+ {
+  "key": "butter",
+  "text": "butter"
+ },
+ {
+  "key": "butterflies fly from flower to flower",
+  "text": "Butterflies fly from flower to flower"
+ },
+ {
+  "key": "butterflies have colorful wings",
+  "text": "Butterflies have colorful wings"
+ },
+ {
+  "key": "butterflies start as caterpillars",
+  "text": "Butterflies start as caterpillars!"
+ },
+ {
+  "key": "butterfly",
+  "text": "BUTTERFLY"
+ },
+ {
+  "key": "button your shirt nicely",
+  "text": "Button your shirt nicely"
+ },
+ {
+  "key": "by the time you grow up your feet will walk around the earth 4 times",
+  "text": "By the time you grow up, your feet will walk around the Earth 4 times!"
+ },
+ {
+  "key": "c",
+  "text": "C"
+ },
+ {
+  "key": "cactus",
+  "text": "cactus"
+ },
+ {
+  "key": "cake",
+  "text": "cake"
+ },
+ {
+  "key": "calendar",
+  "text": "calendar"
+ },
+ {
+  "key": "calm and private",
+  "text": "Calm and private"
+ },
+ {
+  "key": "campfire",
+  "text": "campfire"
+ },
+ {
+  "key": "can you blow like the wind",
+  "text": "Can you blow like the wind?"
+ },
+ {
+  "key": "can you breathe underwater",
+  "text": "Can YOU breathe underwater?"
+ },
+ {
+  "key": "can you count dots on a strawberry",
+  "text": "Can you count dots on a strawberry?"
+ },
+ {
+  "key": "can you count from the flash to the boom",
+  "text": "Can you count from the flash to the boom?"
+ },
+ {
+  "key": "can you count to six really fast",
+  "text": "Can you count to six really fast?"
+ },
+ {
+  "key": "can you crunch like eating a cucumber",
+  "text": "Can you crunch like eating a cucumber?"
+ },
+ {
+  "key": "can you dance",
+  "text": "Can you dance?"
+ },
+ {
+  "key": "can you dig in pretend dirt for a potato",
+  "text": "Can you dig in pretend dirt for a potato?"
+ },
+ {
+  "key": "can you do a big sleepy yawn",
+  "text": "Can you do a big sleepy yawn?"
+ },
+ {
+  "key": "can you draw a star in the air",
+  "text": "Can you draw a star in the air?"
+ },
+ {
+  "key": "can you draw a triangle in the air",
+  "text": "Can you draw a triangle in the air?"
+ },
+ {
+  "key": "can you find a light switch in your room",
+  "text": "Can you find a light switch in your room?"
+ },
+ {
+  "key": "can you find something round near you",
+  "text": "Can you find something round near you?"
+ },
+ {
+  "key": "can you find something yellow and orange",
+  "text": "Can you find something yellow and orange?"
+ },
+ {
+  "key": "can you find the moon tonight",
+  "text": "Can you find the moon tonight?"
+ },
+ {
+  "key": "can you fly like a butterfly",
+  "text": "Can you fly like a butterfly?"
+ },
+ {
+  "key": "can you go choo choo like a train",
+  "text": "Can you go choo-choo like a train?"
+ },
+ {
+  "key": "can you grow up tall like a tree",
+  "text": "Can you grow up tall like a tree?"
+ },
+ {
+  "key": "can you hold two things like cherry twins",
+  "text": "Can you hold two things like cherry twins?"
+ },
+ {
+  "key": "can you jump and say pop",
+  "text": "Can you jump and say pop?"
+ },
+ {
+  "key": "can you make a big round circle with your arms",
+  "text": "Can you make a big round circle with your arms?"
+ },
+ {
+  "key": "can you make it change",
+  "text": "Can you make it change?"
+ },
+ {
+  "key": "can you make it repeat",
+  "text": "Can you make it repeat?"
+ },
+ {
+  "key": "can you make the sound of rain with your fingers",
+  "text": "Can you make the sound of rain with your fingers?"
+ },
+ {
+  "key": "can you name a pink flower",
+  "text": "Can you name a pink flower?"
+ },
+ {
+  "key": "can you peel a banana yourself",
+  "text": "Can you peel a banana yourself?"
+ },
+ {
+  "key": "can you pick pretend grapes above you",
+  "text": "Can you pick pretend grapes above you?"
+ },
+ {
+  "key": "can you pretend to build a snowman",
+  "text": "Can you pretend to build a snowman?"
+ },
+ {
+  "key": "can you reach up high like a corn stalk",
+  "text": "Can you reach up high like a corn stalk?"
+ },
+ {
+  "key": "can you roar like a lion",
+  "text": "Can you ROAR like a lion?"
+ },
+ {
+  "key": "can you say cheep cheep",
+  "text": "Can you say Cheep Cheep?"
+ },
+ {
+  "key": "can you say twinkle twinkle",
+  "text": "Can you say Twinkle Twinkle?"
+ },
+ {
+  "key": "can you say umbrella",
+  "text": "Can you say Umbrella?"
+ },
+ {
+  "key": "can you see through a glass",
+  "text": "Can you see through a glass?"
+ },
+ {
+  "key": "can you shine like the sun",
+  "text": "Can you shine like the sun?"
+ },
+ {
+  "key": "can you sing ding dong like a bell",
+  "text": "Can you sing ding dong like a bell?"
+ },
+ {
+  "key": "can you smell the flower",
+  "text": "Can you smell the flower?"
+ },
+ {
+  "key": "can you smell your food before eating",
+  "text": "Can YOU smell your food before eating?"
+ },
+ {
+  "key": "can you splash like a whale",
+  "text": "Can you splash like a whale?"
+ },
+ {
+  "key": "can you squeeze your hands like an orange",
+  "text": "Can you squeeze your hands like an orange?"
+ },
+ {
+  "key": "can you stir pretend soup",
+  "text": "Can you stir pretend soup?"
+ },
+ {
+  "key": "can you take a big slow breath like blowing a candle",
+  "text": "Can you take a big slow breath, like blowing a candle?"
+ },
+ {
+  "key": "can you tie your shoes by yourself",
+  "text": "Can you tie your shoes by yourself?"
+ },
+ {
+  "key": "can you touch your nose",
+  "text": "Can you touch your nose?"
+ },
+ {
+  "key": "can you wag like a dog",
+  "text": "Can you wag like a dog?"
+ },
+ {
+  "key": "candle",
+  "text": "candle"
+ },
+ {
+  "key": "canoe",
+  "text": "canoe"
+ },
+ {
+  "key": "cap",
+  "text": "cap"
+ },
+ {
+  "key": "car",
+  "text": "car"
+ },
+ {
+  "key": "card enter pair",
+  "text": "card enter pair-"
+ },
+ {
+  "key": "carrot",
+  "text": "carrot"
+ },
+ {
+  "key": "carrots are orange",
+  "text": "Carrots are orange"
+ },
+ {
+  "key": "carrots grow underground you pull them out",
+  "text": "Carrots grow underground — you pull them out!"
+ },
+ {
+  "key": "carrots were originally purple",
+  "text": "Carrots were originally purple!"
+ },
+ {
+  "key": "cars drive on the road",
+  "text": "Cars drive on the road"
+ },
+ {
+  "key": "cars have four wheels to go places",
+  "text": "Cars have four wheels to go places!"
+ },
+ {
+  "key": "castle",
+  "text": "castle"
+ },
+ {
+  "key": "cat",
+  "text": "cat"
+ },
+ {
+  "key": "caterpillar",
+  "text": "caterpillar"
+ },
+ {
+  "key": "cats can see in the dark",
+  "text": "Cats can see in the dark!"
+ },
+ {
+  "key": "cats love sleeping on beds too",
+  "text": "Cats love sleeping on beds too!"
+ },
+ {
+  "key": "cats love to drink milk",
+  "text": "Cats love to drink milk"
+ },
+ {
+  "key": "cats sleep for 16 hours every day",
+  "text": "Cats sleep for 16 hours every day!"
+ },
+ {
+  "key": "cereal",
+  "text": "cereal"
+ },
+ {
+  "key": "chair",
+  "text": "CHAIR"
+ },
+ {
+  "key": "chairs have four legs for sitting",
+  "text": "Chairs have four legs for sitting!"
+ },
+ {
+  "key": "cheetah",
+  "text": "cheetah"
+ },
+ {
+  "key": "chefs wear tall white hats called toques",
+  "text": "Chefs wear tall white hats called toques!"
+ },
+ {
+  "key": "cherries are tiny and red",
+  "text": "Cherries are tiny and red"
+ },
+ {
+  "key": "cherries grow in pairs like best friends",
+  "text": "Cherries grow in pairs like best friends!"
+ },
+ {
+  "key": "cherries grow on trees",
+  "text": "Cherries grow on trees"
+ },
+ {
+  "key": "cherry",
+  "text": "CHERRY"
+ },
+ {
+  "key": "cherry trees grow beautiful pink flowers in spring",
+  "text": "Cherry trees grow beautiful pink flowers in spring!"
+ },
+ {
+  "key": "chick",
+  "text": "CHICK"
+ },
+ {
+  "key": "child",
+  "text": "child"
+ },
+ {
+  "key": "chocolate",
+  "text": "chocolate"
+ },
+ {
+  "key": "chocolate is brown",
+  "text": "Chocolate is brown"
+ },
+ {
+  "key": "choo choo",
+  "text": "Choo choo!"
+ },
+ {
+  "key": "choo choo says the train",
+  "text": "Choo choo says the train"
+ },
+ {
+  "key": "chop chop",
+  "text": "Chop chop!"
+ },
+ {
+  "key": "chopsticks",
+  "text": "chopsticks"
+ },
+ {
+  "key": "circle",
+  "text": "CIRCLE"
+ },
+ {
+  "key": "circles",
+  "text": "circles"
+ },
+ {
+  "key": "clap your hands",
+  "text": "Clap your hands!"
+ },
+ {
+  "key": "clap your hands when you are happy",
+  "text": "Clap your hands when you are happy"
+ },
+ {
+  "key": "click",
+  "text": "Click!"
+ },
+ {
+  "key": "clock",
+  "text": "clock"
+ },
+ {
+  "key": "clocks tell us what time it is",
+  "text": "Clocks tell us what time it is!"
+ },
+ {
+  "key": "close the door gently",
+  "text": "Close the door gently"
+ },
+ {
+  "key": "close your eyes",
+  "text": "Close your eyes!"
+ },
+ {
+  "key": "clothes",
+  "text": "clothes"
+ },
+ {
+  "key": "cloud",
+  "text": "cloud"
+ },
+ {
+  "key": "clouds",
+  "text": "clouds"
+ },
+ {
+  "key": "clouds are made of tiny drops of water floating in the sky",
+  "text": "Clouds are made of tiny drops of water floating in the sky!"
+ },
+ {
+  "key": "clouds are white and fluffy",
+  "text": "Clouds are white and fluffy"
+ },
+ {
+  "key": "clouds bring the rain",
+  "text": "Clouds bring the rain"
+ },
+ {
+  "key": "clouds float in the sky",
+  "text": "Clouds float in the sky"
+ },
+ {
+  "key": "clover",
+  "text": "clover"
+ },
+ {
+  "key": "cold things",
+  "text": "cold things"
+ },
+ {
+  "key": "collect all the stars first",
+  "text": "Collect all the stars first!"
+ },
+ {
+  "key": "collect the stars on the way",
+  "text": "Collect the stars on the way!"
+ },
+ {
+  "key": "colors",
+  "text": "Colors"
+ },
+ {
+  "key": "colours",
+  "text": "Colours"
+ },
+ {
+  "key": "colours and shapes",
+  "text": "Colours and shapes"
+ },
+ {
+  "key": "comb your hair nicely",
+  "text": "Comb your hair nicely"
+ },
+ {
+  "key": "come back tomorrow for a new adventure",
+  "text": "Come back tomorrow for a new adventure."
+ },
+ {
+  "key": "composer",
+  "text": "Composer"
+ },
+ {
+  "key": "computer",
+  "text": "computer"
+ },
+ {
+  "key": "cook",
+  "text": "COOK"
+ },
+ {
+  "key": "cooking",
+  "text": "cooking"
+ },
+ {
+  "key": "corn",
+  "text": "corn"
+ },
+ {
+  "key": "corn grows on tall stalks taller than you",
+  "text": "Corn grows on tall stalks taller than you!"
+ },
+ {
+  "key": "corn is yellow",
+  "text": "Corn is yellow"
+ },
+ {
+  "key": "could not save this device is out of space",
+  "text": "Could not save: this device is out of space"
+ },
+ {
+  "key": "could you sleep like that",
+  "text": "Could you sleep like that?"
+ },
+ {
+  "key": "count",
+  "text": "Count!"
+ },
+ {
+  "key": "count down",
+  "text": "Count down!"
+ },
+ {
+  "key": "count the legs on a chair",
+  "text": "Count the legs on a chair!"
+ },
+ {
+  "key": "count your fingers",
+  "text": "Count your fingers!"
+ },
+ {
+  "key": "cow",
+  "text": "cow"
+ },
+ {
+  "key": "crab",
+  "text": "crab"
+ },
+ {
+  "key": "crayon",
+  "text": "Crayon"
+ },
+ {
+  "key": "crocodile",
+  "text": "crocodile"
+ },
+ {
+  "key": "crown",
+  "text": "crown"
+ },
+ {
+  "key": "cucumber",
+  "text": "cucumber"
+ },
+ {
+  "key": "cucumbers are cool and crunchy to eat",
+  "text": "Cucumbers are cool and crunchy to eat!"
+ },
+ {
+  "key": "cucumbers are green and crunchy",
+  "text": "Cucumbers are green and crunchy"
+ },
+ {
+  "key": "cucumbers have lots of water",
+  "text": "Cucumbers have lots of water"
+ },
+ {
+  "key": "cup",
+  "text": "CUP"
+ },
+ {
+  "key": "cup your ears can you hear better",
+  "text": "Cup your ears — can you hear better?"
+ },
+ {
+  "key": "cur pair",
+  "text": "cur pair-"
+ },
+ {
+  "key": "d",
+  "text": "D"
+ },
+ {
+  "key": "daddy",
+  "text": "Daddy!"
+ },
+ {
+  "key": "dance",
+  "text": "DANCE"
+ },
+ {
+  "key": "dance again",
+  "text": "Dance again!"
+ },
+ {
+  "key": "dance when the music plays",
+  "text": "Dance when the music plays."
+ },
+ {
+  "key": "dark grey clouds are full of water and ready to rain",
+  "text": "Dark grey clouds are full of water and ready to rain!"
+ },
+ {
+  "key": "daytime",
+  "text": "daytime"
+ },
+ {
+  "key": "diamond",
+  "text": "DIAMOND"
+ },
+ {
+  "key": "diamonds sparkle and shine",
+  "text": "Diamonds sparkle and shine"
+ },
+ {
+  "key": "dice",
+  "text": "dice"
+ },
+ {
+  "key": "ding dong",
+  "text": "Ding dong!"
+ },
+ {
+  "key": "diwali lights",
+  "text": "Diwali Lights"
+ },
+ {
+  "key": "do not break the glass",
+  "text": "Do not break the glass"
+ },
+ {
+  "key": "do you like bread",
+  "text": "Do you like bread?"
+ },
+ {
+  "key": "do you like salad",
+  "text": "Do you like salad?"
+ },
+ {
+  "key": "dog",
+  "text": "dog"
+ },
+ {
+  "key": "dogs and cats walk on four legs",
+  "text": "Dogs and cats walk on four legs!"
+ },
+ {
+  "key": "dogs have wet noses to smell better",
+  "text": "Dogs have wet noses to smell better."
+ },
+ {
+  "key": "dogs love to play fetch",
+  "text": "Dogs love to play fetch"
+ },
+ {
+  "key": "dogs wag their tail when happy",
+  "text": "Dogs wag their tail when happy!"
+ },
+ {
+  "key": "done",
+  "text": ", done"
+ },
+ {
+  "key": "door",
+  "text": "DOOR"
+ },
+ {
+  "key": "doors open and close to let us in",
+  "text": "Doors open and close to let us in!"
+ },
+ {
+  "key": "down",
+  "text": "Down!"
+ },
+ {
+  "key": "dragon",
+  "text": "dragon"
+ },
+ {
+  "key": "draw a butterfly with the mirror brush",
+  "text": "Draw a butterfly with the mirror brush!"
+ },
+ {
+  "key": "draw a car that can fly",
+  "text": "Draw a car that can fly!"
+ },
+ {
+  "key": "draw a circle in the air",
+  "text": "Draw a circle in the air"
+ },
+ {
+  "key": "draw a circle in the air with your finger",
+  "text": "Draw a circle in the air with your finger!"
+ },
+ {
+  "key": "draw a garden full of flowers",
+  "text": "Draw a garden full of flowers!"
+ },
+ {
+  "key": "draw a home for a fish",
+  "text": "Draw a home for a fish!"
+ },
+ {
+  "key": "draw a house for a cat",
+  "text": "Draw a house for a cat!"
+ },
+ {
+  "key": "draw a long wiggly snake",
+  "text": "Draw a long wiggly snake!"
+ },
+ {
+  "key": "draw a machine that makes ice cream",
+  "text": "Draw a machine that makes ice cream!"
+ },
+ {
+  "key": "draw a monster with three eyes",
+  "text": "Draw a monster with three eyes!"
+ },
+ {
+  "key": "draw a rainbow",
+  "text": "Draw a rainbow!"
+ },
+ {
+  "key": "draw a star with five points",
+  "text": "Draw a star with five points"
+ },
+ {
+  "key": "draw a yellow sun in the air",
+  "text": "Draw a yellow sun in the air!"
+ },
+ {
+  "key": "draw an animal nobody has ever seen",
+  "text": "Draw an animal nobody has ever seen!"
+ },
+ {
+  "key": "draw an oval in the air",
+  "text": "Draw an oval in the air!"
+ },
+ {
+  "key": "draw and watch it spin",
+  "text": "Draw and watch it spin."
+ },
+ {
+  "key": "draw on one side",
+  "text": "Draw on one side."
+ },
+ {
+  "key": "draw rain coming down",
+  "text": "Draw rain coming down!"
+ },
+ {
+  "key": "draw something first",
+  "text": "Draw something first!"
+ },
+ {
+  "key": "draw the big round sun",
+  "text": "Draw the big round sun!"
+ },
+ {
+  "key": "draw what you ate today",
+  "text": "Draw what you ate today!"
+ },
+ {
+  "key": "draw your family",
+  "text": "Draw your family!"
+ },
+ {
+  "key": "draw your favourite animal",
+  "text": "Draw your favourite animal!"
+ },
+ {
+  "key": "draw yourself as a superhero",
+  "text": "Draw yourself as a superhero!"
+ },
+ {
+  "key": "drawline 0",
+  "text": "drawLine 0."
+ },
+ {
+  "key": "dress",
+  "text": "dress"
+ },
+ {
+  "key": "dresses are pretty and come in many colors",
+  "text": "Dresses are pretty and come in many colors!"
+ },
+ {
+  "key": "drum",
+  "text": "Drum"
+ },
+ {
+  "key": "duck",
+  "text": "duck"
+ },
+ {
+  "key": "e",
+  "text": "E"
+ },
+ {
+  "key": "each corn cob has about 800 kernels",
+  "text": "Each corn cob has about 800 kernels!"
+ },
+ {
+  "key": "eagle",
+  "text": "eagle"
+ },
+ {
+  "key": "ear",
+  "text": "EAR"
+ },
+ {
+  "key": "egg",
+  "text": "egg"
+ },
+ {
+  "key": "eight",
+  "text": "Eight"
+ },
+ {
+  "key": "eight legs on an octopus",
+  "text": "Eight legs on an octopus"
+ },
+ {
+  "key": "elephant",
+  "text": "elephant"
+ },
+ {
+  "key": "elephants are the biggest land animals",
+  "text": "Elephants are the biggest land animals!"
+ },
+ {
+  "key": "elephants are very big",
+  "text": "Elephants are very big!"
+ },
+ {
+  "key": "elephants spray water with their trunk",
+  "text": "Elephants spray water with their trunk"
+ },
+ {
+  "key": "empty",
+  "text": ", empty"
+ },
+ {
+  "key": "enter",
+  "text": "Enter"
+ },
+ {
+  "key": "envelope",
+  "text": "envelope"
+ },
+ {
+  "key": "eraser",
+  "text": "Eraser"
+ },
+ {
+  "key": "even brave grown ups feel scared sometimes",
+  "text": "Even brave grown-ups feel scared sometimes!"
+ },
+ {
+  "key": "even butterflies came to visit",
+  "text": "Even butterflies came to visit!"
+ },
+ {
+  "key": "even numbers",
+  "text": "even numbers"
+ },
+ {
+  "key": "every day it drank water and sunshine",
+  "text": "Every day it drank water and sunshine."
+ },
+ {
+  "key": "every snowflake has six sides and no two look the same",
+  "text": "Every snowflake has six sides, and no two look the same!"
+ },
+ {
+  "key": "everyone feels sad sometimes",
+  "text": "Everyone feels sad sometimes."
+ },
+ {
+  "key": "eyes",
+  "text": "EYES"
+ },
+ {
+  "key": "f",
+  "text": "F"
+ },
+ {
+  "key": "face down",
+  "text": ", face down"
+ },
+ {
+  "key": "fairy",
+  "text": "Fairy!"
+ },
+ {
+  "key": "fan",
+  "text": "FAN"
+ },
+ {
+  "key": "fans spin round to make cool air",
+  "text": "Fans spin round to make cool air!"
+ },
+ {
+  "key": "farm",
+  "text": "Farm"
+ },
+ {
+  "key": "farm animals",
+  "text": "farm animals"
+ },
+ {
+  "key": "fast",
+  "text": "Fast"
+ },
+ {
+  "key": "feeling scared is okay",
+  "text": "Feeling scared is okay."
+ },
+ {
+  "key": "feelings",
+  "text": "Feelings"
+ },
+ {
+  "key": "fi card fi bounce",
+  "text": "fi-card fi-bounce"
+ },
+ {
+  "key": "find something green",
+  "text": "Find something green!"
+ },
+ {
+  "key": "find something red near you right now",
+  "text": "Find something red near you right now!"
+ },
+ {
+  "key": "find something shaped like a rectangle",
+  "text": "Find something shaped like a rectangle!"
+ },
+ {
+  "key": "find something square in the room",
+  "text": "Find something square in the room!"
+ },
+ {
+  "key": "find the blue basket",
+  "text": "Find the blue basket!"
+ },
+ {
+  "key": "find the green basket",
+  "text": "Find the green basket!"
+ },
+ {
+  "key": "find the orange basket",
+  "text": "Find the orange basket!"
+ },
+ {
+  "key": "find the pairs",
+  "text": "Find the pairs!"
+ },
+ {
+  "key": "find the purple basket",
+  "text": "Find the purple basket!"
+ },
+ {
+  "key": "find the red basket",
+  "text": "Find the red basket!"
+ },
+ {
+  "key": "find the yellow basket",
+  "text": "Find the yellow basket!"
+ },
+ {
+  "key": "find two things that match",
+  "text": "Find two things that match!"
+ },
+ {
+  "key": "finish",
+  "text": "Finish"
+ },
+ {
+  "key": "fire",
+  "text": "fire"
+ },
+ {
+  "key": "fire engine",
+  "text": "fire engine"
+ },
+ {
+  "key": "fireworks painted the sky with colours",
+  "text": "Fireworks painted the sky with colours."
+ },
+ {
+  "key": "first",
+  "text": "First"
+ },
+ {
+  "key": "first the alarm rings",
+  "text": "First the alarm rings."
+ },
+ {
+  "key": "first the apple tree has flowers",
+  "text": "First the apple tree has flowers."
+ },
+ {
+  "key": "first the clouds come",
+  "text": "First the clouds come."
+ },
+ {
+  "key": "first the rain falls",
+  "text": "First the rain falls."
+ },
+ {
+  "key": "first the snow falls",
+  "text": "First the snow falls."
+ },
+ {
+  "key": "first the sun comes up",
+  "text": "First the sun comes up."
+ },
+ {
+  "key": "first the sun rises",
+  "text": "First the sun rises."
+ },
+ {
+  "key": "first the sun warms the sea",
+  "text": "First the sun warms the sea."
+ },
+ {
+  "key": "first the wheat grows",
+  "text": "First the wheat grows."
+ },
+ {
+  "key": "first there is a cold ice cube",
+  "text": "First there is a cold ice cube."
+ },
+ {
+  "key": "first there is a tiny egg on a leaf",
+  "text": "First there is a tiny egg on a leaf."
+ },
+ {
+  "key": "first there is an egg",
+  "text": "First there is an egg."
+ },
+ {
+  "key": "first we buy flour and milk",
+  "text": "First we buy flour and milk."
+ },
+ {
+  "key": "first we get the bricks",
+  "text": "First we get the bricks."
+ },
+ {
+  "key": "first we plant a seed",
+  "text": "First we plant a seed."
+ },
+ {
+  "key": "first we pour the milk",
+  "text": "First we pour the milk."
+ },
+ {
+  "key": "first we put paste on the brush",
+  "text": "First we put paste on the brush."
+ },
+ {
+  "key": "first we take an egg",
+  "text": "First we take an egg."
+ },
+ {
+  "key": "first we take some bread",
+  "text": "First we take some bread."
+ },
+ {
+  "key": "first we write a letter",
+  "text": "First we write a letter."
+ },
+ {
+  "key": "first you are a baby",
+  "text": "First you are a baby."
+ },
+ {
+  "key": "fish",
+  "text": "fish"
+ },
+ {
+  "key": "fish breathe underwater using gills",
+  "text": "Fish breathe underwater using gills!"
+ },
+ {
+  "key": "fish live in water",
+  "text": "Fish live in water"
+ },
+ {
+  "key": "fish sleep with eyes open no eyelids",
+  "text": "Fish sleep with eyes open — no eyelids!"
+ },
+ {
+  "key": "fish swim very fast",
+  "text": "Fish swim very fast"
+ },
+ {
+  "key": "five",
+  "text": "Five"
+ },
+ {
+  "key": "five fingers on one hand",
+  "text": "Five fingers on one hand"
+ },
+ {
+  "key": "five is odd",
+  "text": "Five is odd."
+ },
+ {
+  "key": "flamingos are pink",
+  "text": "Flamingos are pink"
+ },
+ {
+  "key": "flamingos are pink because they eat pink shrimp",
+  "text": "Flamingos are pink because they eat pink shrimp!"
+ },
+ {
+  "key": "flap your arms like a bird",
+  "text": "Flap your arms like a bird!"
+ },
+ {
+  "key": "flip",
+  "text": "Flip!"
+ },
+ {
+  "key": "flip a pretend pancake in a pan",
+  "text": "Flip a pretend pancake in a pan!"
+ },
+ {
+  "key": "flower",
+  "text": "FLOWER"
+ },
+ {
+  "key": "flowers",
+  "text": "flowers"
+ },
+ {
+  "key": "flying saucer",
+  "text": "flying saucer"
+ },
+ {
+  "key": "follow the dots",
+  "text": "Follow the dots!"
+ },
+ {
+  "key": "food",
+  "text": "Food"
+ },
+ {
+  "key": "foot",
+  "text": "FOOT"
+ },
+ {
+  "key": "football",
+  "text": "football"
+ },
+ {
+  "key": "fork",
+  "text": "fork"
+ },
+ {
+  "key": "forks have pointy tips to pick up food",
+  "text": "Forks have pointy tips to pick up food!"
+ },
+ {
+  "key": "found it",
+  "text": "Found it!"
+ },
+ {
+  "key": "four",
+  "text": "Four"
+ },
+ {
+  "key": "four legs on a dog",
+  "text": "Four legs on a dog"
+ },
+ {
+  "key": "freeze",
+  "text": "FREEZE!"
+ },
+ {
+  "key": "freeze when it stops",
+  "text": "Freeze when it stops!"
+ },
+ {
+  "key": "fresh paper",
+  "text": "Fresh paper!"
+ },
+ {
+  "key": "friendly ghost",
+  "text": "friendly ghost"
+ },
+ {
+  "key": "frog",
+  "text": "frog"
+ },
+ {
+  "key": "frogs jump 20 times their own size",
+  "text": "Frogs jump 20 times their own size!"
+ },
+ {
+  "key": "frogs jump very high",
+  "text": "Frogs jump very high"
+ },
+ {
+  "key": "frogs start as tiny tadpoles then grow legs",
+  "text": "Frogs start as tiny tadpoles then grow legs!"
+ },
+ {
+  "key": "fruit",
+  "text": "Fruit"
+ },
+ {
+  "key": "fruits",
+  "text": "fruits"
+ },
+ {
+  "key": "frying pan",
+  "text": "frying pan"
+ },
+ {
+  "key": "g",
+  "text": "G"
+ },
+ {
+  "key": "garden",
+  "text": "Garden"
+ },
+ {
+  "key": "get the app",
+  "text": "Get the app"
+ },
+ {
+  "key": "gift",
+  "text": "GIFT"
+ },
+ {
+  "key": "giraffe",
+  "text": "giraffe"
+ },
+ {
+  "key": "giraffe tongue is purple and super long",
+  "text": "Giraffe tongue is purple and super long!"
+ },
+ {
+  "key": "giraffes are the tallest animals",
+  "text": "Giraffes are the tallest animals!"
+ },
+ {
+  "key": "giraffes eat leaves from tall trees",
+  "text": "Giraffes eat leaves from tall trees"
+ },
+ {
+  "key": "giraffes have a very long neck",
+  "text": "Giraffes have a very long neck"
+ },
+ {
+  "key": "girl",
+  "text": "Girl!"
+ },
+ {
+  "key": "girl lions do the hunting",
+  "text": "Girl lions do the hunting!"
+ },
+ {
+  "key": "girls wear pretty dresses",
+  "text": "Girls wear pretty dresses"
+ },
+ {
+  "key": "give a high five",
+  "text": "Give a high five!"
+ },
+ {
+  "key": "give your story a title",
+  "text": "Give your story a title!"
+ },
+ {
+  "key": "glass",
+  "text": "GLASS"
+ },
+ {
+  "key": "glass is made from sand",
+  "text": "Glass is made from sand!"
+ },
+ {
+  "key": "go tick tock like a clock",
+  "text": "Go tick-tock like a clock!"
+ },
+ {
+  "key": "goat",
+  "text": "goat"
+ },
+ {
+  "key": "good",
+  "text": "Good!"
+ },
+ {
+  "key": "good morning",
+  "text": "Good morning!"
+ },
+ {
+  "key": "good morning world",
+  "text": "\"Good morning, world!"
+ },
+ {
+  "key": "good night",
+  "text": "\"Good night!"
+ },
+ {
+  "key": "good night moon",
+  "text": "Good Night, Moon"
+ },
+ {
+  "key": "good night owl",
+  "text": "Good night, owl!"
+ },
+ {
+  "key": "got the carrot",
+  "text": "Got the carrot!"
+ },
+ {
+  "key": "grandma",
+  "text": "Grandma!"
+ },
+ {
+  "key": "grandpa",
+  "text": "Grandpa!"
+ },
+ {
+  "key": "grandpa and meena shared the mangoes",
+  "text": "Grandpa and Meena shared the mangoes."
+ },
+ {
+  "key": "grandpa planted a tiny mango seed",
+  "text": "Grandpa planted a tiny mango seed."
+ },
+ {
+  "key": "grandparent",
+  "text": "grandparent"
+ },
+ {
+  "key": "grapes",
+  "text": "grapes"
+ },
+ {
+  "key": "grapes are purple",
+  "text": "Grapes are purple"
+ },
+ {
+  "key": "grapes can be green or purple",
+  "text": "Grapes can be green or purple"
+ },
+ {
+  "key": "grapes grow in bunches",
+  "text": "Grapes grow in bunches"
+ },
+ {
+  "key": "grapes grow on long vines in the sunshine",
+  "text": "Grapes grow on long vines in the sunshine!"
+ },
+ {
+  "key": "great dancing",
+  "text": "Great dancing!"
+ },
+ {
+  "key": "great dancing and freezing",
+  "text": "Great dancing and freezing!"
+ },
+ {
+  "key": "great job",
+  "text": "Great job!"
+ },
+ {
+  "key": "great listening",
+  "text": "Great listening!"
+ },
+ {
+  "key": "great memory",
+  "text": "Great memory!"
+ },
+ {
+  "key": "great memory both of you",
+  "text": "Great memory, both of you!"
+ },
+ {
+  "key": "great thinking",
+  "text": "Great thinking!"
+ },
+ {
+  "key": "green",
+  "text": "Green"
+ },
+ {
+  "key": "green circle",
+  "text": "Green circle!"
+ },
+ {
+  "key": "green heart",
+  "text": "Green heart!"
+ },
+ {
+  "key": "green is the color of grass and leaves",
+  "text": "Green is the color of grass and leaves!"
+ },
+ {
+  "key": "green means go",
+  "text": "Green means go!"
+ },
+ {
+  "key": "green square",
+  "text": "Green square!"
+ },
+ {
+  "key": "green star",
+  "text": "Green star!"
+ },
+ {
+  "key": "green things",
+  "text": "green things"
+ },
+ {
+  "key": "green triangle",
+  "text": "Green triangle!"
+ },
+ {
+  "key": "growing patterns",
+  "text": "Growing patterns"
+ },
+ {
+  "key": "grown up",
+  "text": "Grown-up!"
+ },
+ {
+  "key": "grown up wins",
+  "text": "Grown-up wins!"
+ },
+ {
+  "key": "grown up wins this time",
+  "text": "Grown-up wins this time!"
+ },
+ {
+  "key": "grown up's turn",
+  "text": "Grown-up's turn!"
+ },
+ {
+  "key": "grown ups help us feel safe",
+  "text": "Grown-ups help us feel safe"
+ },
+ {
+  "key": "grows with your child",
+  "text": "Grows with your child"
+ },
+ {
+  "key": "guitar",
+  "text": "guitar"
+ },
+ {
+  "key": "h",
+  "text": "H"
+ },
+ {
+  "key": "hair",
+  "text": "HAIR"
+ },
+ {
+  "key": "hair grows on our head",
+  "text": "Hair grows on our head"
+ },
+ {
+  "key": "hand",
+  "text": "HAND"
+ },
+ {
+  "key": "happy",
+  "text": "HAPPY"
+ },
+ {
+  "key": "happy birthday",
+  "text": "Happy Birthday!"
+ },
+ {
+  "key": "happy diwali",
+  "text": "Happy Diwali!"
+ },
+ {
+  "key": "happy people smile",
+  "text": "Happy people smile!"
+ },
+ {
+  "key": "hat",
+  "text": "HAT"
+ },
+ {
+  "key": "hatching",
+  "text": "hatching"
+ },
+ {
+  "key": "hats keep the sun off your head",
+  "text": "Hats keep the sun off your head!"
+ },
+ {
+  "key": "have you seen my mama",
+  "text": "\"Have you seen my mama?"
+ },
+ {
+  "key": "have you seen that",
+  "text": "Have you seen that?"
+ },
+ {
+  "key": "he asked the frog",
+  "text": "He asked the frog."
+ },
+ {
+  "key": "he asked the rabbit",
+  "text": "He asked the rabbit."
+ },
+ {
+  "key": "he ate a big red apple",
+  "text": "He ate a big red apple."
+ },
+ {
+  "key": "he drank the water",
+  "text": "He drank the water."
+ },
+ {
+  "key": "he dropped pebbles in one by one",
+  "text": "He dropped pebbles in, one by one."
+ },
+ {
+  "key": "he found a pot with a little water at the bottom",
+  "text": "He found a pot with a little water at the bottom."
+ },
+ {
+  "key": "he gave one carrot to the squirrel",
+  "text": "He gave one carrot to the squirrel."
+ },
+ {
+  "key": "he gave one carrot to the turtle",
+  "text": "He gave one carrot to the turtle."
+ },
+ {
+  "key": "he made a cozy bed with soft leaves",
+  "text": "He made a cozy bed with soft leaves."
+ },
+ {
+  "key": "he thought and thought",
+  "text": "He thought and thought."
+ },
+ {
+  "key": "he was so dirty",
+  "text": "He was so dirty!"
+ },
+ {
+  "key": "he went to sleep",
+  "text": "He went to sleep."
+ },
+ {
+  "key": "he woke up as a beautiful butterfly",
+  "text": "He woke up as a beautiful butterfly!"
+ },
+ {
+  "key": "heart",
+  "text": "HEART"
+ },
+ {
+  "key": "hearts",
+  "text": "hearts"
+ },
+ {
+  "key": "hee hee",
+  "text": "Hee hee!"
+ },
+ {
+  "key": "helicopter",
+  "text": "helicopter"
+ },
+ {
+  "key": "hello",
+  "text": "Hello!"
+ },
+ {
+  "key": "help the bee find the flower",
+  "text": "Help the bee find the flower!"
+ },
+ {
+  "key": "help the bunny find the carrot",
+  "text": "Help the bunny find the carrot!"
+ },
+ {
+  "key": "help the car find home",
+  "text": "Help the car find home!"
+ },
+ {
+  "key": "help the monkey find the banana",
+  "text": "Help the monkey find the banana!"
+ },
+ {
+  "key": "help the mouse find the cheese",
+  "text": "Help the mouse find the cheese!"
+ },
+ {
+  "key": "help the puppy find the bone",
+  "text": "Help the puppy find the bone!"
+ },
+ {
+  "key": "helper picture off",
+  "text": "Helper picture off"
+ },
+ {
+  "key": "helper picture on",
+  "text": "Helper picture on"
+ },
+ {
+  "key": "hen",
+  "text": "hen"
+ },
+ {
+  "key": "here is the story",
+  "text": "Here is the story:"
+ },
+ {
+  "key": "hi",
+  "text": "Hi!"
+ },
+ {
+  "key": "hi heshvi",
+  "text": "Hi Heshvi!"
+ },
+ {
+  "key": "hi there",
+  "text": "Hi there!"
+ },
+ {
+  "key": "high five",
+  "text": "High five!"
+ },
+ {
+  "key": "his beak could not reach the water",
+  "text": "His beak could not reach the water."
+ },
+ {
+  "key": "his tummy was so full",
+  "text": "His tummy was so full!"
+ },
+ {
+  "key": "hmm",
+  "text": "Hmm."
+ },
+ {
+  "key": "hold a hand when you are scared",
+  "text": "Hold a hand when you are scared"
+ },
+ {
+  "key": "hold a pretend steering wheel",
+  "text": "Hold a pretend steering wheel!"
+ },
+ {
+  "key": "hold the cup with both hands",
+  "text": "Hold the cup with both hands"
+ },
+ {
+  "key": "hold the spoon in your hand",
+  "text": "Hold the spoon in your hand"
+ },
+ {
+  "key": "hold up one finger",
+  "text": "Hold up one finger!"
+ },
+ {
+  "key": "hold your hands like a bowl shape",
+  "text": "Hold your hands like a bowl shape!"
+ },
+ {
+  "key": "honk like a big truck",
+  "text": "Honk like a big truck!"
+ },
+ {
+  "key": "hoo hoo",
+  "text": "Hoo hoo!"
+ },
+ {
+  "key": "horse",
+  "text": "horse"
+ },
+ {
+  "key": "hot sand turns into glass",
+  "text": "Hot sand turns into glass."
+ },
+ {
+  "key": "hot soup",
+  "text": "hot soup"
+ },
+ {
+  "key": "hot tea",
+  "text": "hot tea"
+ },
+ {
+  "key": "hot things",
+  "text": "hot things"
+ },
+ {
+  "key": "house",
+  "text": "house"
+ },
+ {
+  "key": "how can you help someone today",
+  "text": "How can you help someone today?"
+ },
+ {
+  "key": "how do you get clean after playing in the mud",
+  "text": "How do you get clean after playing in the mud?"
+ },
+ {
+  "key": "how do you think mama duck felt when she found him",
+  "text": "How do you think Mama Duck felt when she found him?"
+ },
+ {
+  "key": "how does your story end",
+  "text": "How does your story end?"
+ },
+ {
+  "key": "how many",
+  "text": "How many?"
+ },
+ {
+  "key": "how many colors in a rainbow",
+  "text": "How many colors in a rainbow?"
+ },
+ {
+  "key": "how many colours can you name in a rainbow",
+  "text": "How many colours can you name in a rainbow?"
+ },
+ {
+  "key": "how many colours can you see around you",
+  "text": "How many colours can you see around you?"
+ },
+ {
+  "key": "how many hours do you sleep",
+  "text": "How many hours do YOU sleep?"
+ },
+ {
+  "key": "how many jumps can you do",
+  "text": "How many jumps can YOU do?"
+ },
+ {
+  "key": "how many points does a fork have",
+  "text": "How many points does a fork have?"
+ },
+ {
+  "key": "how many teeth do you have right now",
+  "text": "How many teeth do you have right now?"
+ },
+ {
+  "key": "how many times can you blink in 10 seconds",
+  "text": "How many times can you blink in 10 seconds?"
+ },
+ {
+  "key": "how many total",
+  "text": "How many total?"
+ },
+ {
+  "key": "hugs make us feel loved",
+  "text": "Hugs make us feel loved"
+ },
+ {
+  "key": "i",
+  "text": "I"
+ },
+ {
+  "key": "i am bujji",
+  "text": "I am Bujji!"
+ },
+ {
+  "key": "i am surprised",
+  "text": "I am surprised"
+ },
+ {
+  "key": "i feel angry",
+  "text": "I feel angry"
+ },
+ {
+  "key": "i feel happy",
+  "text": "I feel happy"
+ },
+ {
+  "key": "i feel loved",
+  "text": "I feel loved"
+ },
+ {
+  "key": "i feel sad",
+  "text": "I feel sad"
+ },
+ {
+  "key": "i feel scared",
+  "text": "I feel scared"
+ },
+ {
+  "key": "i feel silly",
+  "text": "I feel silly"
+ },
+ {
+  "key": "i feel sleepy",
+  "text": "I feel sleepy"
+ },
+ {
+  "key": "i love colours",
+  "text": "I love colours!"
+ },
+ {
+  "key": "i love playing with you",
+  "text": "I love playing with you!"
+ },
+ {
+  "key": "i love you",
+  "text": "I love you!"
+ },
+ {
+  "key": "i love you with all my heart",
+  "text": "I love you with all my heart"
+ },
+ {
+  "key": "ice",
+  "text": "ICE"
+ },
+ {
+  "key": "ice cream",
+  "text": "ice cream"
+ },
+ {
+  "key": "in some places people eat food on banana leaves",
+  "text": "In some places, people eat food on banana leaves!"
+ },
+ {
+  "key": "insects",
+  "text": "insects"
+ },
+ {
+  "key": "insects have six legs count them",
+  "text": "Insects have six legs — count them!"
+ },
+ {
+  "key": "insects have six so it is not an insect",
+  "text": "Insects have six, so it is not an insect!"
+ },
+ {
+  "key": "is a tomato a fruit or veggie",
+  "text": "Is a tomato a fruit or veggie?"
+ },
+ {
+  "key": "is it an animal food or something that goes",
+  "text": "Is it an animal, food, or something that goes?"
+ },
+ {
+  "key": "is it in the box",
+  "text": "Is it in the box?"
+ },
+ {
+  "key": "is it straight or curly",
+  "text": "Is it straight or curly?"
+ },
+ {
+  "key": "is it sunny outside today",
+  "text": "Is it sunny outside today?"
+ },
+ {
+  "key": "is it under the bed",
+  "text": "Is it under the bed?"
+ },
+ {
+  "key": "is the sky blue today",
+  "text": "Is the sky blue today?"
+ },
+ {
+  "key": "is water hot or cold",
+  "text": "Is water hot or cold?"
+ },
+ {
+  "key": "is watermelon bigger than your head",
+  "text": "Is watermelon bigger than your head?"
+ },
+ {
+  "key": "it became a big sunflower",
+  "text": "It became a big sunflower!"
+ },
+ {
+  "key": "it does not eat or grow",
+  "text": "It does not eat or grow!"
+ },
+ {
+  "key": "it fits",
+  "text": "It fits!"
+ },
+ {
+  "key": "it goes",
+  "text": "It goes…"
+ },
+ {
+  "key": "it grew bigger and bigger with pretty leaves",
+  "text": "It grew bigger and bigger with pretty leaves!"
+ },
+ {
+  "key": "it is a fruit",
+  "text": "It is a fruit!"
+ },
+ {
+  "key": "it is okay to cry",
+  "text": "It is okay to cry."
+ },
+ {
+  "key": "it is okay to feel sad",
+  "text": "It is okay to feel sad"
+ },
+ {
+  "key": "it is raining",
+  "text": "It is raining!"
+ },
+ {
+  "key": "it lives in the wild",
+  "text": "It lives in the wild!"
+ },
+ {
+  "key": "it started raining",
+  "text": "It started raining!"
+ },
+ {
+  "key": "it takes about 75 grapes to make one glass of juice",
+  "text": "It takes about 75 grapes to make one glass of juice!"
+ },
+ {
+  "key": "it was a dark dark night",
+  "text": "It was a dark, dark night."
+ },
+ {
+  "key": "it was raining",
+  "text": "It was raining."
+ },
+ {
+  "key": "it's a tie",
+  "text": "It’s a tie!"
+ },
+ {
+  "key": "j",
+  "text": "J"
+ },
+ {
+  "key": "jacket",
+  "text": "JACKET"
+ },
+ {
+  "key": "jackets keep you warm when it is cold outside",
+  "text": "Jackets keep you warm when it is cold outside!"
+ },
+ {
+  "key": "jeans were invented for gold miners to wear",
+  "text": "Jeans were invented for gold miners to wear!"
+ },
+ {
+  "key": "jewel",
+  "text": "jewel"
+ },
+ {
+  "key": "jump like a frog",
+  "text": "Jump like a frog!"
+ },
+ {
+  "key": "just like you",
+  "text": "Just like you."
+ },
+ {
+  "key": "just me",
+  "text": "Just me!"
+ },
+ {
+  "key": "just open holes",
+  "text": "Just open holes."
+ },
+ {
+  "key": "k",
+  "text": "K"
+ },
+ {
+  "key": "kaleidoscope",
+  "text": "Kaleidoscope"
+ },
+ {
+  "key": "keep going",
+  "text": "Keep going!"
+ },
+ {
+  "key": "kept",
+  "text": "Kept!"
+ },
+ {
+  "key": "kept in my art",
+  "text": "Kept in My art"
+ },
+ {
+  "key": "key",
+  "text": "key"
+ },
+ {
+  "key": "kids have 20 baby teeth that fall out",
+  "text": "Kids have 20 baby teeth that fall out!"
+ },
+ {
+  "key": "kitchen",
+  "text": "Kitchen"
+ },
+ {
+  "key": "kitchen things",
+  "text": "kitchen things"
+ },
+ {
+  "key": "kite",
+  "text": "KITE"
+ },
+ {
+  "key": "knock knock knock",
+  "text": "Knock knock knock!"
+ },
+ {
+  "key": "knock on a door",
+  "text": "Knock on a door!"
+ },
+ {
+  "key": "l",
+  "text": "L"
+ },
+ {
+  "key": "ladybird",
+  "text": "ladybird"
+ },
+ {
+  "key": "lamp",
+  "text": "LAMP"
+ },
+ {
+  "key": "lamps make light so we can see at night",
+  "text": "Lamps make light so we can see at night!"
+ },
+ {
+  "key": "last",
+  "text": "Last"
+ },
+ {
+  "key": "last a big flower blooms",
+  "text": "Last, a big flower blooms."
+ },
+ {
+  "key": "last a flower blooms",
+  "text": "Last, a flower blooms."
+ },
+ {
+  "key": "last a grandparent",
+  "text": "Last, a grandparent."
+ },
+ {
+  "key": "last a rainbow comes out",
+  "text": "Last, a rainbow comes out."
+ },
+ {
+  "key": "last it arrives in the mailbox",
+  "text": "Last, it arrives in the mailbox."
+ },
+ {
+  "key": "last it becomes a butterfly",
+  "text": "Last, it becomes a butterfly."
+ },
+ {
+  "key": "last it grows into a hen",
+  "text": "Last, it grows into a hen."
+ },
+ {
+  "key": "last it is night",
+  "text": "Last, it is night."
+ },
+ {
+  "key": "last it is night time",
+  "text": "Last, it is night time."
+ },
+ {
+  "key": "last it melts into water",
+  "text": "Last, it melts into water."
+ },
+ {
+  "key": "last our teeth are clean and shiny",
+  "text": "Last, our teeth are clean and shiny!"
+ },
+ {
+  "key": "last the bees visit the flowers",
+  "text": "Last, the bees visit the flowers."
+ },
+ {
+  "key": "last the house is ready",
+  "text": "Last, the house is ready."
+ },
+ {
+  "key": "last the rain flows back to the sea",
+  "text": "Last, the rain flows back to the sea."
+ },
+ {
+  "key": "last the sun melts it into water",
+  "text": "Last, the sun melts it into water."
+ },
+ {
+  "key": "last we bake an apple pie",
+  "text": "Last, we bake an apple pie."
+ },
+ {
+  "key": "last we eat it",
+  "text": "Last, we eat it."
+ },
+ {
+  "key": "last we eat it from a plate",
+  "text": "Last, we eat it from a plate."
+ },
+ {
+  "key": "last we eat our breakfast",
+  "text": "Last, we eat our breakfast."
+ },
+ {
+  "key": "last we go to school",
+  "text": "Last, we go to school."
+ },
+ {
+  "key": "last we have a birthday cake",
+  "text": "Last, we have a birthday cake!"
+ },
+ {
+  "key": "last we make a sandwich",
+  "text": "Last, we make a sandwich."
+ },
+ {
+  "key": "laughing together makes friends feel close",
+  "text": "Laughing together makes friends feel close."
+ },
+ {
+  "key": "learn",
+  "text": "Learn"
+ },
+ {
+  "key": "learn again",
+  "text": "Learn again"
+ },
+ {
+  "key": "leaves are green",
+  "text": "Leaves are green"
+ },
+ {
+  "key": "left",
+  "text": "Left!"
+ },
+ {
+  "key": "let us be silly together",
+  "text": "Let us be silly together"
+ },
+ {
+  "key": "let us celebrate",
+  "text": "Let us celebrate!"
+ },
+ {
+  "key": "let us try together",
+  "text": "Let us try together!"
+ },
+ {
+  "key": "let's colour the butterfly",
+  "text": "Let's colour the butterfly!"
+ },
+ {
+  "key": "let's colour the car",
+  "text": "Let's colour the car!"
+ },
+ {
+  "key": "let's colour the cat",
+  "text": "Let's colour the cat!"
+ },
+ {
+  "key": "let's colour the fish",
+  "text": "Let's colour the fish!"
+ },
+ {
+  "key": "let's colour the flower",
+  "text": "Let's colour the flower!"
+ },
+ {
+  "key": "let's colour the house",
+  "text": "Let's colour the house!"
+ },
+ {
+  "key": "let's colour the pattern",
+  "text": "Let's colour the pattern!"
+ },
+ {
+  "key": "let's colour the rocket",
+  "text": "Let's colour the rocket!"
+ },
+ {
+  "key": "let's make the birthday cake",
+  "text": "Let's make the birthday cake!"
+ },
+ {
+  "key": "let's make the butterfly",
+  "text": "Let's make the butterfly!"
+ },
+ {
+  "key": "let's make the elephant",
+  "text": "Let's make the elephant!"
+ },
+ {
+  "key": "let's make the fish",
+  "text": "Let's make the fish!"
+ },
+ {
+  "key": "let's make the giraffe",
+  "text": "Let's make the giraffe!"
+ },
+ {
+  "key": "let's make the lion",
+  "text": "Let's make the lion!"
+ },
+ {
+  "key": "let's make the panda",
+  "text": "Let's make the panda!"
+ },
+ {
+  "key": "let's make the puppy",
+  "text": "Let's make the puppy!"
+ },
+ {
+  "key": "let's make the rainbow",
+  "text": "Let's make the rainbow!"
+ },
+ {
+  "key": "let's make the rocket",
+  "text": "Let's make the rocket!"
+ },
+ {
+  "key": "let's make the train",
+  "text": "Let's make the train!"
+ },
+ {
+  "key": "let's make the turtle",
+  "text": "Let's make the turtle!"
+ },
+ {
+  "key": "let's make your picture",
+  "text": "Let's make your picture!"
+ },
+ {
+  "key": "let's play",
+  "text": "Let’s play!"
+ },
+ {
+  "key": "let's stretch drink some water and play outside",
+  "text": "Let’s stretch, drink some water and play outside!"
+ },
+ {
+  "key": "let's try something a little harder",
+  "text": "Let’s try something a little harder."
+ },
+ {
+  "key": "level up",
+  "text": "Level up!"
+ },
+ {
+  "key": "light bulb",
+  "text": "light bulb"
+ },
+ {
+  "key": "lightning",
+  "text": "LIGHTNING"
+ },
+ {
+  "key": "lightning flashes in a storm",
+  "text": "Lightning flashes in a storm"
+ },
+ {
+  "key": "lightning is a giant spark in a storm and thunder is its loud boom",
+  "text": "Lightning is a giant spark in a storm, and thunder is its loud boom!"
+ },
+ {
+  "key": "lightning is hotter than the sun",
+  "text": "Lightning is hotter than the sun!"
+ },
+ {
+  "key": "like magic",
+  "text": "Like magic!"
+ },
+ {
+  "key": "lion",
+  "text": "lion"
+ },
+ {
+  "key": "lions are called king of the jungle",
+  "text": "Lions are called King of the Jungle!"
+ },
+ {
+  "key": "lions live in the jungle",
+  "text": "Lions live in the jungle"
+ },
+ {
+  "key": "listen",
+  "text": "Listen!"
+ },
+ {
+  "key": "listen again",
+  "text": "Listen again!"
+ },
+ {
+  "key": "listen then copy my tune",
+  "text": "Listen, then copy my tune!"
+ },
+ {
+  "key": "little apple",
+  "text": "little apple"
+ },
+ {
+  "key": "little chick",
+  "text": "little chick"
+ },
+ {
+  "key": "little musician",
+  "text": "Little musician"
+ },
+ {
+  "key": "little plant",
+  "text": "little plant"
+ },
+ {
+  "key": "little storyteller",
+  "text": "Little storyteller"
+ },
+ {
+  "key": "living things",
+  "text": "living things"
+ },
+ {
+  "key": "long ago only kings could wear purple",
+  "text": "Long ago only kings could wear purple!"
+ },
+ {
+  "key": "long ago only kings had chairs",
+  "text": "Long ago only kings had chairs!"
+ },
+ {
+  "key": "long ago people used shells as spoons",
+  "text": "Long ago people used shells as spoons!"
+ },
+ {
+  "key": "long ago windows had no glass",
+  "text": "Long ago windows had no glass!"
+ },
+ {
+  "key": "look",
+  "text": "Look!"
+ },
+ {
+  "key": "look a rainbow",
+  "text": "Look, a rainbow!"
+ },
+ {
+  "key": "look again",
+  "text": "Look again."
+ },
+ {
+  "key": "look at the pattern again",
+  "text": "Look at the pattern again!"
+ },
+ {
+  "key": "look at you go",
+  "text": "Look at you go!"
+ },
+ {
+  "key": "look carefully",
+  "text": "Look carefully…"
+ },
+ {
+  "key": "look carefully and remember",
+  "text": "Look carefully, and remember!"
+ },
+ {
+  "key": "look out a window",
+  "text": "Look out a window!"
+ },
+ {
+  "key": "look up",
+  "text": "Look up!"
+ },
+ {
+  "key": "look up and find a rainbow",
+  "text": "Look up and find a rainbow!"
+ },
+ {
+  "key": "loved",
+  "text": "LOVED"
+ },
+ {
+  "key": "lovely",
+  "text": "Lovely!"
+ },
+ {
+  "key": "lovely picture",
+  "text": "Lovely picture!"
+ },
+ {
+  "key": "m",
+  "text": "M"
+ },
+ {
+  "key": "made for little hands",
+  "text": "Made for little hands"
+ },
+ {
+  "key": "magic",
+  "text": "Magic!"
+ },
+ {
+  "key": "magic key",
+  "text": "magic key"
+ },
+ {
+  "key": "mailbox",
+  "text": "mailbox"
+ },
+ {
+  "key": "make",
+  "text": "Make"
+ },
+ {
+  "key": "make a heart shape with your hands",
+  "text": "Make a heart shape with your hands!"
+ },
+ {
+  "key": "make a snowflake with the kaleidoscope",
+  "text": "Make a snowflake with the kaleidoscope!"
+ },
+ {
+  "key": "make a triangle with your fingers",
+  "text": "Make a triangle with your fingers!"
+ },
+ {
+  "key": "make lots and lots of dots",
+  "text": "Make lots and lots of dots!"
+ },
+ {
+  "key": "make something solve something and learn something new",
+  "text": "Make something, solve something, and learn something new!"
+ },
+ {
+  "key": "make the whole page blue like the sea",
+  "text": "Make the whole page blue like the sea!"
+ },
+ {
+  "key": "make up a new fruit and draw it",
+  "text": "Make up a new fruit and draw it!"
+ },
+ {
+  "key": "make your arms round like a big pumpkin",
+  "text": "Make your arms round like a big pumpkin!"
+ },
+ {
+  "key": "make your bed every morning",
+  "text": "Make your bed every morning"
+ },
+ {
+  "key": "make your own pattern",
+  "text": "Make your own pattern!"
+ },
+ {
+  "key": "make your silliest face",
+  "text": "Make your silliest face!"
+ },
+ {
+  "key": "mama",
+  "text": "\"Mama!"
+ },
+ {
+  "key": "mama duck had three baby ducks",
+  "text": "Mama Duck had three baby ducks."
+ },
+ {
+  "key": "mama sprayed water with her trunk",
+  "text": "Mama sprayed water with her trunk."
+ },
+ {
+  "key": "mango",
+  "text": "MANGO"
+ },
+ {
+  "key": "mango is the most eaten fruit in the whole world",
+  "text": "Mango is the most eaten fruit in the whole world!"
+ },
+ {
+  "key": "mangoes are sweet and come from warm places",
+  "text": "Mangoes are sweet and come from warm places!"
+ },
+ {
+  "key": "mangoes are the king of fruits",
+  "text": "Mangoes are the king of fruits!"
+ },
+ {
+  "key": "mangoes are yellow and sweet",
+  "text": "Mangoes are yellow and sweet"
+ },
+ {
+  "key": "many people ride the bus",
+  "text": "Many people ride the bus"
+ },
+ {
+  "key": "medium",
+  "text": "Medium"
+ },
+ {
+  "key": "medium maze",
+  "text": "Medium maze"
+ },
+ {
+  "key": "meena put on her boots and jumped in a puddle",
+  "text": "Meena put on her boots and jumped in a puddle."
+ },
+ {
+  "key": "milk",
+  "text": "milk"
+ },
+ {
+  "key": "mirror",
+  "text": "Mirror"
+ },
+ {
+  "key": "mixing",
+  "text": "mixing"
+ },
+ {
+  "key": "monkey",
+  "text": "monkey"
+ },
+ {
+  "key": "monkeys climb trees",
+  "text": "Monkeys climb trees"
+ },
+ {
+  "key": "monkeys laugh and tickle each other just like us",
+  "text": "Monkeys laugh and tickle each other just like us!"
+ },
+ {
+  "key": "monkeys love bananas",
+  "text": "Monkeys love bananas!"
+ },
+ {
+  "key": "monkeys love eating bananas",
+  "text": "Monkeys love eating bananas!"
+ },
+ {
+  "key": "monsoon puddles",
+  "text": "Monsoon Puddles"
+ },
+ {
+  "key": "moon",
+  "text": "MOON"
+ },
+ {
+  "key": "more",
+  "text": "More"
+ },
+ {
+  "key": "more colours",
+  "text": "More colours"
+ },
+ {
+  "key": "more patterns",
+  "text": "More patterns"
+ },
+ {
+  "key": "more people ride bikes than drive cars in the world",
+  "text": "More people ride bikes than drive cars in the world!"
+ },
+ {
+  "key": "more stories",
+  "text": "More stories"
+ },
+ {
+  "key": "more tools",
+  "text": "More tools"
+ },
+ {
+  "key": "morning",
+  "text": "morning"
+ },
+ {
+  "key": "mummy",
+  "text": "Mummy!"
+ },
+ {
+  "key": "mushroom",
+  "text": "mushroom"
+ },
+ {
+  "key": "music is playing",
+  "text": "Music is playing!"
+ },
+ {
+  "key": "musician",
+  "text": "Musician"
+ },
+ {
+  "key": "n",
+  "text": "N"
+ },
+ {
+  "key": "name the colors of a butterfly",
+  "text": "Name the colors of a butterfly!"
+ },
+ {
+  "key": "name the colors of the rainbow",
+  "text": "Name the colors of the rainbow!"
+ },
+ {
+  "key": "nature",
+  "text": "Nature"
+ },
+ {
+  "key": "new maze",
+  "text": "New maze"
+ },
+ {
+  "key": "new topic",
+  "text": "New topic"
+ },
+ {
+  "key": "new words you know",
+  "text": "New words you know:"
+ },
+ {
+  "key": "next a fluffy chick",
+  "text": "Next, a fluffy chick."
+ },
+ {
+  "key": "next a grown up",
+  "text": "Next, a grown-up."
+ },
+ {
+  "key": "next it grows leaves",
+  "text": "Next, it grows leaves."
+ },
+ {
+  "key": "next it rains",
+  "text": "Next, it rains."
+ },
+ {
+  "key": "next the apples turn red",
+  "text": "Next, the apples turn red."
+ },
+ {
+  "key": "next the flowers bloom",
+  "text": "Next, the flowers bloom."
+ },
+ {
+  "key": "next the sun sets",
+  "text": "Next, the sun sets."
+ },
+ {
+  "key": "next we bake it until it is warm",
+  "text": "Next, we bake it until it is warm."
+ },
+ {
+  "key": "next we eat breakfast",
+  "text": "Next, we eat breakfast."
+ },
+ {
+  "key": "next we make a sandwich",
+  "text": "Next, we make a sandwich."
+ },
+ {
+  "key": "next we post it",
+  "text": "Next, we post it."
+ },
+ {
+  "key": "night",
+  "text": "night"
+ },
+ {
+  "key": "night sky",
+  "text": "night sky"
+ },
+ {
+  "key": "night time",
+  "text": "Night time!"
+ },
+ {
+  "key": "nine",
+  "text": "Nine"
+ },
+ {
+  "key": "nine is odd",
+  "text": "Nine is odd."
+ },
+ {
+  "key": "no",
+  "text": "No!"
+ },
+ {
+  "key": "no ads no sign up nothing to buy",
+  "text": "No ads, no sign-up, nothing to buy."
+ },
+ {
+  "key": "no ads no sign up works offline",
+  "text": "No ads · No sign-up · Works offline"
+ },
+ {
+  "key": "no more room",
+  "text": "No more room!"
+ },
+ {
+  "key": "no reading needed",
+  "text": "No reading needed."
+ },
+ {
+  "key": "normal brush",
+  "text": "Normal brush"
+ },
+ {
+  "key": "nose",
+  "text": "NOSE"
+ },
+ {
+  "key": "not quite",
+  "text": "Not quite."
+ },
+ {
+  "key": "not there",
+  "text": "Not there."
+ },
+ {
+  "key": "not there yet",
+  "text": "Not there yet!"
+ },
+ {
+  "key": "not yet",
+  "text": "Not yet!"
+ },
+ {
+  "key": "now baby elephant is shiny and clean",
+  "text": "Now Baby Elephant is shiny and clean!"
+ },
+ {
+  "key": "now find home",
+  "text": "Now find home!"
+ },
+ {
+  "key": "now find the banana",
+  "text": "Now find the banana!"
+ },
+ {
+  "key": "now find the bone",
+  "text": "Now find the bone!"
+ },
+ {
+  "key": "now find the carrot",
+  "text": "Now find the carrot!"
+ },
+ {
+  "key": "now find the cheese",
+  "text": "Now find the cheese!"
+ },
+ {
+  "key": "now find the flower",
+  "text": "Now find the flower!"
+ },
+ {
+  "key": "now press check",
+  "text": "Now press check!"
+ },
+ {
+  "key": "now sort by colour",
+  "text": "Now sort by colour!"
+ },
+ {
+  "key": "now sort by kind",
+  "text": "Now sort by kind!"
+ },
+ {
+  "key": "now sort by shape",
+  "text": "Now sort by shape!"
+ },
+ {
+  "key": "now sort by size",
+  "text": "Now sort by size!"
+ },
+ {
+  "key": "now the little star shines the brightest of all",
+  "text": "Now the little star shines the brightest of all!"
+ },
+ {
+  "key": "numbers",
+  "text": "Numbers"
+ },
+ {
+  "key": "o",
+  "text": "O"
+ },
+ {
+  "key": "octopus",
+  "text": "octopus"
+ },
+ {
+  "key": "oh no",
+  "text": "Oh no!"
+ },
+ {
+  "key": "older than grandma",
+  "text": "Older than grandma!"
+ },
+ {
+  "key": "on a hot day a crow was very thirsty",
+  "text": "On a hot day, a crow was very thirsty."
+ },
+ {
+  "key": "once",
+  "text": "Once"
+ },
+ {
+  "key": "one",
+  "text": "One"
+ },
+ {
+  "key": "one apple a day keeps the doctor away",
+  "text": "One apple a day keeps the doctor away"
+ },
+ {
+  "key": "one baby duck got lost in the park",
+  "text": "One baby duck got lost in the park!"
+ },
+ {
+  "key": "one is in the wrong place",
+  "text": "One is in the wrong place."
+ },
+ {
+  "key": "one is the very first number",
+  "text": "One is the very first number!"
+ },
+ {
+  "key": "one more to go",
+  "text": "One more to go!"
+ },
+ {
+  "key": "one night the star felt sad and dim",
+  "text": "One night, the star felt sad and dim."
+ },
+ {
+  "key": "one picture is not part of this story",
+  "text": "One picture is not part of this story!"
+ },
+ {
+  "key": "one strawberry has about 200 tiny seeds on its skin",
+  "text": "One strawberry has about 200 tiny seeds on its skin!"
+ },
+ {
+  "key": "one summer the tree was full of sweet mangoes",
+  "text": "One summer, the tree was full of sweet mangoes."
+ },
+ {
+  "key": "one sun in the sky",
+  "text": "One sun in the sky"
+ },
+ {
+  "key": "onion",
+  "text": "ONION"
+ },
+ {
+  "key": "onions are used in cooking",
+  "text": "Onions are used in cooking"
+ },
+ {
+  "key": "onions have many layers inside like a ball",
+  "text": "Onions have many layers inside like a ball!"
+ },
+ {
+  "key": "onions make people cry",
+  "text": "Onions make people cry!"
+ },
+ {
+  "key": "onions make us cry",
+  "text": "Onions make us cry!"
+ },
+ {
+  "key": "only 10 blocks",
+  "text": "Only 10 blocks!"
+ },
+ {
+  "key": "only 4 blocks",
+  "text": "Only 4 blocks!"
+ },
+ {
+  "key": "only 8 blocks",
+  "text": "Only 8 blocks!"
+ },
+ {
+  "key": "only boy lions have the big mane",
+  "text": "Only boy lions have the big mane."
+ },
+ {
+  "key": "oops",
+  "text": "Oops!"
+ },
+ {
+  "key": "oops a tree",
+  "text": "Oops, a tree!"
+ },
+ {
+  "key": "oops that is the edge",
+  "text": "Oops, that is the edge!"
+ },
+ {
+  "key": "open the door please",
+  "text": "Open the door please!"
+ },
+ {
+  "key": "open the umbrella",
+  "text": "Open the umbrella!"
+ },
+ {
+  "key": "open the window for fresh air",
+  "text": "Open the window for fresh air"
+ },
+ {
+  "key": "orange",
+  "text": "Orange"
+ },
+ {
+  "key": "orange juice is yummy",
+  "text": "Orange juice is yummy!"
+ },
+ {
+  "key": "orange ones came later",
+  "text": "Orange ones came later."
+ },
+ {
+  "key": "oranges are full of juice inside",
+  "text": "Oranges are full of juice inside!"
+ },
+ {
+  "key": "oranges are round and juicy",
+  "text": "Oranges are round and juicy"
+ },
+ {
+  "key": "others sat on the floor",
+  "text": "Others sat on the floor."
+ },
+ {
+  "key": "our home sparkled with light",
+  "text": "Our home sparkled with light!"
+ },
+ {
+  "key": "oval",
+  "text": "OVAL"
+ },
+ {
+  "key": "owl",
+  "text": "owl"
+ },
+ {
+  "key": "owls can see in the dark",
+  "text": "Owls can see in the dark!"
+ },
+ {
+  "key": "owls turn their head almost all the way around",
+  "text": "Owls turn their head almost all the way around!"
+ },
+ {
+  "key": "p",
+  "text": "P"
+ },
+ {
+  "key": "paintbrush",
+  "text": "paintbrush"
+ },
+ {
+  "key": "painting",
+  "text": "PAINTING"
+ },
+ {
+  "key": "palm tree",
+  "text": "palm tree"
+ },
+ {
+  "key": "pan",
+  "text": "PAN"
+ },
+ {
+  "key": "panda",
+  "text": "panda"
+ },
+ {
+  "key": "pans are flat for frying food",
+  "text": "Pans are flat for frying food!"
+ },
+ {
+  "key": "pants",
+  "text": "pants"
+ },
+ {
+  "key": "pants have two legs one for each of yours",
+  "text": "Pants have two legs — one for each of yours!"
+ },
+ {
+  "key": "parrot",
+  "text": "PARROT"
+ },
+ {
+  "key": "parrots can learn to talk like us",
+  "text": "Parrots can learn to talk like us!"
+ },
+ {
+  "key": "parrots can talk like us",
+  "text": "Parrots can talk like us!"
+ },
+ {
+  "key": "parrots come in every rainbow color",
+  "text": "Parrots come in every rainbow color!"
+ },
+ {
+  "key": "parrots have colorful feathers",
+  "text": "Parrots have colorful feathers"
+ },
+ {
+  "key": "parts of the body",
+  "text": "parts of the body"
+ },
+ {
+  "key": "party",
+  "text": "PARTY"
+ },
+ {
+  "key": "pattern pro",
+  "text": "Pattern pro!"
+ },
+ {
+  "key": "pedal your legs like riding a bike",
+  "text": "Pedal your legs like riding a bike!"
+ },
+ {
+  "key": "peel the banana before eating",
+  "text": "Peel the banana before eating"
+ },
+ {
+  "key": "pen",
+  "text": "Pen!"
+ },
+ {
+  "key": "pencil",
+  "text": "pencil"
+ },
+ {
+  "key": "penguin",
+  "text": "penguin"
+ },
+ {
+  "key": "penguin daddies keep the egg warm on their feet",
+  "text": "Penguin daddies keep the egg warm on their feet!"
+ },
+ {
+  "key": "penguins live in the cold",
+  "text": "Penguins live in the cold"
+ },
+ {
+  "key": "penguins swim fast but cannot fly",
+  "text": "Penguins swim fast but cannot fly!"
+ },
+ {
+  "key": "penguins waddle when they walk",
+  "text": "Penguins waddle when they walk"
+ },
+ {
+  "key": "people",
+  "text": "People"
+ },
+ {
+  "key": "people have eaten onions for over 5 000 years",
+  "text": "People have eaten onions for over 5,000 years!"
+ },
+ {
+  "key": "people have walked on the moon and left footprints there",
+  "text": "People have walked on the moon and left footprints there!"
+ },
+ {
+  "key": "people used to eat only with their hands",
+  "text": "People used to eat only with their hands!"
+ },
+ {
+  "key": "perfect",
+  "text": "Perfect!"
+ },
+ {
+  "key": "phone",
+  "text": "phone"
+ },
+ {
+  "key": "piano",
+  "text": "piano"
+ },
+ {
+  "key": "pick a colour and draw",
+  "text": "Pick a colour and draw!"
+ },
+ {
+  "key": "pick a colour then tap to fill",
+  "text": "Pick a colour, then tap to fill!"
+ },
+ {
+  "key": "pick a game",
+  "text": "Pick a game!"
+ },
+ {
+  "key": "pick a place then add people and animals",
+  "text": "Pick a place, then add people and animals!"
+ },
+ {
+  "key": "pick a topic",
+  "text": "Pick a topic"
+ },
+ {
+  "key": "picture",
+  "text": "Picture"
+ },
+ {
+  "key": "piece draggable",
+  "text": "piece draggable"
+ },
+ {
+  "key": "pig",
+  "text": "pig"
+ },
+ {
+  "key": "pink",
+  "text": "Pink"
+ },
+ {
+  "key": "pink flowers smell nice",
+  "text": "Pink flowers smell nice"
+ },
+ {
+  "key": "pink is a soft red like a flower",
+  "text": "Pink is a soft red — like a flower!"
+ },
+ {
+  "key": "pitter patter",
+  "text": "Pitter patter!"
+ },
+ {
+  "key": "pizza",
+  "text": "pizza"
+ },
+ {
+  "key": "plan the way with arrows then press go",
+  "text": "Plan the way with arrows, then press Go!"
+ },
+ {
+  "key": "plan then go",
+  "text": "Plan, then Go"
+ },
+ {
+  "key": "plane",
+  "text": "plane"
+ },
+ {
+  "key": "planes fly higher than the tallest mountain",
+  "text": "Planes fly higher than the tallest mountain!"
+ },
+ {
+  "key": "planes fly in the sky",
+  "text": "Planes fly in the sky"
+ },
+ {
+  "key": "planes have wings and fly in the sky",
+  "text": "Planes have wings and fly in the sky!"
+ },
+ {
+  "key": "planes take us to far places",
+  "text": "Planes take us to far places"
+ },
+ {
+  "key": "plant",
+  "text": "plant"
+ },
+ {
+  "key": "plants drink the rain",
+  "text": "Plants drink the rain"
+ },
+ {
+  "key": "plate",
+  "text": "plate"
+ },
+ {
+  "key": "play again",
+  "text": "Play again"
+ },
+ {
+  "key": "play games to win stickers",
+  "text": "Play games to win stickers!"
+ },
+ {
+  "key": "police officer",
+  "text": "police officer"
+ },
+ {
+  "key": "post box",
+  "text": "post box"
+ },
+ {
+  "key": "pot",
+  "text": "POT"
+ },
+ {
+  "key": "potato",
+  "text": "POTATO"
+ },
+ {
+  "key": "potatoes grow under the ground",
+  "text": "Potatoes grow under the ground"
+ },
+ {
+  "key": "potatoes grow underground like hidden treasure",
+  "text": "Potatoes grow underground like hidden treasure!"
+ },
+ {
+  "key": "potatoes were the first food grown in space",
+  "text": "Potatoes were the first food grown in space!"
+ },
+ {
+  "key": "pots cook hot food on the stove",
+  "text": "Pots cook hot food on the stove!"
+ },
+ {
+  "key": "present",
+  "text": "present"
+ },
+ {
+  "key": "press go",
+  "text": "Press Go!"
+ },
+ {
+  "key": "press play",
+  "text": "Press play!"
+ },
+ {
+  "key": "press start and dance",
+  "text": "Press start, and dance!"
+ },
+ {
+  "key": "pretend to be a broccoli tree",
+  "text": "Pretend to be a broccoli tree!"
+ },
+ {
+  "key": "pretend to pull a carrot from the ground",
+  "text": "Pretend to pull a carrot from the ground!"
+ },
+ {
+  "key": "pretend to sip from a cup",
+  "text": "Pretend to sip from a cup!"
+ },
+ {
+  "key": "pretend to sleep",
+  "text": "Pretend to sleep!"
+ },
+ {
+  "key": "pretend to zip up a jacket",
+  "text": "Pretend to zip up a jacket!"
+ },
+ {
+  "key": "prince",
+  "text": "Prince!"
+ },
+ {
+  "key": "princess",
+  "text": "Princess!"
+ },
+ {
+  "key": "pumpkin",
+  "text": "PUMPKIN"
+ },
+ {
+  "key": "pumpkins are big and orange",
+  "text": "Pumpkins are big and orange"
+ },
+ {
+  "key": "pumpkins are big round and orange",
+  "text": "Pumpkins are big, round, and orange!"
+ },
+ {
+  "key": "purple",
+  "text": "Purple"
+ },
+ {
+  "key": "purple circle",
+  "text": "Purple circle!"
+ },
+ {
+  "key": "purple heart",
+  "text": "Purple heart!"
+ },
+ {
+  "key": "purple is a royal color",
+  "text": "Purple is a royal color"
+ },
+ {
+  "key": "purple is made by mixing red and blue",
+  "text": "Purple is made by mixing red and blue!"
+ },
+ {
+  "key": "purple square",
+  "text": "Purple square!"
+ },
+ {
+  "key": "purple star",
+  "text": "Purple star!"
+ },
+ {
+  "key": "purple triangle",
+  "text": "Purple triangle!"
+ },
+ {
+  "key": "push the chair under the table",
+  "text": "Push the chair under the table"
+ },
+ {
+  "key": "put each one in its colour basket",
+  "text": "Put each one in its colour basket!"
+ },
+ {
+  "key": "put on your pants",
+  "text": "Put on your pants"
+ },
+ {
+  "key": "put something on your head like a hat",
+  "text": "Put something on your head like a hat!"
+ },
+ {
+  "key": "put the pictures in order then press check",
+  "text": "Put the pictures in order, then press check!"
+ },
+ {
+  "key": "put the plate on the table",
+  "text": "Put the plate on the table"
+ },
+ {
+  "key": "put them in order",
+  "text": "Put them in order!"
+ },
+ {
+  "key": "q",
+  "text": "Q"
+ },
+ {
+  "key": "quack quack",
+  "text": "Quack quack!"
+ },
+ {
+  "key": "r",
+  "text": "R"
+ },
+ {
+  "key": "rabbit",
+  "text": "rabbit"
+ },
+ {
+  "key": "rabbits eat carrots and veggies",
+  "text": "Rabbits eat carrots and veggies."
+ },
+ {
+  "key": "rabbits hop hop hop",
+  "text": "Rabbits hop hop hop"
+ },
+ {
+  "key": "rabbits hop with strong back legs",
+  "text": "Rabbits hop with strong back legs!"
+ },
+ {
+  "key": "rabbits love carrots",
+  "text": "Rabbits love carrots!"
+ },
+ {
+  "key": "rabbits love to eat carrots",
+  "text": "Rabbits love to eat carrots"
+ },
+ {
+  "key": "racing car",
+  "text": "racing car"
+ },
+ {
+  "key": "rain",
+  "text": "rain"
+ },
+ {
+  "key": "rain cloud",
+  "text": "rain cloud"
+ },
+ {
+  "key": "rain falls from clouds and helps plants grow",
+  "text": "Rain falls from clouds and helps plants grow!"
+ },
+ {
+  "key": "rain makes puddles",
+  "text": "Rain makes puddles"
+ },
+ {
+  "key": "rain stopped",
+  "text": "Rain stopped!"
+ },
+ {
+  "key": "rainbow",
+  "text": "Rainbow"
+ },
+ {
+  "key": "ravi loves his round ball",
+  "text": "Ravi loves his round ball."
+ },
+ {
+  "key": "read",
+  "text": "Read"
+ },
+ {
+  "key": "read again",
+  "text": "Read again"
+ },
+ {
+  "key": "real diamonds are the hardest thing on earth",
+  "text": "Real diamonds are the hardest thing on Earth!"
+ },
+ {
+  "key": "rectangle",
+  "text": "RECTANGLE"
+ },
+ {
+  "key": "red",
+  "text": "Red"
+ },
+ {
+  "key": "red apple",
+  "text": "red apple"
+ },
+ {
+  "key": "red blue red",
+  "text": "Red, blue, red…"
+ },
+ {
+  "key": "red circle",
+  "text": "Red circle!"
+ },
+ {
+  "key": "red heart",
+  "text": "Red heart!"
+ },
+ {
+  "key": "red is the color of apples and fire trucks",
+  "text": "Red is the color of apples and fire trucks!"
+ },
+ {
+  "key": "red is the first color babies can see",
+  "text": "Red is the first color babies can see!"
+ },
+ {
+  "key": "red means stop",
+  "text": "Red means stop!"
+ },
+ {
+  "key": "red orange yellow green and blue",
+  "text": "Red, orange, yellow, green and blue!"
+ },
+ {
+  "key": "red square",
+  "text": "Red square!"
+ },
+ {
+  "key": "red star",
+  "text": "Red star!"
+ },
+ {
+  "key": "red triangle",
+  "text": "Red triangle!"
+ },
+ {
+  "key": "remember sort by colour",
+  "text": "Remember, sort by colour!"
+ },
+ {
+  "key": "remember sort by kind",
+  "text": "Remember, sort by kind!"
+ },
+ {
+  "key": "remember sort by shape",
+  "text": "Remember, sort by shape!"
+ },
+ {
+  "key": "remember sort by size",
+  "text": "Remember, sort by size!"
+ },
+ {
+  "key": "repeat blocks",
+  "text": "Repeat blocks"
+ },
+ {
+  "key": "ribbit",
+  "text": "Ribbit!"
+ },
+ {
+  "key": "right",
+  "text": "Right!"
+ },
+ {
+  "key": "rock",
+  "text": "rock"
+ },
+ {
+  "key": "rock side to side like a boat on waves",
+  "text": "Rock side to side like a boat on waves!"
+ },
+ {
+  "key": "rocket",
+  "text": "rocket"
+ },
+ {
+  "key": "rockets blast off into space",
+  "text": "Rockets blast off into space!"
+ },
+ {
+  "key": "rockets go to space",
+  "text": "Rockets go to space!"
+ },
+ {
+  "key": "rooster",
+  "text": "rooster"
+ },
+ {
+  "key": "round and round",
+  "text": "Round and round!"
+ },
+ {
+  "key": "round things",
+  "text": "round things"
+ },
+ {
+  "key": "s",
+  "text": "S"
+ },
+ {
+  "key": "sad",
+  "text": "SAD"
+ },
+ {
+  "key": "salad",
+  "text": "SALAD"
+ },
+ {
+  "key": "sandwich",
+  "text": "sandwich"
+ },
+ {
+  "key": "saved",
+  "text": "Saved!"
+ },
+ {
+  "key": "saying i love you makes two people feel happy",
+  "text": "Saying I love you makes two people feel happy!"
+ },
+ {
+  "key": "scared",
+  "text": "SCARED"
+ },
+ {
+  "key": "scarf",
+  "text": "SCARF"
+ },
+ {
+  "key": "scarves wrap around your neck to stay warm",
+  "text": "Scarves wrap around your neck to stay warm!"
+ },
+ {
+  "key": "school bag",
+  "text": "school bag"
+ },
+ {
+  "key": "scooter",
+  "text": "scooter"
+ },
+ {
+  "key": "scrub scrub",
+  "text": "Scrub scrub!"
+ },
+ {
+  "key": "sea",
+  "text": "sea"
+ },
+ {
+  "key": "see you tomorrow",
+  "text": "See you tomorrow"
+ },
+ {
+  "key": "seed",
+  "text": "seed"
+ },
+ {
+  "key": "seven",
+  "text": "Seven"
+ },
+ {
+  "key": "seven colors in a rainbow",
+  "text": "Seven colors in a rainbow"
+ },
+ {
+  "key": "seven is odd",
+  "text": "Seven is odd."
+ },
+ {
+  "key": "shapes",
+  "text": "Shapes"
+ },
+ {
+  "key": "shapes sizes kinds",
+  "text": "Shapes, sizes, kinds"
+ },
+ {
+  "key": "sharing made everyone happy",
+  "text": "Sharing made everyone happy!"
+ },
+ {
+  "key": "sharks grow new teeth their whole life thousands of them",
+  "text": "Sharks grow new teeth their whole life — thousands of them!"
+ },
+ {
+  "key": "she gave it water and sunshine every day",
+  "text": "She gave it water and sunshine every day."
+ },
+ {
+  "key": "she heard a tiny ant crying",
+  "text": "She heard a tiny ant crying."
+ },
+ {
+  "key": "she saw a happy frog jumping in puddles",
+  "text": "She saw a happy frog jumping in puddles!"
+ },
+ {
+  "key": "she took her umbrella and went splash splash",
+  "text": "She took her umbrella and went splash splash!"
+ },
+ {
+  "key": "sheep",
+  "text": "sheep"
+ },
+ {
+  "key": "shh",
+  "text": "Shh!"
+ },
+ {
+  "key": "shirt",
+  "text": "shirt"
+ },
+ {
+  "key": "shirts cover your body and keep you warm",
+  "text": "Shirts cover your body and keep you warm!"
+ },
+ {
+  "key": "shoes",
+  "text": "SHOES"
+ },
+ {
+  "key": "shoes protect your feet when you walk",
+  "text": "Shoes protect your feet when you walk!"
+ },
+ {
+  "key": "shopping",
+  "text": "shopping"
+ },
+ {
+  "key": "show me",
+  "text": "Show me!"
+ },
+ {
+  "key": "show me eight fingers",
+  "text": "Show me eight fingers"
+ },
+ {
+  "key": "show me four fingers",
+  "text": "Show me four fingers"
+ },
+ {
+  "key": "show me one finger",
+  "text": "Show me one finger"
+ },
+ {
+  "key": "show me seven fingers",
+  "text": "Show me seven fingers"
+ },
+ {
+  "key": "show me six fingers",
+  "text": "Show me six fingers"
+ },
+ {
+  "key": "show me three fingers",
+  "text": "Show me three fingers"
+ },
+ {
+  "key": "show me two fingers",
+  "text": "Show me two fingers"
+ },
+ {
+  "key": "show me your happiest face",
+  "text": "Show me your happiest face!"
+ },
+ {
+  "key": "show me your surprised face",
+  "text": "Show me your surprised face!"
+ },
+ {
+  "key": "shower",
+  "text": "shower"
+ },
+ {
+  "key": "silly",
+  "text": "SILLY"
+ },
+ {
+  "key": "silly faces are funny",
+  "text": "Silly faces are funny!"
+ },
+ {
+  "key": "silly faces make everyone laugh",
+  "text": "Silly faces make everyone laugh."
+ },
+ {
+  "key": "simple tools",
+  "text": "Simple tools"
+ },
+ {
+  "key": "sip sip",
+  "text": "Sip sip!"
+ },
+ {
+  "key": "six",
+  "text": "Six"
+ },
+ {
+  "key": "six legs on an insect",
+  "text": "Six legs on an insect"
+ },
+ {
+  "key": "sizzle",
+  "text": "Sizzle!"
+ },
+ {
+  "key": "slap",
+  "text": "Slap!"
+ },
+ {
+  "key": "sleep",
+  "text": "SLEEP"
+ },
+ {
+  "key": "sleep helps your body grow and your brain remember things",
+  "text": "Sleep helps your body grow and your brain remember things!"
+ },
+ {
+  "key": "sleepy",
+  "text": "SLEEPY"
+ },
+ {
+  "key": "sleepy people yawn",
+  "text": "Sleepy people yawn"
+ },
+ {
+  "key": "slide your finger across them",
+  "text": "Slide your finger across them!"
+ },
+ {
+  "key": "slow",
+  "text": "Slow"
+ },
+ {
+  "key": "slow breaths help angry feelings get smaller",
+  "text": "Slow breaths help angry feelings get smaller."
+ },
+ {
+  "key": "small maze",
+  "text": "Small maze"
+ },
+ {
+  "key": "snail",
+  "text": "snail"
+ },
+ {
+  "key": "snake",
+  "text": "snake"
+ },
+ {
+  "key": "sniff something",
+  "text": "Sniff something!"
+ },
+ {
+  "key": "snow",
+  "text": "snow"
+ },
+ {
+  "key": "snow fell all around while bear was sleeping",
+  "text": "Snow fell all around while Bear was sleeping."
+ },
+ {
+  "key": "snow is cold and white",
+  "text": "Snow is cold and white"
+ },
+ {
+  "key": "snow is frozen rain that falls soft and white",
+  "text": "Snow is frozen rain that falls soft and white!"
+ },
+ {
+  "key": "snow is white",
+  "text": "Snow is white"
+ },
+ {
+  "key": "snowflake",
+  "text": "snowflake"
+ },
+ {
+  "key": "snowman",
+  "text": "snowman"
+ },
+ {
+  "key": "so many",
+  "text": "So many."
+ },
+ {
+  "key": "soap",
+  "text": "soap"
+ },
+ {
+  "key": "sock",
+  "text": "sock"
+ },
+ {
+  "key": "socks",
+  "text": "socks"
+ },
+ {
+  "key": "socks keep our feet warm",
+  "text": "Socks keep our feet warm"
+ },
+ {
+  "key": "socks keep your feet warm and cozy",
+  "text": "Socks keep your feet warm and cozy!"
+ },
+ {
+  "key": "solve",
+  "text": "Solve"
+ },
+ {
+  "key": "some are in the wrong place",
+  "text": "Some are in the wrong place."
+ },
+ {
+  "key": "some birds fly higher than airplanes",
+  "text": "Some birds fly higher than airplanes!"
+ },
+ {
+  "key": "some buses have two floors",
+  "text": "Some buses have two floors!"
+ },
+ {
+  "key": "some pots can cook food using just the sun",
+  "text": "Some pots can cook food using just the sun!"
+ },
+ {
+  "key": "some tables fold up tiny",
+  "text": "Some tables fold up tiny!"
+ },
+ {
+  "key": "some turtles live for 100 years",
+  "text": "Some turtles live for 100 years!"
+ },
+ {
+  "key": "something that goes",
+  "text": "something that goes"
+ },
+ {
+  "key": "something we wear",
+  "text": "something we wear"
+ },
+ {
+  "key": "sort the shapes",
+  "text": "Sort the shapes!"
+ },
+ {
+  "key": "sound on",
+  "text": "Sound on!"
+ },
+ {
+  "key": "space",
+  "text": "space"
+ },
+ {
+  "key": "sparkles",
+  "text": "Sparkles"
+ },
+ {
+  "key": "sparkly teeth",
+  "text": "sparkly teeth"
+ },
+ {
+  "key": "speech bubble",
+  "text": "Speech bubble:"
+ },
+ {
+  "key": "speed fast",
+  "text": "Speed: fast"
+ },
+ {
+  "key": "speed slow",
+  "text": "Speed: slow"
+ },
+ {
+  "key": "spider",
+  "text": "spider"
+ },
+ {
+  "key": "spiders also have eight legs",
+  "text": "Spiders also have eight legs!"
+ },
+ {
+  "key": "spin around like wearing a flowing dress",
+  "text": "Spin around like wearing a flowing dress!"
+ },
+ {
+  "key": "spin your arm around like a fan",
+  "text": "Spin your arm around like a fan!"
+ },
+ {
+  "key": "splash",
+  "text": "Splash!"
+ },
+ {
+  "key": "sponge",
+  "text": "sponge"
+ },
+ {
+  "key": "spoon",
+  "text": "spoon"
+ },
+ {
+  "key": "spoons help us eat soup and rice",
+  "text": "Spoons help us eat soup and rice!"
+ },
+ {
+  "key": "spread your arms like airplane wings",
+  "text": "Spread your arms like airplane wings!"
+ },
+ {
+  "key": "sprout",
+  "text": "sprout"
+ },
+ {
+  "key": "sprouts",
+  "text": "sprouts"
+ },
+ {
+  "key": "square",
+  "text": "Square!"
+ },
+ {
+  "key": "squares",
+  "text": "squares"
+ },
+ {
+  "key": "stamp stars all over the sky",
+  "text": "Stamp stars all over the sky!"
+ },
+ {
+  "key": "stamp your foot",
+  "text": "Stamp your foot!"
+ },
+ {
+  "key": "stamps",
+  "text": "Stamps"
+ },
+ {
+  "key": "stand tall",
+  "text": "Stand tall!"
+ },
+ {
+  "key": "star",
+  "text": "STAR"
+ },
+ {
+  "key": "stars",
+  "text": "stars"
+ },
+ {
+  "key": "stars have pointy tips that shine bright",
+  "text": "Stars have pointy tips that shine bright!"
+ },
+ {
+  "key": "stars shine at night",
+  "text": "Stars shine at night"
+ },
+ {
+  "key": "start again",
+  "text": "Start again!"
+ },
+ {
+  "key": "start over",
+  "text": "Start over"
+ },
+ {
+  "key": "start the music",
+  "text": "Start the music!"
+ },
+ {
+  "key": "step by step",
+  "text": "Step by step"
+ },
+ {
+  "key": "stick out your tongue",
+  "text": "Stick out your tongue!"
+ },
+ {
+  "key": "sticker draggable",
+  "text": "sticker draggable"
+ },
+ {
+  "key": "stir a pretend pot",
+  "text": "Stir a pretend pot!"
+ },
+ {
+  "key": "stomp stomp",
+  "text": "Stomp stomp!"
+ },
+ {
+  "key": "stomp your feet on the ground",
+  "text": "Stomp your feet on the ground!"
+ },
+ {
+  "key": "story scene",
+  "text": "Story scene"
+ },
+ {
+  "key": "story writer",
+  "text": "Story writer"
+ },
+ {
+  "key": "storyteller",
+  "text": "Storyteller"
+ },
+ {
+  "key": "strawberries are small and red",
+  "text": "Strawberries are small and red"
+ },
+ {
+  "key": "strawberries have tiny seeds on the outside",
+  "text": "Strawberries have tiny seeds on the outside!"
+ },
+ {
+  "key": "strawberries taste sweet",
+  "text": "Strawberries taste sweet"
+ },
+ {
+  "key": "strawberry",
+  "text": "strawberry"
+ },
+ {
+  "key": "stretch tall like a giraffe",
+  "text": "Stretch tall like a giraffe!"
+ },
+ {
+  "key": "sun",
+  "text": "SUN"
+ },
+ {
+  "key": "sunflower",
+  "text": "sunflower"
+ },
+ {
+  "key": "sunrise",
+  "text": "sunrise"
+ },
+ {
+  "key": "sunset",
+  "text": "sunset"
+ },
+ {
+  "key": "super",
+  "text": "Super!"
+ },
+ {
+  "key": "super sorting",
+  "text": "Super sorting!"
+ },
+ {
+  "key": "super switch",
+  "text": "Super switch!"
+ },
+ {
+  "key": "super tracing",
+  "text": "Super tracing!"
+ },
+ {
+  "key": "superstar",
+  "text": "Superstar!"
+ },
+ {
+  "key": "surprised",
+  "text": "SURPRISED"
+ },
+ {
+  "key": "surprises make us jump",
+  "text": "Surprises make us jump"
+ },
+ {
+  "key": "switch",
+  "text": "Switch!"
+ },
+ {
+  "key": "t",
+  "text": "T"
+ },
+ {
+  "key": "table",
+  "text": "TABLE"
+ },
+ {
+  "key": "take a big slow breath",
+  "text": "Take a big slow breath"
+ },
+ {
+  "key": "take turns",
+  "text": "Take turns!"
+ },
+ {
+  "key": "tap",
+  "text": "Tap!"
+ },
+ {
+  "key": "tap a block to make it repeat",
+  "text": "Tap a block to make it repeat."
+ },
+ {
+  "key": "tap a sticker to put it on the page",
+  "text": "Tap a sticker to put it on the page."
+ },
+ {
+  "key": "tap again for a new scene",
+  "text": "Tap again for a new scene!"
+ },
+ {
+  "key": "tap again to delete",
+  "text": "Tap again to delete"
+ },
+ {
+  "key": "tap and see what happens",
+  "text": "Tap and see what happens!"
+ },
+ {
+  "key": "tap some squares to make a song",
+  "text": "Tap some squares to make a song!"
+ },
+ {
+  "key": "tap the arrows to take the bunny to the carrot",
+  "text": "Tap the arrows to take the bunny to the carrot!"
+ },
+ {
+  "key": "tap the bars",
+  "text": "Tap the bars!"
+ },
+ {
+  "key": "tap the squares then press play",
+  "text": "Tap the squares, then press play!"
+ },
+ {
+  "key": "tap to add",
+  "text": "Tap to add."
+ },
+ {
+  "key": "teddy",
+  "text": "teddy"
+ },
+ {
+  "key": "teddy bear",
+  "text": "teddy bear"
+ },
+ {
+  "key": "teeth",
+  "text": "teeth"
+ },
+ {
+  "key": "ten",
+  "text": "Ten!"
+ },
+ {
+  "key": "tent",
+  "text": "tent"
+ },
+ {
+  "key": "that is a circle",
+  "text": "That is a circle."
+ },
+ {
+  "key": "that is a heart",
+  "text": "That is a heart."
+ },
+ {
+  "key": "that is a square",
+  "text": "That is a square."
+ },
+ {
+  "key": "that is a star",
+  "text": "That is a star."
+ },
+ {
+  "key": "that is a triangle",
+  "text": "That is a triangle."
+ },
+ {
+  "key": "that is the edge",
+  "text": "That is the edge."
+ },
+ {
+  "key": "that is why taxis are yellow",
+  "text": "That is why taxis are yellow."
+ },
+ {
+  "key": "that is why we stay inside in a storm",
+  "text": "That is why we stay inside in a storm."
+ },
+ {
+  "key": "that one belongs",
+  "text": "That one belongs!"
+ },
+ {
+  "key": "that one is big",
+  "text": "That one is big!"
+ },
+ {
+  "key": "that one is blue",
+  "text": "That one is blue."
+ },
+ {
+  "key": "that one is green",
+  "text": "That one is green."
+ },
+ {
+  "key": "that one is orange",
+  "text": "That one is orange."
+ },
+ {
+  "key": "that one is purple",
+  "text": "That one is purple."
+ },
+ {
+  "key": "that one is red",
+  "text": "That one is red."
+ },
+ {
+  "key": "that one is small",
+  "text": "That one is small!"
+ },
+ {
+  "key": "that one is yellow",
+  "text": "That one is yellow."
+ },
+ {
+  "key": "that tickles",
+  "text": "That tickles!"
+ },
+ {
+  "key": "that's a long one",
+  "text": "That's a long one!"
+ },
+ {
+  "key": "that's a pattern",
+  "text": "That's a pattern!"
+ },
+ {
+  "key": "the ant was safe",
+  "text": "The ant was safe."
+ },
+ {
+  "key": "the ant was stuck on a leaf in the river",
+  "text": "The ant was stuck on a leaf in the river!"
+ },
+ {
+  "key": "the apple does not give light",
+  "text": "The apple does not give light!"
+ },
+ {
+  "key": "the apple has no numbers on it",
+  "text": "The apple has no numbers on it."
+ },
+ {
+  "key": "the apple is not a vegetable",
+  "text": "The apple is not a vegetable."
+ },
+ {
+  "key": "the apple is not an animal",
+  "text": "The apple is not an animal."
+ },
+ {
+  "key": "the apple is not something that goes",
+  "text": "The apple is not something that goes."
+ },
+ {
+  "key": "the baby duck found his mama",
+  "text": "\" The baby duck found his mama!"
+ },
+ {
+  "key": "the ball does not grow",
+  "text": "The ball does not grow."
+ },
+ {
+  "key": "the ball does not make music",
+  "text": "The ball does not make music!"
+ },
+ {
+  "key": "the ball is not alive",
+  "text": "The ball is not alive."
+ },
+ {
+  "key": "the balloon does not help us get clean",
+  "text": "The balloon does not help us get clean!"
+ },
+ {
+  "key": "the balloon got bigger and bigger",
+  "text": "The balloon got bigger and bigger..."
+ },
+ {
+  "key": "the banana",
+  "text": "the banana"
+ },
+ {
+  "key": "the banana does not make music",
+  "text": "The banana does not make music!"
+ },
+ {
+  "key": "the banana is not a vegetable",
+  "text": "The banana is not a vegetable."
+ },
+ {
+  "key": "the banana is not an animal",
+  "text": "The banana is not an animal."
+ },
+ {
+  "key": "the banana is not green",
+  "text": "The banana is not green."
+ },
+ {
+  "key": "the banana is not something that goes",
+  "text": "The banana is not something that goes."
+ },
+ {
+  "key": "the beach",
+  "text": "the beach"
+ },
+ {
+  "key": "the bee",
+  "text": "the bee"
+ },
+ {
+  "key": "the bee sleeps at night",
+  "text": "The bee sleeps at night."
+ },
+ {
+  "key": "the bell is ringing a song",
+  "text": "The bell is ringing a song!"
+ },
+ {
+  "key": "the biggest boats are longer than three football fields",
+  "text": "The biggest boats are longer than three football fields!"
+ },
+ {
+  "key": "the biggest pan could cook 1 000 eggs at once",
+  "text": "The biggest pan could cook 1,000 eggs at once!"
+ },
+ {
+  "key": "the biggest pumpkin ever was as heavy as a small car",
+  "text": "The biggest pumpkin ever was as heavy as a small car!"
+ },
+ {
+  "key": "the biggest trucks have wheels taller than people",
+  "text": "The biggest trucks have wheels taller than people!"
+ },
+ {
+  "key": "the biggest watermelon ever weighed as much as a person",
+  "text": "The biggest watermelon ever weighed as much as a person!"
+ },
+ {
+  "key": "the bike cannot fly",
+  "text": "The bike cannot fly."
+ },
+ {
+  "key": "the bike is not a fruit",
+  "text": "The bike is not a fruit."
+ },
+ {
+  "key": "the bike is not a part of the body",
+  "text": "The bike is not a part of the body."
+ },
+ {
+  "key": "the bike is not an animal",
+  "text": "The bike is not an animal."
+ },
+ {
+  "key": "the bird is not a fruit",
+  "text": "The bird is not a fruit."
+ },
+ {
+  "key": "the bird is not a kitchen thing",
+  "text": "The bird is not a kitchen thing."
+ },
+ {
+  "key": "the bird is not something that goes",
+  "text": "The bird is not something that goes."
+ },
+ {
+  "key": "the bird is not something we wear",
+  "text": "The bird is not something we wear."
+ },
+ {
+  "key": "the birthday cake",
+  "text": "the birthday cake"
+ },
+ {
+  "key": "the blue one is a different colour",
+  "text": "The blue one is a different colour."
+ },
+ {
+  "key": "the boat has no wheels",
+  "text": "The boat has no wheels."
+ },
+ {
+  "key": "the boat is not a fruit",
+  "text": "The boat is not a fruit."
+ },
+ {
+  "key": "the boat is not a part of the body",
+  "text": "The boat is not a part of the body."
+ },
+ {
+  "key": "the boat is not an animal",
+  "text": "The boat is not an animal."
+ },
+ {
+  "key": "the bone",
+  "text": "the bone"
+ },
+ {
+  "key": "the book is not round",
+  "text": "The book is not round."
+ },
+ {
+  "key": "the bowl is round and deep",
+  "text": "The bowl is round and deep"
+ },
+ {
+  "key": "the box is not round",
+  "text": "The box is not round."
+ },
+ {
+  "key": "the brick is not round",
+  "text": "The brick is not round."
+ },
+ {
+  "key": "the brinjal is not yellow",
+  "text": "The brinjal is not yellow."
+ },
+ {
+  "key": "the broccoli is a vegetable",
+  "text": "The broccoli is a vegetable."
+ },
+ {
+  "key": "the broccoli is not a fruit",
+  "text": "The broccoli is not a fruit."
+ },
+ {
+  "key": "the broccoli is not yellow",
+  "text": "The broccoli is not yellow."
+ },
+ {
+  "key": "the bunny",
+  "text": "the bunny"
+ },
+ {
+  "key": "the bunny got the carrot",
+  "text": "The bunny got the carrot!"
+ },
+ {
+  "key": "the bus is big and long",
+  "text": "The bus is big and long"
+ },
+ {
+  "key": "the bus is not a fruit",
+  "text": "The bus is not a fruit."
+ },
+ {
+  "key": "the bus is not a part of the body",
+  "text": "The bus is not a part of the body."
+ },
+ {
+  "key": "the bus is not an animal",
+  "text": "The bus is not an animal."
+ },
+ {
+  "key": "the butterfly",
+  "text": "the butterfly"
+ },
+ {
+  "key": "the butterfly is not a fruit",
+  "text": "The butterfly is not a fruit."
+ },
+ {
+  "key": "the butterfly is not a kitchen thing",
+  "text": "The butterfly is not a kitchen thing."
+ },
+ {
+  "key": "the butterfly is not something that goes",
+  "text": "The butterfly is not something that goes."
+ },
+ {
+  "key": "the butterfly is not something we wear",
+  "text": "The butterfly is not something we wear."
+ },
+ {
+  "key": "the butterfly sleeps at night",
+  "text": "The butterfly sleeps at night."
+ },
+ {
+  "key": "the canoe has no wheels",
+  "text": "The canoe has no wheels."
+ },
+ {
+  "key": "the car",
+  "text": "the car"
+ },
+ {
+  "key": "the car cannot fly",
+  "text": "The car cannot fly."
+ },
+ {
+  "key": "the car is not a fruit",
+  "text": "The car is not a fruit."
+ },
+ {
+  "key": "the car is not a part of the body",
+  "text": "The car is not a part of the body."
+ },
+ {
+  "key": "the car is not alive",
+  "text": "The car is not alive."
+ },
+ {
+  "key": "the car is not an animal",
+  "text": "The car is not an animal."
+ },
+ {
+  "key": "the carrot",
+  "text": "the carrot"
+ },
+ {
+  "key": "the carrot is a vegetable",
+  "text": "The carrot is a vegetable."
+ },
+ {
+  "key": "the carrot is not a fruit",
+  "text": "The carrot is not a fruit."
+ },
+ {
+  "key": "the cat",
+  "text": "the cat"
+ },
+ {
+  "key": "the cat is not a fruit",
+  "text": "The cat is not a fruit."
+ },
+ {
+  "key": "the cat is not a kitchen thing",
+  "text": "The cat is not a kitchen thing."
+ },
+ {
+  "key": "the cat is not something that goes",
+  "text": "The cat is not something that goes."
+ },
+ {
+  "key": "the cat is not something we wear",
+  "text": "The cat is not something we wear."
+ },
+ {
+  "key": "the cat says meow",
+  "text": "The cat says Meow!"
+ },
+ {
+  "key": "the caterpillar became a butterfly",
+  "text": "The caterpillar became a butterfly!"
+ },
+ {
+  "key": "the cheese",
+  "text": "the cheese"
+ },
+ {
+  "key": "the cherry is not a vegetable",
+  "text": "The cherry is not a vegetable."
+ },
+ {
+  "key": "the cherry is not an animal",
+  "text": "The cherry is not an animal."
+ },
+ {
+  "key": "the cherry is not something that goes",
+  "text": "The cherry is not something that goes."
+ },
+ {
+  "key": "the chocolate does not help us get clean",
+  "text": "The chocolate does not help us get clean!"
+ },
+ {
+  "key": "the circle is a different shape",
+  "text": "The circle is a different shape."
+ },
+ {
+  "key": "the clock shows the time",
+  "text": "The clock shows the time"
+ },
+ {
+  "key": "the color orange was named after the fruit",
+  "text": "The color orange was named after the fruit!"
+ },
+ {
+  "key": "the colours do not matter this time",
+  "text": "The colours do not matter this time!"
+ },
+ {
+  "key": "the corn is a vegetable",
+  "text": "The corn is a vegetable."
+ },
+ {
+  "key": "the corn is not a fruit",
+  "text": "The corn is not a fruit."
+ },
+ {
+  "key": "the cow does not live in the sea",
+  "text": "The cow does not live in the sea."
+ },
+ {
+  "key": "the cucumber is not a fruit",
+  "text": "The cucumber is not a fruit."
+ },
+ {
+  "key": "the dog does not live in the sea",
+  "text": "The dog does not live in the sea."
+ },
+ {
+  "key": "the dog is not a fruit",
+  "text": "The dog is not a fruit."
+ },
+ {
+  "key": "the dog is not a kitchen thing",
+  "text": "The dog is not a kitchen thing."
+ },
+ {
+  "key": "the dog is not something that goes",
+  "text": "The dog is not something that goes."
+ },
+ {
+  "key": "the dog is not something we wear",
+  "text": "The dog is not something we wear."
+ },
+ {
+  "key": "the dog says bow wow",
+  "text": "The dog says Bow Wow!"
+ },
+ {
+  "key": "the dress is not a kitchen thing",
+  "text": "The dress is not a kitchen thing."
+ },
+ {
+  "key": "the dress is not a vegetable",
+  "text": "The dress is not a vegetable."
+ },
+ {
+  "key": "the dress is not an animal",
+  "text": "The dress is not an animal."
+ },
+ {
+  "key": "the duck has two legs",
+  "text": "The duck has two legs."
+ },
+ {
+  "key": "the egg cracked",
+  "text": "The egg cracked!"
+ },
+ {
+  "key": "the elephant",
+  "text": "the elephant"
+ },
+ {
+  "key": "the elephant cannot fly",
+  "text": "The elephant cannot fly."
+ },
+ {
+  "key": "the elephant gently lifted the leaf with her trunk",
+  "text": "The elephant gently lifted the leaf with her trunk."
+ },
+ {
+  "key": "the elephant has no stripes",
+  "text": "The elephant has no stripes."
+ },
+ {
+  "key": "the elephant is not a fruit",
+  "text": "The elephant is not a fruit."
+ },
+ {
+  "key": "the elephant is not a kitchen thing",
+  "text": "The elephant is not a kitchen thing."
+ },
+ {
+  "key": "the elephant is not something that goes",
+  "text": "The elephant is not something that goes."
+ },
+ {
+  "key": "the elephant is not something we wear",
+  "text": "The elephant is not something we wear."
+ },
+ {
+  "key": "the end",
+  "text": "The End!"
+ },
+ {
+  "key": "the fan gives us cool air",
+  "text": "The fan gives us cool air"
+ },
+ {
+  "key": "the farm",
+  "text": "the farm"
+ },
+ {
+  "key": "the fastest trains float on magnets",
+  "text": "The fastest trains float on magnets!"
+ },
+ {
+  "key": "the fire engine is not green",
+  "text": "The fire engine is not green."
+ },
+ {
+  "key": "the fire is hot",
+  "text": "The fire is hot."
+ },
+ {
+  "key": "the first bowls were made from clay",
+  "text": "The first bowls were made from clay!"
+ },
+ {
+  "key": "the first cars were slower than a bicycle",
+  "text": "The first cars were slower than a bicycle!"
+ },
+ {
+  "key": "the first clocks used shadows from the sun",
+  "text": "The first clocks used shadows from the sun!"
+ },
+ {
+  "key": "the first cups were made from animal horns long ago",
+  "text": "The first cups were made from animal horns long ago!"
+ },
+ {
+  "key": "the first fans were big leaves people waved",
+  "text": "The first fans were big leaves people waved!"
+ },
+ {
+  "key": "the first one is done",
+  "text": "The first one is done."
+ },
+ {
+  "key": "the first shirts were made from animal skins",
+  "text": "The first shirts were made from animal skins!"
+ },
+ {
+  "key": "the first socks were made from animal hair",
+  "text": "The first socks were made from animal hair!"
+ },
+ {
+  "key": "the fish",
+  "text": "the fish"
+ },
+ {
+  "key": "the fish is not a fruit",
+  "text": "The fish is not a fruit."
+ },
+ {
+  "key": "the fish is not a kitchen thing",
+  "text": "The fish is not a kitchen thing."
+ },
+ {
+  "key": "the fish is not something that goes",
+  "text": "The fish is not something that goes."
+ },
+ {
+  "key": "the fish is not something we wear",
+  "text": "The fish is not something we wear."
+ },
+ {
+  "key": "the flower",
+  "text": "the flower"
+ },
+ {
+  "key": "the frog has no stripes",
+  "text": "The frog has no stripes."
+ },
+ {
+  "key": "the frog is not a fruit",
+  "text": "The frog is not a fruit."
+ },
+ {
+  "key": "the frog is not a kitchen thing",
+  "text": "The frog is not a kitchen thing."
+ },
+ {
+  "key": "the frog is not something that goes",
+  "text": "The frog is not something that goes."
+ },
+ {
+  "key": "the frog is not something we wear",
+  "text": "The frog is not something we wear."
+ },
+ {
+  "key": "the frog says ribbit",
+  "text": "The frog says Ribbit!"
+ },
+ {
+  "key": "the giraffe",
+  "text": "the giraffe"
+ },
+ {
+  "key": "the giraffe does not live on a farm",
+  "text": "The giraffe does not live on a farm."
+ },
+ {
+  "key": "the giraffe is not a fruit",
+  "text": "The giraffe is not a fruit."
+ },
+ {
+  "key": "the giraffe is not a kitchen thing",
+  "text": "The giraffe is not a kitchen thing."
+ },
+ {
+  "key": "the giraffe is not something that goes",
+  "text": "The giraffe is not something that goes."
+ },
+ {
+  "key": "the giraffe is not something we wear",
+  "text": "The giraffe is not something we wear."
+ },
+ {
+  "key": "the grapes are not animals",
+  "text": "The grapes are not animals."
+ },
+ {
+  "key": "the grapes are not things that go",
+  "text": "The grapes are not things that go."
+ },
+ {
+  "key": "the grapes are not vegetables",
+  "text": "The grapes are not vegetables."
+ },
+ {
+  "key": "the green one is a different colour",
+  "text": "The green one is a different colour."
+ },
+ {
+  "key": "the hat is not a kitchen thing",
+  "text": "The hat is not a kitchen thing."
+ },
+ {
+  "key": "the hat is not a vegetable",
+  "text": "The hat is not a vegetable."
+ },
+ {
+  "key": "the hat is not an animal",
+  "text": "The hat is not an animal."
+ },
+ {
+  "key": "the hat keeps the sun away",
+  "text": "The hat keeps the sun away"
+ },
+ {
+  "key": "the heart is a different shape",
+  "text": "The heart is a different shape."
+ },
+ {
+  "key": "the hen has two legs",
+  "text": "The hen has two legs."
+ },
+ {
+  "key": "the hen is a grown up",
+  "text": "The hen is a grown-up."
+ },
+ {
+  "key": "the hot tea is hot",
+  "text": "The hot tea is hot."
+ },
+ {
+  "key": "the house",
+  "text": "the house"
+ },
+ {
+  "key": "the house is not alive",
+  "text": "The house is not alive."
+ },
+ {
+  "key": "the hungry caterpillar",
+  "text": "The Hungry Caterpillar"
+ },
+ {
+  "key": "the ice cream is cold",
+  "text": "The ice cream is cold."
+ },
+ {
+  "key": "the ice is cold",
+  "text": "The ice is cold."
+ },
+ {
+  "key": "the ice melted into water",
+  "text": "The ice melted into water!"
+ },
+ {
+  "key": "the jacket is not a kitchen thing",
+  "text": "The jacket is not a kitchen thing."
+ },
+ {
+  "key": "the jacket is not a vegetable",
+  "text": "The jacket is not a vegetable."
+ },
+ {
+  "key": "the jacket is not an animal",
+  "text": "The jacket is not an animal."
+ },
+ {
+  "key": "the kind elephant",
+  "text": "The Kind Elephant"
+ },
+ {
+  "key": "the lamp gives us light",
+  "text": "The lamp gives us light"
+ },
+ {
+  "key": "the light is on and now we can see",
+  "text": "The light is on, and now we can see!"
+ },
+ {
+  "key": "the lion",
+  "text": "the lion"
+ },
+ {
+  "key": "the lion does not help us get clean",
+  "text": "The lion does not help us get clean!"
+ },
+ {
+  "key": "the lion does not live in the sea",
+  "text": "The lion does not live in the sea."
+ },
+ {
+  "key": "the lion does not live on a farm",
+  "text": "The lion does not live on a farm."
+ },
+ {
+  "key": "the lion is not a fruit",
+  "text": "The lion is not a fruit."
+ },
+ {
+  "key": "the lion is not a kitchen thing",
+  "text": "The lion is not a kitchen thing."
+ },
+ {
+  "key": "the lion is not something that goes",
+  "text": "The lion is not something that goes."
+ },
+ {
+  "key": "the lion is not something we wear",
+  "text": "The lion is not something we wear."
+ },
+ {
+  "key": "the lion says roar",
+  "text": "The lion says Roar!"
+ },
+ {
+  "key": "the little plant grew into a big tree",
+  "text": "The little plant grew into a big tree."
+ },
+ {
+  "key": "the little star",
+  "text": "The Little Star"
+ },
+ {
+  "key": "the longest dress ever had a tail 8 kilometers long",
+  "text": "The longest dress ever had a tail 8 kilometers long!"
+ },
+ {
+  "key": "the longest scarf ever made was longer than 50 school buses",
+  "text": "The longest scarf ever made was longer than 50 school buses!"
+ },
+ {
+  "key": "the lost baby duck",
+  "text": "The Lost Baby Duck"
+ },
+ {
+  "key": "the magic seed",
+  "text": "The Magic Seed"
+ },
+ {
+  "key": "the mango is not a vegetable",
+  "text": "The mango is not a vegetable."
+ },
+ {
+  "key": "the mango is not an animal",
+  "text": "The mango is not an animal."
+ },
+ {
+  "key": "the mango is not something that goes",
+  "text": "The mango is not something that goes."
+ },
+ {
+  "key": "the mango tree",
+  "text": "The Mango Tree"
+ },
+ {
+  "key": "the monkey",
+  "text": "the monkey"
+ },
+ {
+  "key": "the monkey is not a fruit",
+  "text": "The monkey is not a fruit."
+ },
+ {
+  "key": "the monkey is not a kitchen thing",
+  "text": "The monkey is not a kitchen thing."
+ },
+ {
+  "key": "the monkey is not something that goes",
+  "text": "The monkey is not something that goes."
+ },
+ {
+  "key": "the monkey is not something we wear",
+  "text": "The monkey is not something we wear."
+ },
+ {
+  "key": "the moon came up and the stars began to twinkle",
+  "text": "The moon came up and the stars began to twinkle."
+ },
+ {
+  "key": "the moon grew round and bright",
+  "text": "The moon grew round and bright!"
+ },
+ {
+  "key": "the moon sang a song",
+  "text": "The moon sang a song."
+ },
+ {
+  "key": "the moon shines at night",
+  "text": "The moon shines at night"
+ },
+ {
+  "key": "the moon shines at night and changes shape every night",
+  "text": "The moon shines at night and changes shape every night!"
+ },
+ {
+  "key": "the mouse",
+  "text": "the mouse"
+ },
+ {
+  "key": "the ocean is also blue",
+  "text": "The ocean is also blue"
+ },
+ {
+  "key": "the oldest door is 5 000 years old and still works",
+  "text": "The oldest door is 5,000 years old and still works!"
+ },
+ {
+  "key": "the oldest shoes ever found are 5 500 years old",
+  "text": "The oldest shoes ever found are 5,500 years old!"
+ },
+ {
+  "key": "the onion is not a fruit",
+  "text": "The onion is not a fruit."
+ },
+ {
+  "key": "the orange is not a vegetable",
+  "text": "The orange is not a vegetable."
+ },
+ {
+  "key": "the orange is not an animal",
+  "text": "The orange is not an animal."
+ },
+ {
+  "key": "the orange is not something that goes",
+  "text": "The orange is not something that goes."
+ },
+ {
+  "key": "the others are",
+  "text": "The others are!"
+ },
+ {
+  "key": "the others are all animals",
+  "text": "The others are all animals!"
+ },
+ {
+  "key": "the others are all blue",
+  "text": "The others are all blue!"
+ },
+ {
+  "key": "the others are all circles",
+  "text": "The others are all circles!"
+ },
+ {
+  "key": "the others are all clothes",
+  "text": "The others are all clothes!"
+ },
+ {
+  "key": "the others are all fruits",
+  "text": "The others are all fruits!"
+ },
+ {
+  "key": "the others are all green",
+  "text": "The others are all green!"
+ },
+ {
+  "key": "the others are all hearts",
+  "text": "The others are all hearts!"
+ },
+ {
+  "key": "the others are all kitchen things",
+  "text": "The others are all kitchen things!"
+ },
+ {
+  "key": "the others are all parts of the body",
+  "text": "The others are all parts of the body!"
+ },
+ {
+  "key": "the others are all purple",
+  "text": "The others are all purple!"
+ },
+ {
+  "key": "the others are all red",
+  "text": "The others are all red!"
+ },
+ {
+  "key": "the others are all squares",
+  "text": "The others are all squares!"
+ },
+ {
+  "key": "the others are all stars",
+  "text": "The others are all stars!"
+ },
+ {
+  "key": "the others are all things that go",
+  "text": "The others are all things that go!"
+ },
+ {
+  "key": "the others are all triangles",
+  "text": "The others are all triangles!"
+ },
+ {
+  "key": "the others are all vegetables",
+  "text": "The others are all vegetables!"
+ },
+ {
+  "key": "the others are all yellow",
+  "text": "The others are all yellow!"
+ },
+ {
+  "key": "the others are awake at night",
+  "text": "The others are awake at night!"
+ },
+ {
+  "key": "the others are babies",
+  "text": "The others are babies!"
+ },
+ {
+  "key": "the others are cold",
+  "text": "The others are cold!"
+ },
+ {
+  "key": "the others are fruits",
+  "text": "The others are fruits!"
+ },
+ {
+  "key": "the others are green",
+  "text": "The others are green!"
+ },
+ {
+  "key": "the others are hot",
+  "text": "The others are hot!"
+ },
+ {
+  "key": "the others are plants that grow",
+  "text": "The others are plants that grow!"
+ },
+ {
+  "key": "the others are stripy",
+  "text": "The others are stripy!"
+ },
+ {
+  "key": "the others are yellow",
+  "text": "The others are yellow!"
+ },
+ {
+  "key": "the others can",
+  "text": "The others can!"
+ },
+ {
+  "key": "the others can be shared into two equal groups",
+  "text": "The others can be shared into two equal groups!"
+ },
+ {
+  "key": "the others do",
+  "text": "The others do!"
+ },
+ {
+  "key": "the others go fast",
+  "text": "The others go fast!"
+ },
+ {
+  "key": "the others have four",
+  "text": "The others have four!"
+ },
+ {
+  "key": "the owl is not a fruit",
+  "text": "The owl is not a fruit."
+ },
+ {
+  "key": "the owl is not a kitchen thing",
+  "text": "The owl is not a kitchen thing."
+ },
+ {
+  "key": "the owl is not something that goes",
+  "text": "The owl is not something that goes."
+ },
+ {
+  "key": "the owl is not something we wear",
+  "text": "The owl is not something we wear."
+ },
+ {
+  "key": "the owl said hoo hoo",
+  "text": "The owl said hoo hoo."
+ },
+ {
+  "key": "the owl says hoo hoo",
+  "text": "The owl says Hoo Hoo!"
+ },
+ {
+  "key": "the panda",
+  "text": "the panda"
+ },
+ {
+  "key": "the panda does not live on a farm",
+  "text": "The panda does not live on a farm."
+ },
+ {
+  "key": "the pants are not animals",
+  "text": "The pants are not animals."
+ },
+ {
+  "key": "the pants are not kitchen things",
+  "text": "The pants are not kitchen things."
+ },
+ {
+  "key": "the pants are not vegetables",
+  "text": "The pants are not vegetables."
+ },
+ {
+  "key": "the park",
+  "text": "the park"
+ },
+ {
+  "key": "the parrot is not a fruit",
+  "text": "The parrot is not a fruit."
+ },
+ {
+  "key": "the parrot is not a kitchen thing",
+  "text": "The parrot is not a kitchen thing."
+ },
+ {
+  "key": "the parrot is not something that goes",
+  "text": "The parrot is not something that goes."
+ },
+ {
+  "key": "the parrot is not something we wear",
+  "text": "The parrot is not something we wear."
+ },
+ {
+  "key": "the pattern",
+  "text": "the pattern"
+ },
+ {
+  "key": "the penguin has two legs",
+  "text": "The penguin has two legs."
+ },
+ {
+  "key": "the penguin is not a fruit",
+  "text": "The penguin is not a fruit."
+ },
+ {
+  "key": "the penguin is not a kitchen thing",
+  "text": "The penguin is not a kitchen thing."
+ },
+ {
+  "key": "the penguin is not something that goes",
+  "text": "The penguin is not something that goes."
+ },
+ {
+  "key": "the penguin is not something we wear",
+  "text": "The penguin is not something we wear."
+ },
+ {
+  "key": "the pig has no stripes",
+  "text": "The pig has no stripes."
+ },
+ {
+  "key": "the plane is not a fruit",
+  "text": "The plane is not a fruit."
+ },
+ {
+  "key": "the plane is not a part of the body",
+  "text": "The plane is not a part of the body."
+ },
+ {
+  "key": "the plane is not an animal",
+  "text": "The plane is not an animal."
+ },
+ {
+  "key": "the pot gets very hot",
+  "text": "The pot gets very hot"
+ },
+ {
+  "key": "the potato is not a fruit",
+  "text": "The potato is not a fruit."
+ },
+ {
+  "key": "the pumpkin is not a fruit",
+  "text": "The pumpkin is not a fruit."
+ },
+ {
+  "key": "the puppy",
+  "text": "the puppy"
+ },
+ {
+  "key": "the puppy curled up in his cosy bed",
+  "text": "The puppy curled up in his cosy bed."
+ },
+ {
+  "key": "the puppy has it",
+  "text": "The puppy has it!"
+ },
+ {
+  "key": "the purple one is a different colour",
+  "text": "The purple one is a different colour."
+ },
+ {
+  "key": "the pyramids in egypt are giant triangles",
+  "text": "The pyramids in Egypt are giant triangles!"
+ },
+ {
+  "key": "the rabbit is not a fruit",
+  "text": "The rabbit is not a fruit."
+ },
+ {
+  "key": "the rabbit is not a kitchen thing",
+  "text": "The rabbit is not a kitchen thing."
+ },
+ {
+  "key": "the rabbit is not something that goes",
+  "text": "The rabbit is not something that goes."
+ },
+ {
+  "key": "the rabbit is not something we wear",
+  "text": "The rabbit is not something we wear."
+ },
+ {
+  "key": "the rain began",
+  "text": "The rain began."
+ },
+ {
+  "key": "the rain goes back up to the sky and makes new clouds",
+  "text": "The rain goes back up to the sky and makes new clouds!"
+ },
+ {
+  "key": "the rain stopped and a rainbow appeared",
+  "text": "The rain stopped and a rainbow appeared!"
+ },
+ {
+  "key": "the rainbow",
+  "text": "the rainbow"
+ },
+ {
+  "key": "the rainy day",
+  "text": "The Rainy Day"
+ },
+ {
+  "key": "the red one is a different colour",
+  "text": "The red one is a different colour."
+ },
+ {
+  "key": "the rock does not grow",
+  "text": "The rock does not grow."
+ },
+ {
+  "key": "the rocket",
+  "text": "the rocket"
+ },
+ {
+  "key": "the rocket has no wheels",
+  "text": "The rocket has no wheels."
+ },
+ {
+  "key": "the rocket is not a fruit",
+  "text": "The rocket is not a fruit."
+ },
+ {
+  "key": "the rocket is not a part of the body",
+  "text": "The rocket is not a part of the body."
+ },
+ {
+  "key": "the rocket is not an animal",
+  "text": "The rocket is not an animal."
+ },
+ {
+  "key": "the rooster sleeps at night",
+  "text": "The rooster sleeps at night."
+ },
+ {
+  "key": "the scarf is not a kitchen thing",
+  "text": "The scarf is not a kitchen thing."
+ },
+ {
+  "key": "the scarf is not a vegetable",
+  "text": "The scarf is not a vegetable."
+ },
+ {
+  "key": "the scarf is not an animal",
+  "text": "The scarf is not an animal."
+ },
+ {
+  "key": "the scarf keeps us warm",
+  "text": "The scarf keeps us warm"
+ },
+ {
+  "key": "the seed grew into a beautiful flower",
+  "text": "The seed grew into a beautiful flower!"
+ },
+ {
+  "key": "the sharing bunny",
+  "text": "The Sharing Bunny"
+ },
+ {
+  "key": "the shirt is not a kitchen thing",
+  "text": "The shirt is not a kitchen thing."
+ },
+ {
+  "key": "the shirt is not a vegetable",
+  "text": "The shirt is not a vegetable."
+ },
+ {
+  "key": "the shirt is not an animal",
+  "text": "The shirt is not an animal."
+ },
+ {
+  "key": "the shoes are not animals",
+  "text": "The shoes are not animals."
+ },
+ {
+  "key": "the shoes are not kitchen things",
+  "text": "The shoes are not kitchen things."
+ },
+ {
+  "key": "the shoes are not vegetables",
+  "text": "The shoes are not vegetables."
+ },
+ {
+  "key": "the sky is blue",
+  "text": "The sky is blue"
+ },
+ {
+  "key": "the sleepy bear",
+  "text": "The Sleepy Bear"
+ },
+ {
+  "key": "the snail is very slow",
+  "text": "The snail is very slow."
+ },
+ {
+  "key": "the snow",
+  "text": "the snow"
+ },
+ {
+  "key": "the snowman is cold",
+  "text": "The snowman is cold."
+ },
+ {
+  "key": "the sock does not make music",
+  "text": "The sock does not make music!"
+ },
+ {
+  "key": "the socks are not animals",
+  "text": "The socks are not animals."
+ },
+ {
+  "key": "the socks are not kitchen things",
+  "text": "The socks are not kitchen things."
+ },
+ {
+  "key": "the socks are not vegetables",
+  "text": "The socks are not vegetables."
+ },
+ {
+  "key": "the spider has eight legs",
+  "text": "The spider has eight legs."
+ },
+ {
+  "key": "the square is a different shape",
+  "text": "The square is a different shape."
+ },
+ {
+  "key": "the star felt happy and started to glow",
+  "text": "The star felt happy and started to glow!"
+ },
+ {
+  "key": "the star is a different shape",
+  "text": "The star is a different shape."
+ },
+ {
+  "key": "the stars are shining",
+  "text": "The stars are shining!"
+ },
+ {
+  "key": "the strawberry is not a vegetable",
+  "text": "The strawberry is not a vegetable."
+ },
+ {
+  "key": "the strawberry is not an animal",
+  "text": "The strawberry is not an animal."
+ },
+ {
+  "key": "the strawberry is not green",
+  "text": "The strawberry is not green."
+ },
+ {
+  "key": "the strawberry is not something that goes",
+  "text": "The strawberry is not something that goes."
+ },
+ {
+  "key": "the sun is a giant star that gives us light and keeps us warm",
+  "text": "The sun is a giant star that gives us light and keeps us warm!"
+ },
+ {
+  "key": "the sun is happy",
+  "text": "The sun is happy!"
+ },
+ {
+  "key": "the sun is hot",
+  "text": "The sun is hot."
+ },
+ {
+  "key": "the sun is hot and bright",
+  "text": "The sun is hot and bright"
+ },
+ {
+  "key": "the sun is so big that a million earths could fit inside it",
+  "text": "The sun is so big that a million Earths could fit inside it!"
+ },
+ {
+  "key": "the sun is yellow",
+  "text": "The sun is yellow"
+ },
+ {
+  "key": "the sun said goodbye and went to sleep",
+  "text": "The sun said goodbye and went to sleep."
+ },
+ {
+  "key": "the sun wakes us up",
+  "text": "The sun wakes us up"
+ },
+ {
+  "key": "the sun was warm and the ice melted into water",
+  "text": "The sun was warm, and the ice melted into water!"
+ },
+ {
+  "key": "the table has four legs",
+  "text": "The table has four legs"
+ },
+ {
+  "key": "the teddy does not give light",
+  "text": "The teddy does not give light!"
+ },
+ {
+  "key": "the teddy does not grow",
+  "text": "The teddy does not grow."
+ },
+ {
+  "key": "the teddy has no numbers on it",
+  "text": "The teddy has no numbers on it."
+ },
+ {
+  "key": "the thirsty crow",
+  "text": "The Thirsty Crow"
+ },
+ {
+  "key": "the tomato is not a fruit",
+  "text": "The tomato is not a fruit."
+ },
+ {
+  "key": "the train",
+  "text": "the train"
+ },
+ {
+  "key": "the train is not a fruit",
+  "text": "The train is not a fruit."
+ },
+ {
+  "key": "the train is not a part of the body",
+  "text": "The train is not a part of the body."
+ },
+ {
+  "key": "the train is not an animal",
+  "text": "The train is not an animal."
+ },
+ {
+  "key": "the tree does not give light",
+  "text": "The tree does not give light!"
+ },
+ {
+  "key": "the tree has no numbers on it",
+  "text": "The tree has no numbers on it."
+ },
+ {
+  "key": "the triangle is a different shape",
+  "text": "The triangle is a different shape."
+ },
+ {
+  "key": "the truck is not a fruit",
+  "text": "The truck is not a fruit."
+ },
+ {
+  "key": "the truck is not a part of the body",
+  "text": "The truck is not a part of the body."
+ },
+ {
+  "key": "the truck is not an animal",
+  "text": "The truck is not an animal."
+ },
+ {
+  "key": "the turtle",
+  "text": "the turtle"
+ },
+ {
+  "key": "the turtle cannot fly",
+  "text": "The turtle cannot fly."
+ },
+ {
+  "key": "the turtle is not a fruit",
+  "text": "The turtle is not a fruit."
+ },
+ {
+  "key": "the turtle is not a kitchen thing",
+  "text": "The turtle is not a kitchen thing."
+ },
+ {
+  "key": "the turtle is not something that goes",
+  "text": "The turtle is not something that goes."
+ },
+ {
+  "key": "the turtle is not something we wear",
+  "text": "The turtle is not something we wear."
+ },
+ {
+  "key": "the turtle is very slow",
+  "text": "The turtle is very slow."
+ },
+ {
+  "key": "the water came up and up",
+  "text": "The water came up and up!"
+ },
+ {
+  "key": "the watermelon is not a vegetable",
+  "text": "The watermelon is not a vegetable."
+ },
+ {
+  "key": "the watermelon is not an animal",
+  "text": "The watermelon is not an animal."
+ },
+ {
+  "key": "the watermelon is not something that goes",
+  "text": "The watermelon is not something that goes."
+ },
+ {
+  "key": "the whale is not yellow",
+  "text": "The whale is not yellow."
+ },
+ {
+  "key": "the whale is playing",
+  "text": "The whale is playing!"
+ },
+ {
+  "key": "the wind goes whoosh",
+  "text": "The wind goes whoosh!"
+ },
+ {
+  "key": "the wind lifted the kite up high",
+  "text": "The wind lifted the kite up high!"
+ },
+ {
+  "key": "the yellow one is a different colour",
+  "text": "The yellow one is a different colour."
+ },
+ {
+  "key": "their eyes glow at night",
+  "text": "Their eyes glow at night."
+ },
+ {
+  "key": "then",
+  "text": "Then"
+ },
+ {
+  "key": "then a caterpillar comes out",
+  "text": "Then a caterpillar comes out."
+ },
+ {
+  "key": "then a little sprout grows",
+  "text": "Then a little sprout grows."
+ },
+ {
+  "key": "then a sprout pops up",
+  "text": "Then a sprout pops up."
+ },
+ {
+  "key": "then clouds form in the sky",
+  "text": "Then clouds form in the sky."
+ },
+ {
+  "key": "then he ate a banana and an orange",
+  "text": "Then he ate a banana and an orange."
+ },
+ {
+  "key": "then it cracks and hatches",
+  "text": "Then it cracks and hatches."
+ },
+ {
+  "key": "then it is daytime",
+  "text": "Then it is daytime."
+ },
+ {
+  "key": "then it rains",
+  "text": "Then it rains."
+ },
+ {
+  "key": "then little green apples grow",
+  "text": "Then little green apples grow."
+ },
+ {
+  "key": "then little plants come up",
+  "text": "Then little plants come up."
+ },
+ {
+  "key": "then she rested on a flower happy and warm",
+  "text": "Then she rested on a flower, happy and warm."
+ },
+ {
+  "key": "then the chick hatches",
+  "text": "Then the chick hatches."
+ },
+ {
+  "key": "then the sun came out to play",
+  "text": "Then the sun came out to play."
+ },
+ {
+  "key": "then the sun shines on it",
+  "text": "Then the sun shines on it."
+ },
+ {
+  "key": "then we add the cereal",
+  "text": "Then we add the cereal."
+ },
+ {
+  "key": "then we bake bread",
+  "text": "Then we bake bread."
+ },
+ {
+  "key": "then we brush our teeth",
+  "text": "Then we brush our teeth."
+ },
+ {
+  "key": "then we build",
+  "text": "Then we build."
+ },
+ {
+  "key": "then we build a snowman",
+  "text": "Then we build a snowman."
+ },
+ {
+  "key": "then we cook it in a pan",
+  "text": "Then we cook it in a pan."
+ },
+ {
+  "key": "then we mix it all together",
+  "text": "Then we mix it all together."
+ },
+ {
+  "key": "then we put it in an envelope",
+  "text": "Then we put it in an envelope."
+ },
+ {
+  "key": "then we spread butter",
+  "text": "Then we spread butter."
+ },
+ {
+  "key": "then you grow into a child",
+  "text": "Then you grow into a child."
+ },
+ {
+  "key": "there are more stars in the sky than grains of sand on earth",
+  "text": "There are more stars in the sky than grains of sand on Earth!"
+ },
+ {
+  "key": "there are over 10 000 types of tomatoes",
+  "text": "There are over 10,000 types of tomatoes!"
+ },
+ {
+  "key": "there are over 7 500 types of apples in the world",
+  "text": "There are over 7,500 types of apples in the world!"
+ },
+ {
+  "key": "there are seven days in a week",
+  "text": "There are seven days in a week!"
+ },
+ {
+  "key": "these are eyes",
+  "text": "These are Eyes"
+ },
+ {
+  "key": "these are grapes",
+  "text": "These are Grapes"
+ },
+ {
+  "key": "these are pants",
+  "text": "These are Pants"
+ },
+ {
+  "key": "these are shoes",
+  "text": "These are Shoes"
+ },
+ {
+  "key": "these are socks",
+  "text": "These are Socks"
+ },
+ {
+  "key": "these are teeth",
+  "text": "These are Teeth"
+ },
+ {
+  "key": "thing draggable",
+  "text": "thing draggable"
+ },
+ {
+  "key": "things",
+  "text": "Things"
+ },
+ {
+  "key": "things in the kitchen",
+  "text": "things in the kitchen"
+ },
+ {
+  "key": "things in the sea",
+  "text": "things in the sea"
+ },
+ {
+  "key": "things that fly",
+  "text": "things that fly"
+ },
+ {
+  "key": "things that give light",
+  "text": "things that give light"
+ },
+ {
+  "key": "things that go",
+  "text": "things that go"
+ },
+ {
+  "key": "things that go fast",
+  "text": "things that go fast"
+ },
+ {
+  "key": "things that grow",
+  "text": "things that grow"
+ },
+ {
+  "key": "things that keep us clean",
+  "text": "things that keep us clean"
+ },
+ {
+  "key": "things that make music",
+  "text": "things that make music"
+ },
+ {
+  "key": "things that need electricity",
+  "text": "things that need electricity"
+ },
+ {
+  "key": "things to draw with",
+  "text": "things to draw with"
+ },
+ {
+  "key": "things we eat with",
+  "text": "things we eat with"
+ },
+ {
+  "key": "things we see at night",
+  "text": "things we see at night"
+ },
+ {
+  "key": "things we wear",
+  "text": "things we wear"
+ },
+ {
+  "key": "things with numbers on them",
+  "text": "things with numbers on them"
+ },
+ {
+  "key": "things with wheels",
+  "text": "things with wheels"
+ },
+ {
+  "key": "think harder",
+  "text": "Think harder"
+ },
+ {
+  "key": "this dress is beautiful",
+  "text": "This dress is beautiful"
+ },
+ {
+  "key": "this is a banana",
+  "text": "This is a Banana"
+ },
+ {
+  "key": "this is a bed",
+  "text": "This is a Bed"
+ },
+ {
+  "key": "this is a bike",
+  "text": "This is a Bike"
+ },
+ {
+  "key": "this is a bird",
+  "text": "This is a Bird"
+ },
+ {
+  "key": "this is a boat",
+  "text": "This is a Boat"
+ },
+ {
+  "key": "this is a bowl",
+  "text": "This is a Bowl"
+ },
+ {
+  "key": "this is a bus",
+  "text": "This is a Bus"
+ },
+ {
+  "key": "this is a butterfly",
+  "text": "This is a Butterfly"
+ },
+ {
+  "key": "this is a car",
+  "text": "This is a Car"
+ },
+ {
+  "key": "this is a carrot",
+  "text": "This is a Carrot"
+ },
+ {
+  "key": "this is a cat",
+  "text": "This is a Cat"
+ },
+ {
+  "key": "this is a chair",
+  "text": "This is a Chair"
+ },
+ {
+  "key": "this is a cherry",
+  "text": "This is a Cherry"
+ },
+ {
+  "key": "this is a circle",
+  "text": "This is a Circle"
+ },
+ {
+  "key": "this is a clock",
+  "text": "This is a Clock"
+ },
+ {
+  "key": "this is a cloud",
+  "text": "This is a Cloud"
+ },
+ {
+  "key": "this is a cucumber",
+  "text": "This is a Cucumber"
+ },
+ {
+  "key": "this is a cup",
+  "text": "This is a Cup"
+ },
+ {
+  "key": "this is a diamond",
+  "text": "This is a Diamond"
+ },
+ {
+  "key": "this is a dog",
+  "text": "This is a Dog"
+ },
+ {
+  "key": "this is a door",
+  "text": "This is a Door"
+ },
+ {
+  "key": "this is a dress",
+  "text": "This is a Dress"
+ },
+ {
+  "key": "this is a fan",
+  "text": "This is a Fan"
+ },
+ {
+  "key": "this is a fish",
+  "text": "This is a Fish"
+ },
+ {
+  "key": "this is a foot",
+  "text": "This is a Foot"
+ },
+ {
+  "key": "this is a fork",
+  "text": "This is a Fork"
+ },
+ {
+  "key": "this is a frog",
+  "text": "This is a Frog"
+ },
+ {
+  "key": "this is a giraffe",
+  "text": "This is a Giraffe"
+ },
+ {
+  "key": "this is a glass",
+  "text": "This is a Glass"
+ },
+ {
+  "key": "this is a hand",
+  "text": "This is a Hand"
+ },
+ {
+  "key": "this is a hat",
+  "text": "This is a Hat"
+ },
+ {
+  "key": "this is a heart",
+  "text": "This is a Heart"
+ },
+ {
+  "key": "this is a jacket",
+  "text": "This is a Jacket"
+ },
+ {
+  "key": "this is a lamp",
+  "text": "This is a Lamp"
+ },
+ {
+  "key": "this is a lion",
+  "text": "This is a Lion"
+ },
+ {
+  "key": "this is a mango",
+  "text": "This is a Mango"
+ },
+ {
+  "key": "this is a monkey",
+  "text": "This is a Monkey"
+ },
+ {
+  "key": "this is a nose",
+  "text": "This is a Nose"
+ },
+ {
+  "key": "this is a pan",
+  "text": "This is a Pan"
+ },
+ {
+  "key": "this is a parrot",
+  "text": "This is a Parrot"
+ },
+ {
+  "key": "this is a penguin",
+  "text": "This is a Penguin"
+ },
+ {
+  "key": "this is a plane",
+  "text": "This is a Plane"
+ },
+ {
+  "key": "this is a plate",
+  "text": "This is a Plate"
+ },
+ {
+  "key": "this is a pot",
+  "text": "This is a Pot"
+ },
+ {
+  "key": "this is a potato",
+  "text": "This is a Potato"
+ },
+ {
+  "key": "this is a pumpkin",
+  "text": "This is a Pumpkin"
+ },
+ {
+  "key": "this is a rabbit",
+  "text": "This is a Rabbit"
+ },
+ {
+  "key": "this is a rainbow",
+  "text": "This is a Rainbow"
+ },
+ {
+  "key": "this is a rectangle",
+  "text": "This is a Rectangle"
+ },
+ {
+  "key": "this is a rocket",
+  "text": "This is a Rocket"
+ },
+ {
+  "key": "this is a scarf",
+  "text": "This is a Scarf"
+ },
+ {
+  "key": "this is a shirt",
+  "text": "This is a Shirt"
+ },
+ {
+  "key": "this is a spoon",
+  "text": "This is a Spoon"
+ },
+ {
+  "key": "this is a square",
+  "text": "This is a Square"
+ },
+ {
+  "key": "this is a star",
+  "text": "This is a Star"
+ },
+ {
+  "key": "this is a strawberry",
+  "text": "This is a Strawberry"
+ },
+ {
+  "key": "this is a table",
+  "text": "This is a Table"
+ },
+ {
+  "key": "this is a tomato",
+  "text": "This is a Tomato"
+ },
+ {
+  "key": "this is a tongue",
+  "text": "This is a Tongue"
+ },
+ {
+  "key": "this is a train",
+  "text": "This is a Train"
+ },
+ {
+  "key": "this is a triangle",
+  "text": "This is a Triangle"
+ },
+ {
+  "key": "this is a truck",
+  "text": "This is a Truck"
+ },
+ {
+  "key": "this is a turtle",
+  "text": "This is a Turtle"
+ },
+ {
+  "key": "this is a watermelon",
+  "text": "This is a Watermelon"
+ },
+ {
+  "key": "this is a window",
+  "text": "This is a Window"
+ },
+ {
+  "key": "this is an apple",
+  "text": "This is an Apple"
+ },
+ {
+  "key": "this is an ear",
+  "text": "This is an Ear"
+ },
+ {
+  "key": "this is an elephant",
+  "text": "This is an Elephant"
+ },
+ {
+  "key": "this is an onion",
+  "text": "This is an Onion"
+ },
+ {
+  "key": "this is an orange",
+  "text": "This is an Orange"
+ },
+ {
+  "key": "this is an oval",
+  "text": "This is an Oval"
+ },
+ {
+  "key": "this is an owl",
+  "text": "This is an Owl"
+ },
+ {
+  "key": "this is blue",
+  "text": "This is Blue"
+ },
+ {
+  "key": "this is broccoli",
+  "text": "This is Broccoli"
+ },
+ {
+  "key": "this is brown",
+  "text": "This is Brown"
+ },
+ {
+  "key": "this is corn",
+  "text": "This is Corn"
+ },
+ {
+  "key": "this is green",
+  "text": "This is Green"
+ },
+ {
+  "key": "this is hair",
+  "text": "This is Hair"
+ },
+ {
+  "key": "this is how i sound",
+  "text": "This is how I sound."
+ },
+ {
+  "key": "this is lightning",
+  "text": "This is Lightning"
+ },
+ {
+  "key": "this is number eight",
+  "text": "This is number Eight"
+ },
+ {
+  "key": "this is number five",
+  "text": "This is number Five"
+ },
+ {
+  "key": "this is number four",
+  "text": "This is number Four"
+ },
+ {
+  "key": "this is number one",
+  "text": "This is number One"
+ },
+ {
+  "key": "this is number seven",
+  "text": "This is number Seven"
+ },
+ {
+  "key": "this is number six",
+  "text": "This is number Six"
+ },
+ {
+  "key": "this is number three",
+  "text": "This is number Three"
+ },
+ {
+  "key": "this is number two",
+  "text": "This is number Two"
+ },
+ {
+  "key": "this is pink",
+  "text": "This is Pink"
+ },
+ {
+  "key": "this is purple",
+  "text": "This is Purple"
+ },
+ {
+  "key": "this is rain",
+  "text": "This is Rain"
+ },
+ {
+  "key": "this is red",
+  "text": "This is Red"
+ },
+ {
+  "key": "this is snow",
+  "text": "This is Snow"
+ },
+ {
+  "key": "this is the moon",
+  "text": "This is the Moon"
+ },
+ {
+  "key": "this is the sun",
+  "text": "This is the Sun"
+ },
+ {
+  "key": "this is the wind",
+  "text": "This is the Wind"
+ },
+ {
+  "key": "this is white",
+  "text": "This is White"
+ },
+ {
+  "key": "this is yellow",
+  "text": "This is Yellow"
+ },
+ {
+  "key": "three",
+  "text": "Three"
+ },
+ {
+  "key": "three is odd",
+  "text": "Three is odd."
+ },
+ {
+  "key": "three of them are animals",
+  "text": "Three of them are animals."
+ },
+ {
+  "key": "three of them are animals awake at night",
+  "text": "Three of them are animals awake at night."
+ },
+ {
+  "key": "three of them are animals that hatch from eggs",
+  "text": "Three of them are animals that hatch from eggs."
+ },
+ {
+  "key": "three of them are animals with four legs",
+  "text": "Three of them are animals with four legs."
+ },
+ {
+  "key": "three of them are animals with stripes",
+  "text": "Three of them are animals with stripes."
+ },
+ {
+  "key": "three of them are baby animals",
+  "text": "Three of them are baby animals."
+ },
+ {
+  "key": "three of them are blue ones",
+  "text": "Three of them are blue ones."
+ },
+ {
+  "key": "three of them are circles",
+  "text": "Three of them are circles."
+ },
+ {
+  "key": "three of them are clothes",
+  "text": "Three of them are clothes."
+ },
+ {
+  "key": "three of them are cold things",
+  "text": "Three of them are cold things."
+ },
+ {
+  "key": "three of them are even numbers",
+  "text": "Three of them are even numbers."
+ },
+ {
+  "key": "three of them are farm animals",
+  "text": "Three of them are farm animals."
+ },
+ {
+  "key": "three of them are fruits",
+  "text": "Three of them are fruits."
+ },
+ {
+  "key": "three of them are green ones",
+  "text": "Three of them are green ones."
+ },
+ {
+  "key": "three of them are green things",
+  "text": "Three of them are green things."
+ },
+ {
+  "key": "three of them are hearts",
+  "text": "Three of them are hearts."
+ },
+ {
+  "key": "three of them are hot things",
+  "text": "Three of them are hot things."
+ },
+ {
+  "key": "three of them are insects",
+  "text": "Three of them are insects."
+ },
+ {
+  "key": "three of them are kitchen things",
+  "text": "Three of them are kitchen things."
+ },
+ {
+  "key": "three of them are living things",
+  "text": "Three of them are living things."
+ },
+ {
+  "key": "three of them are parts of the body",
+  "text": "Three of them are parts of the body."
+ },
+ {
+  "key": "three of them are purple ones",
+  "text": "Three of them are purple ones."
+ },
+ {
+  "key": "three of them are red ones",
+  "text": "Three of them are red ones."
+ },
+ {
+  "key": "three of them are round things",
+  "text": "Three of them are round things."
+ },
+ {
+  "key": "three of them are squares",
+  "text": "Three of them are squares."
+ },
+ {
+  "key": "three of them are stars",
+  "text": "Three of them are stars."
+ },
+ {
+  "key": "three of them are things in the kitchen",
+  "text": "Three of them are things in the kitchen."
+ },
+ {
+  "key": "three of them are things in the sea",
+  "text": "Three of them are things in the sea."
+ },
+ {
+  "key": "three of them are things that fly",
+  "text": "Three of them are things that fly."
+ },
+ {
+  "key": "three of them are things that give light",
+  "text": "Three of them are things that give light."
+ },
+ {
+  "key": "three of them are things that go",
+  "text": "Three of them are things that go."
+ },
+ {
+  "key": "three of them are things that go fast",
+  "text": "Three of them are things that go fast."
+ },
+ {
+  "key": "three of them are things that grow",
+  "text": "Three of them are things that grow."
+ },
+ {
+  "key": "three of them are things that keep us clean",
+  "text": "Three of them are things that keep us clean."
+ },
+ {
+  "key": "three of them are things that make music",
+  "text": "Three of them are things that make music."
+ },
+ {
+  "key": "three of them are things that need electricity",
+  "text": "Three of them are things that need electricity."
+ },
+ {
+  "key": "three of them are things to draw with",
+  "text": "Three of them are things to draw with."
+ },
+ {
+  "key": "three of them are things we eat with",
+  "text": "Three of them are things we eat with."
+ },
+ {
+  "key": "three of them are things we see at night",
+  "text": "Three of them are things we see at night."
+ },
+ {
+  "key": "three of them are things we wear",
+  "text": "Three of them are things we wear."
+ },
+ {
+  "key": "three of them are things with numbers on them",
+  "text": "Three of them are things with numbers on them."
+ },
+ {
+  "key": "three of them are things with wheels",
+  "text": "Three of them are things with wheels."
+ },
+ {
+  "key": "three of them are triangles",
+  "text": "Three of them are triangles."
+ },
+ {
+  "key": "three of them are vegetables",
+  "text": "Three of them are vegetables."
+ },
+ {
+  "key": "three of them are yellow ones",
+  "text": "Three of them are yellow ones."
+ },
+ {
+  "key": "three of them are yellow things",
+  "text": "Three of them are yellow things."
+ },
+ {
+  "key": "three two one blast off",
+  "text": "Three two one blast off!"
+ },
+ {
+  "key": "three wheels on a tricycle",
+  "text": "Three wheels on a tricycle"
+ },
+ {
+  "key": "thunder goes boom",
+  "text": "Thunder goes boom!"
+ },
+ {
+  "key": "tick tock says the clock",
+  "text": "Tick tock says the clock"
+ },
+ {
+  "key": "tie your shoe laces",
+  "text": "Tie your shoe laces"
+ },
+ {
+  "key": "tiger",
+  "text": "tiger"
+ },
+ {
+  "key": "tilt your head does a square become a diamond",
+  "text": "Tilt your head — does a square become a diamond?"
+ },
+ {
+  "key": "time for a little break",
+  "text": "Time for a little break."
+ },
+ {
+  "key": "time for a nap",
+  "text": "Time for a nap"
+ },
+ {
+  "key": "time for dinner",
+  "text": "Time for dinner!"
+ },
+ {
+  "key": "time to dance",
+  "text": "Time to dance!"
+ },
+ {
+  "key": "time to sleep",
+  "text": "Time to sleep!"
+ },
+ {
+  "key": "tiny egg",
+  "text": "tiny egg"
+ },
+ {
+  "key": "tiny maze",
+  "text": "Tiny maze"
+ },
+ {
+  "key": "today's adventure",
+  "text": "Today’s adventure"
+ },
+ {
+  "key": "tomato",
+  "text": "TOMATO"
+ },
+ {
+  "key": "tomatoes are red and round",
+  "text": "Tomatoes are red and round"
+ },
+ {
+  "key": "tomatoes are red round and juicy",
+  "text": "Tomatoes are red, round, and juicy!"
+ },
+ {
+  "key": "tongue",
+  "text": "TONGUE"
+ },
+ {
+  "key": "toothbrush",
+  "text": "toothbrush"
+ },
+ {
+  "key": "torch",
+  "text": "torch"
+ },
+ {
+  "key": "touch your ear",
+  "text": "Touch your ear!"
+ },
+ {
+  "key": "touch your hair",
+  "text": "Touch your hair!"
+ },
+ {
+  "key": "touch your nose",
+  "text": "Touch your nose!"
+ },
+ {
+  "key": "trace the letter",
+  "text": "Trace the letter"
+ },
+ {
+  "key": "trace the letter a",
+  "text": "Trace the letter A"
+ },
+ {
+  "key": "trace the letter b",
+  "text": "Trace the letter B"
+ },
+ {
+  "key": "trace the letter c",
+  "text": "Trace the letter C"
+ },
+ {
+  "key": "trace the letter d",
+  "text": "Trace the letter D"
+ },
+ {
+  "key": "trace the letter e",
+  "text": "Trace the letter E"
+ },
+ {
+  "key": "trace the letter f",
+  "text": "Trace the letter F"
+ },
+ {
+  "key": "trace the letter g",
+  "text": "Trace the letter G"
+ },
+ {
+  "key": "trace the letter h",
+  "text": "Trace the letter H"
+ },
+ {
+  "key": "trace the letter i",
+  "text": "Trace the letter I"
+ },
+ {
+  "key": "trace the letter j",
+  "text": "Trace the letter J"
+ },
+ {
+  "key": "trace the letter k",
+  "text": "Trace the letter K"
+ },
+ {
+  "key": "trace the letter l",
+  "text": "Trace the letter L"
+ },
+ {
+  "key": "trace the letter m",
+  "text": "Trace the letter M"
+ },
+ {
+  "key": "trace the letter n",
+  "text": "Trace the letter N"
+ },
+ {
+  "key": "trace the letter o",
+  "text": "Trace the letter O"
+ },
+ {
+  "key": "trace the letter p",
+  "text": "Trace the letter P"
+ },
+ {
+  "key": "trace the letter q",
+  "text": "Trace the letter Q"
+ },
+ {
+  "key": "trace the letter r",
+  "text": "Trace the letter R"
+ },
+ {
+  "key": "trace the letter s",
+  "text": "Trace the letter S"
+ },
+ {
+  "key": "trace the letter t",
+  "text": "Trace the letter T"
+ },
+ {
+  "key": "trace the letter u",
+  "text": "Trace the letter U"
+ },
+ {
+  "key": "trace the letter v",
+  "text": "Trace the letter V"
+ },
+ {
+  "key": "trace the letter w",
+  "text": "Trace the letter W"
+ },
+ {
+  "key": "trace the letter x",
+  "text": "Trace the letter X"
+ },
+ {
+  "key": "trace the letter y",
+  "text": "Trace the letter Y"
+ },
+ {
+  "key": "trace the letter z",
+  "text": "Trace the letter Z"
+ },
+ {
+  "key": "trace the number eight",
+  "text": "Trace the number Eight"
+ },
+ {
+  "key": "trace the number five",
+  "text": "Trace the number Five"
+ },
+ {
+  "key": "trace the number four",
+  "text": "Trace the number Four"
+ },
+ {
+  "key": "trace the number nine",
+  "text": "Trace the number Nine"
+ },
+ {
+  "key": "trace the number one",
+  "text": "Trace the number One"
+ },
+ {
+  "key": "trace the number seven",
+  "text": "Trace the number Seven"
+ },
+ {
+  "key": "trace the number six",
+  "text": "Trace the number Six"
+ },
+ {
+  "key": "trace the number three",
+  "text": "Trace the number Three"
+ },
+ {
+  "key": "trace the number two",
+  "text": "Trace the number Two"
+ },
+ {
+  "key": "trace the number zero",
+  "text": "Trace the number Zero"
+ },
+ {
+  "key": "trace the small letter a",
+  "text": "Trace the small letter a"
+ },
+ {
+  "key": "trace the small letter b",
+  "text": "Trace the small letter b"
+ },
+ {
+  "key": "trace the small letter c",
+  "text": "Trace the small letter c"
+ },
+ {
+  "key": "trace the small letter d",
+  "text": "Trace the small letter d"
+ },
+ {
+  "key": "trace the small letter e",
+  "text": "Trace the small letter e"
+ },
+ {
+  "key": "trace the small letter f",
+  "text": "Trace the small letter f"
+ },
+ {
+  "key": "trace the small letter g",
+  "text": "Trace the small letter g"
+ },
+ {
+  "key": "trace the small letter h",
+  "text": "Trace the small letter h"
+ },
+ {
+  "key": "trace the small letter i",
+  "text": "Trace the small letter i"
+ },
+ {
+  "key": "trace the small letter j",
+  "text": "Trace the small letter j"
+ },
+ {
+  "key": "trace the small letter k",
+  "text": "Trace the small letter k"
+ },
+ {
+  "key": "trace the small letter l",
+  "text": "Trace the small letter l"
+ },
+ {
+  "key": "trace the small letter m",
+  "text": "Trace the small letter m"
+ },
+ {
+  "key": "trace the small letter n",
+  "text": "Trace the small letter n"
+ },
+ {
+  "key": "trace the small letter o",
+  "text": "Trace the small letter o"
+ },
+ {
+  "key": "trace the small letter p",
+  "text": "Trace the small letter p"
+ },
+ {
+  "key": "trace the small letter q",
+  "text": "Trace the small letter q"
+ },
+ {
+  "key": "trace the small letter r",
+  "text": "Trace the small letter r"
+ },
+ {
+  "key": "trace the small letter s",
+  "text": "Trace the small letter s"
+ },
+ {
+  "key": "trace the small letter t",
+  "text": "Trace the small letter t"
+ },
+ {
+  "key": "trace the small letter u",
+  "text": "Trace the small letter u"
+ },
+ {
+  "key": "trace the small letter v",
+  "text": "Trace the small letter v"
+ },
+ {
+  "key": "trace the small letter w",
+  "text": "Trace the small letter w"
+ },
+ {
+  "key": "trace the small letter x",
+  "text": "Trace the small letter x"
+ },
+ {
+  "key": "trace the small letter y",
+  "text": "Trace the small letter y"
+ },
+ {
+  "key": "trace the small letter z",
+  "text": "Trace the small letter z"
+ },
+ {
+  "key": "train",
+  "text": "train"
+ },
+ {
+  "key": "trains go on tracks",
+  "text": "Trains go on tracks!"
+ },
+ {
+  "key": "trains run on tracks",
+  "text": "Trains run on tracks"
+ },
+ {
+  "key": "tree",
+  "text": "TREE"
+ },
+ {
+  "key": "trees are green",
+  "text": "Trees are green!"
+ },
+ {
+  "key": "trees have brown trunks hug a tree",
+  "text": "Trees have brown trunks — hug a tree!"
+ },
+ {
+  "key": "triangle",
+  "text": "TRIANGLE"
+ },
+ {
+  "key": "triangles",
+  "text": "triangles"
+ },
+ {
+  "key": "tricky ones",
+  "text": "Tricky ones"
+ },
+ {
+  "key": "tropical fish",
+  "text": "tropical fish"
+ },
+ {
+  "key": "truck",
+  "text": "TRUCK"
+ },
+ {
+  "key": "trucks are very big",
+  "text": "Trucks are very big"
+ },
+ {
+  "key": "trucks carry heavy things",
+  "text": "Trucks carry heavy things"
+ },
+ {
+  "key": "trucks carry heavy things everywhere",
+  "text": "Trucks carry heavy things everywhere!"
+ },
+ {
+  "key": "trumpet",
+  "text": "trumpet"
+ },
+ {
+  "key": "try again",
+  "text": "Try again!"
+ },
+ {
+  "key": "try another spot",
+  "text": "Try another spot!"
+ },
+ {
+  "key": "try it",
+  "text": "Try it!"
+ },
+ {
+  "key": "tulip",
+  "text": "tulip"
+ },
+ {
+  "key": "turn a pretend lamp on and off",
+  "text": "Turn a pretend lamp on and off!"
+ },
+ {
+  "key": "turn on the fan when it is hot",
+  "text": "Turn on the fan when it is hot"
+ },
+ {
+  "key": "turn on the lamp when it is dark",
+  "text": "Turn on the lamp when it is dark"
+ },
+ {
+  "key": "turtle",
+  "text": "turtle"
+ },
+ {
+  "key": "turtles carry a shell on their back",
+  "text": "Turtles carry a shell on their back"
+ },
+ {
+  "key": "turtles carry their home on their back",
+  "text": "Turtles carry their home on their back!"
+ },
+ {
+  "key": "turtles walk very slowly",
+  "text": "Turtles walk very slowly"
+ },
+ {
+  "key": "tv",
+  "text": "TV"
+ },
+ {
+  "key": "twinkle twinkle little star",
+  "text": "\"Twinkle twinkle little star!"
+ },
+ {
+  "key": "two",
+  "text": "Two"
+ },
+ {
+  "key": "two eyes to see",
+  "text": "Two eyes to see"
+ },
+ {
+  "key": "two gaps",
+  "text": "Two gaps"
+ },
+ {
+  "key": "two means a pair like your two eyes",
+  "text": "Two means a pair — like your two eyes!"
+ },
+ {
+  "key": "two more to go",
+  "text": "Two more to go!"
+ },
+ {
+  "key": "u",
+  "text": "U"
+ },
+ {
+  "key": "umbrella",
+  "text": "UMBRELLA"
+ },
+ {
+  "key": "under the sea",
+  "text": "under the sea"
+ },
+ {
+  "key": "unicorn",
+  "text": "unicorn"
+ },
+ {
+  "key": "up",
+  "text": "Up!"
+ },
+ {
+  "key": "v",
+  "text": "V"
+ },
+ {
+  "key": "vegetables",
+  "text": "vegetables"
+ },
+ {
+  "key": "vehicles",
+  "text": "Vehicles"
+ },
+ {
+  "key": "violin",
+  "text": "violin"
+ },
+ {
+  "key": "vroom",
+  "text": "Vroom!"
+ },
+ {
+  "key": "w",
+  "text": "W"
+ },
+ {
+  "key": "waddle like a penguin",
+  "text": "Waddle like a penguin!"
+ },
+ {
+  "key": "walk heavy like an elephant",
+  "text": "Walk heavy like an elephant!"
+ },
+ {
+  "key": "walk on all fours like an animal",
+  "text": "Walk on all fours like an animal!"
+ },
+ {
+  "key": "water",
+  "text": "WATER"
+ },
+ {
+  "key": "watermelon",
+  "text": "watermelon"
+ },
+ {
+  "key": "watermelons are big and green",
+  "text": "Watermelons are big and green"
+ },
+ {
+  "key": "watermelons are full of water",
+  "text": "Watermelons are full of water"
+ },
+ {
+  "key": "watermelons are mostly water inside",
+  "text": "Watermelons are mostly water inside!"
+ },
+ {
+  "key": "wave",
+  "text": "wave"
+ },
+ {
+  "key": "wave to the bus driver",
+  "text": "Wave to the bus driver!"
+ },
+ {
+  "key": "we are cooking breakfast",
+  "text": "We are cooking breakfast!"
+ },
+ {
+  "key": "we baked bread from wheat",
+  "text": "We baked bread from wheat!"
+ },
+ {
+  "key": "we can build a snowman",
+  "text": "We can build a snowman"
+ },
+ {
+  "key": "we cannot see it but we can feel it",
+  "text": "We cannot see it, but we can feel it!"
+ },
+ {
+  "key": "we cannot wear a apple",
+  "text": "We cannot wear a apple!"
+ },
+ {
+  "key": "we cannot wear a car",
+  "text": "We cannot wear a car!"
+ },
+ {
+  "key": "we cannot wear a dog",
+  "text": "We cannot wear a dog!"
+ },
+ {
+  "key": "we carve pumpkins on halloween",
+  "text": "We carve pumpkins on Halloween"
+ },
+ {
+  "key": "we chew food with our teeth",
+  "text": "We chew food with our teeth"
+ },
+ {
+  "key": "we cook food in a pot",
+  "text": "We cook food in a pot"
+ },
+ {
+  "key": "we do not eat with a key",
+  "text": "We do not eat with a key!"
+ },
+ {
+  "key": "we do not eat with a pencil",
+  "text": "We do not eat with a pencil!"
+ },
+ {
+  "key": "we do not keep a bed in the kitchen",
+  "text": "We do not keep a bed in the kitchen!"
+ },
+ {
+  "key": "we do not keep a bike in the kitchen",
+  "text": "We do not keep a bike in the kitchen!"
+ },
+ {
+  "key": "we do not keep a tree in the kitchen",
+  "text": "We do not keep a tree in the kitchen!"
+ },
+ {
+  "key": "we drink juice from a glass",
+  "text": "We drink juice from a glass"
+ },
+ {
+  "key": "we drink juice from a see through glass",
+  "text": "We drink juice from a see-through glass!"
+ },
+ {
+  "key": "we drink water and milk from cups",
+  "text": "We drink water and milk from cups!"
+ },
+ {
+  "key": "we drink water from a cup",
+  "text": "We drink water from a cup"
+ },
+ {
+  "key": "we eat and draw on tables",
+  "text": "We eat and draw on tables!"
+ },
+ {
+  "key": "we eat food from a plate",
+  "text": "We eat food from a plate"
+ },
+ {
+  "key": "we eat on the table",
+  "text": "We eat on the table"
+ },
+ {
+  "key": "we eat our food from round plates",
+  "text": "We eat our food from round plates!"
+ },
+ {
+  "key": "we eat rice with a spoon",
+  "text": "We eat rice with a spoon"
+ },
+ {
+  "key": "we eat soup from a bowl",
+  "text": "We eat soup from a bowl"
+ },
+ {
+  "key": "we feel loved when someone hugs us and cares for us",
+  "text": "We feel loved when someone hugs us and cares for us."
+ },
+ {
+  "key": "we fry food in a pan",
+  "text": "We fry food in a pan"
+ },
+ {
+  "key": "we have two hands",
+  "text": "We have two hands"
+ },
+ {
+  "key": "we hear with our ears",
+  "text": "We hear with our ears"
+ },
+ {
+  "key": "we lit little lamps one by one",
+  "text": "We lit little lamps, one by one."
+ },
+ {
+  "key": "we look outside through the window",
+  "text": "We look outside through the window"
+ },
+ {
+  "key": "we made a salad",
+  "text": "We made a salad!"
+ },
+ {
+  "key": "we make french fries from potatoes",
+  "text": "We make french fries from potatoes"
+ },
+ {
+  "key": "we make ketchup from tomatoes",
+  "text": "We make ketchup from tomatoes"
+ },
+ {
+  "key": "we make popcorn from corn",
+  "text": "We make popcorn from corn!"
+ },
+ {
+  "key": "we opened the box",
+  "text": "We opened the box."
+ },
+ {
+  "key": "we pick food with a fork",
+  "text": "We pick food with a fork"
+ },
+ {
+  "key": "we ride a bike with two wheels",
+  "text": "We ride a bike with two wheels"
+ },
+ {
+  "key": "we see the rainbow in the daytime",
+  "text": "We see the rainbow in the daytime!"
+ },
+ {
+  "key": "we see the sun in the daytime",
+  "text": "We see the sun in the daytime!"
+ },
+ {
+  "key": "we see with our eyes",
+  "text": "We see with our eyes"
+ },
+ {
+  "key": "we shared sweets and big hugs",
+  "text": "We shared sweets and big hugs."
+ },
+ {
+  "key": "we sit on a chair",
+  "text": "We sit on a chair"
+ },
+ {
+  "key": "we sleep on the bed",
+  "text": "We sleep on the bed"
+ },
+ {
+  "key": "we smell with our nose",
+  "text": "We smell with our nose"
+ },
+ {
+  "key": "we taste food with our tongue",
+  "text": "We taste food with our tongue"
+ },
+ {
+  "key": "we walk with our feet",
+  "text": "We walk with our feet"
+ },
+ {
+  "key": "we wear a hat on our head",
+  "text": "We wear a hat on our head"
+ },
+ {
+  "key": "we wear a jacket when it is cold",
+  "text": "We wear a jacket when it is cold"
+ },
+ {
+  "key": "we wear a shirt on top",
+  "text": "We wear a shirt on top"
+ },
+ {
+  "key": "we wear pants on our legs",
+  "text": "We wear pants on our legs"
+ },
+ {
+  "key": "we wear shoes on our feet",
+  "text": "We wear shoes on our feet"
+ },
+ {
+  "key": "we wear socks inside our shoes",
+  "text": "We wear socks inside our shoes"
+ },
+ {
+  "key": "we wrap a scarf around our neck",
+  "text": "We wrap a scarf around our neck"
+ },
+ {
+  "key": "wear a helmet on your bike",
+  "text": "Wear a helmet on your bike"
+ },
+ {
+  "key": "weather sky",
+  "text": "Weather & Sky"
+ },
+ {
+  "key": "well done",
+  "text": "Well done!"
+ },
+ {
+  "key": "well spotted",
+  "text": "Well spotted!"
+ },
+ {
+  "key": "whale",
+  "text": "WHALE"
+ },
+ {
+  "key": "what a clever crow",
+  "text": "What a clever crow!"
+ },
+ {
+  "key": "what a fun day",
+  "text": "What a fun day!"
+ },
+ {
+  "key": "what a kind bunny",
+  "text": "What a kind bunny!"
+ },
+ {
+  "key": "what a story",
+  "text": "What a story!"
+ },
+ {
+  "key": "what a surprise",
+  "text": "What a surprise!"
+ },
+ {
+  "key": "what a wonderful story",
+  "text": "What a wonderful story!"
+ },
+ {
+  "key": "what color apple do you like best",
+  "text": "What color apple do you like best?"
+ },
+ {
+  "key": "what color are your socks today",
+  "text": "What color are your socks today?"
+ },
+ {
+  "key": "what color is your shirt today",
+  "text": "What color is your shirt today?"
+ },
+ {
+  "key": "what colors do you see",
+  "text": "What colors do you see?"
+ },
+ {
+  "key": "what comes first",
+  "text": "What comes first?"
+ },
+ {
+  "key": "what comes next",
+  "text": "What comes next?"
+ },
+ {
+  "key": "what could you share with a friend today",
+  "text": "What could you share with a friend today?"
+ },
+ {
+  "key": "what do owls say",
+  "text": "What do owls say?"
+ },
+ {
+  "key": "what do you eat for breakfast",
+  "text": "What do you eat for breakfast?"
+ },
+ {
+  "key": "what do you like to do at the table",
+  "text": "What do you like to do at the table?"
+ },
+ {
+  "key": "what do you like to do on a rainy day",
+  "text": "What do you like to do on a rainy day?"
+ },
+ {
+  "key": "what do you see",
+  "text": "What do you see?"
+ },
+ {
+  "key": "what do you smell",
+  "text": "What do you smell?"
+ },
+ {
+  "key": "what do you think a seed needs to grow",
+  "text": "What do you think a seed needs to grow?"
+ },
+ {
+  "key": "what do you think birds dream about",
+  "text": "What do you think birds dream about?"
+ },
+ {
+  "key": "what else melts when it gets warm",
+  "text": "What else melts when it gets warm?"
+ },
+ {
+  "key": "what fruit would you like to grow",
+  "text": "What fruit would you like to grow?"
+ },
+ {
+  "key": "what happens before that",
+  "text": "What happens before that?"
+ },
+ {
+  "key": "what happens first",
+  "text": "What happens first?"
+ },
+ {
+  "key": "what happens next",
+  "text": "What happens next?"
+ },
+ {
+  "key": "what helps you feel better when you are sad",
+  "text": "What helps you feel better when you are sad?"
+ },
+ {
+  "key": "what is the problem in your story",
+  "text": "What is the problem in your story?"
+ },
+ {
+  "key": "what is your favorite food on a plate",
+  "text": "What is your favorite food on a plate?"
+ },
+ {
+  "key": "what is your favorite fruit",
+  "text": "What is YOUR favorite fruit?"
+ },
+ {
+  "key": "what is your favourite animal",
+  "text": "What is your favourite animal?"
+ },
+ {
+  "key": "what is your favourite part of diwali",
+  "text": "What is your favourite part of Diwali?"
+ },
+ {
+  "key": "what makes you feel safe",
+  "text": "What makes you feel safe?"
+ },
+ {
+  "key": "what makes you happy when you feel sad",
+  "text": "What makes you happy when you feel sad?"
+ },
+ {
+  "key": "what shall we make today",
+  "text": "What shall we make today?"
+ },
+ {
+  "key": "what shall we play",
+  "text": "What shall we play?"
+ },
+ {
+  "key": "what shape can you see in the clouds",
+  "text": "What shape can you see in the clouds?"
+ },
+ {
+  "key": "what sounds does the rain make",
+  "text": "What sounds does the rain make?"
+ },
+ {
+  "key": "what two colors make purple",
+  "text": "What two colors make purple?"
+ },
+ {
+  "key": "what veggies do you like",
+  "text": "What veggies do YOU like?"
+ },
+ {
+  "key": "what would you do",
+  "text": "What would you do?"
+ },
+ {
+  "key": "what would you eat if you were very very hungry",
+  "text": "What would you eat if you were very, very hungry?"
+ },
+ {
+  "key": "what would you keep in a shell",
+  "text": "What would YOU keep in a shell?"
+ },
+ {
+  "key": "what would you like to find in a gift box",
+  "text": "What would you like to find in a gift box?"
+ },
+ {
+  "key": "what would you teach a parrot",
+  "text": "What would you teach a parrot?"
+ },
+ {
+  "key": "wheat",
+  "text": "wheat"
+ },
+ {
+  "key": "wheels coins and the sun are all circles",
+  "text": "Wheels, coins, and the sun are all circles!"
+ },
+ {
+  "key": "when we are angry our face gets hot and our hands get tight",
+  "text": "When we are angry, our face gets hot and our hands get tight."
+ },
+ {
+  "key": "when we are sleepy we yawn and our eyes feel heavy",
+  "text": "When we are sleepy, we yawn and our eyes feel heavy."
+ },
+ {
+  "key": "when we are surprised our eyes go big and our mouth opens",
+  "text": "When we are surprised, our eyes go big and our mouth opens!"
+ },
+ {
+  "key": "when we feel happy we smile and want to jump",
+  "text": "When we feel happy, we smile and want to jump!"
+ },
+ {
+  "key": "when you smile at someone they often smile back",
+  "text": "When you smile at someone, they often smile back!"
+ },
+ {
+  "key": "where are the eyes",
+  "text": "Where are the EYES?"
+ },
+ {
+  "key": "where are the grapes",
+  "text": "Where are the GRAPES?"
+ },
+ {
+  "key": "where are the pants",
+  "text": "Where are the PANTS?"
+ },
+ {
+  "key": "where are the shoes",
+  "text": "Where are the SHOES?"
+ },
+ {
+  "key": "where are the socks",
+  "text": "Where are the SOCKS?"
+ },
+ {
+  "key": "where do the circles go",
+  "text": "Where do the circles go?"
+ },
+ {
+  "key": "where do the hearts go",
+  "text": "Where do the hearts go?"
+ },
+ {
+  "key": "where do the squares go",
+  "text": "Where do the squares go?"
+ },
+ {
+  "key": "where do the stars go",
+  "text": "Where do the stars go?"
+ },
+ {
+  "key": "where do the triangles go",
+  "text": "Where do the triangles go?"
+ },
+ {
+  "key": "where do you hide things",
+  "text": "Where do you hide things?"
+ },
+ {
+  "key": "where do you think the puppy found the ball",
+  "text": "Where do you think the puppy found the ball?"
+ },
+ {
+  "key": "where do you think the rain comes from",
+  "text": "Where do you think the rain comes from?"
+ },
+ {
+  "key": "where is my ball",
+  "text": "Where Is My Ball?"
+ },
+ {
+  "key": "where is the angry",
+  "text": "Where is the ANGRY?"
+ },
+ {
+  "key": "where is the apple",
+  "text": "Where is the APPLE?"
+ },
+ {
+  "key": "where is the ball",
+  "text": "Where is the ball?"
+ },
+ {
+  "key": "where is the banana",
+  "text": "Where is the BANANA?"
+ },
+ {
+  "key": "where is the bed",
+  "text": "Where is the BED?"
+ },
+ {
+  "key": "where is the bike",
+  "text": "Where is the BIKE?"
+ },
+ {
+  "key": "where is the bird",
+  "text": "Where is the BIRD?"
+ },
+ {
+  "key": "where is the blue",
+  "text": "Where is the BLUE?"
+ },
+ {
+  "key": "where is the boat",
+  "text": "Where is the BOAT?"
+ },
+ {
+  "key": "where is the bowl",
+  "text": "Where is the BOWL?"
+ },
+ {
+  "key": "where is the broccoli",
+  "text": "Where is the BROCCOLI?"
+ },
+ {
+  "key": "where is the brown",
+  "text": "Where is the BROWN?"
+ },
+ {
+  "key": "where is the bus",
+  "text": "Where is the BUS?"
+ },
+ {
+  "key": "where is the butterfly",
+  "text": "Where is the BUTTERFLY?"
+ },
+ {
+  "key": "where is the car",
+  "text": "Where is the CAR?"
+ },
+ {
+  "key": "where is the carrot",
+  "text": "Where is the CARROT?"
+ },
+ {
+  "key": "where is the cat",
+  "text": "Where is the CAT?"
+ },
+ {
+  "key": "where is the chair",
+  "text": "Where is the CHAIR?"
+ },
+ {
+  "key": "where is the cherry",
+  "text": "Where is the CHERRY?"
+ },
+ {
+  "key": "where is the circle",
+  "text": "Where is the CIRCLE?"
+ },
+ {
+  "key": "where is the clock",
+  "text": "Where is the CLOCK?"
+ },
+ {
+  "key": "where is the cloud",
+  "text": "Where is the CLOUD?"
+ },
+ {
+  "key": "where is the corn",
+  "text": "Where is the CORN?"
+ },
+ {
+  "key": "where is the cucumber",
+  "text": "Where is the CUCUMBER?"
+ },
+ {
+  "key": "where is the cup",
+  "text": "Where is the CUP?"
+ },
+ {
+  "key": "where is the diamond",
+  "text": "Where is the DIAMOND?"
+ },
+ {
+  "key": "where is the dog",
+  "text": "Where is the DOG?"
+ },
+ {
+  "key": "where is the door",
+  "text": "Where is the DOOR?"
+ },
+ {
+  "key": "where is the dress",
+  "text": "Where is the DRESS?"
+ },
+ {
+  "key": "where is the ear",
+  "text": "Where is the EAR?"
+ },
+ {
+  "key": "where is the eight",
+  "text": "Where is the EIGHT?"
+ },
+ {
+  "key": "where is the elephant",
+  "text": "Where is the ELEPHANT?"
+ },
+ {
+  "key": "where is the fan",
+  "text": "Where is the FAN?"
+ },
+ {
+  "key": "where is the fish",
+  "text": "Where is the FISH?"
+ },
+ {
+  "key": "where is the five",
+  "text": "Where is the FIVE?"
+ },
+ {
+  "key": "where is the foot",
+  "text": "Where is the FOOT?"
+ },
+ {
+  "key": "where is the fork",
+  "text": "Where is the FORK?"
+ },
+ {
+  "key": "where is the four",
+  "text": "Where is the FOUR?"
+ },
+ {
+  "key": "where is the frog",
+  "text": "Where is the FROG?"
+ },
+ {
+  "key": "where is the giraffe",
+  "text": "Where is the GIRAFFE?"
+ },
+ {
+  "key": "where is the glass",
+  "text": "Where is the GLASS?"
+ },
+ {
+  "key": "where is the green",
+  "text": "Where is the GREEN?"
+ },
+ {
+  "key": "where is the hair",
+  "text": "Where is the HAIR?"
+ },
+ {
+  "key": "where is the hand",
+  "text": "Where is the HAND?"
+ },
+ {
+  "key": "where is the happy",
+  "text": "Where is the HAPPY?"
+ },
+ {
+  "key": "where is the hat",
+  "text": "Where is the HAT?"
+ },
+ {
+  "key": "where is the heart",
+  "text": "Where is the HEART?"
+ },
+ {
+  "key": "where is the jacket",
+  "text": "Where is the JACKET?"
+ },
+ {
+  "key": "where is the lamp",
+  "text": "Where is the LAMP?"
+ },
+ {
+  "key": "where is the lightning",
+  "text": "Where is the LIGHTNING?"
+ },
+ {
+  "key": "where is the lion",
+  "text": "Where is the LION?"
+ },
+ {
+  "key": "where is the loved",
+  "text": "Where is the LOVED?"
+ },
+ {
+  "key": "where is the mango",
+  "text": "Where is the MANGO?"
+ },
+ {
+  "key": "where is the monkey",
+  "text": "Where is the MONKEY?"
+ },
+ {
+  "key": "where is the moon",
+  "text": "Where is the MOON?"
+ },
+ {
+  "key": "where is the nose",
+  "text": "Where is the NOSE?"
+ },
+ {
+  "key": "where is the one",
+  "text": "Where is the ONE?"
+ },
+ {
+  "key": "where is the onion",
+  "text": "Where is the ONION?"
+ },
+ {
+  "key": "where is the orange",
+  "text": "Where is the ORANGE?"
+ },
+ {
+  "key": "where is the oval",
+  "text": "Where is the OVAL?"
+ },
+ {
+  "key": "where is the owl",
+  "text": "Where is the OWL?"
+ },
+ {
+  "key": "where is the pan",
+  "text": "Where is the PAN?"
+ },
+ {
+  "key": "where is the parrot",
+  "text": "Where is the PARROT?"
+ },
+ {
+  "key": "where is the penguin",
+  "text": "Where is the PENGUIN?"
+ },
+ {
+  "key": "where is the pink",
+  "text": "Where is the PINK?"
+ },
+ {
+  "key": "where is the plane",
+  "text": "Where is the PLANE?"
+ },
+ {
+  "key": "where is the plate",
+  "text": "Where is the PLATE?"
+ },
+ {
+  "key": "where is the pot",
+  "text": "Where is the POT?"
+ },
+ {
+  "key": "where is the potato",
+  "text": "Where is the POTATO?"
+ },
+ {
+  "key": "where is the pumpkin",
+  "text": "Where is the PUMPKIN?"
+ },
+ {
+  "key": "where is the purple",
+  "text": "Where is the PURPLE?"
+ },
+ {
+  "key": "where is the rabbit",
+  "text": "Where is the RABBIT?"
+ },
+ {
+  "key": "where is the rain",
+  "text": "Where is the RAIN?"
+ },
+ {
+  "key": "where is the rainbow",
+  "text": "Where is the RAINBOW?"
+ },
+ {
+  "key": "where is the rectangle",
+  "text": "Where is the RECTANGLE?"
+ },
+ {
+  "key": "where is the red",
+  "text": "Where is the RED?"
+ },
+ {
+  "key": "where is the rocket",
+  "text": "Where is the ROCKET?"
+ },
+ {
+  "key": "where is the sad",
+  "text": "Where is the SAD?"
+ },
+ {
+  "key": "where is the scared",
+  "text": "Where is the SCARED?"
+ },
+ {
+  "key": "where is the scarf",
+  "text": "Where is the SCARF?"
+ },
+ {
+  "key": "where is the seven",
+  "text": "Where is the SEVEN?"
+ },
+ {
+  "key": "where is the shirt",
+  "text": "Where is the SHIRT?"
+ },
+ {
+  "key": "where is the silly",
+  "text": "Where is the SILLY?"
+ },
+ {
+  "key": "where is the six",
+  "text": "Where is the SIX?"
+ },
+ {
+  "key": "where is the sleepy",
+  "text": "Where is the SLEEPY?"
+ },
+ {
+  "key": "where is the snow",
+  "text": "Where is the SNOW?"
+ },
+ {
+  "key": "where is the spoon",
+  "text": "Where is the SPOON?"
+ },
+ {
+  "key": "where is the square",
+  "text": "Where is the SQUARE?"
+ },
+ {
+  "key": "where is the star",
+  "text": "Where is the STAR?"
+ },
+ {
+  "key": "where is the strawberry",
+  "text": "Where is the STRAWBERRY?"
+ },
+ {
+  "key": "where is the sun",
+  "text": "Where is the SUN?"
+ },
+ {
+  "key": "where is the surprised",
+  "text": "Where is the SURPRISED?"
+ },
+ {
+  "key": "where is the table",
+  "text": "Where is the TABLE?"
+ },
+ {
+  "key": "where is the teeth",
+  "text": "Where is the TEETH?"
+ },
+ {
+  "key": "where is the three",
+  "text": "Where is the THREE?"
+ },
+ {
+  "key": "where is the tomato",
+  "text": "Where is the TOMATO?"
+ },
+ {
+  "key": "where is the tongue",
+  "text": "Where is the TONGUE?"
+ },
+ {
+  "key": "where is the train",
+  "text": "Where is the TRAIN?"
+ },
+ {
+  "key": "where is the triangle",
+  "text": "Where is the TRIANGLE?"
+ },
+ {
+  "key": "where is the truck",
+  "text": "Where is the TRUCK?"
+ },
+ {
+  "key": "where is the turtle",
+  "text": "Where is the TURTLE?"
+ },
+ {
+  "key": "where is the two",
+  "text": "Where is the TWO?"
+ },
+ {
+  "key": "where is the watermelon",
+  "text": "Where is the WATERMELON?"
+ },
+ {
+  "key": "where is the white",
+  "text": "Where is the WHITE?"
+ },
+ {
+  "key": "where is the wind",
+  "text": "Where is the WIND?"
+ },
+ {
+  "key": "where is the window",
+  "text": "Where is the WINDOW?"
+ },
+ {
+  "key": "where is the yellow",
+  "text": "Where is the YELLOW?"
+ },
+ {
+  "key": "which arrow should change",
+  "text": "Which arrow should change?"
+ },
+ {
+  "key": "which colour of the rainbow do you like best",
+  "text": "Which colour of the rainbow do you like best?"
+ },
+ {
+  "key": "which one doesn't belong",
+  "text": "Which one doesn't belong?"
+ },
+ {
+  "key": "which one is not",
+  "text": "Which one is not?"
+ },
+ {
+  "key": "white",
+  "text": "WHITE!"
+ },
+ {
+  "key": "white is the color of snow and clouds",
+  "text": "White is the color of snow and clouds!"
+ },
+ {
+  "key": "white light has all rainbow colors hiding inside",
+  "text": "White light has all rainbow colors hiding inside!"
+ },
+ {
+  "key": "who do you love to hug",
+  "text": "Who do you love to hug?"
+ },
+ {
+  "key": "who do you say good night to",
+  "text": "Who do you say good night to?"
+ },
+ {
+  "key": "who is in your picture",
+  "text": "Who is in your picture?"
+ },
+ {
+  "key": "who is playing today",
+  "text": "Who is playing today?"
+ },
+ {
+  "key": "whooo",
+  "text": "Whooo!"
+ },
+ {
+  "key": "whoosh",
+  "text": "Whoosh!"
+ },
+ {
+  "key": "why",
+  "text": "Why?"
+ },
+ {
+  "key": "why did the water come up when he dropped the pebbles",
+  "text": "Why did the water come up when he dropped the pebbles?"
+ },
+ {
+  "key": "why do you think bear slept all winter",
+  "text": "Why do you think Bear slept all winter?"
+ },
+ {
+  "key": "why do you think the sky is blue",
+  "text": "Why do you think the sky is blue?"
+ },
+ {
+  "key": "why doesn't it belong",
+  "text": "Why doesn’t it belong?"
+ },
+ {
+  "key": "wiggle eight fingers like an octopus",
+  "text": "Wiggle eight fingers like an octopus!"
+ },
+ {
+  "key": "win games to collect stickers",
+  "text": "Win games to collect stickers!"
+ },
+ {
+  "key": "wind",
+  "text": "WIND"
+ },
+ {
+  "key": "wind is moving air",
+  "text": "Wind is moving air."
+ },
+ {
+  "key": "wind makes kites fly",
+  "text": "Wind makes kites fly"
+ },
+ {
+  "key": "wind makes kites fly and turns big windmills",
+  "text": "Wind makes kites fly and turns big windmills!"
+ },
+ {
+  "key": "window",
+  "text": "WINDOW"
+ },
+ {
+  "key": "windows let sunshine come inside",
+  "text": "Windows let sunshine come inside!"
+ },
+ {
+  "key": "winter was coming",
+  "text": "Winter was coming!"
+ },
+ {
+  "key": "wolf",
+  "text": "wolf"
+ },
+ {
+  "key": "wonderful",
+  "text": "Wonderful!"
+ },
+ {
+  "key": "works offline",
+  "text": "Works offline."
+ },
+ {
+  "key": "wow",
+  "text": "Wow!"
+ },
+ {
+  "key": "wow so smart",
+  "text": "Wow, so smart!"
+ },
+ {
+  "key": "wow you're getting so good",
+  "text": "Wow, you’re getting so good!"
+ },
+ {
+  "key": "wrap something around your neck like a scarf",
+  "text": "Wrap something around your neck like a scarf!"
+ },
+ {
+  "key": "write",
+  "text": "write"
+ },
+ {
+  "key": "x",
+  "text": "X"
+ },
+ {
+  "key": "y",
+  "text": "Y"
+ },
+ {
+  "key": "yellow",
+  "text": "Yellow"
+ },
+ {
+  "key": "yellow circle",
+  "text": "Yellow circle!"
+ },
+ {
+  "key": "yellow heart",
+  "text": "Yellow heart!"
+ },
+ {
+  "key": "yellow is easiest to see far away",
+  "text": "Yellow is easiest to see far away!"
+ },
+ {
+  "key": "yellow is the color of the sun and bananas",
+  "text": "Yellow is the color of the sun and bananas!"
+ },
+ {
+  "key": "yellow square",
+  "text": "Yellow square!"
+ },
+ {
+  "key": "yellow star",
+  "text": "Yellow star!"
+ },
+ {
+  "key": "yellow things",
+  "text": "yellow things"
+ },
+ {
+  "key": "yellow triangle",
+  "text": "Yellow triangle!"
+ },
+ {
+  "key": "yes",
+  "text": "Yes!"
+ },
+ {
+  "key": "you are doing great",
+  "text": "You are doing great!"
+ },
+ {
+  "key": "you can do it",
+  "text": "You can do it!"
+ },
+ {
+  "key": "you cannot draw with a fish",
+  "text": "You cannot draw with a fish!"
+ },
+ {
+  "key": "you cannot draw with a pizza",
+  "text": "You cannot draw with a pizza!"
+ },
+ {
+  "key": "you cannot draw with a sock",
+  "text": "You cannot draw with a sock!"
+ },
+ {
+  "key": "you copied it",
+  "text": "You copied it!"
+ },
+ {
+  "key": "you did it",
+  "text": "You did it!"
+ },
+ {
+  "key": "you discovered so many things",
+  "text": "You discovered so many things!"
+ },
+ {
+  "key": "you finished today's adventure",
+  "text": "You finished today’s adventure!"
+ },
+ {
+  "key": "you found it",
+  "text": "You found it!"
+ },
+ {
+  "key": "you found the way",
+  "text": "You found the way!"
+ },
+ {
+  "key": "you found them all",
+  "text": "You found them all!"
+ },
+ {
+  "key": "you froze like a statue",
+  "text": "You froze like a statue!"
+ },
+ {
+  "key": "you go first",
+  "text": "You go first."
+ },
+ {
+  "key": "you got a sticker",
+  "text": "You got a sticker!"
+ },
+ {
+  "key": "you got it",
+  "text": "You got it!"
+ },
+ {
+  "key": "you have 5 fingers on each hand",
+  "text": "You have 5 fingers on each hand!"
+ },
+ {
+  "key": "you have about 100 000 hairs on your head",
+  "text": "You have about 100,000 hairs on your head!"
+ },
+ {
+  "key": "you have five fingers on each hand",
+  "text": "You have five fingers on each hand!"
+ },
+ {
+  "key": "you have one nose one mouth and one belly button",
+  "text": "You have one nose, one mouth, and one belly button!"
+ },
+ {
+  "key": "you know this",
+  "text": "You know this!"
+ },
+ {
+  "key": "you know this word now",
+  "text": "You know this word now!"
+ },
+ {
+  "key": "you made a painting",
+  "text": "You made a painting!"
+ },
+ {
+  "key": "you made you solved and you learned",
+  "text": "You made, you solved and you learned!"
+ },
+ {
+  "key": "you make brown by mixing all colors together",
+  "text": "You make brown by mixing all colors together!"
+ },
+ {
+  "key": "you matched",
+  "text": "You matched"
+ },
+ {
+  "key": "you matched all",
+  "text": "You matched all"
+ },
+ {
+  "key": "you matched them all",
+  "text": "You matched them all!"
+ },
+ {
+  "key": "you sit upstairs",
+  "text": "You sit upstairs."
+ },
+ {
+  "key": "you used 1 block",
+  "text": "You used 1 block!"
+ },
+ {
+  "key": "you used 10 blocks",
+  "text": "You used 10 blocks!"
+ },
+ {
+  "key": "you used 11 blocks",
+  "text": "You used 11 blocks!"
+ },
+ {
+  "key": "you used 12 blocks",
+  "text": "You used 12 blocks!"
+ },
+ {
+  "key": "you used 13 blocks",
+  "text": "You used 13 blocks!"
+ },
+ {
+  "key": "you used 14 blocks",
+  "text": "You used 14 blocks!"
+ },
+ {
+  "key": "you used 15 blocks",
+  "text": "You used 15 blocks!"
+ },
+ {
+  "key": "you used 16 blocks",
+  "text": "You used 16 blocks!"
+ },
+ {
+  "key": "you used 2 blocks",
+  "text": "You used 2 blocks!"
+ },
+ {
+  "key": "you used 3 blocks",
+  "text": "You used 3 blocks!"
+ },
+ {
+  "key": "you used 4 blocks",
+  "text": "You used 4 blocks!"
+ },
+ {
+  "key": "you used 5 blocks",
+  "text": "You used 5 blocks!"
+ },
+ {
+  "key": "you used 6 blocks",
+  "text": "You used 6 blocks!"
+ },
+ {
+  "key": "you used 7 blocks",
+  "text": "You used 7 blocks!"
+ },
+ {
+  "key": "you used 8 blocks",
+  "text": "You used 8 blocks!"
+ },
+ {
+  "key": "you used 9 blocks",
+  "text": "You used 9 blocks!"
+ },
+ {
+  "key": "you win",
+  "text": "You win!"
+ },
+ {
+  "key": "you're a pattern pro",
+  "text": "You’re a pattern pro!"
+ },
+ {
+  "key": "your art",
+  "text": "Your art!"
+ },
+ {
+  "key": "your door your book and your phone are all rectangles",
+  "text": "Your door, your book, and your phone are all rectangles!"
+ },
+ {
+  "key": "your ears also help you balance so you do not fall",
+  "text": "Your ears also help you balance so you do not fall!"
+ },
+ {
+  "key": "your ears help you hear sounds all around",
+  "text": "Your ears help you hear sounds all around!"
+ },
+ {
+  "key": "your eyes blink about 15 times every minute",
+  "text": "Your eyes blink about 15 times every minute!"
+ },
+ {
+  "key": "your eyes can see more greens than any other color",
+  "text": "Your eyes can see more greens than any other color!"
+ },
+ {
+  "key": "your eyes can see over 10 million different colors",
+  "text": "Your eyes can see over 10 million different colors!"
+ },
+ {
+  "key": "your feet have 26 bones in each one",
+  "text": "Your feet have 26 bones in each one!"
+ },
+ {
+  "key": "your fingerprints are unique nobody else has the same ones",
+  "text": "Your fingerprints are unique — nobody else has the same ones!"
+ },
+ {
+  "key": "your hair grows about as fast as grass",
+  "text": "Your hair grows about as fast as grass!"
+ },
+ {
+  "key": "your nose and ears never stop growing your whole life",
+  "text": "Your nose and ears never stop growing your whole life!"
+ },
+ {
+  "key": "your nose can smell over 1 trillion smells",
+  "text": "Your nose can smell over 1 trillion smells!"
+ },
+ {
+  "key": "your picture",
+  "text": "your picture"
+ },
+ {
+  "key": "your real heart beats 100 000 times every day",
+  "text": "Your real heart beats 100,000 times every day!"
+ },
+ {
+  "key": "your sticker book",
+  "text": "Your sticker book!"
+ },
+ {
+  "key": "your tongue helps you taste sweet sour and salty",
+  "text": "Your tongue helps you taste sweet, sour, and salty!"
+ },
+ {
+  "key": "your tongue print is special just like your fingerprint",
+  "text": "Your tongue print is special, just like your fingerprint!"
+ },
+ {
+  "key": "your turn",
+  "text": "Your turn!"
+ },
+ {
+  "key": "yum",
+  "text": "Yum!"
+ },
+ {
+  "key": "yum yum",
+  "text": "Yum yum!"
+ },
+ {
+  "key": "yummy",
+  "text": "yummy"
+ },
+ {
+  "key": "z",
+  "text": "Z"
+ },
+ {
+  "key": "zebra",
+  "text": "zebra"
+ },
+ {
+  "key": "zero",
+  "text": "Zero"
+ },
+ {
+  "key": "zip up your jacket",
+  "text": "Zip up your jacket"
+ },
+ {
+  "key": "zzz",
+  "text": "Zzz!"
+ },
+ {
+  "key": "zzzzzip",
+  "text": "Zzzzzip!"
+ }
+]

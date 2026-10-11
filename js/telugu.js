@@ -43,7 +43,15 @@ const TELUGU = {
 
   // Shapes
   CIRCLE: 'వృత్తం', SQUARE: 'చతురస్రం', TRIANGLE: 'త్రికోణం', STAR: 'నక్షత్రం',
-  HEART: 'హృదయం', DIAMOND: 'వజ్రం', RECTANGLE: 'దీర్ఘచతురస్రం', OVAL: 'అండాకారం'
+  HEART: 'హృదయం', DIAMOND: 'వజ్రం', RECTANGLE: 'దీర్ఘచతురస్రం', OVAL: 'అండాకారం',
+
+  // Feelings
+  HAPPY: 'సంతోషం', SAD: 'బాధ', ANGRY: 'కోపం', SCARED: 'భయం',
+  SURPRISED: 'ఆశ్చర్యం', SLEEPY: 'నిద్ర', SILLY: 'అల్లరి', LOVED: 'ప్రేమ',
+
+  // Weather & sky
+  SUN: 'సూర్యుడు', RAIN: 'వాన', CLOUD: 'మేఘం', RAINBOW: 'ఇంద్రధనుస్సు',
+  SNOW: 'మంచు', WIND: 'గాలి', MOON: 'చంద్రుడు', LIGHTNING: 'మెరుపు'
 };
 
 const SENTENCES = {
@@ -151,5 +159,21 @@ const SENTENCES = {
   HEART: ['This is a Heart', 'A heart means love', 'I love you with all my heart'],
   DIAMOND: ['This is a Diamond', 'A diamond has four pointy sides', 'Diamonds sparkle and shine'],
   RECTANGLE: ['This is a Rectangle', 'A rectangle is like a long square', 'A door looks like a rectangle'],
-  OVAL: ['This is an Oval', 'An oval is like a stretched circle', 'An egg is oval shaped']
+  OVAL: ['This is an Oval', 'An oval is like a stretched circle', 'An egg is oval shaped'],
+  HAPPY: ['I feel happy', 'Happy people smile!', 'Clap your hands when you are happy'],
+  SAD: ['I feel sad', 'It is okay to feel sad', 'A hug helps when we are sad'],
+  ANGRY: ['I feel angry', 'Take a big slow breath', 'Angry feelings get smaller'],
+  SCARED: ['I feel scared', 'Hold a hand when you are scared', 'Grown-ups help us feel safe'],
+  SURPRISED: ['I am surprised', 'Wow! What a surprise!', 'Surprises make us jump'],
+  SLEEPY: ['I feel sleepy', 'Sleepy people yawn', 'Time for a nap'],
+  SILLY: ['I feel silly', 'Silly faces are funny!', 'Let us be silly together'],
+  LOVED: ['I feel loved', 'Hugs make us feel loved', 'I love you!'],
+  SUN: ['This is the Sun', 'The sun is hot and bright', 'The sun wakes us up'],
+  RAIN: ['This is Rain', 'Rain makes puddles', 'Plants drink the rain'],
+  CLOUD: ['This is a Cloud', 'Clouds float in the sky', 'Clouds bring the rain'],
+  RAINBOW: ['This is a Rainbow', 'A rainbow has many colours', 'Look up and find a rainbow!'],
+  SNOW: ['This is Snow', 'Snow is cold and white', 'We can build a snowman'],
+  WIND: ['This is the Wind', 'The wind goes whoosh!', 'Wind makes kites fly'],
+  MOON: ['This is the Moon', 'The moon shines at night', 'Good night, moon!'],
+  LIGHTNING: ['This is Lightning', 'Lightning flashes in a storm', 'Thunder goes boom!']
 };

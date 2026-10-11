@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=20">
   <style>
     .art { max-width: 1280px; margin: 0 auto; }
     .mode-tab .emoji { font-size: 17px; }
@@ -196,7 +196,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=17"></script>
+  <script src="js/common.js?v=20"></script>
   <script>
     var LEVELS = [
       { age: 2, label: 'Simple tools' },
@@ -233,6 +233,13 @@
 
     function say(text, rate) { Speech.speak(text, rate || 0.9); }
     function toast(text) { App.toast(text); }
+    // the first picture kept on each visit earns a sticker
+    var stickerGiven = false;
+    function keptSticker() {
+      if (stickerGiven) return '';
+      stickerGiven = true;
+      return ' \u00B7 new sticker ' + App.earnSticker().sticker;
+    }
 
     /* ================= Paint ================= */
     var cv = document.getElementById('paper');
@@ -458,7 +465,7 @@
     document.getElementById('save').addEventListener('click', function () {
       if (!visibleOps().length) { say('Draw something first!'); return; }
       var item = App.gallery.add('art', App.snapshot(cv, 900));
-      if (item) { App.sfx('yay'); say('Saved! Lovely picture!'); App.confetti(30); toast('Kept in My art'); }
+      if (item) { App.sfx('yay'); say('Saved! Lovely picture!'); App.confetti(30); toast('Kept in My art' + keptSticker()); }
       else toast('Could not save: this device is out of space');
     });
 
@@ -728,7 +735,7 @@
         g.fillRect(0, 0, 800, 800);
         g.drawImage(img, 0, 0, 800, 800);
         var item = App.gallery.add('art', App.snapshot(c, 800));
-        if (item) { App.sfx('yay'); say('Saved! Beautiful colours!'); App.confetti(30); toast('Kept in My art'); }
+        if (item) { App.sfx('yay'); say('Saved! Beautiful colours!'); App.confetti(30); toast('Kept in My art' + keptSticker()); }
         else toast('Could not save: this device is out of space');
       };
       img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
