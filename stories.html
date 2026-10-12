@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .st-wrap { max-width: 760px; margin: 0 auto; }
 
@@ -71,11 +71,11 @@
     .st-page {
       padding: clamp(18px, 4vmin, 40px) clamp(14px, 3vmin, 32px);
       text-align: center; animation: fadeIn .4s ease-out;
-      min-height: min(clamp(320px, 56vmin, 520px), 62dvh);
+      min-height: clamp(320px, 100dvh - 340px, 640px);   /* the book fills the screen */
       display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
     .st-scene {
-      font-family: var(--emoji); font-size: clamp(54px, min(15vw, 13vmin), 120px);
+      font-family: var(--emoji); font-size: clamp(54px, min(15vw, 13vmin), 150px);
       line-height: 1.25; margin-bottom: 16px; letter-spacing: 4px;
       animation: bounceIn .5s ease-out;
     }
@@ -119,7 +119,7 @@
     <div class="st-stars-c" id="st-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/common.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
   <script>
     var STORIES = [
       {
@@ -472,7 +472,7 @@
       var titleBar = document.createElement('div');
       titleBar.className = 'st-title-bar';
       titleBar.innerHTML =
-        '<div class="st-title-text" style="color:' + story.color + '">' + story.title + '</div>' +
+        '<div class="st-title-text" style="color:color-mix(in srgb, ' + story.color + ' 55%, var(--ink))">' + story.title + '</div>' +
         '<div class="st-title-telugu" lang="te">' + story.telugu + '</div>';
       area.appendChild(titleBar);
 
@@ -511,7 +511,7 @@
       controls.className = 'st-controls';
       controls.innerHTML =
         '<button type="button" class="btn ghost" id="st-back">' + App.icon('back') + 'Back</button>' +
-        '<button type="button" class="btn" id="st-read" aria-pressed="false" style="--b:' + story.color + '"></button>' +
+        '<button type="button" class="btn" id="st-read" aria-pressed="false" style="--b:color-mix(in srgb, ' + story.color + ' 65%, #000)"></button>' +
         '<button type="button" class="btn" id="st-next" style="--b:#2FBF71">Next' + App.icon('next') + '</button>';
       area.appendChild(controls);
       document.getElementById('st-back').disabled = currentPage === 0;

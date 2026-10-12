@@ -22,17 +22,17 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .fi-wrap { max-width: 760px; margin: 0 auto; }
     .fi-wrap .prompt-row { animation: slideUp .4s ease-out; margin-top: 8px; }
-    .fi-highlight { color: var(--accent); font-size: 1.2em; }
+    .fi-highlight { color: var(--accent-ink); font-size: 1.2em; }
 
     .fi-grid {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: clamp(10px, 2.2vmin, 22px);
       padding: 8px 2px;
-      width: 100%; max-width: clamp(330px, 62vmin, 640px); margin: 0 auto;
+      width: 100%; max-width: min(640px, 100%, calc(100dvh - 300px)); margin: 0 auto;   /* the board fills the screen */
     }
     .fi-card {
       -webkit-appearance: none; appearance: none;
@@ -49,9 +49,10 @@
     }
     .fi-card:active { transform: scale(.93); }
     .fi-emoji { font-size: clamp(48px, 13vmin, 120px); font-size: 52cqi; transition: transform .3s; }
-    .fi-label {
+    .fi-label {   /* out of the flow, so the picture sits truly centred; it shows under it once found */
+      position: absolute; left: 0; right: 0; bottom: 7%; margin: 0; text-align: center;
       font-family: var(--display); font-size: clamp(12px, 2.2vmin, 22px); font-size: 10cqi; font-weight: 600;
-      margin-top: 4px; color: var(--ink-3);
+      color: var(--ink-3);
       opacity: 0; transition: opacity .3s;
     }
     .fi-card.fi-correct { border-color: var(--good); background: var(--ok-bg); animation: celebrate .5s ease forwards; }
@@ -60,23 +61,26 @@
     .fi-card.fi-wrong { animation: wiggle .45s ease; border-color: #FFB3C0; }
     .fi-card.fi-bounce { animation: bounceIn .4s var(--spring) both; }
 
+    /* the learn moment is a word card, like Learn Words */
     .fi-learn {
-      text-align: center; padding: 12px 8px; animation: fadeIn .4s ease-out;
-      max-width: 520px; margin: 0 auto;
+      text-align: center; animation: fadeIn .4s ease-out;
+      background: var(--surface); border-radius: clamp(24px, 3.4vmin, 36px); box-shadow: var(--shadow-md);
+      padding: clamp(16px, 3vmin, 32px); max-width: 560px; margin: 4px auto 0;
     }
-    .fi-learn-emoji { font-size: clamp(64px, 16vmin, 150px); line-height: 1; }
+    .fi-learn-emoji { font-size: clamp(110px, 28vmin, 190px); line-height: 1; }
     .fi-known {
       display: inline-flex; align-items: center; gap: 6px; justify-self: start; margin: 0 auto 4px; padding: 5px 14px 5px 10px;
       border-radius: 999px; background: #FFF3C4; color: #8A5A00; font-weight: 900; font-size: 15px; animation: bounceIn .5s var(--spring) both;
     }
     .fi-known .ico { width: 18px; height: 18px; color: #F5A623; }
-    .fi-learn-word { font-family: var(--display); font-size: clamp(36px, 8vmin, 76px); font-weight: 700; margin: 8px 0 2px; color: var(--accent); letter-spacing: 2px; word-break: break-word; }
-    .fi-learn-phonics { font-size: clamp(16px, 3.2vmin, 28px); font-weight: 800; color: var(--p1ink); letter-spacing: 3px; margin-bottom: 4px; }
-    .fi-learn-telugu { font-size: clamp(19px, 3.8vmin, 32px); font-weight: 700; color: var(--textL); margin-bottom: 10px; }
-    .fi-learn-sentence {
-      font-size: clamp(16px, 2.8vmin, 26px); font-weight: 700; color: var(--textM); line-height: 1.55;
-      padding: 10px 16px; border-radius: 16px; background: var(--surface); box-shadow: var(--shadow-sm); margin-bottom: 14px;
+    .fi-learn-word { font-family: var(--display); font-size: clamp(36px, 8vmin, 76px); font-weight: 700; margin: 8px 0 2px; color: var(--accent-ink); letter-spacing: 2px; word-break: break-word; }
+    .fi-learn-phonics { font-size: clamp(16px, 3.2vmin, 28px); font-weight: 800; color: var(--accent-ink); letter-spacing: 3px; margin-bottom: 6px; }
+    .fi-learn-telugu {
+      display: inline-block; font-size: clamp(19px, 3.8vmin, 32px); font-weight: 700; margin-bottom: 10px;
+      padding: 4px 18px; border-radius: 999px; background: rgba(245,166,35,.13); color: var(--p1ink);
     }
+    .fi-learn-sentence { font-size: clamp(16px, 2.8vmin, 26px); font-weight: 700; color: var(--textM); line-height: 1.55; padding: 0 8px; margin-bottom: 14px; }
+    .fi-learn-sentence .highlight { color: var(--accent-ink); text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 4px; }
 
     .fi-stars-c { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
 
@@ -91,6 +95,9 @@
       .fi-wrap .prompt-row { margin-top: 2px; }
       .fi-learn { display: grid; grid-template-columns: auto 1fr; column-gap: 20px; align-items: center; max-width: 760px; text-align: left; }
       .fi-learn-emoji { grid-row: span 6; font-size: clamp(90px, 34vh, 150px); }
+      .fi-learn > .fi-known { margin: 0 0 4px; }
+      .fi-learn > .btn { justify-self: start; }
+      .fi-learn-telugu { justify-self: start; }
     }
   </style>
 </head>
@@ -102,9 +109,9 @@
     <div class="fi-stars-c" id="fi-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/common.js?v=20"></script>
-  <script src="js/data.js?v=20"></script>
-  <script src="js/telugu.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
+  <script src="js/data.js?v=21"></script>
+  <script src="js/telugu.js?v=21"></script>
   <script>
     const ROUNDS = 6;
     const CHOICES = 4;
@@ -242,6 +249,7 @@
 
       if (item.id === target.id) {
         card.classList.add('fi-correct');
+        App.sfx('snap');
         if (App.wordResult(target.id, !missedThis)) newlyKnown.push(target);
         const rect = card.getBoundingClientRect();
         App.burst(stars, rect.left + rect.width / 2, rect.top + rect.height / 2, 12);
@@ -251,6 +259,7 @@
         const cheer = CHEERS[Math.floor(Math.random() * CHEERS.length)];
         speak(cheer + ' ' + item.name + '!', 0.85, () => { if (my === step) showLearnMoment(item); });
       } else {
+        App.sfx('oops');
         misses++;
         missedThis = true;
         card.classList.remove('fi-wrong');
@@ -269,6 +278,13 @@
     function nextRound() {
       round++;
       if (round < ROUNDS) startRound(); else showComplete();
+    }
+
+    // The word in its sentence, underlined (as in Learn Words).
+    function highlightWord(sentence, word) {
+      const safe = sentence.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
+      const name = word.replace(/[^A-Za-z ]/g, '');
+      return safe.replace(new RegExp('\\b(' + name + ')\\b', 'gi'), '<span class="highlight">$1</span>');
     }
 
     function showLearnMoment(item) {
@@ -298,7 +314,8 @@
           if (!text) return;
           const d = document.createElement('div');
           d.className = cls;
-          d.textContent = text;
+          if (cls === 'fi-learn-sentence') d.innerHTML = highlightWord(text, item.name);
+          else d.textContent = text;
           if (cls === 'fi-learn-telugu') d.lang = 'te';
           learn.appendChild(d);
         });

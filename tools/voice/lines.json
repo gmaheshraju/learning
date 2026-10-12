@@ -156,10 +156,6 @@
   "text": "40!"
  },
  {
-  "key": "4s ease out forwards",
-  "text": "4s ease-out forwards"
- },
- {
   "key": "5",
   "text": "5"
  },
@@ -1304,6 +1300,10 @@
   "text": "Can you squeeze your hands like an orange?"
  },
  {
+  "key": "can you squeeze your hands tight like a lemon",
+  "text": "Can you squeeze your hands tight like a lemon?"
+ },
+ {
   "key": "can you stir pretend soup",
   "text": "Can you stir pretend soup?"
  },
@@ -1338,10 +1338,6 @@
  {
   "key": "car",
   "text": "car"
- },
- {
-  "key": "card enter pair",
-  "text": "card enter pair-"
  },
  {
   "key": "carrot",
@@ -1664,10 +1660,6 @@
   "text": "Cup your ears — can you hear better?"
  },
  {
-  "key": "cur pair",
-  "text": "cur pair-"
- },
- {
   "key": "d",
   "text": "D"
  },
@@ -1864,10 +1856,6 @@
   "text": "Draw yourself as a superhero!"
  },
  {
-  "key": "drawline 0",
-  "text": "drawLine 0."
- },
- {
   "key": "dress",
   "text": "dress"
  },
@@ -2010,10 +1998,6 @@
  {
   "key": "feelings",
   "text": "Feelings"
- },
- {
-  "key": "fi card fi bounce",
-  "text": "fi-card fi-bounce"
  },
  {
   "key": "find something green",
@@ -2913,7 +2897,7 @@
  },
  {
   "key": "ice",
-  "text": "ICE"
+  "text": "ice"
  },
  {
   "key": "ice cream",
@@ -3050,6 +3034,10 @@
  {
   "key": "jewel",
   "text": "jewel"
+ },
+ {
+  "key": "juice",
+  "text": "JUICE"
  },
  {
   "key": "jump like a frog",
@@ -3598,6 +3586,14 @@
  {
   "key": "many people ride the bus",
   "text": "Many people ride the bus"
+ },
+ {
+  "key": "match pictures",
+  "text": "Match pictures"
+ },
+ {
+  "key": "match pictures to words",
+  "text": "Match pictures to words"
  },
  {
   "key": "medium",
@@ -4209,15 +4205,11 @@
  },
  {
   "key": "pick a topic",
-  "text": "Pick a topic"
+  "text": "Pick a topic!"
  },
  {
   "key": "picture",
   "text": "Picture"
- },
- {
-  "key": "piece draggable",
-  "text": "piece draggable"
  },
  {
   "key": "pig",
@@ -5110,10 +5102,6 @@
  {
   "key": "stick out your tongue",
   "text": "Stick out your tongue!"
- },
- {
-  "key": "sticker draggable",
-  "text": "sticker draggable"
  },
  {
   "key": "stir a pretend pot",
@@ -6672,10 +6660,6 @@
   "text": "The sun wakes us up"
  },
  {
-  "key": "the sun was warm and the ice melted into water",
-  "text": "The sun was warm, and the ice melted into water!"
- },
- {
   "key": "the table has four legs",
   "text": "The table has four legs"
  },
@@ -6946,10 +6930,6 @@
  {
   "key": "these are teeth",
   "text": "These are Teeth"
- },
- {
-  "key": "thing draggable",
-  "text": "thing draggable"
  },
  {
   "key": "things",
@@ -8356,6 +8336,10 @@
   "text": "We smell with our nose"
  },
  {
+  "key": "we squeezed the lemons and made yummy juice",
+  "text": "We squeezed the lemons and made yummy juice!"
+ },
+ {
   "key": "we taste food with our tongue",
   "text": "We taste food with our tongue"
  },
@@ -8496,12 +8480,12 @@
   "text": "What do you think birds dream about?"
  },
  {
-  "key": "what else melts when it gets warm",
-  "text": "What else melts when it gets warm?"
- },
- {
   "key": "what fruit would you like to grow",
   "text": "What fruit would you like to grow?"
+ },
+ {
+  "key": "what goes in the gap",
+  "text": "What goes in the gap?"
  },
  {
   "key": "what happens before that",

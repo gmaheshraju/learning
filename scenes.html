@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .sc { max-width: 1200px; margin: 0 auto; }
     .bg-pick { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 4px 8px; max-width: 100%; margin: 0 auto 4px; }
@@ -85,20 +85,20 @@
       .bg-btn:hover { border-color: var(--accent); }
     }
     @media (max-width: 400px) {
-      .sel-bar .tool-btn { width: 40px; height: 40px; font-size: 18px; }
+      .sel-bar .tool-btn { width: 44px; height: 44px; font-size: 18px; }
       .sel-bar .who { font-size: 24px; min-width: 26px; }
       .stickers button { width: 48px; height: 48px; font-size: 32px; }
     }
     @media (orientation: landscape) and (max-height: 520px) {
       .sc { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; align-items: start; }
-      .sc > .act-bar { grid-column: 1 / -1; }
-      .sc > .stage-wrap { grid-column: 1; grid-row: 2 / span 5; }
+      .sc > .act-bar { grid-column: 2; justify-content: flex-start; margin: 0; }
+      .sc > .stage-wrap { grid-column: 1; grid-row: 1 / span 6; }
       .sc > .bg-pick, .sc > .story-line, .sc > .words-row, .sc > .sel-bar, .sc > .trays { grid-column: 2; }
       .bg-pick { margin: 0; padding-bottom: 4px; }
       .bg-btn { width: 56px; height: 40px; }
       .story-line { margin: 0; font-size: 15px; min-height: 0; }
       .sel-bar { flex-wrap: wrap; margin: 4px 0; }
-      .sel-bar .tool-btn { width: 36px; height: 36px; font-size: 16px; }
+      .sel-bar .tool-btn { width: 44px; height: 44px; font-size: 18px; }
       .stickers button { width: 44px; height: 44px; font-size: 30px; }
     }
   </style>
@@ -136,7 +136,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
   <script>
     var LEVELS = [
       { age: 2, label: 'Little storyteller' },
@@ -222,8 +222,8 @@
     var stickerGiven = false;   // the first scene kept on each visit earns a sticker
 
     function chooseAspect() {
-      var portrait = window.innerHeight > window.innerWidth && window.innerWidth < 700;
-      aspect = portrait ? 1.1 : 0.66;   // height / width
+      var portrait = window.innerHeight > window.innerWidth;
+      aspect = portrait ? (window.innerWidth < 700 ? 1.1 : 0.9) : 0.66;   // height / width: an upright iPad gets a tall stage too
     }
 
     function layout() {
@@ -232,7 +232,8 @@
       var top = stage.getBoundingClientRect().top + window.scrollY;
       var shortLand = window.innerHeight < 520 && window.innerWidth > window.innerHeight;
       var maxH = shortLand ? window.innerHeight - top - padBottom - 6 : Math.max(220, window.innerHeight - top - padBottom - 178);
-      if (shortLand) wrapW = Math.min(wrapW, document.querySelector('.sc').clientWidth * 0.56);
+      // sideways: the stage's grid column is as wide as the stage, so size it from the page instead
+      if (shortLand) wrapW = document.querySelector('.sc').clientWidth * 0.56;
       W = Math.floor(Math.min(wrapW, maxH / aspect, 1100));
       H = Math.floor(W * aspect);
       stage.style.width = W + 'px';

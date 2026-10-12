@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .art { max-width: 1280px; margin: 0 auto; }
     .mode-tab .emoji { font-size: 17px; }
@@ -30,7 +30,7 @@
     /* ----- paint ----- */
     .studio {
       display: grid; grid-template-columns: minmax(0, 1fr);
-      grid-template-areas: "tools" "paper" "side"; gap: 10px; justify-items: center;
+      grid-template-areas: "tools" "stamps" "paper" "side"; gap: 10px; justify-items: center;
     }
     .tools {
       grid-area: tools; display: flex; gap: 8px; align-items: center; max-width: 100%;
@@ -70,9 +70,9 @@
     .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
     .stamp-tray {
-      grid-area: tools; display: flex; gap: 6px; max-width: 100%; overflow-x: auto; scrollbar-width: none;
+      grid-area: stamps; display: flex; gap: 6px; max-width: 100%; overflow-x: auto; scrollbar-width: none;
       padding: 6px; border-radius: 20px; background: var(--surface);
-      margin-top: 52px; z-index: 5; box-shadow: var(--shadow-md);
+      z-index: 5; box-shadow: var(--shadow-sm);
     }
     .stamp-tray::-webkit-scrollbar { display: none; }
     .stamp-tray button {
@@ -80,6 +80,17 @@
       background: none; font-family: var(--emoji); font-size: 28px; cursor: pointer; line-height: 1;
     }
     .stamp-tray button[aria-checked="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+
+    /* phones: every brush in view (two rows, nothing hidden past the edge), a 5 x 2 palette of big swatches,
+       and the paper sized so Undo, Clear and Keep stay on screen */
+    @media (max-width: 520px) {
+      .tools { flex-wrap: wrap; justify-content: center; row-gap: 8px; overflow: visible; }
+      .tools .sep { display: none; }
+      .colors { display: grid; grid-template-columns: repeat(5, 48px); gap: 10px; }
+      .swatch { width: 48px; height: 48px; }
+      .paper-wrap { height: clamp(220px, 100dvh - 470px, 1400px); }
+      .studio:has(#stamp-tray:not([hidden])) .paper-wrap { height: clamp(200px, 100dvh - 540px, 1400px); }
+    }
 
     /* ----- colour in ----- */
     .cmode { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; justify-items: center; }
@@ -132,13 +143,13 @@
       .cbook { height: calc(100dvh - 196px); min-height: 240px; }
     }
     @media (orientation: landscape) and (max-height: 520px) {
-      .tools { display: grid; grid-template-columns: repeat(2, 38px); gap: 4px; align-content: start; }
+      .tools { display: grid; grid-template-columns: repeat(2, 44px); gap: 6px; align-content: start; }
       .tools .sep { display: none; }
-      .tools .tool-btn, .actions .tool-btn { width: 38px; height: 38px; font-size: 18px; }
-      .swatch { width: 32px; height: 32px; }
+      .tools .tool-btn, .actions .tool-btn { width: 44px; height: 44px; font-size: 20px; }   /* toddler-sized even sideways */
+      .swatch { width: 40px; height: 40px; }
       .side { max-width: none; }
-      .colors { grid-template-columns: repeat(3, 32px); gap: 6px; }
-      .actions { grid-template-columns: repeat(4, 38px); gap: 6px; }
+      .colors { grid-template-columns: repeat(3, 40px); gap: 6px; }
+      .actions { grid-template-columns: repeat(4, 44px); gap: 6px; }
       .paper-wrap, .cbook { height: calc(100dvh - 128px); }
       .page-pick { max-height: calc(100dvh - 120px); }
       .page-pick button { width: 52px; height: 52px; }
@@ -196,7 +207,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
   <script>
     var LEVELS = [
       { age: 2, label: 'Simple tools' },

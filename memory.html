@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .mm { max-width: 900px; margin: 0 auto; }
     .turns { display: flex; justify-content: center; gap: 10px; margin: 0 0 10px; }
@@ -62,6 +62,9 @@
     .mcard.matched { cursor: default; }
     .moves { text-align: center; font-weight: 800; color: var(--ink-3); margin-top: 10px; font-size: 15px; min-height: 20px; }
     @media (prefers-reduced-motion: reduce) { .mcard { transition: none; } }
+    /* take turns: two faces, so it can't be mistaken for the grown-ups button */
+    #two { width: auto; min-width: 72px; padding: 0 12px; border-radius: 999px; display: inline-flex; gap: 2px; font-size: 22px; }
+    #two[aria-pressed="true"] { background: var(--accent); }
   </style>
 </head>
 <body>
@@ -69,7 +72,7 @@
     <header class="topbar" data-page="memory"></header>
     <main class="mm">
       <div class="act-bar">
-        <button type="button" class="tool-btn" id="two" data-icon="people" aria-pressed="false" aria-label="Take turns with a grown-up" title="Take turns"></button>
+        <button type="button" class="tool-btn" id="two" aria-pressed="false" aria-label="Take turns with a grown-up" title="Take turns"><span class="emoji" aria-hidden="true">👧🏽</span><span class="emoji" aria-hidden="true">🧑🏽</span></button>
         <button type="button" class="tool-btn" id="again" data-icon="shuffle" aria-label="New game" title="New game"></button>
       </div>
       <div class="turns" id="turns" hidden>
@@ -83,8 +86,8 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=20"></script>
-  <script src="js/data.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
+  <script src="js/data.js?v=21"></script>
   <script>
     var LEVELS = [
       { age: 3, label: '2 pairs + peek', pairs: 2, peek: 2600 },
@@ -110,7 +113,7 @@
       for (var cols = 2; cols <= n; cols++) {
         if (n % cols) continue;
         var rows = n / cols;
-        var w = Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) * 0.8, 150);
+        var w = Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) * 0.8, Math.max(150, Math.min(240, Math.min(W, window.innerHeight) * 0.28)));   // bigger cards on tablets
         if (!best || w > best.w) best = { cols: cols, w: w };
       }
       board.style.gridTemplateColumns = 'repeat(' + best.cols + ', auto)';

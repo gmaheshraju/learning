@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .pz { max-width: 1280px; margin: 0 auto; }
     .pics { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px 4px 8px; margin: 0 auto 6px; max-width: 100%; }
@@ -47,6 +47,7 @@
     .piece.gone { opacity: 0; }
     .piece.picked { filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 3px var(--accent)); }
     .piece.dragging { filter: drop-shadow(0 10px 12px rgba(0,0,0,.35)); }
+    .piece:not(.dragging) { transition: transform .2s var(--spring), opacity .6s .2s; }   /* grow and shrink between tray and hand; placed pieces fade at the end */
     .pz-win {
       position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
       padding-bottom: 12px; pointer-events: none;
@@ -55,9 +56,10 @@
     .pz-yay { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; animation: bounceIn .5s var(--spring); }
     .pz-yay span { width: 64px; height: 64px; animation: bob 1.6s ease-in-out infinite; }
     .pz-yay span svg { width: 100%; height: 100%; }
-    .pz-yay b { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 5vmin, 40px); color: var(--accent); }
+    .pz-yay b { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 5vmin, 40px); color: var(--accent-ink); }
     .pz-sticker { font-style: normal; font-family: var(--emoji); font-size: 44px; animation: stickerIn .7s var(--spring) .3s both; filter: drop-shadow(0 2px 0 #fff); }
-    @media (orientation: landscape) and (max-height: 520px) { .pz-yay { display: none; } }
+    .pz-area.won .pz-tray { border-color: transparent; transition: border-color .3s; }
+    .pz-spot { position: absolute; border-radius: 12px; pointer-events: none; z-index: 2; box-shadow: 0 0 0 4px var(--accent), 0 0 18px 6px color-mix(in srgb, var(--accent) 45%, transparent); animation: fadeIn .3s ease-out; }
   </style>
 </head>
 <body>
@@ -74,7 +76,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
   <script>
     var LEVELS = [
       { age: 2, label: '2 pieces', cols: 2, rows: 1 },
@@ -190,8 +192,11 @@
         board = { x: (W - bw2) / 2, y: 4, w: bw2, h: bw2 * RATIO };
         tray = { x: 6, y: board.h + 18, w: W - 12, h: H - board.h - 24 };
       }
-      var cw = board.w / L.cols, ch = board.h / L.rows;
-      return { W: W, H: H, board: board, tray: tray, cw: cw, ch: ch, t: Math.min(cw, ch) * 0.2 };
+      var cw = board.w / L.cols, ch = board.h / L.rows, t = Math.min(cw, ch) * 0.2;
+      // pieces wait in the tray a little smaller, so they all fit side by side
+      var n = L.cols * L.rows, pw = cw + 2 * t, ph = ch + 2 * t, ts = 1;
+      while (ts > 0.45 && Math.floor(tray.w / (pw * ts)) * Math.floor(tray.h / (ph * ts)) < n) ts -= 0.05;
+      return { W: W, H: H, board: board, tray: tray, cw: cw, ch: ch, t: t, ts: ts };
     }
 
     function target(p) { return { x: layout.board.x + p.c * layout.cw, y: layout.board.y + p.r * layout.ch }; }
@@ -204,9 +209,13 @@
       };
     }
 
+    // Full size on the board, in a hand or picked; smaller while waiting in the tray.
     function setPos(p, x, y) {
       p.x = x; p.y = y;
-      p.el.style.transform = 'translate(' + (x - layout.t) + 'px,' + (y - layout.t) + 'px)';
+      var tr = layout.tray, cx = x + layout.cw / 2, cy = y + layout.ch / 2;
+      var inTray = cx > tr.x && cx < tr.x + tr.w && cy > tr.y && cy < tr.y + tr.h;
+      var small = inTray && !p.placed && !p.el.classList.contains('dragging') && !p.el.classList.contains('picked');
+      p.el.style.transform = 'translate(' + (x - layout.t) + 'px,' + (y - layout.t) + 'px)' + (small ? ' scale(' + layout.ts + ')' : '');
     }
 
     function renderPiece(p) {
@@ -289,26 +298,51 @@
       if (done) showWin(wonUp);
     }
 
+    // One tray slot per piece, so no piece hides another.
     function scatter() {
       var L = layout, tr = L.tray, free = pieces.filter(function (p) { return !p.placed; }), n = free.length;
-      // as many columns as suit the tray's shape measured in pieces, so they spread out rather than pile up
-      var cols = Math.max(1, Math.min(n, Math.round(Math.sqrt(n * (tr.w / L.cw) / (tr.h / L.ch))))), rows = Math.ceil(n / cols);
+      var vw = (L.cw + 2 * L.t) * L.ts, vh = (L.ch + 2 * L.t) * L.ts;   // a waiting piece's size, knobs included
+      // the grid that leaves the most room around every piece
+      var cols = 1, best = -Infinity;
+      for (var k = 1; k <= Math.max(1, Math.min(n, Math.floor(tr.w / vw))); k++) {
+        var room = Math.min(tr.w / k - vw, tr.h / Math.ceil(n / k) - vh);
+        if (room > best) { best = room; cols = k; }
+      }
+      var rows = Math.ceil(n / cols), sw = tr.w / cols, sh = tr.h / rows;
       var slots = [];
-      for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) slots.push([tr.x + (c + 0.5) * tr.w / cols, tr.y + (r + 0.5) * tr.h / rows]);
+      for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) slots.push([tr.x + (c + 0.5) * sw, tr.y + (r + 0.5) * sh]);
       slots = App.shuffle(slots);
       free.forEach(function (p, i) {
-        var jx = (Math.random() - 0.5) * L.cw * 0.3, jy = (Math.random() - 0.5) * L.ch * 0.3;
-        var pos = clampPos(slots[i][0] - L.cw / 2 + jx, slots[i][1] - L.ch / 2 + jy);
-        p.fx = pos.x / L.W; p.fy = pos.y / L.H;
+        var cx = slots[i][0] + (Math.random() - 0.5) * Math.max(0, sw - vw) * 0.6;
+        var cy = slots[i][1] + (Math.random() - 0.5) * Math.max(0, sh - vh) * 0.6;
+        cx = Math.max(tr.x + vw / 2, Math.min(tr.x + tr.w - vw / 2, cx));
+        cy = Math.max(tr.y + vh / 2, Math.min(tr.y + tr.h - vh / 2, cy));
+        p.fx = (cx - L.cw / 2) / L.W; p.fy = (cy - L.ch / 2) / L.H;
       });
     }
 
     var misses = 0, wonUp = false, wonSticker = '';
+    // Stuck for a while: one waiting piece wiggles and its spot on the board glows.
+    var nudge = App.idleNudge(function () {
+      if (done) return;
+      var p = pieces.filter(function (q) { return !q.placed && !q.el.classList.contains('dragging'); })[0];
+      if (!p) return;
+      var t = p.el.style.transform;
+      p.el.animate([{ transform: t + ' rotate(-8deg)' }, { transform: t + ' rotate(8deg)' }, { transform: t + ' rotate(-4deg)' }, { transform: t }], { duration: 700 });
+      var tg = target(p), spot = document.createElement('div');
+      spot.className = 'pz-spot';
+      Object.assign(spot.style, { left: tg.x + 'px', top: tg.y + 'px', width: layout.cw + 'px', height: layout.ch + 'px' });
+      area.appendChild(spot);
+      setTimeout(function () { spot.remove(); }, 1400);
+    }, 8000, 2);
+
     function newPuzzle(quiet) {
       var L = LEVELS[level];
       done = false;
       misses = 0;
       picked = null;
+      area.classList.remove('won');
+      if (typeof nudge !== 'undefined') nudge.reset();
       var vH = [], vV = [];
       for (var r = 0; r < L.rows; r++) {
         vH.push([]); vV.push([]);
@@ -350,9 +384,10 @@
     }
 
     function pick(p) {
-      if (picked) picked.el.classList.remove('picked');
-      picked = picked === p ? null : p;
-      if (picked) { picked.el.classList.add('picked'); picked.el.style.zIndex = ++zTop; App.sfx('pop'); }
+      var was = picked;
+      if (was) { was.el.classList.remove('picked'); setPos(was, was.x, was.y); }
+      picked = was === p ? null : p;
+      if (picked) { picked.el.classList.add('picked'); picked.el.style.zIndex = ++zTop; setPos(picked, picked.x, picked.y); App.sfx('pop'); }
     }
 
     function attachDrag(p) {
@@ -363,6 +398,7 @@
           ox = p.x; oy = p.y;
           p.el.style.zIndex = ++zTop;
           p.el.classList.add('dragging');
+          setPos(p, p.x, p.y);   // full size in the hand
         },
         move: function (x, y, dx, dy) {
           var pos = clampPos(ox + dx, oy + dy);
@@ -370,6 +406,7 @@
         },
         end: function (x, y, moved) {
           p.el.classList.remove('dragging');
+          setPos(p, p.x, p.y);
           if (!moved) { pick(p); return; }
           var tg = target(p);
           if (Math.hypot(p.x - tg.x, p.y - tg.y) <= snapTolerance()) { place(p); return; }
@@ -423,6 +460,10 @@
         (wonSticker ? '<i class="pz-sticker" aria-label="New sticker">' + wonSticker + '</i>' : '') + '</div>' +
         '<div class="btn-row"><button type="button" class="btn" id="next-pic">Next picture' + App.icon('next') + '</button>' +
         '<button type="button" class="btn ghost" id="again">' + App.icon('shuffle') + 'Again</button></div>';
+      // the reward sits where the empty tray was, never over the finished picture
+      var tr = layout.tray;
+      Object.assign(w.style, { inset: 'auto', left: tr.x + 'px', top: tr.y + 'px', width: tr.w + 'px', height: tr.h + 'px', justifyContent: 'center' });
+      area.classList.add('won');
       area.appendChild(w);
       document.getElementById('next-pic').addEventListener('click', nextPicture);
       document.getElementById('again').addEventListener('click', function () { newPuzzle(); });

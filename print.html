@@ -22,11 +22,11 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .print-wrap { max-width: 860px; margin: 0 auto; }
     .print-intro { text-align: center; margin-bottom: 14px; animation: slideUp .5s ease-out; }
-    .print-intro p { font-size: 16px; color: var(--ink-2); font-weight: 700; line-height: 1.5; margin-bottom: 12px; }
+    .print-intro p { text-wrap: balance; font-size: 16px; color: var(--ink-2); font-weight: 700; line-height: 1.5; margin-bottom: 12px; }
 
     .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
     .pcard {
@@ -85,8 +85,8 @@
     </main>
   </div>
 
-  <script src="js/common.js?v=20"></script>
-  <script src="js/data.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
+  <script src="js/data.js?v=21"></script>
   <script>
     const PRINT_COLORS = ['#E85D75','#F5A623','#4DADEA','#7EC850','#B07CD8','#FF8A65',
                            '#26A69A','#AB47BC','#EF5350','#42A5F5','#66BB6A','#FFA726',
@@ -117,7 +117,7 @@
         const name = document.createElement('div');
         name.className = 'pname';
         name.textContent = a.name;
-        name.style.color = pc;
+        name.style.color = 'color-mix(in srgb, ' + pc + ' 60%, #2F2235)';   // the card's colour, dark enough to read on paper
         ac.append(emoji, name);
         picGrid.appendChild(ac);
 
@@ -128,11 +128,11 @@
         const wl = document.createElement('div');
         wl.className = 'pcard-word' + (a.name.length > 6 ? ' pword-long' : '');
         wl.textContent = a.name;
-        wl.style.color = pc;
+        wl.style.color = 'color-mix(in srgb, ' + pc + ' 60%, #2F2235)';
         const sp = document.createElement('div');
         sp.className = 'pspell';
         sp.textContent = a.name.split('').join(' · ');
-        sp.style.color = pc;
+        sp.style.color = 'color-mix(in srgb, ' + pc + ' 60%, #2F2235)';
         wc.append(wl, sp);
         wordGrid.appendChild(wc);
       });

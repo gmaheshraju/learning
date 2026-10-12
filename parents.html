@@ -23,7 +23,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .pa { max-width: 640px; margin: 0 auto; }
     .pa.locked { visibility: hidden; }
@@ -35,7 +35,7 @@
     .row-line > span small { display: block; font-size: 14px; font-weight: 700; color: var(--ink-3); line-height: 1.35; }
     .p-btns { display: grid; gap: 10px; }
     .p-btns .btn { width: 100%; }
-    .p-done { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--good); font-size: 17px; }
+    .p-done { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--p3ink); font-size: 17px; }
     .p-ver { text-align: center; font-size: 13px; font-weight: 800; color: var(--ink-3); margin: 6px 0 10px; }
     .p-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
     .p-sum div { background: var(--surface-2); border-radius: 16px; padding: 10px 8px; text-align: center; }
@@ -47,9 +47,9 @@
     .p-game .lr-art svg { width: 31px; height: 31px; }
     .p-game b { display: block; font-size: 16px; font-weight: 900; color: var(--ink); }
     .p-game small { display: block; font-size: 14px; font-weight: 700; color: var(--ink-3); line-height: 1.35; }
-    .p-game .up { display: inline-flex; align-items: center; gap: 3px; margin-top: 3px; padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--good) 16%, transparent); color: var(--good); font-size: 12px; font-weight: 900; }
+    .p-game .up { display: inline-flex; align-items: center; gap: 3px; margin-top: 3px; padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--good) 16%, transparent); color: var(--p3ink); font-size: 12px; font-weight: 900; }
     .p-game .up .ico { width: 13px; height: 13px; stroke-width: 3; transform: rotate(-90deg); }
-    .p-game .n { margin-left: auto; text-align: right; font-size: 13px; font-weight: 800; color: var(--ink-3); white-space: nowrap; }
+    .p-game .n { margin-left: auto; text-align: right; font-size: 13px; font-weight: 800; color: var(--ink-3); white-space: nowrap; line-height: 1.15; }
     .p-game .n b { font-family: var(--display); font-weight: 600; font-size: 18px; }
     .p-empty { font-size: 15px; font-weight: 700; color: var(--ink-3); padding: 4px 0 6px; }
     .p-hint { margin: -4px 2px 10px; font-size: 14px; font-weight: 700; color: var(--ink-3); line-height: 1.4; }
@@ -65,7 +65,7 @@
     .p-word { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 6px; border-radius: 999px; background: var(--surface-2); font-size: 15px; font-weight: 800; color: var(--ink); }
     .p-word .e { width: 26px; height: 26px; display: grid; place-items: center; font-family: var(--emoji); font-size: 19px; line-height: 1; }
     .p-word .e svg { width: 24px; height: 24px; }
-    .p-word.tricky { background: #FFE9D6; }
+    .p-word.tricky { background: var(--p1bg); box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--p1) 45%, transparent); }   /* themed: readable in dark mode */
     .p-thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; margin: 4px 0 12px; }
     .p-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 14px; background: #fff; box-shadow: var(--shadow-sm); }
   </style>
@@ -158,6 +158,7 @@
       <section class="panel" aria-labelledby="h-about">
         <h2 id="h-about"><span data-ico="heart"></span>About Heshvi</h2>
         <p>Made with love for Heshvitha, and shared for every little learner. The games follow what research says helps at each age: open-ended play, puzzles, patterns, planning ahead, and lots of talking together. English words come with Telugu hints.</p>
+        <p style="margin-top:8px;font-weight:800;color:var(--ink-2)">Designed by Mahesh, Heshvi&rsquo;s dad, and built together with Claude.</p>
         <p style="margin-top:8px;font-size:14px;color:var(--ink-3)">Bujji&rsquo;s voice was recorded with Kokoro, an open voice model (Apache&nbsp;2.0). Stickers, progress and settings never leave this phone.</p>
       </section>
 
@@ -173,8 +174,8 @@
     </main>
   </div>
 
-  <script src="js/common.js?v=20"></script>
-  <script src="js/data.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
+  <script src="js/data.js?v=21"></script>
   <script>
     var store = {
       get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -255,13 +256,13 @@
       document.getElementById('p-sum').innerHTML =
         '<div><b>' + mins(todaySec) + '</b><small>today</small></div>' +
         '<div><b>' + mins(weekSec) + '</b><small>this week</small></div>' +
-        '<div><b>' + weekRounds + '</b><small>' + (weekRounds === 1 ? 'round' : 'rounds') + ' played</small></div>';
+        '<div><b>' + weekRounds + '</b><small>' + (weekRounds === 1 ? 'round' : 'rounds') + '</small></div>';
       document.getElementById('p-games').innerHTML = rows.length ? rows.map(function (x) {
         var lvl = x.st.label ? 'Level ' + (x.st.level + 1) + ' of ' + x.st.levels + ' \u00B7 ' + x.st.label : (x.sec ? mins(x.sec) + ' this week' : '');
         return '<div class="p-game" style="--c:' + x.a.color + '"><span class="lr-art">' + x.a.art + '</span><span><b>' + x.a.name + '</b>' +
           (lvl ? '<small>' + lvl + '</small>' : '') +
           (x.up ? '<span class="up">' + App.icon('next') + 'Moved up ' + ago(x.up.at) + '</span>' : '') + '</span>' +
-          (x.rounds ? '<span class="n"><b>' + x.rounds + '</b><br>' + (x.rounds === 1 ? 'round' : 'rounds') + '</span>' : '') + '</div>';
+          (x.rounds ? '<span class="n"><b>' + x.rounds + '</b>' + (x.rounds === 1 ? 'round' : 'rounds') + '</span>' : '') + '</div>';
       }).join('') : '<p class="p-empty">Nothing played this week yet. Progress shows up here as games are played.</p>';
     }
     renderProgress();

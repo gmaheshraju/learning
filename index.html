@@ -43,7 +43,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .home { max-width: 1040px; margin: 0 auto; }
 
@@ -80,7 +80,7 @@
     .stk-text small { display: block; font-size: 14px; font-weight: 800; color: var(--ink-3); }
     .stk-peek { display: flex; flex: none; font-family: var(--emoji); font-size: 28px; line-height: 1; }
     .stk-peek span { margin-left: -8px; filter: drop-shadow(0 2px 0 var(--surface)); }
-    .stk-new { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: #FF6B6B; color: #fff; font-size: 12px; font-weight: 900; vertical-align: 2px; }
+    .stk-new { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: #D93D42; color: #fff; font-size: 12px; font-weight: 900; vertical-align: 2px; }
     @media (max-width: 380px) { .stk-peek span:nth-child(n+4) { display: none; } .stk-peek { font-size: 24px; } .stk-text b { font-size: 18px; } }
 
     /* Today's adventure: one game to make, one to solve, one for words */
@@ -110,7 +110,7 @@
       box-shadow: var(--shadow-sm); -webkit-touch-callout: none; transition: transform .18s var(--spring);
     }
     .adv-step:active { transform: scale(.94); }
-    .adv-kind { font-size: 12px; font-weight: 900; letter-spacing: .6px; text-transform: uppercase; color: var(--c); }
+    .adv-kind { font-size: 12px; font-weight: 900; letter-spacing: .6px; text-transform: uppercase; color: color-mix(in srgb, var(--c) 50%, var(--ink)); }
     .adv-ic {
       position: relative; width: 58px; height: 58px; border-radius: 30%; display: grid; place-items: center; background-color: var(--c);
       background-image: linear-gradient(155deg, color-mix(in srgb, var(--c) 62%, #fff) 0%, var(--c) 60%);
@@ -132,12 +132,29 @@
       .adv { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(0, 2fr); align-items: center; gap: 14px; padding: 14px; }
       .adv-head { margin: 0; }
     }
+    /* tablets: the day's adventure and the sticker book are the heroes, so they get tablet-sized type and art */
+    @media (min-width: 700px) and (min-height: 700px) {
+      .adv { padding: 18px; }
+      .adv-ring { width: 72px; height: 72px; }
+      .adv-head b { font-size: 26px; }
+      .adv-head small { font-size: 16px; }
+      .adv-step { padding: 14px 8px; gap: 8px; }
+      .adv-ic { width: 84px; height: 84px; }
+      .adv-step b { font-size: 18px; }
+      .adv-kind { font-size: 13px; }
+      .stk-art { width: 76px; height: 76px; }
+      .stk-art svg { width: 58px; height: 58px; }
+      .stk-text b { font-size: 24px; }
+      .stk-text small { font-size: 16px; }
+      .stk-new { font-size: 14px; }
+      .stk-peek { font-size: 36px; }
+    }
 
     .home-foot {
       display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 18px;
       margin: 4px 0 8px; font-size: 13px; font-weight: 800; color: var(--ink-3);
     }
-    .home-foot .chip { min-height: 40px; font-size: 15px; }
+    .home-foot .chip { min-height: 44px; font-size: 15px; }
     .home-foot .chip .ico { width: 20px; height: 20px; }
 
     /* First run */
@@ -154,6 +171,7 @@
     .wl-step { width: 100%; max-width: 440px; margin: auto; text-align: center; animation: slideUp .45s ease-out both; }
     .wl-bug { width: 132px; height: 132px; margin: 0 auto 4px; animation: bob 2.4s ease-in-out infinite; }
     .wl-bug svg { width: 100%; height: 100%; }
+    .wl-bug-sm { width: 96px; height: 96px; }
     .wordmark { font-family: var(--display); font-weight: 700; font-size: clamp(54px, 15vw, 72px); line-height: 1; letter-spacing: 1px; }
     .wordmark span { display: inline-block; animation: bounceIn .6s var(--spring) both; }
     .wl-tag { margin: 8px 0 22px; font-family: var(--display); font-weight: 600; font-size: 19px; color: var(--ink-2); }
@@ -194,6 +212,20 @@
       .wl-points { grid-template-columns: repeat(3, 1fr); margin-bottom: 16px; }
       .wl-points li { flex-direction: column; text-align: center; font-size: 15px; padding: 10px; }
       .wl-h { margin-bottom: 10px; }
+      /* first run on a sideways phone: both steps fit without scrolling */
+      .welcome { padding-top: calc(10px + env(safe-area-inset-top)); padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+      .wl-bug { width: 60px; height: 60px; }
+      .wordmark { font-size: 40px; }
+      .wl-tag { margin: 2px 0 10px; font-size: 17px; }
+      .wl-points { gap: 8px; margin-bottom: 12px; }
+      .wl-points li { padding: 8px 10px; gap: 6px; }
+      .wl-points .dot { width: 34px; height: 34px; border-radius: 12px; }
+      .wl-points li small { font-size: 13px; }
+      .welcome .btn { min-height: 52px; }
+      .wl-h { margin: 0 0 8px; font-size: 26px; }
+      .wl-age { aspect-ratio: auto; height: 56px; }
+      .wl-note { margin-bottom: 10px; }
+      .wl-bug-sm { display: none; }
     }
     @media (max-width: 360px) {
       .hello-bug { width: 56px; height: 56px; }
@@ -220,7 +252,7 @@
 
   <div class="welcome" id="welcome" hidden></div>
 
-  <script src="js/common.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
   <script>
     var store = {
       get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -439,7 +471,7 @@
       var age = App.getAge();
       welcome.innerHTML =
         '<div class="wl-step">' +
-          '<div class="wl-bug" style="width:96px;height:96px">' + App.MASCOT + '</div>' +
+          '<div class="wl-bug wl-bug-sm">' + App.MASCOT + '</div>' +
           '<h2 class="wl-h">Who’s playing?</h2>' +
           '<label class="wl-label" for="wl-name">Child’s first name <span style="font-weight:700;color:var(--ink-3)">(optional)</span></label>' +
           '<input class="field" id="wl-name" type="text" maxlength="24" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="done" placeholder="e.g. Heshvi" style="margin-bottom:18px">' +

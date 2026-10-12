@@ -19,14 +19,19 @@ const CHEERS = ['Awesome!', 'Great job!', 'Well done!', 'You got it!', 'Brillian
 
 const play = document.getElementById('play');
 const bar = document.getElementById('bar');
+// Pictures to pictures, then pictures to words: in the grown-ups sheet and Smart levels, like every other game.
+const MATCH_LEVELS = [{ age: 2, label: 'Match pictures', mode: 'easy' }, { age: 5, label: 'Match pictures to words', mode: 'hard' }];
+const matchLevel = App.levelControl(null, 'match', MATCH_LEVELS, () => { if (currentCategory && !bar.hidden) renderRound(); });
+const ASK = 'Find two things that match!';
 
 function speak(text, rate) {
   Speech.speak(text, rate || 0.85);
 }
 
-function speakCheer(itemName) {
+// The name, a cheer, and the fun fact on its card (the card is for reading together; this is for pre-readers).
+function speakCheer(item) {
   const cheer = CHEERS[Math.floor(Math.random() * CHEERS.length)];
-  speak(itemName + '! ' + cheer, 0.9);
+  speak(item.name + '! ' + cheer + (item.fact ? ' ' + item.fact : ''), 0.9);
 }
 
 function spawnStars(x, y) {
@@ -118,7 +123,7 @@ function showCategoryPicker() {
 
   const title = document.createElement('h2');
   title.className = 'pick-title';
-  title.textContent = 'Pick a topic';
+  title.textContent = 'Pick a topic!';
   play.appendChild(title);
 
   const grid = document.createElement('div');
@@ -129,32 +134,12 @@ function showCategoryPicker() {
     btn.type = 'button';
     btn.className = 'cat-btn';
     btn.style.animationDelay = (i * 0.05) + 's';
-    btn.innerHTML = `<span class="cat-emoji" aria-hidden="true">${cat.emoji}</span><span class="cat-name">${cat.name}</span>`;
-    btn.addEventListener('click', () => showDifficultyPicker(cat));
+    btn.innerHTML = `<span class="cat-emoji" aria-hidden="true">${cat.emoji}</span><span class="cat-name">${cat.name}</span>` + App.knownBadge(cat.items);
+    btn.addEventListener('click', () => startCategory(cat));
     grid.appendChild(btn);
   });
 
   play.appendChild(grid);
-}
-
-function showDifficultyPicker(cat) {
-  bar.hidden = true;
-  play.innerHTML = `
-    <div class="modal">
-      <span class="big" aria-hidden="true">${cat.emoji}</span>
-      <h2>${cat.name}</h2>
-      <p>Pick a difficulty</p>
-      <div class="btn-stack">
-        <button type="button" class="btn diff-btn" id="btn-easy" style="--b:#2FBF71">${App.icon('image')}Easy: match pictures</button>
-        <button type="button" class="btn diff-btn" id="btn-hard" style="--b:#FF7E5F">${App.icon('book')}Harder: match words</button>
-      </div>
-      <button type="button" class="back-link" id="btn-back">${App.icon('back')}All topics</button>
-    </div>`;
-  speak(cat.name, 0.85);
-
-  document.getElementById('btn-easy').addEventListener('click', () => { gameMode = 'easy'; startCategory(cat); });
-  document.getElementById('btn-hard').addEventListener('click', () => { gameMode = 'hard'; startCategory(cat); });
-  document.getElementById('btn-back').addEventListener('click', showCategoryPicker);
 }
 
 function startCategory(cat) {
@@ -165,12 +150,22 @@ function startCategory(cat) {
   document.getElementById('sc').textContent = 0;
   document.getElementById('rn').textContent = 1;
   document.getElementById('cat-label').textContent = cat.emoji + ' ' + cat.name;
+  if (!bar.querySelector('.prompt-row')) {   // Bujji says what to do, like in every other game
+    const pr = document.createElement('div');
+    pr.className = 'prompt-row';
+    pr.innerHTML = '<span class="prompt-text">' + ASK + '</span><button type="button" class="say-btn" aria-label="Hear it again"></button>';
+    pr.querySelector('.say-btn').addEventListener('click', () => speak(ASK));
+    bar.prepend(pr);
+    App.coach(pr);
+  }
   bar.hidden = false;
   renderRound();
 }
 
 function renderRound() {
   clearTimers();
+  gameMode = MATCH_LEVELS[matchLevel.get()].mode;
+  if (currentRound === 1) speak(ASK);
   roundItems = App.shuffle(App.pickWords(currentItems, ROUND_SIZE));   // due and shaky words come up more
   // never line the two columns up in the same order — that would give the game away
   let shuffledWords;
@@ -210,7 +205,8 @@ function renderRound() {
 function makeCard(type, item, order) {
   const card = document.createElement('button');
   card.type = 'button';
-  card.className = 'card enter pair-' + colorMap[item.id];
+  // Cards start neutral: a pair's colour shows only once it is matched, or colours would give the answer away.
+  card.className = 'card enter';
   card.dataset.name = item.id;
   card.dataset.type = type;
   card.style.setProperty('--delay', (order * 0.07) + 's');
@@ -270,15 +266,16 @@ function handleTap(type, name, el) {
     const g = document.getElementById('game').getBoundingClientRect();
     spawnStars(r.left - g.left + r.width / 2, r.top - g.top);
     drawMatchLine(first, el, pc, true);
+    App.sfx('snap');
 
-    [first, el].forEach(c => { c.classList.add('done'); c.disabled = true; });
+    [first, el].forEach(c => { c.classList.add('done', 'pair-' + colorMap[name]); c.disabled = true; });
     matched.add(name);
     // Pictures to words is a reading test; pictures to pictures is not.
     if (gameMode === 'hard') App.wordResult(name, !missedWords.has(name));
     score++;
     document.getElementById('sc').textContent = score;
 
-    speakCheer(item.name);
+    speakCheer(item);
     showCuriosity(item);
 
     if (matched.size === ROUND_SIZE) {
@@ -291,6 +288,7 @@ function handleTap(type, name, el) {
       }, 2200);
     }
   } else {
+    App.sfx('oops');
     locked = true;
     wrongs++;
     missedWords.add(name);
@@ -329,6 +327,7 @@ function showCuriosity(item) {
     ch.className = 'cur-chain';
     ch.innerHTML = `<strong>Wow!</strong> ${item.chain}`;
     d.querySelector('.cur-body').appendChild(ch);
+    speak(item.chain, 0.9);
   });
 }
 

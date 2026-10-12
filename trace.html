@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Andika:wght@700&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@700&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@700&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .tr-wrap {
       --size: clamp(240px, min(90vw, 100dvh - 360px), 600px);
@@ -59,6 +59,12 @@
     .tr-controls { grid-area: controls; display: flex; justify-content: center; gap: 12px; margin: 8px 0; }
     .tr-controls .btn { font-size: clamp(15px, 2vmin, 20px); }
     @keyframes nudge { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.1) } }
+    /* "start here": a pulsing dot on the letter until the first touch */
+    .tr-start {
+      position: absolute; width: 28px; height: 28px; margin: -14px 0 0 -14px; border-radius: 50%;
+      background: var(--good); box-shadow: 0 0 0 6px color-mix(in srgb, var(--good) 30%, transparent);
+      pointer-events: none; z-index: 2; animation: nudge .9s ease-in-out infinite;
+    }
     .btn.nudge { animation: nudge .9s ease-in-out infinite; }
 
     .tr-letter-nav {
@@ -130,6 +136,7 @@
       <div class="tr-canvas-wrap" id="tr-canvas-wrap">
         <canvas id="tr-guide" aria-hidden="true"></canvas>
         <canvas id="tr-draw" aria-label="Tracing area. Draw over the letter with your finger."></canvas>
+        <div class="tr-start" id="tr-start" aria-hidden="true"></div>
       </div>
 
       <div class="tr-progress-bar" role="progressbar" aria-label="Tracing progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="tr-bar">
@@ -146,7 +153,7 @@
     <div class="tr-stars-c" id="tr-stars" aria-hidden="true"></div>
   </div>
 
-  <script src="js/common.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
   <script>
     document.getElementById('tr-next').insertAdjacentHTML('beforeend', App.icon('next'));
     var SETS = {
@@ -184,7 +191,6 @@
 
     var navBtns = [];
     var stars = document.getElementById('tr-stars');
-    var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
     function speak(text, rate) { Speech.speak(text, rate || 0.8); }
 
@@ -242,10 +248,9 @@
 
     function drawGuide() {
       var letter = letters[currentIdx];
-      var dark = darkQuery.matches;
       guideCtx.clearRect(0, 0, size, size);
 
-      guideCtx.strokeStyle = dark ? 'rgba(255,255,255,.12)' : '#ECE4E4';
+      guideCtx.strokeStyle = '#ECE4E4';   // the paper is white in dark mode too
       guideCtx.lineWidth = 1.5;
       guideCtx.setLineDash([8, 8]);
       guideCtx.beginPath();
@@ -254,9 +259,9 @@
       guideCtx.stroke();
 
       var at = layoutLetter(guideCtx, letter);
-      guideCtx.fillStyle = dark ? 'rgba(255,255,255,.09)' : 'rgba(150,130,135,.13)';
+      guideCtx.fillStyle = 'rgba(150,130,135,.13)';
       guideCtx.fillText(letter, at.x, at.y);
-      guideCtx.strokeStyle = dark ? 'rgba(255,255,255,.42)' : '#CFC4C6';
+      guideCtx.strokeStyle = '#CFC4C6';
       guideCtx.lineWidth = Math.max(2.5, size / 140);
       guideCtx.setLineDash([size / 36, size / 60]);
       guideCtx.lineJoin = 'round';
@@ -275,6 +280,13 @@
       for (var i = 0; i < letterMask.length; i++) {
         letterMask[i] = data[i * 4 + 3] > 110 ? 1 : 0;
         letterCount += letterMask[i];
+      }
+      // the start dot goes on the letter's top-left-most point, where most capitals and digits begin
+      var si = letterMask.indexOf(1), dot = document.getElementById('tr-start');
+      dot.hidden = si < 0;
+      if (si >= 0) {
+        dot.style.left = ((si % MASK) + 0.5) / MASK * 100 + '%';
+        dot.style.top = (Math.floor(si / MASK) + 2) / MASK * 100 + '%';
       }
     }
 
@@ -310,6 +322,7 @@
       e.preventDefault();
       activeId = e.pointerId;
       activeType = e.pointerType;
+      document.getElementById('tr-start').hidden = true;
       try { drawCanvas.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
       rect = drawCanvas.getBoundingClientRect();
       last = pos(e);
@@ -383,6 +396,7 @@
     }
 
     function clearDraw() {
+      document.getElementById('tr-start').hidden = false;
       drawCtx.clearRect(0, 0, size, size);
       inkCtx.setTransform(1, 0, 0, 1, 0, 0);
       inkCtx.clearRect(0, 0, MASK, MASK);
@@ -459,7 +473,6 @@
     } else {
       window.addEventListener('resize', function () { if (fitCanvas()) drawGuide(); });
     }
-    if (darkQuery.addEventListener) darkQuery.addEventListener('change', drawGuide);
     // The tracing font may arrive after the first letter was drawn.
     if (document.fonts && document.fonts.load) {
       document.fonts.load(guideFont(100), 'Aag').then(function () { if (size) drawGuide(); });

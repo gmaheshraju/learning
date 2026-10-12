@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .so { max-width: 1100px; margin: 0 auto; }
     .so-area { position: relative; width: 100%; touch-action: none; -webkit-user-select: none; user-select: none; }
@@ -36,13 +36,20 @@
     }
     .basket.hot { transform: scale(1.05); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent); }
     .basket.nope { animation: wiggle .45s ease; }
+    .basket.yum { animation: celebrate .45s ease .25s; }
     .b-label { display: flex; align-items: center; justify-content: center; height: 46px; gap: 4px; }
     .b-label svg { width: 40px; height: 40px; }
     .b-label .emoji { font-size: 36px; }
     .b-word { font-size: 14px; font-weight: 900; color: var(--textM); letter-spacing: .3px; }
     .b-in { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 2px; margin-top: 4px; min-height: 30px; }
-    .b-in .mini { width: 24px; height: 24px; display: grid; place-items: center; font-family: var(--emoji); font-size: 20px; line-height: 1; }
+    .b-in .mini { width: 24px; height: 24px; display: grid; place-items: center; font-family: var(--emoji); font-size: 20px; line-height: 1; animation: bounceIn .35s var(--spring) .3s both; }
     .b-in .mini svg { width: 100%; height: 100%; }
+    @media (min-width: 700px) and (min-height: 900px) {   /* tablets: baskets sized for the screen */
+      .b-word { font-size: 20px; }
+      .b-label { height: 64px; }
+      .b-label svg { width: 56px; height: 56px; }
+      .b-in .mini { width: 36px; height: 36px; font-size: 30px; }
+    }
 
     .thing {
       position: absolute; left: 0; top: 0; display: grid; place-items: center;
@@ -75,8 +82,8 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=20"></script>
-  <script src="js/shapes.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
+  <script src="js/shapes.js?v=21"></script>
   <script>
     var LEVELS = [
       { age: 2, label: 'Colours', kind: 'color', n: 6, baskets: 2 },
@@ -205,7 +212,7 @@
       var n = Math.max(showing.length, 1);
       var cols = Math.max(2, Math.min(n, Math.round(Math.sqrt(n * W / tableH))));
       var rows = Math.ceil(n / cols);
-      itemSize = Math.max(48, Math.min(104, W / cols * 0.72, tableH / rows * 0.72));
+      itemSize = Math.max(48, Math.min(W >= 700 ? 140 : 104, W / cols * 0.72, tableH / rows * 0.72));
       layoutInfo = { W: W, H: H, tableH: tableH, cols: cols, rows: rows };
       showing.forEach(function (it, i) {
         var c = i % cols, r = Math.floor(i / cols);
@@ -227,10 +234,23 @@
 
     /* ----- drawing a round ----- */
     var mistakes = 0;
+    // Stuck for a while: one shape wiggles and its basket glows.
+    var nudge = App.idleNudge(function () {
+      if (busy) return;
+      var it = items.filter(function (x) { return x.el && !x.done; })[0];
+      var b = it && baskets.filter(function (bk) { return fits(it, bk); })[0];
+      if (!it || !b || !b.el) return;
+      var t = it.el.style.transform;
+      it.el.animate([{ transform: t + ' rotate(-10deg)' }, { transform: t + ' rotate(10deg)' }, { transform: t + ' rotate(-6deg)' }, { transform: t }], { duration: 700 });
+      b.el.classList.add('hot');
+      setTimeout(function () { b.el && b.el.classList.remove('hot'); }, 1200);
+    }, 8000, 2);
+
     function startRound(speak) {
       busy = false;
       picked = null;
       mistakes = 0;
+      nudge.reset();
       makeRound();
       area.querySelectorAll('.thing').forEach(function (el) { el.remove(); });
       basketsEl.innerHTML = '';
@@ -339,8 +359,14 @@
         mini.className = 'mini';
         mini.innerHTML = itemHTML(it, true);
         b.el.querySelector('.b-in').appendChild(mini);
-        it.el.remove();
+        // the shape flies into its basket, and the basket does a happy hop
+        var el = it.el, br = b.el.getBoundingClientRect(), ar = area.getBoundingClientRect();
         it.el = null;
+        el.style.transition = 'transform .35s ease-in, opacity .35s ease-in';
+        el.style.transform = 'translate(' + (br.left - ar.left + br.width / 2 - itemSize / 2) + 'px,' + (br.top - ar.top + 20) + 'px) scale(.35)';
+        el.style.opacity = '0';
+        setTimeout(function () { el.remove(); }, 360);
+        b.el.classList.remove('yum'); void b.el.offsetWidth; b.el.classList.add('yum');
         App.sfx('snap');
         if (level <= 1) say(cap(C[it.color].name) + '!');
         else if (level === 2 && rule === 'shape') say(cap(S[it.shape].name) + '!');

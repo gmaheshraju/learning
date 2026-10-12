@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .mz-page { max-width: 900px; margin: 0 auto; }
     .maze-wrap { display: grid; place-items: center; }
@@ -36,6 +36,7 @@
     .maze .hint { fill: none; stroke: #FF9F43; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 2 10; opacity: .95; }
     .maze .tok { font-family: var(--emoji); dominant-baseline: central; text-anchor: middle; }
     .maze .hero { transition: transform .12s ease-out; }
+    .maze .hero text.bump { animation: wiggle .4s ease; transform-box: fill-box; transform-origin: center; }
     .maze .goal-ring { fill: color-mix(in srgb, var(--good) 20%, transparent); }
     .maze .locked { opacity: .35; }
     @media (prefers-color-scheme: dark) {
@@ -60,7 +61,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
   <script>
     var LEVELS = [
       { age: 3, label: 'Tiny maze', n: 3 },
@@ -227,10 +228,21 @@
     }
 
     // Move toward a square: one step if it is next door, or a short way round if the finger jumped ahead.
+    // A wall in the way: a little bump and a tick, so a push into a wall never feels broken.
+    var lastBump = 0;
+    function wallBump() {
+      var now = Date.now();
+      if (now - lastBump < 700) return;
+      lastBump = now;
+      App.sfx('tick');
+      var h = svg.querySelector('#hero text');
+      if (!h) return;
+      h.classList.remove('bump'); void h.getBBox(); h.classList.add('bump');
+    }
     function moveToward(target) {
       if (target[0] === pos[0] && target[1] === pos[1]) return;
       var r = route(pos, target, 3);
-      if (!r) return;
+      if (!r) { wallBump(); return; }
       for (var i = 1; i < r.length && !won; i++) step(r[i]);
     }
 

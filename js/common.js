@@ -537,7 +537,8 @@
   function revealInRow(el, smooth) {
     var row = el && el.parentElement;
     if (!row || row.scrollWidth <= row.clientWidth + 1) return;
-    var left = el.offsetLeft - (row.clientWidth - el.offsetWidth) / 2;
+    // measured from the row itself (offsetLeft would be from the nearest positioned ancestor)
+    var left = row.scrollLeft + el.getBoundingClientRect().left - row.getBoundingClientRect().left - (row.clientWidth - el.offsetWidth) / 2;
     if (smooth && row.scrollTo) row.scrollTo({ left: left, behavior: 'smooth' });
     else row.scrollLeft = left;
   }
@@ -563,6 +564,23 @@
 
   // Keep the screen on while something is playing by itself (tablets dim otherwise).
   var wakeLock = null, wantAwake = false;
+  // Calls fn after ms with no taps, at most `times` times until reset() (a new round). Used to show a
+  // stuck pre-reader what can move and where it goes. Off under reduced motion.
+  function idleNudge(fn, ms, times) {
+    var timer = null, left = times;
+    function arm() {
+      clearTimeout(timer);
+      if (left <= 0 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      timer = setTimeout(function () {
+        if (!document.hidden && !document.querySelector('.party, .sheet-wrap, .break')) { left--; fn(); }
+        arm();
+      }, ms);
+    }
+    window.addEventListener('pointerdown', arm, { capture: true, passive: true });
+    arm();
+    return { reset: function () { left = times; arm(); } };
+  }
+
   function keepAwake(on) {
     wantAwake = !!on;
     if (!('wakeLock' in navigator)) return;
@@ -606,7 +624,8 @@
     }
   }
 
-  function confetti(count) {
+  // Confetti over the page, or inside a layer (host) such as the party, where it falls behind the card.
+  function confetti(count, host) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var colors = ['#FF6B6B', '#FF9F43', '#FFC93C', '#2FBF71', '#3FB2FF', '#8C6CFF', '#FF6FA9'];
     for (var i = 0; i < (count || 60); i++) {
@@ -619,7 +638,7 @@
       c.style.animationDuration = (1.6 + Math.random() * 1.6) + 's';
       c.style.animationDelay = (Math.random() * 0.35) + 's';
       if (i % 3 === 0) { c.style.width = '8px'; c.style.height = '8px'; c.style.borderRadius = '50%'; }
-      document.body.appendChild(c);
+      (host || document.body).appendChild(c);
       setTimeout(c.remove.bind(c), 3800);
     }
   }
@@ -1273,7 +1292,7 @@
     // a tap anywhere outside the card means "carry on"
     el.querySelector('.party-bg').addEventListener('click', function () { choose(buttons[0]); });
     document.body.appendChild(el);
-    confetti(opts.auto ? 40 : 60);
+    confetti(opts.auto ? 40 : 60, el);
     sfx('yay');   // with a happy buzz on Android
     // a question to wonder about goes last, after the sticker news
     if (opts.say) speak(opts.say + (won ? ' You got a sticker!' : '') + (opts.ask ? ' ' + opts.ask : ''), 0.9);
@@ -1470,6 +1489,7 @@
     revealInRow: revealInRow,
     onSwipe: onSwipe,
     keepAwake: keepAwake,
+    idleNudge: idleNudge,
     shuffle: shuffle,
     burst: burst,
     confetti: confetti,

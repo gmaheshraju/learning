@@ -22,12 +22,13 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .learn-wrap { max-width: 760px; margin: 0 auto; }
 
     .learn-card {
       --accent: #F08A1C;
+      --accent-ink: color-mix(in srgb, var(--accent) var(--ink-mix), #000);   /* follows this card's own accent */
       background: var(--surface); border-radius: clamp(24px, 3.4vmin, 36px);
       padding: clamp(16px, 3vmin, 36px) clamp(14px, 3vmin, 36px);
       text-align: center; box-shadow: var(--shadow-md);
@@ -47,12 +48,12 @@
 
     .lc-emoji { font-size: clamp(88px, 22vmin, 180px); animation: float 2.5s ease-in-out infinite; margin-bottom: 4px; }
     .lc-word {
-      font-family: var(--display); font-size: clamp(36px, 8vmin, 80px); font-weight: 700; color: var(--accent);
+      font-family: var(--display); font-size: clamp(36px, 8vmin, 80px); font-weight: 700; color: var(--accent-ink);
       letter-spacing: 3px; line-height: 1.1; margin-bottom: 4px; word-break: break-word;
     }
     .lc-phonics {
-      font-size: clamp(15px, 2.8vmin, 26px); font-weight: 800; color: var(--accent);
-      letter-spacing: 5px; opacity: .75; margin-bottom: 12px;
+      font-size: clamp(15px, 2.8vmin, 26px); font-weight: 800; color: var(--accent-ink);
+      letter-spacing: 5px; margin-bottom: 12px;
     }
     .lc-telugu {
       font-size: clamp(19px, 3.6vmin, 32px); font-weight: 700; color: var(--p1ink);
@@ -80,16 +81,19 @@
     .lc-dot.done { background: var(--good); }
     .lc-counter { font-size: 13px; color: var(--textL); font-weight: 800; }
 
-    .lc-controls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
-    .lc-controls .btn { font-size: clamp(15px, 1.9vmin, 20px); padding: 10px 20px; }
+    /* one clear next step (Next), with back, hear-again and auto play as round buttons beside it */
+    .lc-controls { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 16px; }
+    .lc-round { width: 56px; height: 56px; }
+    .lc-round .ico { width: 26px; height: 26px; }
+    .lc-next { flex: 0 1 240px; min-height: 60px; }
 
+    @media (min-width: 700px) and (min-height: 900px) {   /* tablets: a big card */
+      .learn-card { min-height: min(640px, 56dvh); }
+      .lc-emoji { font-size: 210px; }
+    }
     .done-card { gap: 10px; }
     .done-card .lc-word { font-size: clamp(30px, 6vmin, 56px); letter-spacing: 2px; color: #5DB534; }
 
-    @media (max-width: 480px) {
-      .lc-controls { display: grid; grid-template-columns: 1fr 1fr; }
-      .lc-controls .btn { padding: 10px 8px; }
-    }
 
     /* Phones held sideways: picture beside the words so nothing scrolls */
     @media (orientation: landscape) and (max-height: 520px) {
@@ -103,7 +107,8 @@
       .lc-progress { margin: 6px 0 0; }
       .lc-counter { display: none; }
       .lc-controls { margin-top: 8px; }
-      .lc-controls .btn { min-height: 40px; padding: 6px 18px; }
+      .lc-round { width: 48px; height: 48px; }
+      .lc-next { min-height: 48px; }
     }
   </style>
 </head>
@@ -117,12 +122,12 @@
     </main>
   </div>
 
-  <script src="js/common.js?v=20"></script>
-  <script src="js/data.js?v=20"></script>
-  <script src="js/telugu.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
+  <script src="js/data.js?v=21"></script>
+  <script src="js/telugu.js?v=21"></script>
   <script>
     // Deeper than the pastel palette so the big word stays readable on a white card.
-    const ACCENT_COLORS = ['#E0506A','#E8961A','#2F9BE0','#5DB534','#A066D3','#F4774E','#1F9488','#A13DB8'];
+    const ACCENT_COLORS = ['#E0506A','#E8961A','#2F9BE0','#5DB534','#A066D3','#F4774E','#1F9488','#C266E8'];
 
     const area = document.getElementById('learn-area');
     const pillsContainer = document.getElementById('cat-pills');
@@ -148,8 +153,8 @@
       App.keepAwake(on);
       const btn = document.getElementById('lc-play');
       if (btn) {
-        btn.innerHTML = on ? App.icon('pause') + 'Pause' : App.icon('play') + 'Auto play';
-        btn.style.setProperty('--b', on ? '#FF9F43' : '#2FBF71');
+        btn.innerHTML = App.icon(on ? 'pause' : 'play');
+        btn.setAttribute('aria-label', on ? 'Pause' : 'Auto play');
         btn.setAttribute('aria-pressed', String(on));
       }
     }
@@ -195,6 +200,7 @@
       stopNarration();
       if (n >= currentCat.items.length) { setAutoPlay(false); showComplete(); return; }
       currentIdx = n;
+      App.sfx('tick');   // a page turn
       showCard();
     }
 
@@ -252,10 +258,10 @@
       const controls = document.createElement('div');
       controls.className = 'lc-controls';
       controls.innerHTML =
-        '<button type="button" class="btn ghost" id="lc-prev">' + App.icon('back') + 'Back</button>' +
-        '<button type="button" class="btn" id="lc-repeat" style="--b:#8C6CFF">' + App.icon('volume') + 'Say again</button>' +
-        '<button type="button" class="btn" id="lc-play" aria-pressed="false"></button>' +
-        '<button type="button" class="btn" id="lc-next" style="--b:#3FB2FF"></button>';
+        '<button type="button" class="ib lc-round" id="lc-prev" aria-label="Back">' + App.icon('back') + '</button>' +
+        '<button type="button" class="ib lc-round" id="lc-repeat" aria-label="Say it again">' + App.icon('volume') + '</button>' +
+        '<button type="button" class="ib lc-round" id="lc-play" aria-pressed="false"></button>' +
+        '<button type="button" class="btn lc-next" id="lc-next" style="--b:#3FB2FF"></button>';
       area.appendChild(controls);
 
       const prev = document.getElementById('lc-prev');
@@ -327,7 +333,7 @@
       setAutoPlay(false);
       currentCat = null;
       setPills(null);
-      area.innerHTML = '<h2 class="learn-title">Pick a topic to learn!</h2>';
+      area.innerHTML = '<h2 class="learn-title">Pick a topic!</h2>';
       const grid = document.createElement('div');
       grid.className = 'cat-grid';
       CATEGORIES.forEach((cat, i) => {

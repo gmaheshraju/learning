@@ -52,6 +52,7 @@ function literals(src) {
     const before = src.slice(Math.max(0, m.index - 14), m.index);
     const afterPicture = /^[\p{Extended_Pictographic}\u{FE0F}\u{200D}\s]+$/u.test(prev) && /,\s*$/.test(before);
     const dataProp = /\b(name|word|label|plural|many|group|title|text|fact|q|chain|action|prompt|why|say|line)\s*:\s*$/.test(before);
+    if (/className\s*=\s*$|classList\.\w+\(\s*$/.test(before)) { prev = text; continue; }   // class names, not speech
     out.push({ text, data: afterPicture || dataProp });
     prev = text;
   }
@@ -66,6 +67,7 @@ function speakable(t, isData) {
   const s = t.replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, ' ').replace(/\s+/g, ' ').trim();
   if (!/[A-Za-z]/.test(s)) return null;
   if (/[<>{}()=;|\\#@$%^*_[\]`]|:\/\/|\bpx\b|rgba?\(|var\(|\.html|\.js\b|\.css\b|^[.#]/.test(s)) return null;
+  if (/\bease(-in|-out|-in-out)?\b|\d(s|ms|deg)\b/.test(s)) return null;                    // CSS timing ("transform .35s ease-in")
   if (/[\u0C00-\u0C7F]/.test(s)) return null;                      // Telugu is spoken by the phone's Telugu voice
   const words = s.split(' ');
   if (words.length === 1) {

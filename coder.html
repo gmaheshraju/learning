@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .cd { max-width: 1000px; margin: 0 auto; }
     .cd-main { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 12px; }
@@ -36,6 +36,15 @@
       display: grid; place-items: center; font-family: var(--emoji); font-size: calc(var(--cell) * .66); line-height: 1;
     }
     .sq:nth-child(odd) { background: #DCEDC8; }
+    /* dark mode: a night-time garden instead of a glaring pastel board */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .board { background: #24563A; }
+      :root:not([data-theme="light"]) .sq { background: #2F6B47; }
+      :root:not([data-theme="light"]) .sq:nth-child(odd) { background: #37784F; }
+    }
+    :root[data-theme="dark"] .board { background: #24563A; }
+    :root[data-theme="dark"] .sq { background: #2F6B47; }
+    :root[data-theme="dark"] .sq:nth-child(odd) { background: #37784F; }
     .sq.tried { box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--accent) 55%, transparent); }
     .bunny {
       position: absolute; left: 6px; top: 6px; width: var(--cell); height: var(--cell);
@@ -60,8 +69,9 @@
     .arrow-btn[data-d="1"] { grid-column: 3; grid-row: 2; }
 
     .program {
-      display: flex; flex-wrap: nowrap; gap: 6px; justify-content: flex-start; align-items: center;
-      min-height: 64px; width: 100%; padding: 8px; border-radius: 18px; overflow-x: auto; scrollbar-width: none;
+      /* every slot visible (wrapping onto a second row on phones), so a child can see how many moves there are */
+      display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; align-items: center;
+      min-height: 64px; width: 100%; padding: 8px; border-radius: 18px; overflow: visible;
       border: 3px dashed color-mix(in srgb, var(--ink-3) 40%, transparent); background: var(--surface);
     }
     .program::-webkit-scrollbar { display: none; }
@@ -90,8 +100,8 @@
       .arrow-btn .ico { width: 42px; height: 42px; }
     }
     @media (orientation: landscape) and (max-height: 520px) {
-      .pad { grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(2, 46px); gap: 6px; }
-      .program { min-height: 54px; padding: 5px; }
+      .pad { grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(2, 56px); gap: 6px; }
+      .program { min-height: 54px; padding: 5px; flex-wrap: nowrap; justify-content: flex-start; }
       .side { gap: 8px; }
       .arrow-btn .ico { width: 26px; height: 26px; }
       .block { height: 40px; min-width: 40px; font-size: 22px; }
@@ -135,7 +145,7 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
   <script>
     var LEVELS = [
       { age: 4, label: 'Step by step', mode: 'step', n: 4, minDist: 2, trees: 0 },
@@ -211,7 +221,7 @@
       var wide = window.matchMedia('(min-width: 760px) and (min-aspect-ratio: 5/4), (orientation: landscape) and (max-height: 520px)').matches;
       var padBottom = parseFloat(getComputedStyle(document.querySelector('.gw')).paddingBottom) || 0;
       var top = boardEl.getBoundingClientRect().top + window.scrollY;
-      var below = LEVELS[level].mode === 'plan' ? 272 : 170;   // program strip and arrow pad under the board
+      var below = LEVELS[level].mode === 'plan' ? (LEVELS[level].slots > 6 && !wide ? 326 : 272) : 170;   // program strip (two rows past 6 slots) and arrow pad under the board
       var availH = window.innerHeight - top - padBottom - (wide ? 8 : below);
       var availW = wide ? Math.min(boardEl.parentElement.clientWidth - 300, 640) : boardEl.parentElement.clientWidth;
       var size = Math.min(availW, Math.max(availH, window.innerHeight < 520 && window.innerWidth > window.innerHeight ? 150 : 220));

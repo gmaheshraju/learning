@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .pt { max-width: 980px; margin: 0 auto; }
 
@@ -42,6 +42,7 @@
     .cell.gap { border: 3px dashed var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
     .cell.gap::after { content: '?'; font-family: var(--display); font-size: calc(var(--cell) * .5); font-weight: 700; color: var(--accent); }
     .cell.gap.filled::after { content: none; }
+    .cell.gap.now { border-style: solid; animation: glow 1.6s ease-in-out infinite; --pc: color-mix(in srgb, var(--accent) 35%, transparent); }   /* the gap being filled */
     .cell.lit { transform: translateY(-8px) scale(1.08); border-color: var(--accent); }
     .cell.pop { animation: bounceIn .45s ease-out; }
     .cell .group { display: flex; flex-wrap: wrap; justify-content: center; gap: 1px; width: 92%; font-size: calc(var(--cell) * .26); }
@@ -55,6 +56,7 @@
       box-shadow: var(--shadow-sm), inset 0 -5px 0 rgba(47,34,53,.06); transition: transform .15s var(--spring), border-color .2s;
       animation: bounceIn .4s var(--spring) both;
     }
+    @media (min-width: 700px) and (min-height: 900px) { .opt { width: 150px; height: 150px; font-size: 90px; border-radius: 32px; } }   /* tablets */
     .opt svg { width: 82%; height: 82%; }
     .opt:active { transform: scale(.92); }
     .opt.nope { animation: wiggle .45s ease; border-color: #FFB3C0; }
@@ -79,6 +81,13 @@
       .stars { min-height: 0; }
       .stars .ico { width: 20px; height: 20px; }
       .prompt-row { margin: 0 0 4px; }
+      /* Make your own: everything, Play included, fits a sideways phone */
+      #mode-make .prompt-row { display: none; }   /* its line is spoken when the mode opens */
+      .set-pick { margin-bottom: 6px; gap: 6px; }
+      .set-pick .cat-pill { min-height: 44px; padding: 0 14px; font-size: 16px; }
+      .maker-palette { margin-bottom: 6px; gap: 8px; }
+      .maker-palette .opt { width: 56px; height: 56px; font-size: 34px; border-radius: 16px; }
+      #mode-make .btn-row .btn { min-height: 46px; padding: 8px 20px; }
     }
   </style>
 </head>
@@ -120,8 +129,8 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=20"></script>
-  <script src="js/shapes.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
+  <script src="js/shapes.js?v=21"></script>
   <script>
     var LEVELS = [
       { age: 2, label: 'Red, blue, red…', cores: ['AB'], options: 2 },
@@ -222,9 +231,10 @@
     function fitCells(el, n) {
       var w = el.parentElement.clientWidth - 20;
       var landscape = window.innerHeight < 520 && window.innerWidth > window.innerHeight;
-      var rows = Math.ceil(n / (w < 500 && !landscape ? 5 : 12));
+      var tall = window.innerHeight > window.innerWidth;   // an upright tablet gets rows of 6 big cells, not one long thin row
+      var rows = Math.ceil(n / (w < 500 && !landscape ? 5 : tall ? 6 : 12));
       var perRow = Math.ceil(n / rows);
-      var size = Math.floor(Math.min(96, (w - (perRow - 1) * 8) / perRow));
+      var size = Math.floor(Math.min(w >= 700 && !landscape ? 128 : 96, (w - (perRow - 1) * 8) / perRow));
       if (landscape) size = Math.min(size, 54);
       size = Math.max(40, size);
       el.style.setProperty('--cell', size + 'px');
@@ -267,8 +277,17 @@
       markGap();
     }
 
+    // "What comes next?" only when the gap is at the end; a gap in the middle is asked about as a gap.
+    function question() {
+      var g = puzzle.gaps[gapAt];
+      return g === undefined || g === puzzle.cells.length - 1 ? 'What comes next?' : 'What goes in the gap?';
+    }
+
+    // Glow the gap being filled, and ask about it.
     function markGap() {
-      strip.querySelectorAll('.cell').forEach(function (c, i) { c.classList.toggle('lit', false); });
+      var g = puzzle.gaps[gapAt];
+      strip.querySelectorAll('.cell').forEach(function (c, i) { c.classList.remove('lit'); c.classList.toggle('now', i === g); });
+      document.getElementById('prompt').textContent = question();
     }
 
     // Light each picture in turn with its note, so the pattern can be heard as well as seen.
@@ -298,9 +317,9 @@
       puzzle = makePuzzle();
       renderPuzzle();
       setTimeout(function () {
-        playStrip(strip, puzzle.cells, function () { if (!first) say('What comes next?'); });
+        playStrip(strip, puzzle.cells, function () { if (!first) say(question()); });
       }, 350);
-      if (first) say('What comes next?');
+      if (first) say(question());
     }
 
     function choose(t, btn) {
@@ -314,6 +333,7 @@
         cell.setAttribute('aria-label', t.full || t.name);
         App.tone(puzzle.cells[g].note, 0, 0.3, 'triangle', 0.18);
         gapAt++;
+        markGap();
         if (gapAt < puzzle.gaps.length) { say(cap(t.name) + '! And the next one?'); return; }
         solved++;
         busy = true;
@@ -348,7 +368,7 @@
             if (o.getAttribute('aria-label') === (want.full || want.name)) o.classList.add('hinted');
           });
         }
-        if (level <= 1) say('Listen! ' + namesUpTo(g) + '. What comes next?', 0.85);
+        if (level <= 1) say('Listen! ' + namesUpTo(g) + '. ' + question(), 0.85);
         else say('Not quite. Look at the pattern again!');
       }
     }
@@ -364,7 +384,7 @@
     document.getElementById('say').addEventListener('click', function () {
       var g = puzzle.gaps[gapAt] !== undefined ? puzzle.gaps[gapAt] : puzzle.cells.length;
       playStrip(strip, puzzle.cells);
-      say(namesUpTo(g) + '. What comes next?', 0.85);
+      say(namesUpTo(g) + '. ' + question(), 0.85);
     });
 
     /* ----- Make your own ----- */

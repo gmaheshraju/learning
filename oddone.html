@@ -22,12 +22,12 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .oo { max-width: 760px; margin: 0 auto; }
     .oo-grid {
       display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 2.4vmin, 22px);
-      width: 100%; max-width: clamp(330px, 58vmin, 560px); margin: 4px auto 12px;
+      width: 100%; max-width: clamp(330px, min(76vmin, 100dvh - 300px), 640px); margin: 4px auto 12px;
     }
     .oo-card {
       aspect-ratio: 1; border-radius: clamp(18px, 3vmin, 30px); padding: 0;
@@ -42,8 +42,9 @@
     .oo-in .num { font-family: var(--display); font-weight: 600; color: var(--ink); font-size: 48cqi; }
     .oo-card:active { transform: scale(.94); }
     .oo-card.nope { animation: wiggle .45s ease; border-color: #FFB3C0; }
-    .oo-card.odd { border-color: var(--accent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 25%, transparent); transform: scale(1.05); }
-    .oo-card.same { border-color: var(--good); opacity: .7; }
+    /* green means right everywhere in the app: it goes on the one the child picked */
+    .oo-card.odd { border-color: var(--good); box-shadow: 0 0 0 6px color-mix(in srgb, var(--good) 28%, transparent); transform: scale(1.06); }
+    .oo-card.same { border-color: transparent; opacity: .5; transform: scale(.96); }
     .reason {
       text-align: center; font-family: var(--display); font-size: clamp(18px, 2.8vmin, 26px); font-weight: 600; color: var(--ink);
       min-height: 2.6em; max-width: 620px; margin: 0 auto 8px; animation: fadeIn .3s ease-out;
@@ -73,9 +74,9 @@
   </div>
   <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-  <script src="js/common.js?v=20"></script>
-  <script src="js/data.js?v=20"></script>
-  <script src="js/shapes.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
+  <script src="js/data.js?v=21"></script>
+  <script src="js/shapes.js?v=21"></script>
   <script>
     var LEVELS = [
       { age: 3, label: 'Animal, food or car?' },

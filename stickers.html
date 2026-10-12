@@ -22,7 +22,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
   <style>
     .sb { max-width: 900px; margin: 0 auto; }
     .sb-pages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0 auto 10px; max-width: 560px; }
@@ -39,7 +39,7 @@
     }
     .board.garden {
       background:
-        radial-gradient(circle at 84% 18%, #FFE27A 0 6%, rgba(255,226,122,.35) 6.5% 10%, transparent 10.5%),
+        radial-gradient(circle at 84% 18%, #FFE27A 0 6%, rgba(255,246,214,.85) 6.6%, rgba(255,246,214,0) 11%),
         radial-gradient(ellipse 18% 7% at 22% 20%, #fff 0 60%, transparent 62%),
         radial-gradient(ellipse 12% 5% at 30% 16%, #fff 0 60%, transparent 62%),
         radial-gradient(ellipse 80% 40% at 25% 100%, #7CCB62 0 70%, transparent 71%),
@@ -85,13 +85,16 @@
     .count { font-size: 14px; font-weight: 800; color: var(--ink-3); }
     .meter { height: 10px; border-radius: 6px; background: var(--line); overflow: hidden; margin: 0 4px 10px; }
     .meter i { display: block; height: 100%; border-radius: 6px; background: linear-gradient(90deg, #FF6FA9, #FFC93C, #2FBF71); }
+    /* the whole collection at a glance: owned first, then the ones still to win */
     .tray {
-      display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 8px; border-radius: 22px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 8px;
+      max-height: max(150px, calc(100dvh - 560px)); overflow-x: hidden; overflow-y: auto;
+      scrollbar-width: none; padding: 8px; border-radius: 22px;
       background: var(--surface); box-shadow: var(--shadow-sm); -webkit-overflow-scrolling: touch;
     }
     .tray::-webkit-scrollbar { display: none; }
     .tray button {
-      flex: none; width: 60px; height: 60px; border-radius: 18px; border: none; background: var(--surface-2); cursor: pointer;
+      width: auto; height: auto; aspect-ratio: 1; border-radius: 18px; border: none; background: var(--surface-2); cursor: pointer;
       font-family: var(--emoji); font-size: 36px; line-height: 1; display: grid; place-items: center; position: relative;
       transition: transform .15s var(--spring);
     }
@@ -106,11 +109,16 @@
     .empty .bug svg { width: 100%; height: 100%; }
     .empty p { font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--ink-2); margin-bottom: 14px; }
     @media (orientation: landscape) and (max-height: 520px) {
-      .sb { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 0 14px; align-items: start; }
+      .sb { display: grid; grid-template-columns: minmax(0, 1fr) 264px; gap: 0 14px; align-items: start; }
       .sb > * { grid-column: 2; }
       .sb > .board { grid-column: 1; grid-row: 1 / span 6; max-height: calc(100dvh - 90px); }
-      .tray { flex-wrap: wrap; max-height: calc(100dvh - 210px); overflow-y: auto; }
-      .tray button { width: 48px; height: 48px; font-size: 30px; }
+      .tray { grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); max-height: calc(100dvh - 210px); }
+      .tray button { font-size: 30px; }
+      /* page picker: emoji-only chips fit the side column (the words stay as their names) */
+      .sb-pages { width: 100%; max-width: none; margin: 0 0 10px; gap: 6px; }
+      .sb-pages .chip { flex-direction: column; gap: 0; min-height: 52px; padding: 0; font-size: 0; border-radius: 16px; }
+      .sb-pages .chip .emoji { font-size: 26px; }
+      .sb .prompt-row { margin-bottom: 8px; }
     }
   </style>
 </head>
@@ -130,7 +138,7 @@
     </main>
   </div>
 
-  <script src="js/common.js?v=20"></script>
+  <script src="js/common.js?v=21"></script>
   <script>
     var PAGES = [
       { id: 'garden', name: 'Garden', emoji: '\u{1F337}' },
